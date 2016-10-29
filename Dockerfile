@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:5.6
 
 ENV INSTALL_PATH /archivist-web
 
@@ -13,4 +13,4 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-CMD [ "npm", "start" ]
+CMD npm start
