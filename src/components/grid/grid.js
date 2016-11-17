@@ -25,14 +25,9 @@ export default class Grid extends Component {
             (
                 <tr className='grid-row' key={rowNum}>
                     {
-                        headerKeys.map((headerKey, columnNum) => {
-                            if (row[headerKey]) {
-                                return (
-                                    <td className='grid-row-item' key={columnNum}>{row[headerKey]}</td>
-                                );
-                            }
-                            return null;
-                        })
+                        headerKeys.map((headerKey, columnNum) =>
+                            <td className='grid-row-item' key={columnNum}>{row[headerKey] ? row[headerKey] : null}</td>
+                        )
                     }
                 </tr>
             )

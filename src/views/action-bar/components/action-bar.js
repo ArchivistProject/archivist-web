@@ -11,7 +11,7 @@ export default class ActionBar extends Component {
         const { backVisible } = this.props;
         return (
             <div className='action-bar'>
-                { !backVisible ? <button className='action-bar-back-button'>Back</button> : <div /> }
+                { backVisible ? <button className='action-bar-back-button'>Back</button> : <div /> }
                 <div className='action-bar-search'>
                     <input className='action-bar-search-input' />
                     <button className='action-bar-search-button'>Search</button>

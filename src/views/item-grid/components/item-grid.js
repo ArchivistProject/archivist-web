@@ -28,7 +28,7 @@ export default class ItemGrid extends Component {
         // placeholder items w/metadata
         const items = [
             {
-                title: 'Title 1',
+                // title: 'Title 1',
                 dateAdded: '11/12/16',
                 author: 'Author 1',
                 someMetadata: 'aaa',

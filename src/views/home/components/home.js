@@ -15,7 +15,7 @@ export default class Home extends Component {
                 <ActionBar />
                 <div className='home-content'>
                     <ItemGrid />
-                    { !sidebarVisible ? <Sidebar /> : <div /> }
+                    { sidebarVisible ? <Sidebar /> : <div /> }
                 </div>
             </div>
         );
