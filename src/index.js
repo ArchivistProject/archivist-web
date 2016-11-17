@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
-import App from './views/app/app';
-import Home from './views/home/home-connector';
+import { App, Home } from './views';
+import './style.scss';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);

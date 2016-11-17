@@ -4,4 +4,11 @@
     position: fixed;
     display: flex;
     flex-direction: column;
+
+    &-content {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+    }
 }

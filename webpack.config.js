@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
     entry: [
@@ -30,6 +31,10 @@ module.exports = {
         }],
     },
     resolve: {
+        root: ['node_modules'],
+        alias: {
+            '~': path.resolve(__dirname, '.'),
+        },
         extensions: ['', '.js', '.jsx'],
     },
     plugins: [

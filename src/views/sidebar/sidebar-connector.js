@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as homeActionCreators from '~/src/state/home/home-action-creators';
-import Home from './components/home';
+import * as sidebarActionCreators from '~/src/state/sidebar/sidebar-action-creators';
+import Sidebar from './components/sidebar';
 
-class HomeConnector extends Component {
+class SidebarConnector extends Component {
     render() {
         const { dispatch } = this.props;
         return (
-            <Home
+            <Sidebar
                 {...this.props}
-                {...bindActionCreators(homeActionCreators, dispatch)}
+                {...bindActionCreators(sidebarActionCreators, dispatch)}
             />
         );
     }
@@ -22,4 +22,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(HomeConnector);
+export default connect(mapStateToProps)(SidebarConnector);

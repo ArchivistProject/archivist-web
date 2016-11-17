@@ -1,17 +1,11 @@
-const SOME_ACTION = 'home/SOME_ACTION';
-
-export function someAction() {
-    return {
-        type: SOME_ACTION,
-    };
-}
+import actionBarActionTypes from './action-bar-action-types';
 
 const initialState = {
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case SOME_ACTION: {
+        case actionBarActionTypes.SOME_ACTION: {
             return {
                 ...state,
             };

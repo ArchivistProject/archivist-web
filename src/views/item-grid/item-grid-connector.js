@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as homeActionCreators from '~/src/state/home/home-action-creators';
-import Home from './components/home';
+import ItemGrid from './components/item-grid';
 
-class HomeConnector extends Component {
+class ItemGridConnector extends Component {
     render() {
         const { dispatch } = this.props;
         return (
-            <Home
+            <ItemGrid
                 {...this.props}
                 {...bindActionCreators(homeActionCreators, dispatch)}
             />
@@ -22,4 +22,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(HomeConnector);
+export default connect(mapStateToProps)(ItemGridConnector);

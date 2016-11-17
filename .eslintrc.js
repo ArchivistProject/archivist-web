@@ -23,6 +23,8 @@ module.exports = {
         "semi": [2, "always"],
         "no-unused-vars": [1, {"vars": "all", "args": "none"}],
         "no-console": 0,
+        "import/no-unresolved": 0,
+        "import/extensions": 0,
         "space-before-function-paren": [2, { "anonymous": "always", "named": "never" }],
         "react/jsx-indent": [2, 4],
         "react/jsx-indent-props": [2, 4],

@@ -1,0 +1,12 @@
+.grid {
+    width: 100%;
+
+    &-wrapper {
+        flex-grow: 1;
+    }
+
+    &, &-header-item, &-row-item {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+}
