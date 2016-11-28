@@ -1,0 +1,7 @@
+.upload {
+    &-content {
+        display: flex;
+        flex-direction: column;
+        margin-left: 40%;//TODO: this is bad, fix it
+    }
+}

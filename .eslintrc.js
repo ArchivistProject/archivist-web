@@ -31,6 +31,7 @@ module.exports = {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/prefer-stateless-function": 0,
         "react/prop-types": [2, { "ignore": ["dispatch"] }],
+        "react/jsx-boolean-value": 0,
     },
     "ecmaFeatures": {
         "experimentalObjectRestSpread": true
