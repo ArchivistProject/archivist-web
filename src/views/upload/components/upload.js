@@ -24,7 +24,7 @@ export default class Upload extends Component {
         return fields.map((field, id) =>
             (
                 <div className='upload-metadata-input' key={id}>
-                    <span className={`test${field.label}`}>{field.label}</span>
+                    <span className='upload-label'>{field.label}</span>
                     <input type={field.type} />
                 </div>
             )
@@ -37,10 +37,11 @@ export default class Upload extends Component {
                 <ActionBar
                     backVisible={true}
                     uploadVisible={false}
+                    searchVisible={false}
                 />
                 <div className='upload-content'>
                     <div className='upload-file-upload'>
-                        <span className='upload-label'>File:</span>
+                        <span className='upload-label'>File</span>
                         <input type='file' accept='.pdf, .html' onChange={this.handleFileChange} />
                     </div>
                     {this.renderMetadataInput([
@@ -57,7 +58,7 @@ export default class Upload extends Component {
                             type: 'date',
                         },
                     ])}
-                    <div><button className='upload-submit' onClick={this.handleSubmit}>Upload</button></div>
+                    <button className='upload-submit' onClick={this.handleSubmit}>Upload</button>
                 </div>
             </div>
         );

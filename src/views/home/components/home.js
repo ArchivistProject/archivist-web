@@ -21,7 +21,7 @@ export default class Home extends Component {
         const { sidebarVisible, activeItemId, activeItem } = this.props;
         return (
             <div className='home'>
-                <ActionBar />
+                <ActionBar searchVisible={true} />
                 <div className='home-content'>
                     <ItemGrid />
                     { sidebarVisible ? <Sidebar /> : null }
