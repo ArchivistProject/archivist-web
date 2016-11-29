@@ -5,46 +5,21 @@ import './item-grid.scss';
 export default class ItemGrid extends Component {
 
     static propTypes = {
-        someAction: PropTypes.func.isRequired,
+        items: PropTypes.arrayOf(Object),
+        headers: PropTypes.arrayOf(Object),
+        itemFocused: PropTypes.func.isRequired,
+        activeItemId: PropTypes.number,
     };
 
     render() {
-        // placeholder headers
-        const headers = [
-            {
-                key: 'title',
-                heading: 'Title',
-            },
-            {
-                key: 'dateAdded',
-                heading: 'Date Added',
-            },
-            {
-                key: 'author',
-                heading: 'Author',
-            },
-        ];
-
-        // placeholder items w/metadata
-        const items = [
-            {
-                title: 'Title 1',
-                dateAdded: '11/12/16',
-                author: 'Author 1',
-                someMetadata: 'aaa',
-            },
-            {
-                title: 'Title 2',
-                dateAdded: '11/16/16',
-                author: 'Author 2',
-                extraData: 'something',
-            },
-        ];
+        const { items, headers, itemFocused, activeItemId } = this.props;
 
         return (
             <Grid
                 headers={headers}
                 rows={items}
+                onRowClick={itemFocused}
+                activeRowNum={activeItemId}
             />
         );
     }

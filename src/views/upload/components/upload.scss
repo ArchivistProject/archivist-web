@@ -1,0 +1,19 @@
+.upload {
+    &-content {
+    	width: 350px;
+    	margin-top: 2%;
+        display: flex;
+        flex-direction: column;
+        margin-left: 40%;//TODO: this is bad, fix it
+    }
+    &-label {
+    	margin-right: 10px;
+    }
+    &-metadata-input, &-file-upload {
+    	margin-bottom: 10px;
+    }
+    &-submit {
+    	flex: 1;
+    	margin-left: auto;
+    }
+}

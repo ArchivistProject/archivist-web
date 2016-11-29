@@ -6,7 +6,15 @@ export default class Grid extends Component {
     static propTypes = {
         headers: PropTypes.arrayOf(PropTypes.object),
         rows: PropTypes.arrayOf(PropTypes.object),
+        onRowClick: PropTypes.func,
+        activeRowNum: PropTypes.number,
     };
+
+
+    handleRowClick = (rowNum) => {
+        const { onRowClick } = this.props;
+        onRowClick(rowNum);
+    }
 
     renderHeaders() {
         const { headers } = this.props;
@@ -18,25 +26,23 @@ export default class Grid extends Component {
     }
 
     renderRows() {
-        const { headers, rows } = this.props;
+        const { headers, rows, activeRowNum } = this.props;
         const headerKeys = headers.map(header => header.key);
-
-        return rows.map((row, rowNum) =>
-            (
-                <tr className='grid-row' key={rowNum}>
+        return rows.map((row, rowNum) => {
+            const rowClasses = ['grid-row'];
+            if (rowNum === activeRowNum) {
+                rowClasses.push('grid-row-active');
+            }
+            return (
+                <tr className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
                     {
-                        headerKeys.map((headerKey, columnNum) => {
-                            if (row[headerKey]) {
-                                return (
-                                    <td className='grid-row-item' key={columnNum}>{row[headerKey]}</td>
-                                );
-                            }
-                            return null;
-                        })
+                        headerKeys.map((headerKey, columnNum) =>
+                            <td className='grid-row-item' key={columnNum}>{row[headerKey] ? row[headerKey] : null}</td>
+                        )
                     }
                 </tr>
-            )
-        );
+            );
+        });
     }
 
     render() {

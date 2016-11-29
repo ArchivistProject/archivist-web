@@ -18,7 +18,7 @@ class ItemGridConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.home,
     };
 }
 
