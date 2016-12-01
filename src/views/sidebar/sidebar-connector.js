@@ -19,7 +19,7 @@ class SidebarConnector extends Component {
 function mapStateToProps(state) {
     return {
         ...state.sidebar,
-        ...state.home,
+        ...state.item,
     };
 }
 

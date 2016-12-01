@@ -1,3 +1,3 @@
 export default {
-    SOME_ACTION: 'action-bar/SOME_ACTION',
+    VISIBILITIES_UPDATED: 'action-bar/VISIBILITIES_UPDATED',
 };

@@ -6,9 +6,15 @@ import './upload.scss';
 export default class Upload extends Component {
 
     static propTypes = {
+        uploadPageLoaded: PropTypes.func.isRequired,
         updateUploadFile: PropTypes.func.isRequired,
         submitFile: PropTypes.func.isRequired,
     };
+
+    componentDidMount() {
+        const { uploadPageLoaded } = this.props;
+        uploadPageLoaded();
+    }
 
     handleFileChange = (file) => {
         const { updateUploadFile } = this.props;
@@ -19,6 +25,7 @@ export default class Upload extends Component {
         const { submitFile } = this.props;
         submitFile();
     }
+
 
     renderMetadataInput(fields) {
         return fields.map((field, id) =>

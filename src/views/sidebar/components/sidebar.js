@@ -5,6 +5,7 @@ export default class Sidebar extends Component {
 
     static propTypes = {
         activeItem: PropTypes.object,
+        visible: PropTypes.bool.isRequired,
     };
 
     renderMetadata() {
@@ -20,12 +21,13 @@ export default class Sidebar extends Component {
     }
 
     render() {
-        return (
+        const { visible } = this.props;
+        return visible ? (
             <div className='sidebar'>
                 <div className='sidebar-metadata'>
                     {this.renderMetadata()}
                 </div>
             </div>
-        );
+        ) : null;
     }
 }

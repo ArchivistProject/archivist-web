@@ -1,5 +1,6 @@
 .grid {
     &-row {
+        cursor: pointer;
         &-active {
             background-color: lightblue;
         }

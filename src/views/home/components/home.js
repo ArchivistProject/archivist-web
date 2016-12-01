@@ -6,10 +6,7 @@ import './home.scss';
 export default class Home extends Component {
 
     static propTypes = {
-        sidebarVisible: PropTypes.bool.isRequired,
         homePageLoaded: PropTypes.func.isRequired,
-        activeItemId: PropTypes.number,
-        activeItem: PropTypes.object,
     };
 
     componentDidMount() {
@@ -18,13 +15,12 @@ export default class Home extends Component {
     }
 
     render() {
-        const { sidebarVisible, activeItemId, activeItem } = this.props;
         return (
             <div className='home'>
-                <ActionBar searchVisible={true} />
+                <ActionBar />
                 <div className='home-content'>
                     <ItemGrid />
-                    { sidebarVisible ? <Sidebar /> : null }
+                    <Sidebar />
                 </div>
             </div>
         );
