@@ -9,10 +9,11 @@ export default class ActionBar extends Component {
         backVisible: PropTypes.bool,
         uploadVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
+        settingsVisible: PropTypes.bool,
     };
 
     render() {
-        const { loggedIn, backVisible, uploadVisible = true, searchVisible } = this.props;
+        const { loggedIn, backVisible, uploadVisible = true, searchVisible, settingsVisible = true } = this.props;
         return (
             <div className='action-bar-wrapper'>
                 { !loggedIn ?
@@ -29,7 +30,7 @@ export default class ActionBar extends Component {
                         }
                         <div className='action-bar-right-buttons'>
                             {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
-                            <button className='action-bar-settings'>Settings</button>
+                            {settingsVisible ? <Link to='/settings'><button className='action-bar-settings'>Settings</button></Link> : null}
                             <button className='action-bar-logout'>Log Out</button>
                         </div>
                     </div>
