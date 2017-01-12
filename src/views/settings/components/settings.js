@@ -1,37 +1,33 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { ActionBar } from '~/src/views';
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
+import Tab from 'react-bootstrap/lib/Tab';
+import Col from 'react-bootstrap/lib/Col';
+import Nav from 'react-bootstrap/lib/Nav';
+import Row from 'react-bootstrap/lib/Row';
+import NavItem from 'react-bootstrap/lib/NavItem';
 import './settings.scss';
 
+
 export default class Settings extends Component {
-
-
-    ChangePW() {
-
-        return(
-            <div >
-                <h1>YOOOO</h1>
-            </div>
-        );
-
-    }
 
     Password(){
         return(
             <div>
                 <h2>Password</h2>
-                <p>Change your account password</p>
-                <button onClick={this.ChangePW}>Password</button>
+                <PasswordDialog/>
             </div>
-        );
+        )
     }
 
     Background() {
         return (
           <div>
               <h2>Background</h2>
-              <p>Change your background color</p>
-              <button>Change Color</button>
+              <p>Select a background color to change</p>
+              <Color/>
           </div>
         );
     }
@@ -50,7 +46,7 @@ export default class Settings extends Component {
         return(
             <div>
                 <h2>API Token</h2>
-                <input type="text" value="ALSKDJFHLADF34O837048" class="field left" readonly></input>
+                <input type="text" value="ALSKDJFHLAD34O837048" class="field left" readonly></input>
                 <button>Refresh</button>
             </div>
         );
@@ -86,3 +82,55 @@ export default class Settings extends Component {
         );
     }
 }
+
+const PasswordDialog = React.createClass({
+    getInitialState() {
+        return { showModal: false };
+    },
+
+    close() {
+        this.setState({ showModal: false });
+    },
+
+    open() {
+        this.setState({ showModal: true });
+    },
+
+    render() {
+        return (
+            <div>
+                <p>Change your account password</p>
+
+                <Button
+                    bsStyle="primary"
+                    bsSize="large"
+                    onClick={this.open}>
+                    Change Password
+                </Button>
+
+                <Modal show={this.state.showModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Change Your Password</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form>
+                            <h4>Old Password</h4>
+                            <input type="password"/>
+
+                            <h4>New Password</h4>
+                            <input type="password"/>
+
+                            <h4>Confirm Password</h4>
+                            <input type="password"/>
+                        </form>
+                      </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.close}>Save</Button>
+                        <Button onClick={this.close}>Cancel</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        );
+    }
+});
+
