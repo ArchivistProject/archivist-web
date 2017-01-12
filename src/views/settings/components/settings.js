@@ -1,20 +1,14 @@
-import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
-import { ActionBar } from '~/src/views';
-import Modal from 'react-bootstrap/lib/Modal';
-import Button from 'react-bootstrap/lib/Button';
-import Tab from 'react-bootstrap/lib/Tab';
-import Col from 'react-bootstrap/lib/Col';
-import Nav from 'react-bootstrap/lib/Nav';
-import Row from 'react-bootstrap/lib/Row';
-import NavItem from 'react-bootstrap/lib/NavItem';
+import React, {PropTypes, Component} from 'react';
+import {Link} from 'react-router';
+import {ActionBar} from '~/src/views';
+import {Modal, Button, FormControl, Collapse, Well} from 'react-bootstrap/lib/';
+import {CirclePicker} from 'react-color';
 import './settings.scss';
-
 
 export default class Settings extends Component {
 
-    Password(){
-        return(
+    Password() {
+        return (
             <div>
                 <h2>Password</h2>
                 <PasswordDialog/>
@@ -24,16 +18,16 @@ export default class Settings extends Component {
 
     Background() {
         return (
-          <div>
-              <h2>Background</h2>
-              <p>Select a background color to change</p>
-              <Color/>
-          </div>
+            <div>
+                <h2>Background</h2>
+                <p>Change your background color</p>
+                <ColorPickerDialog/>
+            </div>
         );
     }
 
     Statistic() {
-        return(
+        return (
             <div>
                 <h2>Statistic</h2>
                 <p>Storage Used:</p>
@@ -43,41 +37,48 @@ export default class Settings extends Component {
     }
 
     APIToken() {
-        return(
+        return (
             <div>
                 <h2>API Token</h2>
-                <input type="text" value="ALSKDJFHLAD34O837048" class="field left" readonly></input>
-                <button>Refresh</button>
+                <FormControl componentClass="textarea" placeholder="ALSDKJFH34873081JD" readonly/>
+                <Button bsStyle="info">Refresh</Button>
             </div>
         );
     }
 
     ItemTypes() {
-        return(
+        return (
             <div>
                 <h2>Item Types</h2>
-                <p>Item types are metadata fields that you define and these fields will be auto generated for you to fill in when you're uploading a file</p>
-                <h4>Item Type Name</h4>
-                <button>Add</button>
+                <p>Click to edit auto generated metadata fields </p>
+                <Button bsStyle="info">Edit</Button>
             </div>
         );
     }
 
     render() {
         return (
-            <div className='settings'>
+            <div>
                 <ActionBar
                     backVisible={true}
                     uploadVisible={false}
                     searchVisible={false}
                     settingsVisible={false}
                 />
-                <h1>SETTINGS</h1>
-                {this.Password()}
-                {this.Background()}
-                {this.Statistic()}
-                {this.APIToken()}
-                {this.ItemTypes()}
+
+                <p className="settings">SETTINGS</p>
+
+                <div className="aside">
+                    <img src="http://www.clipartbest.com/cliparts/MTL/xLa/MTLxLaArc.gif" alt="logo" width='304' height="228"/>
+                </div>
+
+                <div className="section">
+                     {this.Password()}
+                     {this.Background()}
+                     {this.Statistic()}
+                     {this.APIToken()}
+                     {this.ItemTypes()}
+                </div>
             </div>
         );
     }
@@ -85,15 +86,15 @@ export default class Settings extends Component {
 
 const PasswordDialog = React.createClass({
     getInitialState() {
-        return { showModal: false };
+        return {showModal: false};
     },
 
     close() {
-        this.setState({ showModal: false });
+        this.setState({showModal: false});
     },
 
     open() {
-        this.setState({ showModal: true });
+        this.setState({showModal: true});
     },
 
     render() {
@@ -102,8 +103,7 @@ const PasswordDialog = React.createClass({
                 <p>Change your account password</p>
 
                 <Button
-                    bsStyle="primary"
-                    bsSize="large"
+                    bsStyle="info"
                     onClick={this.open}>
                     Change Password
                 </Button>
@@ -123,7 +123,7 @@ const PasswordDialog = React.createClass({
                             <h4>Confirm Password</h4>
                             <input type="password"/>
                         </form>
-                      </Modal.Body>
+                    </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.close}>Save</Button>
                         <Button onClick={this.close}>Cancel</Button>
@@ -134,3 +134,41 @@ const PasswordDialog = React.createClass({
     }
 });
 
+const ColorPickerDialog = React.createClass({
+    getInitialState() {
+        return {showModal: false};
+    },
+
+    close() {
+        this.setState({showModal: false});
+    },
+
+    open() {
+        this.setState({showModal: true});
+    },
+
+    render() {
+        return (
+            <div>
+                <Button
+                    bsStyle="info"
+                    onClick={this.open}>
+                    Change Background
+                </Button>
+
+                <Modal show={this.state.showModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Select Your Color</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <CirclePicker/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.close}>Save</Button>
+                        <Button onClick={this.close}>Cancel</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        );
+    }
+});
