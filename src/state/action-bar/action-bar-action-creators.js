@@ -20,7 +20,7 @@ export function updateVisibilities(pathname) {
         if (!state.sidebar.visible) {
             dispatch({
                 type: actionBarActionTypes.VISIBILITIES_UPDATED,
-                data: visibilities,
+                data: { visibilities },
             });
         }
     };

@@ -22,7 +22,7 @@ export default class ActionBar extends Component {
     componentWillReceiveProps(nextProps) {
         const { updateVisibilities, pathname } = this.props;
         const { pathname: newPathname } = nextProps;
-        console.log(pathname, newPathname);
+
         if (pathname !== newPathname) {
             updateVisibilities(newPathname);
         }

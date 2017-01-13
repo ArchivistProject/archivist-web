@@ -4,17 +4,16 @@ const initialState = {
     backVisible: false,
     uploadVisible: false,
     searchVisible: false,
+    settingsVisible: false,
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case actionBarActionTypes.VISIBILITIES_UPDATED: {
-            const { backVisible, uploadVisible, searchVisible } = action.data;
+            const { visibilities } = action.data;
             return {
                 ...state,
-                backVisible,
-                uploadVisible,
-                searchVisible,
+                ...visibilities,
             };
         }
     }
