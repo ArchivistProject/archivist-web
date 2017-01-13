@@ -6,13 +6,7 @@ import './home.scss';
 export default class Home extends Component {
 
     static propTypes = {
-        homePageLoaded: PropTypes.func.isRequired,
     };
-
-    componentDidMount() {
-        const { homePageLoaded } = this.props;
-        homePageLoaded();
-    }
 
     render() {
         return (

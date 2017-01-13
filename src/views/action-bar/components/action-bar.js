@@ -9,19 +9,27 @@ export default class ActionBar extends Component {
         backVisible: PropTypes.bool.isRequired,
         uploadVisible: PropTypes.bool.isRequired,
         searchVisible: PropTypes.bool.isRequired,
+        settingsVisible: PropTypes.bool.isRequired,
+        updateVisibilities: PropTypes.func.isRequired,
         pathname: PropTypes.string.isRequired,
     };
 
+    componentDidMount() {
+        const { updateVisibilities, pathname } = this.props;
+        updateVisibilities(pathname);
+    }
+
     componentWillReceiveProps(nextProps) {
-        const { pathname } = this.props;
+        const { updateVisibilities, pathname } = this.props;
         const { pathname: newPathname } = nextProps;
+        console.log(pathname, newPathname);
         if (pathname !== newPathname) {
-            
+            updateVisibilities(newPathname);
         }
     }
 
     render() {
-        const { loggedIn, backVisible, uploadVisible, searchVisible } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible } = this.props;
         return (
             <div className='action-bar-wrapper'>
                 { !loggedIn ?
@@ -42,7 +50,7 @@ export default class ActionBar extends Component {
                         </div>
                         <div className='action-bar-right-buttons'>
                             {uploadVisible ? <Link to='/upload' className='action-bar-upload'>Upload</Link> : null }
-                            <a className='action-bar-settings'>Settings</a>
+                            {settingsVisible ? <Link to='/settings' className='action-bar-settings'>Settings</Link> : null }
                             <a className='action-bar-logout'>Log Out</a>
                         </div>
                     </div>
