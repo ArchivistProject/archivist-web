@@ -1,12 +1,7 @@
 .Settings {
-  margin-left: 2cm;
-  background: white;
-  border-radius: 6px;
-  color: #000;
-  display: block;
-  font: 14px/24px "Source Code Pro", Inconsolata, "Lucida Console", Terminal, "Courier New", Courier;
-  padding: 24px 15px;
-  text-align: center;
+  color: #111; font-family: 'Segoe UI', sans-serif; font-size: 50px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+  margin-left: 1cm;
+  margin-bottom: 1cm;
 }
 
 .header,
@@ -16,7 +11,7 @@ footer {
   margin: 0 1.5% 24px 1.5%;
 }
 .section {
-  margin-left: 3cm;
+  margin-left: 1cm;
   float: left;
   width: 50%;
 }
@@ -31,5 +26,5 @@ footer {
 
 
 textarea {
-  max-width: 300px;
+  max-width: 400px;
 }

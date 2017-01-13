@@ -4,7 +4,7 @@
         height: 60px;
         line-height: 60px;
         text-align: center;
-        background-color: #ddd;
+        background-color: #2b303b;
     }
     display: flex;
     flex-direction: row;
@@ -12,6 +12,6 @@
     align-items: center;
 
     &-search, &-search-input {
-        width: 50%;
+        width: 60%;
     }
 }

@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {Link} from 'react-router';
 import {ActionBar} from '~/src/views';
-import {Modal, Button, FormControl, Collapse, Well} from 'react-bootstrap/lib/';
+import {Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel} from 'react-bootstrap/lib/';
 import {CirclePicker} from 'react-color';
 import './settings.scss';
 
@@ -10,8 +10,9 @@ export default class Settings extends Component {
     Password() {
         return (
             <div>
-                <h2>Password</h2>
+                <Panel header="Password" bsStyle="info">
                 <PasswordDialog/>
+                </Panel>
             </div>
         )
     }
@@ -19,9 +20,10 @@ export default class Settings extends Component {
     Background() {
         return (
             <div>
-                <h2>Background</h2>
+                <Panel header="Background" bsStyle="info">
                 <p>Change your background color</p>
                 <ColorPickerDialog/>
+                </Panel>
             </div>
         );
     }
@@ -29,9 +31,10 @@ export default class Settings extends Component {
     Statistic() {
         return (
             <div>
-                <h2>Statistic</h2>
+                <Panel header="Statistic" bsStyle="info">
                 <p>Storage Used:</p>
                 <p>Files Uploaded:</p>
+            </Panel>
             </div>
         );
     }
@@ -39,9 +42,11 @@ export default class Settings extends Component {
     APIToken() {
         return (
             <div>
-                <h2>API Token</h2>
+                <Panel header="API Token" bsStyle="info">
                 <FormControl componentClass="textarea" placeholder="ALSDKJFH34873081JD" readonly/>
+            <br/>
                 <Button bsStyle="info">Refresh</Button>
+                </Panel>
             </div>
         );
     }
@@ -49,9 +54,10 @@ export default class Settings extends Component {
     ItemTypes() {
         return (
             <div>
-                <h2>Item Types</h2>
+                <Panel header="Item Types" bsStyle="info">
                 <p>Click to edit auto generated metadata fields </p>
                 <Button bsStyle="info">Edit</Button>
+                </Panel>
             </div>
         );
     }
@@ -66,7 +72,7 @@ export default class Settings extends Component {
                     settingsVisible={false}
                 />
 
-                <p className="settings">SETTINGS</p>
+                <h1 className="Settings">SETTINGS</h1>
 
                 <div className="aside">
                     <img src="http://www.clipartbest.com/cliparts/MTL/xLa/MTLxLaArc.gif" alt="logo" width='304' height="228"/>
@@ -83,6 +89,7 @@ export default class Settings extends Component {
         );
     }
 }
+
 
 const PasswordDialog = React.createClass({
     getInitialState() {
@@ -101,13 +108,11 @@ const PasswordDialog = React.createClass({
         return (
             <div>
                 <p>Change your account password</p>
-
                 <Button
                     bsStyle="info"
                     onClick={this.open}>
                     Change Password
                 </Button>
-
                 <Modal show={this.state.showModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Change Your Password</Modal.Title>
@@ -125,8 +130,8 @@ const PasswordDialog = React.createClass({
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.close}>Save</Button>
-                        <Button onClick={this.close}>Cancel</Button>
+                        <Button bsStyle="success" onClick={this.close}>Save</Button>
+                        <Button bsStyle="warning" onClick={this.close}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -164,8 +169,8 @@ const ColorPickerDialog = React.createClass({
                         <CirclePicker/>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.close}>Save</Button>
-                        <Button onClick={this.close}>Cancel</Button>
+                        <Button bsStyle="success" onClick={this.close}>Save</Button>
+                        <Button bsStyle="warning" onClick={this.close}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
