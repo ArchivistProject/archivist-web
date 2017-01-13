@@ -1,6 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
-import { ActionBar } from '~/src/views';
 import './upload.scss';
 
 export default class Upload extends Component {
@@ -19,7 +17,6 @@ export default class Upload extends Component {
         const { submitFile } = this.props;
         submitFile();
     }
-
 
     renderMetadataInput(fields) {
         return fields.map((field, id) =>

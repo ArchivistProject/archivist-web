@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { ActionBar } from '~/src/views';
 import './login.scss';
 
 export default class Login extends Component {

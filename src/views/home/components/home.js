@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { ActionBar, ItemGrid, Sidebar } from '~/src/views';
+import { ItemGrid, Sidebar } from '~/src/views';
 import homeActionCreators from '~/src/state/home/home-action-creators';
 import './home.scss';
 

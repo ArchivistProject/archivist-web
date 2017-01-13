@@ -17,4 +17,10 @@ export const VISIBILITIES = {
         searchVisible: false,
         settingsVisible: false,
     },
+    '/login': {
+        backVisible: false,
+        uploadVisible: false,
+        searchVisible: false,
+        settingsVisible: false,
+    },
 };

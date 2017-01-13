@@ -10,7 +10,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case actionBarActionTypes.VISIBILITIES_UPDATED: {
-            const { visibilities } = action.data;
+            const visibilities = action.data;
             return {
                 ...state,
                 ...visibilities,
