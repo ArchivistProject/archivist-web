@@ -9,6 +9,8 @@ import { App, Home, Login, Upload } from './views';
 import './style.scss';
 
 const store = configureStore();
+window.store = store;
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(

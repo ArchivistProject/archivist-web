@@ -41,11 +41,6 @@ export default class Upload extends Component {
     render() {
         return (
             <div className='upload'>
-                <ActionBar
-                    backVisible={true}
-                    uploadVisible={false}
-                    searchVisible={false}
-                />
                 <div className='upload-content'>
                     <div className='upload-file-upload'>
                         <span className='upload-label'>File</span>

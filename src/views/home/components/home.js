@@ -17,7 +17,6 @@ export default class Home extends Component {
     render() {
         return (
             <div className='home'>
-                <ActionBar />
                 <div className='home-content'>
                     <ItemGrid />
                     <Sidebar />

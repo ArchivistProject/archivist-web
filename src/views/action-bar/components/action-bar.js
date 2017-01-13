@@ -9,7 +9,16 @@ export default class ActionBar extends Component {
         backVisible: PropTypes.bool.isRequired,
         uploadVisible: PropTypes.bool.isRequired,
         searchVisible: PropTypes.bool.isRequired,
+        pathname: PropTypes.string.isRequired,
     };
+
+    componentWillReceiveProps(nextProps) {
+        const { pathname } = this.props;
+        const { pathname: newPathname } = nextProps;
+        if (pathname !== newPathname) {
+            
+        }
+    }
 
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible } = this.props;
@@ -32,7 +41,7 @@ export default class ActionBar extends Component {
                             }
                         </div>
                         <div className='action-bar-right-buttons'>
-                            {uploadVisible ? <Link to='/upload'><a className='action-bar-upload'>Upload</a></Link> : null }
+                            {uploadVisible ? <Link to='/upload' className='action-bar-upload'>Upload</Link> : null }
                             <a className='action-bar-settings'>Settings</a>
                             <a className='action-bar-logout'>Log Out</a>
                         </div>

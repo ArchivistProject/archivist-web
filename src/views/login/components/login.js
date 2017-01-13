@@ -10,7 +10,6 @@ export default class Login extends Component {
     render() {
         return (
             <div className='login'>
-                <ActionBar />
                 <form className='login-form'>
                     <input className='login-username' />
                     <input type='password' className='login-password' />
