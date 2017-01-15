@@ -18,7 +18,8 @@ class ActionBarConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.actionBar,
+        pathname: state.routing.locationBeforeTransitions.pathname,
     };
 }
 

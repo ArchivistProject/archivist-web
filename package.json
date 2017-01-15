@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack | webpack-dev-server --host 0.0.0.0 --port 8080 --hot --config ./webpack.config.js"
+    "start": "webpack | webpack-dev-server --host 0.0.0.0 --port 8080 --hot --config ./webpack.config.js",
+    "production": "webpack --config webpack.production.config.js"
   },
   "author": "",
   "license": "ISC",

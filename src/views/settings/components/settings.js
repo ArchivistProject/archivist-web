@@ -65,13 +65,6 @@ export default class Settings extends Component {
     render() {
         return (
             <div>
-                <ActionBar
-                    backVisible={true}
-                    uploadVisible={false}
-                    searchVisible={false}
-                    settingsVisible={false}
-                />
-
                 <h1 className="Settings">SETTINGS</h1>
 
                 <div className="aside">

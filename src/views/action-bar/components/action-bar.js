@@ -7,32 +7,53 @@ export default class ActionBar extends Component {
 
     static propTypes = {
         loggedIn: PropTypes.bool,
-        backVisible: PropTypes.bool,
-        uploadVisible: PropTypes.bool,
-        searchVisible: PropTypes.bool,
-        settingsVisible: PropTypes.bool,
+        backVisible: PropTypes.bool.isRequired,
+        uploadVisible: PropTypes.bool.isRequired,
+        searchVisible: PropTypes.bool.isRequired,
+        settingsVisible: PropTypes.bool.isRequired,
+        updateVisibilities: PropTypes.func.isRequired,
+        pathname: PropTypes.string.isRequired,
     };
 
+    componentDidMount() {
+        const { updateVisibilities, pathname } = this.props;
+        updateVisibilities(pathname);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { updateVisibilities, pathname } = this.props;
+        const { pathname: newPathname } = nextProps;
+
+        if (pathname !== newPathname) {
+            updateVisibilities(newPathname);
+        }
+    }
+
     render() {
-        const { loggedIn, backVisible, uploadVisible = true, searchVisible, settingsVisible = true } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible } = this.props;
+
         return (
             <div className='action-bar-wrapper'>
                 { !loggedIn ?
                     <div className='action-bar'>
-                        { backVisible ? <Link to='/'><Button className='action-bar-back-button'>Back</Button></Link> : <div /> }
-                        { searchVisible ? 
-                            (
-                                <div className='action-bar-search'>
-                                    <input type='search' className='action-bar-search-input' />
-                                    <Button className='action-bar-search-button'>Search</Button>
-                                    <a href='#advanced'>Advanced</a>
-                                </div>
-                            ) : <div />
-                        }
+                        <div className='action-bar-back'>
+                            { backVisible ? <Link to='/'><button className='action-bar-back-button'>Back</button></Link> : null }
+                        </div>
+                        <div className='action-bar-search'>
+                            { searchVisible ?
+                                (
+                                    <div>
+                                        <input type='search' className='action-bar-search-input' />
+                                        <button className='action-bar-search-button'>Search</button>
+                                        <a href='#advanced'>Advanced</a>
+                                    </div>
+                                ) : null
+                            }
+                        </div>
                         <div className='action-bar-right-buttons'>
-                            {uploadVisible ? <Link to='/upload'><Button className='action-bar-upload'>Upload</Button></Link> : null }
-                            {settingsVisible ? <Link to='/settings'><Button className='action-bar-settings'>Settings</Button></Link> : null}
-                            <Button bsStyle="danger" className='action-bar-logout'>Log Out</Button>
+                            {uploadVisible ? <Link to='/upload' className='action-bar-upload'>Upload</Link> : null }
+                            {settingsVisible ? <Link to='/settings' className='action-bar-settings'>Settings</Link> : null }
+                            <a className='action-bar-logout'>Log Out</a>
                         </div>
                     </div>
                 : null}

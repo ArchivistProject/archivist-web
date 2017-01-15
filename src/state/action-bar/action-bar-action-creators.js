@@ -1,13 +1,9 @@
 import actionBarActionTypes from './action-bar-action-types';
+import { VISIBILITIES } from './action-bar-constants';
 
-export function someAction() {
+export function updateVisibilities(pathname) {
     return {
-        type: actionBarActionTypes.SOME_ACTION,
-    };
-}
-
-export function anotherAction() {
-    return {
-        type: actionBarActionTypes.SOME_ACTION,
+        type: actionBarActionTypes.VISIBILITIES_UPDATED,
+        data: { ...VISIBILITIES[pathname] },
     };
 }

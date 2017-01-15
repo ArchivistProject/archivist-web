@@ -1,6 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
-import { ActionBar } from '~/src/views';
 import './upload.scss';
 
 export default class Upload extends Component {
@@ -34,11 +32,6 @@ export default class Upload extends Component {
     render() {
         return (
             <div className='upload'>
-                <ActionBar
-                    backVisible={true}
-                    uploadVisible={false}
-                    searchVisible={false}
-                />
                 <div className='upload-content'>
                     <div className='upload-file-upload'>
                         <span className='upload-label'>File</span>
