@@ -3,6 +3,7 @@ import moment from 'moment';
 import Grid from '~/src/components/grid/grid';
 import Paginator from '~/src/components/paginator/paginator';
 import { formatDate } from '~/src/utils/utils';
+import SadFace from '~/src/images/sadface.png';
 import './item-grid.scss';
 
 export default class ItemGrid extends Component {
@@ -15,6 +16,7 @@ export default class ItemGrid extends Component {
         headerClicked: PropTypes.func.isRequired,
         activeItemId: PropTypes.string,
         activeItemIndex: PropTypes.number,
+        waitingForItems: PropTypes.bool,
         meta: PropTypes.shape({
             currentPage: PropTypes.number,
             nextPage: PropTypes.number,
@@ -31,7 +33,7 @@ export default class ItemGrid extends Component {
     }
 
     render() {
-        const { items, headers, itemFocused, headerClicked, activeItemIndex, fetchItems,
+        const { items, headers, itemFocused, headerClicked, activeItemIndex, waitingForItems, fetchItems,
             meta: { currentPage, nextPage, prevPage, totalPages, totalCount, pageSize } } = this.props;
         let rows = [];
 
@@ -49,18 +51,18 @@ export default class ItemGrid extends Component {
 
         const startIndex = (((currentPage - 1) * pageSize) + 1);
         const endIndex = ((startIndex + rows.length) - 1);
-
         return (
             <div className='item-grid-wrapper'>
-                { totalCount ? (
+                { !waitingForItems ? (
                     <div className='item-grid'>
-                        <Paginator
-                            currentPage={currentPage}
-                            nextPage={nextPage}
-                            prevPage={prevPage}
-                            totalPages={totalPages}
-                            onPageChange={fetchItems}
-                        />
+                        { rows.length ? (
+                            <Paginator
+                                currentPage={currentPage}
+                                nextPage={nextPage}
+                                prevPage={prevPage}
+                                totalPages={totalPages}
+                                onPageChange={fetchItems}
+                            />) : null }
                         <Grid
                             headers={headers}
                             rows={rows}
@@ -68,6 +70,7 @@ export default class ItemGrid extends Component {
                             onHeaderClick={headerClicked}
                             activeRowNum={activeItemIndex}
                             noResultsText={'You don\'t have any files yet!'}
+                            noResultsImage={SadFace}
                         />
                         { rows.length ? <span>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
                     </div>

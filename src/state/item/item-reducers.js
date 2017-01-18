@@ -12,6 +12,7 @@ const initialState = {
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
     sortBy: null,
+    waitingForItems: null,
     meta: {
         currentPage: 1,
         nextPage: null,
@@ -24,6 +25,13 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case itemActionTypes.ITEMS_REQUESTED: {
+            return {
+                ...state,
+                waitingForItems: true,
+            };
+        }
+
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { documents: items, meta } = action.data;
             const { activeItemPage, activeItemIndexCached } = state;
@@ -39,6 +47,7 @@ export default function (state = initialState, action) {
                 ...state,
                 items,
                 activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
+                waitingForItems: false,
                 meta: {
                     ...state.meta,
                     currentPage,

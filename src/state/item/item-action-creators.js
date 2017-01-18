@@ -4,6 +4,9 @@ import * as itemApi from '~/src/api/item-api';
 
 export function fetchItems(currentPage) {
     return (dispatch) => {
+        dispatch({
+            type: itemActionTypes.ITEMS_REQUESTED,
+        });
         itemApi.fetchItems(currentPage)
             .then(response => dispatch({
                 type: itemActionTypes.FETCH_ITEMS_SUCCEEDED,
