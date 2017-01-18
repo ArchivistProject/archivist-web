@@ -1,4 +1,3 @@
 export default {
-    // TODO: update
-    backend: 'http://localhost:3000',
+    backend: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : window.location.origin,
 };
