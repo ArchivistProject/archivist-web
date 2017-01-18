@@ -1,1 +1,26 @@
 @import '../../defaults';
+
+.paginator {
+
+    span {
+        padding: 0 5px;
+    }
+
+    button {
+        margin: 0 px;
+        border: none;
+        outline: none;
+        background-color: $white;
+        &:hover:enabled {
+            color: $light-blue;
+        }
+    }
+
+    &-disabled {
+        color: $light-gray;
+        cursor: not-allowed;
+        &:hover {
+            color: $light-gray;
+        }
+    }
+}

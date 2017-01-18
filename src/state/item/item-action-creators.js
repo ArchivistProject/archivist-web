@@ -2,9 +2,9 @@ import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
 import * as itemApi from '~/src/api/item-api';
 
-export function fetchItems() {
+export function fetchItems(currentPage) {
     return (dispatch) => {
-        itemApi.fetchItems()
+        itemApi.fetchItems(currentPage)
             .then(response => dispatch({
                 type: itemActionTypes.FETCH_ITEMS_SUCCEEDED,
                 data: response,
@@ -24,13 +24,14 @@ export function fetchHeaders() {
     };
 }
 
-export function itemFocused(itemId) {
+export function itemFocused(itemIndex) {
     return (dispatch, getState) => {
         const { item, sidebar } = getState();
-        if (item.activeItemId !== itemId) {
+        const itemId = item.items[itemIndex].id;
+        if (item.activeItemIndex !== itemIndex || item.activeItem.id !== itemId) {
             dispatch({
                 type: itemActionTypes.ITEM_FOCUSED,
-                data: { itemId },
+                data: { itemIndex },
             });
             if (!sidebar.visible) {
                 dispatch({

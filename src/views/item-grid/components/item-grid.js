@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import moment from 'moment';
 import Grid from '~/src/components/grid/grid';
+import Paginator from '~/src/components/paginator/paginator';
 import { formatDate } from '~/src/utils/utils';
 import './item-grid.scss';
 
@@ -12,22 +13,26 @@ export default class ItemGrid extends Component {
         fetchItems: PropTypes.func.isRequired,
         itemFocused: PropTypes.func.isRequired,
         headerClicked: PropTypes.func.isRequired,
-        activeItemId: PropTypes.number,
+        activeItemId: PropTypes.string,
+        activeItemIndex: PropTypes.number,
         meta: PropTypes.shape({
             currentPage: PropTypes.number,
             nextPage: PropTypes.number,
             prevPage: PropTypes.number,
             totalPages: PropTypes.number,
+            totalCount: PropTypes.number,
+            pageSize: PropTypes.number,
         }),
     };
 
     componentWillMount() {
-        const { fetchItems } = this.props;
-        fetchItems();
+        const { fetchItems, meta: { currentPage } } = this.props;
+        fetchItems(currentPage);
     }
 
     render() {
-        const { items, headers, itemFocused, headerClicked, activeItemId, meta } = this.props;
+        const { items, headers, itemFocused, headerClicked, activeItemIndex, fetchItems,
+            meta: { currentPage, nextPage, prevPage, totalPages, totalCount, pageSize } } = this.props;
         let rows = [];
 
         if (items) {
@@ -42,15 +47,32 @@ export default class ItemGrid extends Component {
             });
         }
 
+        const startIndex = (((currentPage - 1) * pageSize) + 1);
+        const endIndex = ((startIndex + rows.length) - 1);
+
         return (
-            <Grid
-                headers={headers}
-                rows={rows}
-                onRowClick={itemFocused}
-                onHeaderClick={headerClicked}
-                activeRowNum={activeItemId}
-                noResultsText={'You don\'t have any files yet!'}
-            />
+            <div className='item-grid-wrapper'>
+                { totalCount ? (
+                    <div className='item-grid'>
+                        <Paginator
+                            currentPage={currentPage}
+                            nextPage={nextPage}
+                            prevPage={prevPage}
+                            totalPages={totalPages}
+                            onPageChange={fetchItems}
+                        />
+                        <Grid
+                            headers={headers}
+                            rows={rows}
+                            onRowClick={itemFocused}
+                            onHeaderClick={headerClicked}
+                            activeRowNum={activeItemIndex}
+                            noResultsText={'You don\'t have any files yet!'}
+                        />
+                        { rows.length ? <span>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
+                    </div>
+                ) : <span className='item-grid-loading'>Loading...</span> }
+            </div>
         );
     }
 }
