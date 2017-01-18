@@ -29,6 +29,10 @@ module.exports = {
         {
             test: /\.scss$/,
             loader: 'style!css!sass',
+        },
+        {
+            test: /images\/.*\.(?:png)$/i,
+            loader: 'file-loader?name=images/[name].[ext]',
         }],
     },
     resolve: {

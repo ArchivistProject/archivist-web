@@ -1,8 +1,10 @@
+@import '../../../defaults';
+
 .grid {
     &-row {
         cursor: pointer;
         &-active {
-            background-color: lightblue;
+            background-color: $light-blue !important;
         }
     }
 }

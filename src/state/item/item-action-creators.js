@@ -13,6 +13,17 @@ export function fetchItems() {
     };
 }
 
+export function fetchHeaders() {
+    return (dispatch) => {
+        itemApi.fetchHeaders()
+            .then(response => dispatch({
+                type: itemActionTypes.FETCH_HEADERS_SUCCEEDED,
+                data: response,
+            }))
+            .catch(error => dispatch({ type: itemActionTypes.FETCH_HEADERS_FAILED }));
+    };
+}
+
 export function itemFocused(itemId) {
     return (dispatch, getState) => {
         const { item, sidebar } = getState();
@@ -28,5 +39,12 @@ export function itemFocused(itemId) {
                 });
             }
         }
+    };
+}
+
+export function headerClicked(header) { // TODO
+    return {
+        type: itemActionTypes.HEADER_CLICKED,
+        data: { header },
     };
 }
