@@ -6,7 +6,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
 import { App, Home, Login, Upload } from './views';
-import './style.scss';
+import './assets/style/style.scss';
 
 const store = configureStore();
 window.store = store;

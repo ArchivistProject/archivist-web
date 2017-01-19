@@ -1,7 +1,9 @@
 import sidebarActionTypes from './sidebar-action-types';
+import { SIDEBAR_TABS } from './sidebar-constants';
 
 const initialState = {
     visible: false,
+    visibleTab: SIDEBAR_TABS.SUMMARY,
 };
 
 export default function (state = initialState, action) {
@@ -11,6 +13,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 visible,
+            };
+        }
+        case sidebarActionTypes.VISIBLE_TAB_UPDATED: {
+            const { tabName } = action.data;
+            return {
+                ...state,
+                visibleTab: tabName,
             };
         }
     }

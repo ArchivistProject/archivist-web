@@ -1,3 +1,4 @@
 export default {
     VISIBILITY_UPDATED: 'sidebar/VISIBILITY_UPDATED',
+    VISIBLE_TAB_UPDATED: 'sidbar/VISIBLE_TAB_UPDATED',
 };
