@@ -13,6 +13,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 visible,
+                visibleTab: visible ? state.visibleTab : initialState.visibleTab,
             };
         }
         case sidebarActionTypes.VISIBLE_TAB_UPDATED: {
