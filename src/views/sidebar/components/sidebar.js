@@ -60,11 +60,8 @@ export default class Sidebar extends Component {
             <div className='sidebar'>
                 {this.renderTabs()}
 
-                <SummaryTab
-                    activeItem={activeItem}
-                    visibleTab={visibleTab}
-                />
-                {this.renderSearch()}
+                {visibleTab === SIDEBAR_TABS.SUMMARY ? <SummaryTab activeItem={activeItem} /> : null}
+                {visibleTab === SIDEBAR_TABS.SEARCH ? this.renderSearch() : null}
             </div>
         ) : null;
     }

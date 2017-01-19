@@ -81,6 +81,24 @@ export default function (state = initialState, action) {
             };
         }
 
+        case sidebarActionTypes.VISIBILITY_UPDATED: {
+            const { visible } = action.data;
+
+            if (!visible) { // closing sidebar, unfocus item
+                return {
+                    ...state,
+                    activeItem: null,
+                    activeItemIndex: null,
+                    activeItemIndexCached: null,
+                    activeItemPage: null,
+                };
+            }
+
+            return { //opening sidebar, keep item focused
+                ...state,
+            };
+        }
+
         case itemActionTypes.HEADER_CLICKED: { // TODO, if we add heading sorting
             const { header } = action.data;
             return {
