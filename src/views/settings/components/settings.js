@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {Link} from 'react-router';
 import {ActionBar} from '~/src/views';
-import {Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, ButtonToolbar} from 'react-bootstrap/lib/';
+import {Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row} from 'react-bootstrap/lib/';
 import {CirclePicker} from 'react-color';
 import './settings.scss';
 
@@ -11,7 +11,7 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="Password" bsStyle="info">
-                <PasswordDialog/>
+                    <PasswordDialog/>
                 </Panel>
             </div>
         )
@@ -21,8 +21,8 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="Background" bsStyle="info">
-                <p>Change your background color</p>
-                <ColorPickerDialog/>
+                    <p>Change your background color</p>
+                    <ColorPickerDialog/>
                 </Panel>
             </div>
         );
@@ -32,9 +32,9 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="Statistic" bsStyle="info">
-                <p>Storage Used:</p>
-                <p>Files Uploaded:</p>
-            </Panel>
+                    <p>Storage Used:</p>
+                    <p>Files Uploaded:</p>
+                </Panel>
             </div>
         );
     }
@@ -43,9 +43,9 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="API Token" bsStyle="info">
-                <FormControl componentClass="textarea" placeholder="ALSDKJFH34873081JD" readonly/>
-            <br/>
-                <Button bsStyle="info">Refresh</Button>
+                    <FormControl componentClass="textarea" placeholder="ALSDKJFH34873081JD" readonly/>
+                    <br/>
+                    <Button bsStyle="info">Refresh</Button>
                 </Panel>
             </div>
         );
@@ -55,8 +55,8 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="Item Types" bsStyle="info">
-                <p>Click to edit auto generated metadata fields </p>
-                <ItemTypesDialog/>
+                    <p>Click to edit auto generated metadata fields </p>
+                    <ItemTypesDialog/>
                 </Panel>
             </div>
         );
@@ -68,15 +68,16 @@ export default class Settings extends Component {
                 <h1 className="Settings">SETTINGS</h1>
 
                 <div className="aside">
-                    <img src="http://www.logospike.com/wp-content/uploads/2015/11/A_Logo_01.gif" alt="LOGO" width='304' height="228"/>
+                    <img src="http://www.logospike.com/wp-content/uploads/2015/11/A_Logo_01.gif" alt="LOGO" width='304'
+                         height="228"/>
                 </div>
 
                 <div className="section">
-                     {this.Password()}
-                     {this.Background()}
-                     {this.Statistic()}
-                     {this.APIToken()}
-                     {this.ItemTypes()}
+                    {this.Password()}
+                    {this.Background()}
+                    {this.Statistic()}
+                    {this.APIToken()}
+                    {this.ItemTypes()}
                 </div>
             </div>
         );
@@ -86,7 +87,8 @@ export default class Settings extends Component {
 
 const PasswordDialog = React.createClass({
     getInitialState() {
-        return {showModal: false
+        return {
+            showModal: false
         };
     },
 
@@ -118,7 +120,7 @@ const PasswordDialog = React.createClass({
                                     Old Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password" />
+                                    <FormControl type="password"/>
                                 </Col>
                             </FormGroup>
 
@@ -127,7 +129,7 @@ const PasswordDialog = React.createClass({
                                     New Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password" />
+                                    <FormControl type="password"/>
                                 </Col>
                             </FormGroup>
 
@@ -153,7 +155,8 @@ const PasswordDialog = React.createClass({
 
 const ColorPickerDialog = React.createClass({
     getInitialState() {
-        return {showModal: false
+        return {
+            showModal: false
         };
     },
 
@@ -195,21 +198,13 @@ const ColorPickerDialog = React.createClass({
 const ItemTypesDialog = React.createClass({
 
     getInitialState() {
-        return {showModal: false, inputs: [0,1]};
-    },
-
-    close() {
-        this.setState({showModal: false});
-    },
-
-    open() {
-        this.setState({showModal: true});
+        return {inputs: []};
     },
 
     appendInput() {
         var newInput = this.state.inputs.length;
 
-        this.setState({ inputs: this.state.inputs.concat(newInput)}, function() {
+        this.setState({inputs: this.state.inputs.concat(newInput)}, function () {
             return;
         })
     },
@@ -222,84 +217,52 @@ const ItemTypesDialog = React.createClass({
                     onClick={this.open}>
                     Edit
                 </Button>
-                <Modal show={this.state.showModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Edit Item Types</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form horizontal>
-                            <FormGroup controlId="formHorizontalEmail">
-                                <Col componentClass={ControlLabel} sm={3}>
-                                    Item Name
-                                </Col>
-                                <Col sm={5}>
-                                    <FormControl></FormControl>
-                                </Col>
-                                <Col sm={2}>
-                                    <Button onClick={ () => this.appendInput()}>Add</Button>
-                                </Col>
-                                <Form>
-                                    <div id="dynamicInput">
-                                        {this.state.inputs.map(function(item){
-                                            return (
-                                                <div className="room-form" key={item} id={item}>
-                                                    {item}
-                                                    <a href="" className="remove"><i className="fa fa-remove"></i></a>
-                                                    <ul>
-                                                        <li>
-                                                            <ButtonToolbar>{BUTTONS.map(renderDropdownButton)}</ButtonToolbar>
-                                                            <label>Name <span className="red">*</span></label>
-                                                            <input type="text" ref={'name'+item} defaultValue={item} />
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            )
-
-                                        })}
-                                    </div>
-                                </Form>
-                            </FormGroup>
+                <Form horizontal>
+                    <FormGroup controlId="formHorizontalEmail">
+                        <Col componentClass={ControlLabel} sm={3}>
+                            Item Name
+                        </Col>
+                        <Col sm={5}>
+                            <FormControl></FormControl>
+                        </Col>
+                        <Col sm={4}>
+                            <Button onClick={ () => this.appendInput()}>Add</Button>
+                        </Col>
+                        <Form>
+                            <div id="dynamicInput">
+                                {this.state.inputs.map(function (item) {
+                                    return (
+                                        <Row>
+                                        <div key={item} id={item}>
+                                            <Col sm={2}>
+                                                <Button bsStyle="danger">X</Button>
+                                            </Col>
+                                            <Col sm={3}>
+                                            <FormGroup controlId="formControlsSelect">
+                                                    <FormControl componentClass="select"
+                                                                 placeholder="select field type">
+                                                        <option value="other">Number</option>
+                                                        <option value="other">Date</option>
+                                                        <option value="other">Boolean</option>
+                                                        <option value="other">URL</option>
+                                                    </FormControl>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col sm={7}>
+                                                <FormControl></FormControl>
+                                            </Col>
+                                        </div>
+                                        </Row>
+                                    )
+                                })}
+                            </div>
                         </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button bsStyle="success" onClick={this.close}>Done</Button>
-                    </Modal.Footer>
-                </Modal>
+                    </FormGroup>
+                </Form>
             </div>
         );
     }
 });
 
-function renderDropdownButton(title, i) {
-    return (
-        <SplitButton bsStyle={title.toLowerCase()} title={title} key={i} id={`split-button-basic-${i}`}>
-            <MenuItem eventKey="1">Action</MenuItem>
-            <MenuItem eventKey="2">Another action</MenuItem>
-            <MenuItem eventKey="3">Something else here</MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey="4">Separated link</MenuItem>
-        </SplitButton>
-    );
-}
 
 
-const DropDownButton = (
-
-    renderDropdownButton(title, i) {
-        return (
-            <SplitButton bsStyle={title.toLowerCase()} title={title} key={i} id={`split-button-basic-${i}`}>
-                <MenuItem eventKey="1">Action</MenuItem>
-                <MenuItem eventKey="2">Another action</MenuItem>
-                <MenuItem eventKey="3">Something else here</MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey="4">Separated link</MenuItem>
-            </SplitButton>
-        );
-    }
-
-    render() {
-    <ButtonToolbar>{BUTTONS.map(renderDropdownButton)}</ButtonToolbar>
-}
-
-);
