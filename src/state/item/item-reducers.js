@@ -1,4 +1,5 @@
 import itemActionTypes from './item-action-types';
+import sidebarActionTypes from '../sidebar/sidebar-action-types';
 
 const initialState = {
     items: null,
@@ -85,6 +86,24 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 sortby: header,
+            };
+        }
+
+        case sidebarActionTypes.VISIBILITY_UPDATED: {
+            const { visible } = action.data;
+
+            if (!visible) {
+                return {
+                    ...state,
+                    activeItem: initialState.activeItem,
+                    activeItemIndex: initialState.activeItemIndex,
+                    activeItemIndexCached: initialState.activeItemIndexCached,
+                    activeItemPage: initialState.activeItemPage,
+                };
+            }
+
+            return {
+                ...state,
             };
         }
     }

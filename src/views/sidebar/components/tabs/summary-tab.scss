@@ -1,0 +1,20 @@
+@import '../../../../defaults';
+
+.summary-tab {
+    width: 100%;
+    border-collapse: collapse;
+   
+    &-row {
+        height: 23px;
+        line-height: 23px;
+
+        &:nth-child(odd) {
+            background-color: $light-gray;
+        }
+    }
+    
+    &-label {
+        padding-left: 3px;
+        font-weight: bold;
+    }
+}
