@@ -4,12 +4,23 @@ import './grid.scss';
 export default class Grid extends Component {
 
     static propTypes = {
-        headers: PropTypes.arrayOf(PropTypes.object),
+        headers: PropTypes.arrayOf(PropTypes.string),
         rows: PropTypes.arrayOf(PropTypes.object),
         onRowClick: PropTypes.func,
+        onHeaderClick: PropTypes.func,
         activeRowNum: PropTypes.number,
+        sortBy: PropTypes.object,
+        noResultsText: PropTypes.string,
+        noResultsImage: PropTypes.string,
     };
 
+    handleHeaderClick = (header) => {
+        const { onHeaderClick } = this.props;
+        console.log(`sort by ${header}`);
+        if (onHeaderClick) {
+            onHeaderClick(header);
+        }
+    }
 
     handleRowClick = (rowNum) => {
         const { onRowClick } = this.props;
@@ -20,14 +31,13 @@ export default class Grid extends Component {
         const { headers } = this.props;
         return headers.map((header, key) =>
             (
-                <th className='grid-header-item' key={key}>{header.heading}</th>
+                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>{header}</th>
             )
         );
     }
 
     renderRows() {
         const { headers, rows, activeRowNum } = this.props;
-        const headerKeys = headers.map(header => header.key);
         return rows.map((row, rowNum) => {
             const rowClasses = ['grid-row'];
             if (rowNum === activeRowNum) {
@@ -36,8 +46,8 @@ export default class Grid extends Component {
             return (
                 <tr className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
                     {
-                        headerKeys.map((headerKey, columnNum) =>
-                            <td className='grid-row-item' key={columnNum}>{row[headerKey] ? row[headerKey] : null}</td>
+                        headers.map((header, columnNum) =>
+                            <td className='grid-row-item' key={columnNum}>{row[header] ? row[header] : null}</td>
                         )
                     }
                 </tr>
@@ -45,17 +55,30 @@ export default class Grid extends Component {
         });
     }
 
+    renderNoResults() {
+        const { noResultsText, noResultsImage } = this.props;
+        return (
+            <div className='grid-noresults'>
+                {noResultsImage ? <img src={noResultsImage} alt='noresults' /> : null }
+                <span>{noResultsText || 'No results'}</span>
+            </div>
+        );
+    }
+
     render() {
+        const { rows } = this.props;
         return (
             <div className='grid-wrapper'>
-                <table className='grid'>
-                    <thead>
-                        <tr className='grid-header'>
-                            {this.renderHeaders()}
-                        </tr>
-                    </thead>
-                    <tbody className='grid-body'>{this.renderRows()}</tbody>
-                </table>
+                {rows && rows.length > 0 ? (
+                    <table className='grid'>
+                        <thead>
+                            <tr className='grid-header'>
+                                {this.renderHeaders()}
+                            </tr>
+                        </thead>
+                        <tbody className='grid-body'>{this.renderRows()}</tbody>
+                    </table>
+                ) : this.renderNoResults()}
             </div>
         );
     }

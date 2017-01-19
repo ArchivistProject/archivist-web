@@ -1,7 +1,21 @@
 import React, {PropTypes, Component} from 'react';
 import {Link} from 'react-router';
 import {ActionBar} from '~/src/views';
-import {Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row} from 'react-bootstrap/lib/';
+import {
+    Modal,
+    Button,
+    FormControl,
+    Collapse,
+    Well,
+    Jumbotron,
+    Panel,
+    FormGroup,
+    Col,
+    Form,
+    ControlLabel,
+    MenuItem,
+    Row
+} from 'react-bootstrap/lib/';
 import {CirclePicker} from 'react-color';
 import './settings.scss';
 
@@ -233,25 +247,25 @@ const ItemTypesDialog = React.createClass({
                                 {this.state.inputs.map(function (item) {
                                     return (
                                         <Row>
-                                        <div key={item} id={item}>
-                                            <Col sm={2}>
-                                                <Button bsStyle="danger">X</Button>
-                                            </Col>
-                                            <Col sm={3}>
-                                            <FormGroup controlId="formControlsSelect">
-                                                    <FormControl componentClass="select"
-                                                                 placeholder="select field type">
-                                                        <option value="other">Number</option>
-                                                        <option value="other">Date</option>
-                                                        <option value="other">Boolean</option>
-                                                        <option value="other">URL</option>
-                                                    </FormControl>
-                                                </FormGroup>
-                                            </Col>
-                                            <Col sm={7}>
-                                                <FormControl></FormControl>
-                                            </Col>
-                                        </div>
+                                            <div key={item} id={item}>
+                                                <Col sm={2}>
+                                                    <Button bsStyle="danger">X</Button>
+                                                </Col>
+                                                <Col sm={3}>
+                                                    <FormGroup controlId="formControlsSelect">
+                                                        <FormControl componentClass="select"
+                                                                     placeholder="select field type">
+                                                            <option value="other">Number</option>
+                                                            <option value="other">Date</option>
+                                                            <option value="other">Boolean</option>
+                                                            <option value="other">URL</option>
+                                                        </FormControl>
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={7}>
+                                                    <FormControl></FormControl>
+                                                </Col>
+                                            </div>
                                         </Row>
                                     )
                                 })}

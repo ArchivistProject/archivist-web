@@ -1,89 +1,90 @@
 import itemActionTypes from './item-action-types';
 
 const initialState = {
-    items: [ // these are placeholders
-        {
-            title: 'Newspaper Article',
-            dateAdded: '11/29/16',
-            author: 'Some Author',
-            publication: 'The New York Times',
-        },
-        {
-            title: 'Research Paper',
-            dateAdded: '4/16/12',
-            author: 'Dr. Author',
-            field: 'Biology',
-        },
-        {
-            title: 'Magazine Article',
-            dateAdded: '1/6/09',
-            author: 'Another Author',
-            someMetadata: 'aaa',
-        },
-        {
-            title: 'Interesting Website',
-            dateAdded: '5/10/13',
-            author: '',
-            extraData: 'something',
-        },
-        {
-            title: 'Title 1',
-            dateAdded: '4/5/11',
-            author: 'Author 1',
-            someMetadata: 'aaa',
-        },
-        {
-            title: 'Title 2',
-            dateAdded: '7/24/15',
-            author: 'Author 2',
-            extraData: 'something',
-        },
-        {
-            title: 'Title 3',
-            dateAdded: '9/11/13',
-            author: '',
-            someMetadata: 'aaa',
-        },
-        {
-            title: 'Title 4',
-            dateAdded: '8/21/07',
-            author: 'Author 4',
-            extraData: 'something',
-        },
+    items: null,
+    headers: [ // hard-coded for now
+        'Title',
+        'Author',
+        'Date Added',
     ],
-    headers: [
-        {
-            key: 'title',
-            heading: 'Title',
-        },
-        {
-            key: 'dateAdded',
-            heading: 'Date Added',
-        },
-        {
-            key: 'author',
-            heading: 'Author',
-        },
-    ],
-    activeItemId: null,
     activeItem: null,
+    activeItemIndex: null,
+    activeItemIndexCached: null, // saves the index of active item on different page
+    activeItemPage: null,
+    sortBy: null,
+    waitingForItems: null,
+    meta: {
+        currentPage: 1,
+        nextPage: null,
+        prevPage: null,
+        totalPages: null,
+        totalCount: null,
+        pageSize: 10,
+    },
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case itemActionTypes.ITEMS_REQUESTED: {
+            return {
+                ...state,
+                waitingForItems: true,
+            };
+        }
+
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
-            const { items } = action.data;
+            const { documents: items, meta } = action.data;
+            const { activeItemPage, activeItemIndexCached } = state;
+            const { current_page: currentPage,
+                    next_page: nextPage,
+                    prev_page: prevPage,
+                    total_pages: totalPages,
+                    total_count: totalCount,
+                    // page_size: pageSize, // if we get page size from server
+            } = meta;
+
             return {
                 ...state,
                 items,
+                activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
+                waitingForItems: false,
+                meta: {
+                    ...state.meta,
+                    currentPage,
+                    nextPage,
+                    prevPage,
+                    totalPages,
+                    totalCount,
+                    // pageSize,
+                },
             };
         }
-        case itemActionTypes.ITEM_FOCUSED: {
-            const { itemId } = action.data;
+
+        case itemActionTypes.FETCH_HEADERS_SUCCEEDED: { // TODO, if we fetch headers
+            const { headers } = action.data;
             return {
                 ...state,
-                activeItemId: itemId,
-                activeItem: state.items[itemId],
+                headers,
+            };
+        }
+
+        case itemActionTypes.ITEM_FOCUSED: {
+            const { itemIndex } = action.data;
+            const { meta: { currentPage } } = state;
+            return {
+                ...state,
+                activeItem: state.items[itemIndex],
+                activeItemIndex: itemIndex,
+                activeItemIndexCached: itemIndex,
+                activeItemPage: currentPage,
+            };
+        }
+
+        case itemActionTypes.HEADER_CLICKED: { // TODO, if we add heading sorting
+            const { header } = action.data;
+            return {
+                ...state,
+                sortby: header,
             };
         }
     }

@@ -1,8 +1,22 @@
-.grid {
-    &-row {
-        cursor: pointer;
-        &-active {
-            background-color: lightblue;
+@import '../../../defaults';
+
+.item-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-wrapper {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grid {
+
+        &-row {
+            cursor: pointer;
+            &-active {
+                background-color: $light-blue !important;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { formatDateTime } from '~/src/utils/utils';
 import './sidebar.scss';
 
 export default class Sidebar extends Component {
@@ -10,11 +11,11 @@ export default class Sidebar extends Component {
 
     renderMetadata() {
         const { activeItem } = this.props;
-        return Object.keys(activeItem).map((key, i) =>
+        return activeItem.metadata_fields.map((metadata, i) =>
             (
                 <div className='sidebar-metadata-field' key={i}>
-                    <span className='sidebar-metadata-label'>{key}:</span>
-                    <span className='sidebar-metadata-value'>{activeItem[key]}</span>
+                    <span className='sidebar-metadata-label'>{metadata.name}:</span>
+                    <span className='sidebar-metadata-value'>{metadata.type !== 'date' ? metadata.data : formatDateTime(metadata.data)}</span>
                 </div>
             )
         );
