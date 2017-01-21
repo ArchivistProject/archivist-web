@@ -44,9 +44,7 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="API Token" bsStyle="info">
-                    <FormControl componentClass="textarea" placeholder="ALSDKJFH34873081JD" readonly/>
-                    <br/>
-                    <Button bsStyle="info">Refresh</Button>
+                    <RefreshAPI/>
                 </Panel>
             </div>
         );
@@ -57,7 +55,7 @@ export default class Settings extends Component {
             <div>
                 <Panel header="Item Types" bsStyle="info">
                     <p>Click to edit auto generated metadata fields </p>
-                    <ItemTypesDialog/>
+                    <ItemTypes/>
                 </Panel>
             </div>
         );
@@ -89,8 +87,29 @@ export default class Settings extends Component {
 const PasswordDialog = React.createClass({
     getInitialState() {
         return {
-            showModal: false
+            showModal: false,
+            newPassword: '',
+            confirmPassword: ''
         };
+    },
+
+    handleNewPasswordChange(e){
+        this.setState({newPassword: e.target.value});
+    },
+
+    handleConfirmPassChange(e){
+        this.setState({confirmPassword: e.target.value});
+    },
+
+    getValidationState() {
+        let newLength = this.state.newPassword.length;
+        let confirmLength = this.state.confirmPassword.length;
+        let newPass = this.state.newPassword;
+        let confirmPass = this.state.confirmPassword;
+        if (newLength > 1 && confirmLength > 1 && newPass != confirmPass)
+            return 'error';
+        else if(newLength > 1 && confirmLength > 1 && newPass == confirmPass)
+            return 'success';
     },
 
     close() {
@@ -116,7 +135,7 @@ const PasswordDialog = React.createClass({
                     </Modal.Header>
                     <Modal.Body>
                         <Form horizontal>
-                            <FormGroup controlId="formHorizontalEmail">
+                            <FormGroup controlId="formBasicText">
                                 <Col componentClass={ControlLabel} sm={3}>
                                     Old Password
                                 </Col>
@@ -125,21 +144,23 @@ const PasswordDialog = React.createClass({
                                 </Col>
                             </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword">
+                            <FormGroup controlId="formHorizontalPassword" validationState={this.getValidationState()}>
                                 <Col componentClass={ControlLabel} sm={3}>
                                     New Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password"/>
+                                    <FormControl type="password" value={this.state.newPassword} onChange={this.handleNewPasswordChange}/>
+                                    <FormControl.Feedback />
                                 </Col>
                             </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword">
+                            <FormGroup controlId="formHorizontalPassword" validationState={this.getValidationState()}>
                                 <Col componentClass={ControlLabel} sm={3}>
                                     Retype Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password"/>
+                                    <FormControl type="password" value={this.state.confirmPassword} onChange={this.handleConfirmPassChange}/>
+                                    <FormControl.Feedback />
                                 </Col>
                             </FormGroup>
                         </Form>
@@ -157,7 +178,9 @@ const PasswordDialog = React.createClass({
 const ColorPickerDialog = React.createClass({
     getInitialState() {
         return {
-            showModal: false
+            showModal: false,
+            colorPicked: '',
+            background: '#fff'
         };
     },
 
@@ -167,6 +190,16 @@ const ColorPickerDialog = React.createClass({
 
     open() {
         this.setState({showModal: true});
+    },
+
+    handleChangeComplete (color, event) {
+        this.setState({colorPicked: color.hex});
+        console.log(this.state.colorPicked);
+    },
+
+    changeColor(){
+        this.setState({ background: this.state.colorPicked });
+        this.close();
     },
 
     render() {
@@ -183,10 +216,10 @@ const ColorPickerDialog = React.createClass({
                         <Modal.Title>Select Your Color</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CirclePicker/>
+                        <CirclePicker onChangeComplete={this.handleChangeComplete}/>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button bsStyle="success" onClick={this.close}>Save</Button>
+                        <Button bsStyle="success" onClick={this.changeColor}>Save</Button>
                         <Button bsStyle="warning" onClick={this.close}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
@@ -210,11 +243,12 @@ const ItemType = React.createClass({
     }
 });
 
-const ItemTypesDialog = React.createClass({
+const ItemTypes = React.createClass({
 
     getInitialState() {
         return {itemName: '', items: ["Magazine", "Webpage"],
-        magazine:[], webpage:[]};
+        magazine:[], webpage:[],
+        webPageVisible: false, magazineVisible: false};
     },
 
     handleChange(e){
@@ -229,16 +263,18 @@ const ItemTypesDialog = React.createClass({
         let val = e.target.value;
         if(val == "Magazine")
         {
-            let content = <Button>MAGG</Button>;
             console.log("MAG SELECTED");
-            this.setState({magazine: this.state.magazine.push(content)});
+            this.setState({webPageVisible: false});
+            this.setState({magazineVisible: true});
+            this.setState({magazine: this.state.magazine.concat(<div><h3>hello</h3></div>)});
         }
         else if(val == "Webpage")
         {
+            this.setState({webPageVisible: true});
+            this.setState({magazineVisible: false});
             console.log("WEBPAGE SELECTED");
-            this.setState({webpage: this.state.webpage.push(<div><Button>WEBPAGE</Button></div>)});
+            this.setState({webpage: this.state.webpage.concat(<div><Button>WEBPAGE</Button></div>)});
         }
-        console.log(e.target.value);
     },
 
 
@@ -271,8 +307,13 @@ const ItemTypesDialog = React.createClass({
 
                     <div>
                         {this.state.magazine.map((op) =>
-                            {op}
+                            { this.state.magazineVisible ? op : null }
                         )}
+
+                        {this.state.webpage.map((op) =>
+                            { this.state.webPageVisible ? op : null }
+                        )}
+
                     </div>
 
 
@@ -280,4 +321,27 @@ const ItemTypesDialog = React.createClass({
             </div>
         );
     }
+});
+
+
+const RefreshAPI = React.createClass({
+
+    getInitialState() {
+        return {API: 'alskdjfhlakjdf'};
+    },
+
+    refresh(){
+        this.setState({API:''})
+    },
+
+    render(){
+        return(
+          <div>
+              <FormControl componentClass="textarea" placeholder="no API available" readonly>{this.state.API}</FormControl>
+              <br/>
+              <Button bsStyle="info" onClick={this.refresh}>Refresh</Button>
+          </div>
+        );
+    }
+
 });
