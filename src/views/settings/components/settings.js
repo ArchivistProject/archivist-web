@@ -1,20 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {Link} from 'react-router';
 import {ActionBar} from '~/src/views';
-import {
-    Modal,
-    Button,
-    FormControl,
-    Collapse,
-    Well,
-    Jumbotron,
-    Panel,
-    FormGroup,
-    Col,
-    Form,
-    ControlLabel,
-    MenuItem,
-    Row
+import {Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
 } from 'react-bootstrap/lib/';
 import {CirclePicker} from 'react-color';
 import './settings.scss';
@@ -209,74 +196,88 @@ const ColorPickerDialog = React.createClass({
 });
 
 
+const ItemType = React.createClass({
+    getInitialState(){
+        return{array: []};
+    },
+
+    render() {
+        return(
+            <div>
+                <Button>NEW</Button>
+            </div>
+        );
+    }
+});
+
 const ItemTypesDialog = React.createClass({
 
     getInitialState() {
-        return {inputs: []};
+        return {itemName: '', items: ["Magazine", "Webpage"],
+        magazine:[], webpage:[]};
     },
 
-    appendInput() {
-        var newInput = this.state.inputs.length;
-
-        this.setState({inputs: this.state.inputs.concat(newInput)}, function () {
-            return;
-        })
+    handleChange(e){
+        this.setState({itemName: e.target.value});
     },
+
+    addItem() {
+        this.setState({items: this.state.items.concat(this.state.itemName)});
+    },
+
+    onDropdownSelected(e){
+        let val = e.target.value;
+        if(val == "Magazine")
+        {
+            let content = <Button>MAGG</Button>;
+            console.log("MAG SELECTED");
+            this.setState({magazine: this.state.magazine.push(content)});
+        }
+        else if(val == "Webpage")
+        {
+            console.log("WEBPAGE SELECTED");
+            this.setState({webpage: this.state.webpage.push(<div><Button>WEBPAGE</Button></div>)});
+        }
+        console.log(e.target.value);
+    },
+
 
     render() {
         return (
             <div>
-                <Button
-                    bsStyle="info"
-                    onClick={this.open}>
-                    Edit
-                </Button>
                 <Form horizontal>
                     <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={3}>
                             Item Name
                         </Col>
                         <Col sm={5}>
-                            <FormControl></FormControl>
+                            <FormControl type="text" value={this.state.itemName} onChange={this.handleChange}></FormControl>
                         </Col>
                         <Col sm={4}>
-                            <Button onClick={ () => this.appendInput()}>Add</Button>
+                            <Button onClick={() => this.addItem()}>Add</Button>
                         </Col>
-                        <Form>
-                            <div id="dynamicInput">
-                                {this.state.inputs.map(function (item) {
-                                    return (
-                                        <Row>
-                                            <div key={item} id={item}>
-                                                <Col sm={2}>
-                                                    <Button bsStyle="danger">X</Button>
-                                                </Col>
-                                                <Col sm={3}>
-                                                    <FormGroup controlId="formControlsSelect">
-                                                        <FormControl componentClass="select"
-                                                                     placeholder="select field type">
-                                                            <option value="other">Number</option>
-                                                            <option value="other">Date</option>
-                                                            <option value="other">Boolean</option>
-                                                            <option value="other">URL</option>
-                                                        </FormControl>
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col sm={7}>
-                                                    <FormControl></FormControl>
-                                                </Col>
-                                            </div>
-                                        </Row>
-                                    )
-                                })}
-                            </div>
-                        </Form>
                     </FormGroup>
+
+                        <Col sm={12}>
+                        <FormGroup controlId="formControlsSelect">
+                            <ControlLabel>Select Item Type To Edit</ControlLabel>
+                            <FormControl onChange={this.onDropdownSelected} componentClass="select" placeholder="select">
+                                {this.state.items.map((op) =>
+                                    <option value={op}>{op}</option>
+                                )}
+                            </FormControl>
+                        </FormGroup>
+                        </Col>
+
+                    <div>
+                        {this.state.magazine.map((op) =>
+                            {op}
+                        )}
+                    </div>
+
+
                 </Form>
             </div>
         );
     }
 });
-
-
-
