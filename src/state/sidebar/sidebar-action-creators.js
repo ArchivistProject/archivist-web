@@ -13,3 +13,16 @@ export function updateTabVisibility(tabName) {
         data: { tabName },
     };
 }
+
+export function toggleEditMode() {
+    return {
+        type: sidebarActionTypes.EDIT_MODE_TOGGLED,
+    };
+}
+
+export function updateMetadata(activeItem, metadata, value) {
+    return {
+        type: sidebarActionTypes.METADATA_UPDATED,
+        data: { activeItem, metadata, value },
+    };
+}
