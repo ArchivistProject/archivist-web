@@ -8,7 +8,6 @@
     &-wrapper {
         width: 100%;
         text-align: center;
-        overflow: scroll;
     }
 
     &-count {
@@ -16,8 +15,17 @@
         font-size: $default-size;
     }
 
+    &-text {
+        text-align: center;
+    }
+
+    .paginator {
+        height: 25px;
+        line-height: 25px;
+    }
+
     .grid {
-        border-bottom: 2px solid $dark-blue;
+        border-bottom: 1px solid $dark-blue;
         overflow: scroll;
         &-row {
             height: 30px;

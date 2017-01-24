@@ -14,6 +14,7 @@ const initialState = {
     activeItemPage: null,
     sortBy: null,
     waitingForItems: null,
+    fetchItemsFailed: false,
     meta: {
         currentPage: 1,
         nextPage: null,
@@ -49,6 +50,7 @@ export default function (state = initialState, action) {
                 items,
                 activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
                 waitingForItems: false,
+                fetchItemsFailed: false,
                 meta: {
                     ...state.meta,
                     currentPage,
@@ -58,6 +60,15 @@ export default function (state = initialState, action) {
                     totalCount,
                     // pageSize,
                 },
+            };
+        }
+
+        case itemActionTypes.FETCH_ITEMS_FAILED: {
+            console.log('error fetching items..');
+            return {
+                ...state,
+                waitingForItems: false,
+                fetchItemsFailed: true,
             };
         }
 
@@ -87,14 +98,14 @@ export default function (state = initialState, action) {
             if (!visible) { // closing sidebar, unfocus item
                 return {
                     ...state,
-                    activeItem: null,
-                    activeItemIndex: null,
-                    activeItemIndexCached: null,
-                    activeItemPage: null,
+                    activeItem: initialState.activeItem,
+                    activeItemIndex: initialState.activeItemIndex,
+                    activeItemIndexCached: initialState.activeItemIndexCached,
+                    activeItemPage: initialState.activeItemPage,
                 };
             }
 
-            return { //opening sidebar, keep item focused
+            return { // opening sidebar, keep item focused
                 ...state,
             };
         }
@@ -104,24 +115,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 sortby: header,
-            };
-        }
-
-        case sidebarActionTypes.VISIBILITY_UPDATED: {
-            const { visible } = action.data;
-
-            if (!visible) {
-                return {
-                    ...state,
-                    activeItem: initialState.activeItem,
-                    activeItemIndex: initialState.activeItemIndex,
-                    activeItemIndexCached: initialState.activeItemIndexCached,
-                    activeItemPage: initialState.activeItemPage,
-                };
-            }
-
-            return {
-                ...state,
             };
         }
     }

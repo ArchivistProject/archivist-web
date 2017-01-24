@@ -1,9 +1,12 @@
 @import '../../../../defaults';
 
 .summary-tab {
-    width: 100%;
-    border-collapse: collapse;
-   
+
+    &-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
     &-row {
         height: 23px;
         line-height: 23px;
@@ -16,5 +19,9 @@
     &-label {
         padding-left: 3px;
         font-weight: bold;
+    }
+
+    &-edit {
+        float: right;
     }
 }

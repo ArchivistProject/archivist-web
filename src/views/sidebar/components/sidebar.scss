@@ -4,7 +4,7 @@
     width: 35%;
     height: 100%;
     background-color: $white;
-    border-left: 2px solid $dark-blue;
+    border-left: 1px solid $dark-blue;
     margin-left: -1px;
 
     &-tabs {
@@ -12,14 +12,12 @@
         height: 25px;
         border-color: $dark-blue;
         border-style: solid;
-        border-width: 0px;
-        // border-width: 1px 0;
+        border-width: 0 0 1px;
 
         &-item {
             flex-grow: 1;
             outline: none;
             border: none;
-            // border-right: 1px solid $dark-blue;
             background-color: $white;
             
             font-family: $default-family;
@@ -32,8 +30,7 @@
             }
 
             &:enabled:hover {
-                color: $dark-gray;
-                background-color: $light-blue;
+                color: $blue;
             }
         }
     }
@@ -44,6 +41,7 @@
     }
 
     &-close {
+        width: 30px;
         font-size: $smaller-size;
         background-color: $white;
         color: $red;

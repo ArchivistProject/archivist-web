@@ -4,6 +4,7 @@ import { SIDEBAR_TABS } from './sidebar-constants';
 const initialState = {
     visible: false,
     visibleTab: SIDEBAR_TABS.SUMMARY,
+    editMode: false,
 };
 
 export default function (state = initialState, action) {
@@ -23,6 +24,19 @@ export default function (state = initialState, action) {
                 visibleTab: tabName,
             };
         }
+        case sidebarActionTypes.EDIT_MODE_TOGGLED: {
+            return {
+                ...state,
+                editMode: !state.editMode,
+            };
+        }
+        case sidebarActionTypes.METADATA_UPDATED: {
+            console.log(action.data);
+            return {
+                ...state,
+            };
+        }
+
     }
     return state;
 }
