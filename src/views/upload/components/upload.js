@@ -52,6 +52,10 @@ export default class Upload extends Component {
                                 <FormControl type="text"></FormControl>
                             </Col>
                             <Col sm={7}>
+                                <ControlLabel>Author*</ControlLabel>
+                                <FormControl type="text"></FormControl>
+                            </Col>
+                            <Col sm={12}>
                                 <ControlLabel>Item Type*</ControlLabel>
                                 <FormGroup controlId="formControlsSelect">
                                     <FormControl componentClass="select" placeholder="select field type">
