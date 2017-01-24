@@ -1,11 +1,8 @@
 .upload {
     &-content {
-    	width: 350px;
-        margin: 0 auto;
-    	margin-top: 2%;
-        display: flex;
-        flex-direction: column;
-        margin-left: 2cm;
+        margin-left: 3%;
+    	margin-top: 1%;
+        margin-right: 30%;
     }
     &-label {
     	margin-right: 10px;
@@ -18,10 +15,59 @@
     	// flex: 1;
     	margin-left: auto;
     }
+
+    &-title {
+      color: #111; font-family: 'Segoe UI', sans-serif; font-size: 50px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+      margin-bottom: 5%;
+    }
 }
 
-.uploadTitle {
-  color: #111; font-family: 'Segoe UI', sans-serif; font-size: 50px; font-weight: bold; letter-spacing: -1px; line-height: 1;
-  margin-left: 1cm;
-  margin-bottom: 1cm;
+
+.react-tagsinput {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+.react-tagsinput--focused {
+  border-color: #a5d24a;
+}
+
+.react-tagsinput-tag {
+  background-color: #cde69c;
+  border-radius: 2px;
+  border: 1px solid #a5d24a;
+  color: #638421;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a::before {
+  content: " ×";
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  outline: none;
+  padding: 5px;
+  width: 80px;
 }
