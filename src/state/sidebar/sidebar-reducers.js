@@ -30,13 +30,6 @@ export default function (state = initialState, action) {
                 editMode: !state.editMode,
             };
         }
-        case sidebarActionTypes.METADATA_UPDATED: {
-            console.log(action.data);
-            return {
-                ...state,
-            };
-        }
-
     }
     return state;
 }

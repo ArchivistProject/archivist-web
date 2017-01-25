@@ -46,6 +46,13 @@ export function itemFocused(itemIndex) {
     };
 }
 
+export function updateMetadata(metadataIndex, value) {
+    return {
+        type: itemActionTypes.METADATA_UPDATED,
+        data: { metadataIndex, value },
+    };
+}
+
 export function headerClicked(header) { // TODO
     return {
         type: itemActionTypes.HEADER_CLICKED,

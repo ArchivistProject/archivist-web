@@ -3,5 +3,4 @@ export default {
     VISIBLE_TAB_UPDATED: 'sidebar/VISIBLE_TAB_UPDATED',
 
     EDIT_MODE_TOGGLED: 'sidebar/EDIT_MODE_TOGGLED',
-    METADATA_UPDATED: 'sidebar/METADATA_UPDATED',
 };

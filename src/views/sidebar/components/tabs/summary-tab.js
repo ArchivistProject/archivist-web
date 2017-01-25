@@ -7,29 +7,30 @@ export default class SummaryTab extends Component {
 
     static propTypes = {
         activeItem: PropTypes.object.isRequired,
+        activeItemEditing: PropTypes.object.isRequired,
         toggleEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         editMode: PropTypes.bool.isRequired,
     };
 
-    handleEditClicked = () => {
+    handleEditModeToggled = () => {
         const { toggleEditMode } = this.props;
         toggleEditMode();
     }
 
-    handleMetadataEdited = (metadata, value) => {
-        const { activeItem, updateMetadata } = this.props;
-        updateMetadata(activeItem, metadata, value);
+    handleMetadataEdited = (metadata, e) => {
+        const { updateMetadata } = this.props;
+        updateMetadata(metadata, e.target.value);
     }
 
-    renderMetadataRow(metadata, i) {
+    renderMetadataRow(metadata, metadataIndex) {
         const { editMode } = this.props;
-
+        // TODO: editMode && metadata.isEditable
         return (
-            <tr className='sidebar-tab summary-tab-row' key={i}>
+            <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
                 <td className='summary-tab-label'>{metadata.name}</td>
                 <td className='summary-tab-value'>
-                    {editMode ? <input value={metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)} onChange={value => this.handleMetadataEdited(metadata, value)} />
+                    {editMode ? <input value={metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
                     : <div>{metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)}</div>}
                 </td>
             </tr>
@@ -40,22 +41,27 @@ export default class SummaryTab extends Component {
         const { editMode } = this.props;
         if (editMode) {
             return (
-                <button className='summary-tab-edit' onClick={this.handleEditClicked}>Save</button>
+                <div>
+                    <button className='summary-tab-edit' onClick={this.handleEditModeToggled}>Save</button>
+                    <button className='summary-tab-cancel' onClick={this.handleEditModeToggled}>Cancel</button>
+                </div>
             );
         }
         return (
-            <button className='summary-tab-edit' onClick={this.handleEditClicked}>Edit</button>
+            <button className='summary-tab-edit' onClick={this.handleEditModeToggled}>Edit</button>
         );
     }
 
     render() {
-        const { activeItem } = this.props;
+        const { activeItem, activeItemEditing, editMode } = this.props;
 
         return (
             <div className='summary-tab'>
                 <table className='summary-tab-table'>
                     <tbody>
-                        {activeItem.metadata_fields.map((metadata, i) => this.renderMetadataRow(metadata, i))}
+                        {editMode ? activeItemEditing.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))
+                            : activeItem.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))}
+
                     </tbody>
                 </table>
                 { canEditMetadata ? this.renderEditControls() : null }
