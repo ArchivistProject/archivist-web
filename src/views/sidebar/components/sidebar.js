@@ -15,7 +15,9 @@ export default class Sidebar extends Component {
             (
                 <div className='sidebar-metadata-field' key={i}>
                     <span className='sidebar-metadata-label'>{metadata.name}:</span>
-                    <span className='sidebar-metadata-value'>{metadata.type !== 'date' ? metadata.data : formatDateTime(metadata.data)}</span>
+                    <span className='sidebar-metadata-value'>
+                        {metadata.type !== 'date' ? metadata.data : formatDateTime(metadata.data)}
+                    </span>
                 </div>
             )
         );

@@ -1,6 +1,6 @@
+import * as itemApi from '~/src/api/item-api';
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
-import * as itemApi from '~/src/api/item-api';
 
 export function fetchItems(currentPage) {
     return (dispatch) => {

@@ -8,17 +8,7 @@ export default class Upload extends Component {
         submitFile: PropTypes.func.isRequired,
     };
 
-    handleFileChange = (file) => {
-        const { updateUploadFile } = this.props;
-        updateUploadFile(file);
-    }
-
-    handleSubmit = () => {
-        const { submitFile } = this.props;
-        submitFile();
-    }
-
-    renderMetadataInput(fields) {
+    static renderMetadataInput(fields) {
         return fields.map((field, id) =>
             (
                 <div className='upload-metadata-input' key={id}>
@@ -27,6 +17,16 @@ export default class Upload extends Component {
                 </div>
             )
         );
+    }
+
+    handleFileChange = (file) => {
+        const { updateUploadFile } = this.props;
+        updateUploadFile(file);
+    }
+
+    handleSubmit = () => {
+        const { submitFile } = this.props;
+        submitFile();
     }
 
     render() {
