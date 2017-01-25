@@ -35,6 +35,16 @@ export default class Upload extends Component {
         );
     }
 
+    handleFileChange = (file) => {
+        const { updateUploadFile } = this.props;
+        updateUploadFile(file);
+    }
+
+    handleSubmit = () => {
+        const { submitFile } = this.props;
+        submitFile();
+    }
+
     render() {
         return (
             <div className="upload-content">
