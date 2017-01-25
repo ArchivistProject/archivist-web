@@ -9,6 +9,7 @@ export default class Sidebar extends Component {
 
     static propTypes = {
         activeItem: PropTypes.object,
+        activeItemEditing: PropTypes.object,
         visible: PropTypes.bool.isRequired,
         visibleTab: PropTypes.string,
         updateVisibility: PropTypes.func.isRequired,
@@ -53,8 +54,8 @@ export default class Sidebar extends Component {
     }
 
     renderPanel() {
-        const { visibleTab, activeItem, toggleEditMode, updateMetadata, editMode } = this.props;
-        const summaryTabProps = { activeItem, toggleEditMode, updateMetadata, editMode };
+        const { visibleTab, activeItem, activeItemEditing, toggleEditMode, updateMetadata, editMode } = this.props;
+        const summaryTabProps = { activeItem, activeItemEditing, toggleEditMode, updateMetadata, editMode };
         switch (visibleTab) {
             case SIDEBAR_TABS.SUMMARY:
                 return (<SummaryTab {...summaryTabProps} />);

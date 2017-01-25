@@ -8,4 +8,6 @@ export default {
 
     ITEM_FOCUSED: 'item/ITEM_FOCUSED',
     HEADER_CLICKED: 'item/HEADER_CLICKED',
+
+    METADATA_UPDATED: 'item/METADATA_UPDATED',
 };

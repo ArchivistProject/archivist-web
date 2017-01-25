@@ -9,6 +9,7 @@ const initialState = {
         'Date Added',
     ],
     activeItem: null,
+    activeItemEditing: null,
     activeItemIndex: null,
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
@@ -86,9 +87,28 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 activeItem: state.items[itemIndex],
+                activeItemEditing: state.items[itemIndex],
                 activeItemIndex: itemIndex,
                 activeItemIndexCached: itemIndex,
                 activeItemPage: currentPage,
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATED: {
+            const { metadataIndex, value } = action.data;
+            console.log(state.activeItemEditing);
+            console.log(state.activeItemEditing.metadata_fields[metadataIndex]);
+            return {
+                ...state,
+
+            };
+        }
+
+        case itemActionTypes.HEADER_CLICKED: { // TODO, if we add heading sorting
+            const { header } = action.data;
+            return {
+                ...state,
+                sortby: header,
             };
         }
 
@@ -110,11 +130,10 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.HEADER_CLICKED: { // TODO, if we add heading sorting
-            const { header } = action.data;
+        case sidebarActionTypes.EDIT_MODE_TOGGLED: {
             return {
                 ...state,
-                sortby: header,
+                activeItemEditing: state.activeItem,
             };
         }
     }
