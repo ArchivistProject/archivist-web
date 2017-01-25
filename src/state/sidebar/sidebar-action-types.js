@@ -1,3 +1,3 @@
 export default {
-    SOME_ACTION: 'sidebar/SOME_ACTION',
+    VISIBILITY_UPDATED: 'sidebar/VISIBILITY_UPDATED',
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as homeActionCreators from '~/src/state/home/home-action-creators';
+import * as itemActionCreators from '~/src/state/item/item-action-creators';
 import ItemGrid from './components/item-grid';
 
 class ItemGridConnector extends Component {
@@ -10,7 +10,7 @@ class ItemGridConnector extends Component {
         return (
             <ItemGrid
                 {...this.props}
-                {...bindActionCreators(homeActionCreators, dispatch)}
+                {...bindActionCreators(itemActionCreators, dispatch)}
             />
         );
     }
@@ -18,7 +18,7 @@ class ItemGridConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.item,
     };
 }
 

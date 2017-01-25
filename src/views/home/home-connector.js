@@ -18,7 +18,7 @@ class HomeConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.home,
     };
 }
 

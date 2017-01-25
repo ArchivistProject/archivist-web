@@ -1,4 +1,22 @@
+@import '../../../defaults';
+
 .item-grid {
-    width: 100%;
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-wrapper {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grid {
+
+        &-row {
+            cursor: pointer;
+            &-active {
+                background-color: $light-blue !important;
+            }
+        }
+    }
 }

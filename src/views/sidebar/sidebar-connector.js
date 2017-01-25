@@ -18,7 +18,8 @@ class SidebarConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.sidebar,
+        ...state.item,
     };
 }
 

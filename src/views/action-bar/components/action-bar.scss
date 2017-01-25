@@ -1,15 +1,25 @@
+@import '../../../defaults';
+
 .action-bar {
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-    background-color: #ddd;
+    &-wrapper {
+        width: 100%;
+        height: 60px;
+        min-width: $app-min-width;
+        line-height: 60px;
+        text-align: center;
+        background-color: $gray;
+    }
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    margin: 0 0px;
 
     &-search, &-search-input {
         width: 50%;
+    }
+    &-back, &-right-buttons {
+        width: 250px;
+        padding: 0 10px;
     }
 }
