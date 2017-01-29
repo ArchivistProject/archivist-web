@@ -96,11 +96,18 @@ export default function (state = initialState, action) {
 
         case itemActionTypes.METADATA_UPDATED: {
             const { metadataIndex, value } = action.data;
-            console.log(state.activeItemEditing);
-            console.log(state.activeItemEditing.metadata_fields[metadataIndex]);
+            const { metadata_fields, metadata_fields: { [metadataIndex]: metadataField } } = state.activeItemEditing;
+
             return {
                 ...state,
-
+                activeItemEditing: {
+                    ...state.activeItemEditing,
+                    metadata_fields: [
+                        ...metadata_fields.slice(0, metadataIndex),
+                        { ...metadataField, data: value },
+                        ...metadata_fields.slice(metadataIndex + 1, metadata_fields.length),
+                    ],
+                },
             };
         }
 
