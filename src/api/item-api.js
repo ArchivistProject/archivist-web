@@ -1,4 +1,5 @@
 import config from '~/config';
+import $ from 'jquery';
 
 export function fetchItems(pageNumber) {
     return fetch(`${config.backend}/documents?page=${pageNumber}`)
@@ -7,7 +8,9 @@ export function fetchItems(pageNumber) {
 }
 
 export function updateItemMetadata(item) {
-    return fetch(`${config.backend}/theurl`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error(error); });
+    const payload = {
+        documentId: item.id,
+        metadata_fields: item.metadata_fields,
+    };
+    $.post(`${config.backend}/theurl`, payload);
 }
