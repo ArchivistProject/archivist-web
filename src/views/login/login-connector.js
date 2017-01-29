@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import * as userActionCreators from '~/src/state/user/user-action-creators';
-import Home from './components/login';
+import * as userActionCreators from '~/src/state/user/user-action-creators';
+import Login from './components/login';
 
 class LoginConnector extends Component {
     render() {
         const { dispatch } = this.props;
         return (
-            <Home
+            <Login
                 {...this.props}
+                {...bindActionCreators(userActionCreators, dispatch)}
             />
         );
     }
@@ -17,7 +18,7 @@ class LoginConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.user,
     };
 }
 
