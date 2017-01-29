@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as sidebarActionCreators from '~/src/state/sidebar/sidebar-action-creators';
-import { updateMetadata } from '~/src/state/item/item-action-creators';
+import * as itemActionCreators from '~/src/state/item/item-action-creators';
 import Sidebar from './components/sidebar';
 
 class SidebarConnector extends Component {
@@ -12,7 +12,7 @@ class SidebarConnector extends Component {
             <Sidebar
                 {...this.props}
                 {...bindActionCreators(sidebarActionCreators, dispatch)}
-                {...bindActionCreators({ updateMetadata }, dispatch)}
+                {...bindActionCreators(itemActionCreators, dispatch)}
             />
         );
     }

@@ -10,17 +10,21 @@ export default class SummaryTab extends Component {
         activeItemEditing: PropTypes.object.isRequired,
         toggleEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
+        saveMetadata: PropTypes.func.isRequired,
         editMode: PropTypes.bool.isRequired,
     };
 
-    handleEditModeToggled = () => {
-        const { toggleEditMode } = this.props;
+    handleEditModeToggled = (save) => {
+        const { toggleEditMode, saveMetadata, activeItem } = this.props;
+        if (save) {
+            saveMetadata(activeItem);
+        }
         toggleEditMode();
     }
 
-    handleMetadataEdited = (metadata, e) => {
+    handleMetadataEdited = (metadataIndex, e) => {
         const { updateMetadata } = this.props;
-        updateMetadata(metadata, e.target.value);
+        updateMetadata(metadataIndex, e.target.value);
     }
 
     renderMetadataRow(metadata, metadataIndex) {
@@ -42,13 +46,13 @@ export default class SummaryTab extends Component {
         if (editMode) {
             return (
                 <div>
-                    <button className='summary-tab-edit' onClick={this.handleEditModeToggled}>Save</button>
-                    <button className='summary-tab-cancel' onClick={this.handleEditModeToggled}>Cancel</button>
+                    <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(true)}>Save</button>
+                    <button className='summary-tab-cancel' onClick={() => this.handleEditModeToggled(false)}>Cancel</button>
                 </div>
             );
         }
         return (
-            <button className='summary-tab-edit' onClick={this.handleEditModeToggled}>Edit</button>
+            <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(false)}>Edit</button>
         );
     }
 
