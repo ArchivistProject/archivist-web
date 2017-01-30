@@ -1,35 +1,78 @@
 import React, { PropTypes, Component } from 'react';
-import { formatDateTime } from '~/src/utils/utils';
+import { formatDate } from '~/src/utils/utils';
+import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
+import SummaryTab from './tabs/summary-tab';
+import MainSearchTab from './tabs/main-search-tab';
 import './sidebar.scss';
 
 export default class Sidebar extends Component {
 
     static propTypes = {
         activeItem: PropTypes.object,
+        activeItemEditing: PropTypes.object,
         visible: PropTypes.bool.isRequired,
+        visibleTab: PropTypes.string,
+        updateVisibility: PropTypes.func.isRequired,
+        updateTabVisibility: PropTypes.func.isRequired,
+
+        toggleEditMode: PropTypes.func.isRequired,
+        updateMetadata: PropTypes.func.isRequired,
+        saveMetadata: PropTypes.func.isRequired,
+        editMode: PropTypes.bool.isRequired,
     };
 
-    renderMetadata() {
-        const { activeItem } = this.props;
-        return activeItem.metadata_fields.map((metadata, i) =>
-            (
-                <div className='sidebar-metadata-field' key={i}>
-                    <span className='sidebar-metadata-label'>{metadata.name}:</span>
-                    <span className='sidebar-metadata-value'>
-                        {metadata.type !== 'date' ? metadata.data : formatDateTime(metadata.data)}
-                    </span>
-                </div>
-            )
+    handleTabClicked = (tabName) => {
+        const { updateTabVisibility, visibleTab } = this.props;
+        if (visibleTab !== tabName) {
+            updateTabVisibility(tabName);
+        }
+    }
+
+    handleSidebarClosed = () => {
+        const { updateVisibility } = this.props;
+        updateVisibility(false);
+    }
+
+    renderTabs() {
+        const { visibleTab } = this.props;
+        return (
+            <div className='sidebar-tabs'>
+                { Object.keys(SIDEBAR_TABS).map((tab, key) =>
+                    (
+                        <button
+                            key={key}
+                            onClick={() => this.handleTabClicked(SIDEBAR_TABS[tab])}
+                            disabled={visibleTab === SIDEBAR_TABS[tab]}
+                            className='sidebar-tabs-item'
+                        >
+                            {SIDEBAR_TABS[tab].toUpperCase()}
+                        </button>
+                    )
+                )}
+                <button className='sidebar-close' onClick={this.handleSidebarClosed}><i className='icon-cross' /></button>
+            </div>
         );
+    }
+
+    renderPanel() {
+        const { visibleTab, activeItem, activeItemEditing, toggleEditMode, updateMetadata, saveMetadata, editMode } = this.props;
+        const summaryTabProps = { activeItem, activeItemEditing, toggleEditMode, updateMetadata, saveMetadata, editMode };
+        switch (visibleTab) {
+            case SIDEBAR_TABS.SUMMARY:
+                return (<SummaryTab {...summaryTabProps} />);
+            case SIDEBAR_TABS.SEARCH:
+                return (<MainSearchTab />);
+            default:
+                return null;
+        }
     }
 
     render() {
         const { visible } = this.props;
         return visible ? (
             <div className='sidebar'>
-                <div className='sidebar-metadata'>
-                    {this.renderMetadata()}
-                </div>
+                {this.renderTabs()}
+                {this.renderPanel()}
             </div>
         ) : null;
     }

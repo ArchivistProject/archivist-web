@@ -4,9 +4,18 @@ import {ActionBar} from '~/src/views';
 import {Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
 } from 'react-bootstrap/lib/';
 import {CirclePicker} from 'react-color';
+import config from '~/config';
 import './settings.scss';
 
 export default class Settings extends Component {
+
+
+    fetchItemType() {
+        console.log("fetching...");
+        return fetch(`${config.backend}/documents/:id(.:format)`)
+            .then(response => response.json(), console.log(response.json))
+            .catch((error) => { throw new Error(error); });
+    }
 
     Password() {
         return (
@@ -76,6 +85,7 @@ export default class Settings extends Component {
                     {this.Background()}
                     {this.Statistic()}
                     {this.APIToken()}
+                    {this.fetchItemType()}
                     {this.ItemTypes()}
                 </div>
             </div>
@@ -246,7 +256,7 @@ const ItemType = React.createClass({
 const ItemTypes = React.createClass({
 
     getInitialState() {
-        return {itemName: '', items: ["Magazine", "Webpage"],
+        return {itemName: '', items: [],
         magazine:[], webpage:[],
         webPageVisible: false, magazineVisible: false};
     },
