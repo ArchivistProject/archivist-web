@@ -1,5 +1,5 @@
 export const VISIBILITIES = {
-    '/': {
+    '/items': {
         backVisible: false,
         uploadVisible: true,
         searchVisible: true,

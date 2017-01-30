@@ -1,0 +1,9 @@
+.viewer {    
+    height: calc(100% - 60px);
+    width: 100%;
+    position: fixed;
+    &-content {
+        height: 100%;
+        width: 100%;
+    }
+}

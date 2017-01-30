@@ -6,3 +6,4 @@ export { default as Login } from './login/login-connector';
 export { default as Sidebar } from './sidebar/sidebar-connector';
 export { default as Upload } from './upload/upload-connector';
 export { default as Settings } from './settings/setting-connector';
+export { default as Viewer } from './viewer/viewer-connector';

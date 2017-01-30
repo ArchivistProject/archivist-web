@@ -35,6 +35,10 @@ module.exports = {
             loader: 'style-loader',
         },
         {
+            test: /\.(pdf)$/,
+            loader: 'file-loader?name=[name].[ext]',
+        },
+        {
             test: /images\/.*\.(?:png)$/i,
             loader: 'file-loader?name=images/[name].[ext]',
         },
