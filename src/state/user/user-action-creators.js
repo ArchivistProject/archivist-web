@@ -17,7 +17,22 @@ export function passwordChanged(password) {
 
 export function login(username, password) {
     return (dispatch) => {
-        userApi.login(username, password);
+        userApi.login(username, password)
+            .then((response) => {
+                const { auth_token } = response;
+                dispatch({
+                    type: userActionTypes.LOGIN_SUCCEEDED,
+                    data: { authToken: auth_token },
+                });
+            })
+            .catch((response) => {
+                const { error } = response.responseJSON;
+                dispatch({
+                    type: userActionTypes.LOGIN_FAILED,
+                    data: { error },
+                });
+            });
+
             // .then(response => dispatch({
             //     type: userActionTypes.LOGIN_SUCCEEDED,
             //     data: response,

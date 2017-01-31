@@ -6,5 +6,6 @@ export function login(username, password) {
         email: username,
         password,
     };
-    $.post(`${config.backend}/authentication/login`, payload);
+    return $.post(`${config.backend}/authentication/login`, payload, response => response)
+        .fail(error => error);
 }

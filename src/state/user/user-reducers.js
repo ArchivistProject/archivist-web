@@ -3,6 +3,8 @@ import userActionTypes from './user-action-types';
 const initialState = {
     usernameField: '',
     passwordField: '',
+    authToken: null,
+    loggedIn: false,
 };
 
 export default function (state = initialState, action) {
@@ -28,6 +30,16 @@ export default function (state = initialState, action) {
                 ...state,
             };
         }
+
+        case userActionTypes.LOGIN_SUCCEEDED: {
+            const { authToken } = action.data;
+            return {
+                ...state,
+                authToken,
+                loggedIn: true,
+            };
+        }
+
     }
     return state;
 }
