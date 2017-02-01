@@ -6,6 +6,7 @@ import item from './item/item-reducers';
 import sidebar from './sidebar/sidebar-reducers';
 import upload from './upload/upload-reducers';
 import user from './user/user-reducers';
+import settings from './settings/settings-reducers';
 
 export default combineReducers({
     actionBar,
@@ -14,5 +15,6 @@ export default combineReducers({
     sidebar,
     upload,
     user,
+    settings,
     routing: routerReducer,
 });
