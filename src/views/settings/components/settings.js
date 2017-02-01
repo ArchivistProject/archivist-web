@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap/lib/';
 import {CirclePicker} from 'react-color';
 //import ItemTypes from '~/src/views/settings/components/itemTypes';
+import PasswordDialog from '~/src/views/settings/components/password';
 import './settings.scss';
 
 export default class Settings extends Component {
@@ -15,24 +16,36 @@ export default class Settings extends Component {
         showModal: PropTypes.boolean,
         newPassword: PropTypes.string,
         confirmPassword: PropTypes.string,
+        newPasswordChange: PropTypes.func.isRequired,
+        confirmPasswordChange: PropTypes.func.isRequired,
+        openDialog: PropTypes.func.isRequired,
+        closeDialog: PropTypes.func.isRequired,
 
         /**
-        fetchItemType: PropTypes.func.isRequired,
-        fetchItemTypeFailed: PropTypes.bool,
-        groups: PropTypes.arrayOf(PropTypes.object),**/
+         fetchItemType: PropTypes.func.isRequired,
+         fetchItemTypeFailed: PropTypes.bool,
+         groups: PropTypes.arrayOf(PropTypes.object),**/
     };
-/**
-    componentWillMount() {
+
+    /**
+     componentWillMount() {
         const { fetchItemType, groups } = this.props;
         fetchItemType();
     }
-**/
+     **/
     Password() {
-        const {showModal, newPassword, confirmPassword} = this.props;
+        const {showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog} = this.props;
         return (
             <div>
                 <Panel header="Password" bsStyle="info">
-                    <PasswordDialog />
+                    <PasswordDialog showModal={showModal}
+                                    newPassword={newPassword}
+                                    confirmPassword={confirmPassword}
+                                    newPasswordChange={newPasswordChange}
+                                    confirmPasswordChange={confirmPasswordChange}
+                                    openDialog={openDialog}
+                                    closeDialog={closeDialog}
+                    />
                 </Panel>
             </div>
         )
@@ -71,7 +84,7 @@ export default class Settings extends Component {
     }
 
     ItemTypes() {
-        const {groups} = this.props;
+        // const {groups} = this.props;
         return (
             <div>
                 <Panel header="Item Types" bsStyle="info">

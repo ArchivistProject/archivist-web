@@ -35,10 +35,16 @@ export function confirmPasswordChange(password) {
     }
 }
 
-export function closeDialog(){
-
+export function closeDialog(val){
+    return {
+        type: settingsActionTypes.PASSWORD_DIALOG_CLOSED,
+        data:  { val }
+    }
 }
 
-export function openDialog() {
-    
+export function openDialog(val) {
+    return {
+        type: settingsActionTypes.PASSWORD_DIALOG_OPENED,
+        data: { val }
+    }
 }

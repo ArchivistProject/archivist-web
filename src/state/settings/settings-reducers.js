@@ -18,13 +18,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case settingsActionTypes.SETTINGS_ITEMTYPE_REQUESTED: {
-            return {
-                ...state,
-                waitingForItems: true,
-            };
-        }
-
         case settingsActionTypes.FETCH_SETTINGS_ITEMTYPE_SUCCEEDED: {
             const { groups } = action.data;
 
@@ -35,14 +28,38 @@ export default function (state = initialState, action) {
             };
         }
 
-        case settingsActionTypes.FETCH_SETTINGS_ITEMTYPE_FAILED: {
-            console.log('error fetching items..');
+        case settingsActionTypes.CONFIRM_PASSWORD_CHANGED: {
+            const {password} = action.data;
             return {
                 ...state,
-                waitingForItems: false,
-                fetchItemsFailed: true,
+                confirmPassword: password,
             };
         }
+
+        case settingsActionTypes.PASSWORD_CHANGED: {
+            const {password} = action.data;
+            return {
+                ...state,
+                newPassword: password,
+            };
+        }
+
+        case settingsActionTypes.PASSWORD_DIALOG_CLOSED: {
+            const {val} = action.data;
+            return {
+                ...state,
+                showModal: val,
+            };
+        }
+
+        case settingsActionTypes.PASSWORD_DIALOG_OPENED: {
+            const {val} = action.data;
+            return {
+                ...state,
+                showModal: val,
+            };
+        }
+
     }
     return state;
 }

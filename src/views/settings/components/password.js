@@ -12,9 +12,10 @@ export default class Password extends Component {
         showModal: PropTypes.boolean,
         newPassword: PropTypes.string,
         confirmPassword: PropTypes.string,
-
         newPasswordChange: PropTypes.func.isRequired,
         confirmPasswordChange: PropTypes.func.isRequired,
+        openDialog: PropTypes.func.isRequired,
+        closeDialog: PropTypes.func.isRequired,
     };
 
 
@@ -28,6 +29,7 @@ export default class Password extends Component {
         confirmPasswordChange(e.target.value);
     }
 
+    /*
     getValidationState() {
         let newLength = this.state.newPassword.length;
         let confirmLength = this.state.confirmPassword.length;
@@ -38,15 +40,15 @@ export default class Password extends Component {
         else if (newLength > 1 && confirmLength > 1 && newPass == confirmPass)
             return 'success';
     }
-
-    close() {
-        const {showModal} = this.props;
-        this.setState({showModal: false});
+*/
+    close = () => {
+        const {closeDialog} = this.props;
+        closeDialog(false);
     }
 
-    open() {
-        const {showModal} = this.props;
-        this.setState({showModal: true});
+    open = () => {
+        const {openDialog} = this.props;
+        openDialog(true);
     }
 
     render() {
@@ -75,7 +77,7 @@ export default class Password extends Component {
                                 </Col>
                             </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword" validationState={this.getValidationState()}>
+                            <FormGroup controlId="formHorizontalPassword">
                                 <Col componentClass={ControlLabel} sm={3}>
                                     New Password
                                 </Col>
