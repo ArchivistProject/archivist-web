@@ -29,9 +29,18 @@ export function postBackgroundColor(color) {
     $.post(`${config.backend}/theURL`, backgroundColor);
 }
 
-
+//-------------------------Api token----------------------------------
 export function fetchAPIToken() {
     return fetch(`${config.backend}/theURL`)
+        .then(response => response.json())
+        .catch((error) => { throw new Error(error); });
+}
+
+
+//--------------------------Statistic--------------------
+
+export function fetchFileStorage() {
+    return fetch(`${config.backend}/statistics/documents`)
         .then(response => response.json())
         .catch((error) => { throw new Error(error); });
 }

@@ -3,7 +3,7 @@
  */
 import React, {PropTypes, Component} from 'react';
 import {
-    Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
+    Button, FormControl
 } from 'react-bootstrap/lib/';
 
 export default class Statistic extends Component {
@@ -11,22 +11,25 @@ export default class Statistic extends Component {
     static propTypes = {
         storage: PropTypes.number,
         fileCount: PropTypes.number,
-        newPasswordChange: PropTypes.func.isRequired,
-        confirmPasswordChange: PropTypes.func.isRequired,
+        fetchFileStorage: PropTypes.func.isRequired,
     };
 
-     componentWillMount() {
-        const { fetchItemType, groups } = this.props;
-        fetchItemType();
+    componentDidMount() {
+        const {fetchFileStorage} = this.props;
+        fetchFileStorage();
     }
 
 
-    render(){
+    render() {
+        const {storage, fileCount} = this.props;
+        console.log("Files count: " + fileCount);
         return (
+
             <div>
-                    <p>Storage Used:</p>
-                    <p>Files Uploaded:</p>
+                <p>Uploaded Files: {fileCount}</p>
+                <p>Storage Size: {storage}</p>
             </div>
+
         )
     }
 }

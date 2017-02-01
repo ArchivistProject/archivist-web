@@ -8,6 +8,7 @@ import {
 import PasswordDialog from '~/src/views/settings/components/password';
 import ColorPickerDialog from '~/src/views/settings/components/backgroundColor';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
+import Statistic from '~/src/views/settings/components/statistic';
 import './settings.scss';
 
 export default class Settings extends Component {
@@ -34,6 +35,9 @@ export default class Settings extends Component {
         apiToken: PropTypes.string,
         refreshAPI: PropTypes.func.isRequired,
 
+        storage: PropTypes.number,
+        fileCount: PropTypes.number,
+        fetchFileStorage: PropTypes.func.isRequired,
 
         /**
          fetchItemType: PropTypes.func.isRequired,
@@ -80,10 +84,12 @@ export default class Settings extends Component {
     }
 
     Statistic() {
+        const {fetchFileStorage, storage, fileCount} = this.props;
         return (
             <div>
                 <Panel header="Statistic" bsStyle="info">
-
+                    <Statistic fetchFileStorage={fetchFileStorage}
+                    storage = {storage} fileCount={fileCount}/>
                 </Panel>
             </div>
         );

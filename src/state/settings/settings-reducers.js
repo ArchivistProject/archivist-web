@@ -5,9 +5,6 @@ import settingsActionTypes from './settings-action-types';
 
 const initialState = {
 
-    //items: null,
-    groups: null,
-
     //Password
     showModal: false,
     newPassword: '',
@@ -21,6 +18,12 @@ const initialState = {
     //api token
     apiToken: '',
 
+    //statistic
+    fileCount: 0,
+    storage: 0,
+
+    //Item Types
+    groups: null,
 
 
 };
@@ -104,11 +107,19 @@ export default function (state = initialState, action) {
 
         case settingsActionTypes.FETCH_API_SUCCEEDED: {
             const { apiToken } = action.data;
-
             return {
                 ...state,
                 apiToken
 
+            };
+        }
+
+        case settingsActionTypes.FETCH_FILE_STORAGE_SUCCEEDED: {
+            const { count, size } = action.data;
+            return {
+                ...state,
+                fileCount: count,
+                storage: size,
             };
         }
 

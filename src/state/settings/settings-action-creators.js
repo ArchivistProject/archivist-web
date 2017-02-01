@@ -89,6 +89,18 @@ export function refreshAPI(){
                 type: settingsActionTypes.FETCH_API_SUCCEEDED,
                 data: response,
             }))
-            .catch(error => { throw new Error("Item type failed", error); });
+            .catch(error => { throw new Error("fetch api token failed", error); });
+    };
+}
+
+//-------------------statistic-------------------------------
+export function fetchFileStorage(){
+    return (dispatch) => {
+        settingsApi.fetchFileStorage()
+            .then(response => dispatch({
+                type: settingsActionTypes.FETCH_FILE_STORAGE_SUCCEEDED,
+                data: response,
+            }))
+            .catch(error => { throw new Error("Fetch file storage failed", error); });
     };
 }
