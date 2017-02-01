@@ -4,9 +4,10 @@ import {ActionBar} from '~/src/views';
 import {
     Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
 } from 'react-bootstrap/lib/';
-import {CirclePicker} from 'react-color';
 //import ItemTypes from '~/src/views/settings/components/itemTypes';
 import PasswordDialog from '~/src/views/settings/components/password';
+import ColorPickerDialog from '~/src/views/settings/components/backgroundColor';
+import RefreshAPI from '~/src/views/settings/components/apiToken';
 import './settings.scss';
 
 export default class Settings extends Component {
@@ -21,18 +22,25 @@ export default class Settings extends Component {
         openDialog: PropTypes.func.isRequired,
         closeDialog: PropTypes.func.isRequired,
 
+
+        showColorModal: PropTypes.boolean,
+        colorPicked: PropTypes.string,
+        openColorDialog: PropTypes.func.isRequired,
+        closeColorDialog: PropTypes.func.isRequired,
+        background: PropTypes.string,
+        handleOnSelectColor: PropTypes.func.isRequired,
+        changeBackgroundColor: PropTypes.func.isRequired,
+
+        apiToken: PropTypes.string,
+        refreshAPI: PropTypes.func.isRequired,
+
+
         /**
          fetchItemType: PropTypes.func.isRequired,
          fetchItemTypeFailed: PropTypes.bool,
          groups: PropTypes.arrayOf(PropTypes.object),**/
     };
 
-    /**
-     componentWillMount() {
-        const { fetchItemType, groups } = this.props;
-        fetchItemType();
-    }
-     **/
     Password() {
         const {showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog} = this.props;
         return (
@@ -52,11 +60,20 @@ export default class Settings extends Component {
     }
 
     Background() {
+        const {showColorModal, colorPicked, background, closeColorDialog, openColorDialog, handleOnSelectColor, changeBackgroundColor} = this.props;
+
         return (
             <div>
                 <Panel header="Background" bsStyle="info">
                     <p>Change your background color</p>
-                    <ColorPickerDialog/>
+                    <ColorPickerDialog showColorModal={showColorModal}
+                                       colorPicked={colorPicked}
+                                       background={background}
+                                       closeColorDialog={closeColorDialog}
+                                       openColorDialog={openColorDialog}
+                                       handleOnSelectColor={handleOnSelectColor}
+                                       changeBackgroundColor={changeBackgroundColor}
+                    />
                 </Panel>
             </div>
         );
@@ -66,18 +83,19 @@ export default class Settings extends Component {
         return (
             <div>
                 <Panel header="Statistic" bsStyle="info">
-                    <p>Storage Used:</p>
-                    <p>Files Uploaded:</p>
+
                 </Panel>
             </div>
         );
     }
 
     APIToken() {
+        const {apiToken, refreshAPI} = this.props;
         return (
             <div>
                 <Panel header="API Token" bsStyle="info">
-                    <RefreshAPI/>
+                    <RefreshAPI apiToken={apiToken}
+                    refreshAPI={refreshAPI}/>
                 </Panel>
             </div>
         );
@@ -89,7 +107,6 @@ export default class Settings extends Component {
             <div>
                 <Panel header="Item Types" bsStyle="info">
                     <p>Add a new item type then select one from the list to add fields to it.</p>
-                    <!-- <ItemTypes groups={groups}/> -->
                 </Panel>
             </div>
         );
@@ -101,7 +118,7 @@ export default class Settings extends Component {
                 <h1 className="Settings">SETTINGS</h1>
 
                 <div className="aside">
-                    <img src="http://www.logospike.com/wp-content/uploads/2015/11/A_Logo_01.gif" alt="LOGO" width='304'
+                    <img src="" alt="LOGO" width='304'
                          height="228"/>
                 </div>
 
@@ -116,81 +133,3 @@ export default class Settings extends Component {
         );
     }
 }
-
-
-const ColorPickerDialog = React.createClass({
-    getInitialState() {
-        return {
-            showModal: false,
-            colorPicked: '',
-            background: '#fff'
-        };
-    },
-
-    close() {
-        this.setState({showModal: false});
-    },
-
-    open() {
-        this.setState({showModal: true});
-    },
-
-    handleChangeComplete (color, event) {
-        this.setState({colorPicked: color.hex});
-        console.log(this.state.colorPicked);
-    },
-
-    changeColor(){
-        this.setState({background: this.state.colorPicked});
-        this.close();
-    },
-
-    render() {
-        return (
-            <div>
-                <Button
-                    bsStyle="info"
-                    onClick={this.open}>
-                    Change Background
-                </Button>
-
-                <Modal show={this.state.showModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Select Your Color</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <CirclePicker onChangeComplete={this.handleChangeComplete}/>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button bsStyle="success" onClick={this.changeColor}>Save</Button>
-                        <Button bsStyle="warning" onClick={this.close}>Cancel</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        );
-    }
-});
-
-
-const RefreshAPI = React.createClass({
-
-    getInitialState() {
-        return {API: 'alskdjfhlakjdf'};
-    },
-
-    refresh(){
-        this.setState({API: ''})
-    },
-
-    render(){
-        return (
-            <div>
-                <FormControl componentClass="textarea" placeholder="no API available"
-                             readonly>{this.state.API}</FormControl>
-                <br/>
-                <Button bsStyle="info" onClick={this.refresh}>Refresh</Button>
-            </div>
-        );
-    }
-
-});

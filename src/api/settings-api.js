@@ -7,9 +7,6 @@ export function fetchItemType() {
 }
 
 
-
-
-
 export function postItemType(itemName) {
     const items = {
         "group": {
@@ -19,4 +16,22 @@ export function postItemType(itemName) {
     };
 
     $.post(`${config.backend}/system/groups`, items);
+}
+
+
+export function postBackgroundColor(color) {
+    const backgroundColor = {
+        "color": {
+            "name": color,
+        }
+    };
+
+    $.post(`${config.backend}/theURL`, backgroundColor);
+}
+
+
+export function fetchAPIToken() {
+    return fetch(`${config.backend}/theURL`)
+        .then(response => response.json())
+        .catch((error) => { throw new Error(error); });
 }

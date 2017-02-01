@@ -13,6 +13,15 @@ const initialState = {
     newPassword: '',
     confirmPassword: '',
 
+    //background color
+    showColorModal: false,
+    colorPicked: '',
+    background: '#fff',
+
+    //api token
+    apiToken: '',
+
+
 
 };
 
@@ -57,6 +66,49 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 showModal: val,
+            };
+        }
+
+        case settingsActionTypes.BACKGROUND_COLOR_SELECTED: {
+            const {color} = action.data;
+            return {
+                ...state,
+                colorPicked: color,
+            };
+        }
+
+        case settingsActionTypes.BACKGROUND_COLOR_CHANGED: {
+            const {color} = action.data;
+            return {
+                ...state,
+                background: color,
+            };
+        }
+
+        case settingsActionTypes.BACKGROUND_DIALOG_CLOSED: {
+            const {val} = action.data;
+            return {
+                ...state,
+                showColorModal: val,
+            };
+        }
+
+        case settingsActionTypes.BACKGROUND_DIALOG_OPENED: {
+            const {val} = action.data;
+            return {
+                ...state,
+                showColorModal: val,
+            };
+        }
+
+
+        case settingsActionTypes.FETCH_API_SUCCEEDED: {
+            const { apiToken } = action.data;
+
+            return {
+                ...state,
+                apiToken
+
             };
         }
 

@@ -22,34 +22,37 @@ export default class Password extends Component {
     handleNewPasswordChange = (e) => {
         const {newPasswordChange} = this.props;
         newPasswordChange(e.target.value);
-    }
+    };
 
     handleConfirmPassChange = (e) => {
         const {confirmPasswordChange} = this.props;
         confirmPasswordChange(e.target.value);
-    }
+    };
 
-    /*
-    getValidationState() {
-        let newLength = this.state.newPassword.length;
-        let confirmLength = this.state.confirmPassword.length;
-        let newPass = this.state.newPassword;
-        let confirmPass = this.state.confirmPassword;
-        if (newLength > 1 && confirmLength > 1 && newPass != confirmPass)
+
+    /**
+    getValidationState = () => {
+        const {newPassword, confirmPassword} = this.props;
+        let newLength = newPassword.length;
+        let confirmLength = confirmPassword.length;
+        console.log("Confirm length: " + confirmLength);
+        console.log("New length: " + newLength);
+        if (newLength > 1 && confirmLength > 1 && newPassword != confirmPassword)
             return 'error';
-        else if (newLength > 1 && confirmLength > 1 && newPass == confirmPass)
+        else if (newLength > 1 && confirmLength > 1 && newPassword == confirmPassword)
             return 'success';
     }
-*/
+**/
+
     close = () => {
         const {closeDialog} = this.props;
         closeDialog(false);
-    }
+    };
 
     open = () => {
         const {openDialog} = this.props;
         openDialog(true);
-    }
+    };
 
     render() {
 
@@ -88,7 +91,7 @@ export default class Password extends Component {
                                 </Col>
                             </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword" validationState={this.getValidationState()}>
+                            <FormGroup controlId="formHorizontalPassword">
                                 <Col componentClass={ControlLabel} sm={3}>
                                     Retype Password
                                 </Col>
