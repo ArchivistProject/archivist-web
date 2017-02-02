@@ -22,7 +22,6 @@ export default class Statistic extends Component {
 
     render() {
         const {storage, fileCount} = this.props;
-        console.log("Files count: " + fileCount);
         return (
 
             <div>
