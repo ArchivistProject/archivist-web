@@ -41,6 +41,10 @@ export function itemFocused(itemIndex) {
                     type: sidebarActionTypes.VISIBILITY_UPDATED,
                     data: { visible: true },
                 });
+            } else if (sidebar.editMode) {
+                dispatch({
+                    type: sidebarActionTypes.EDIT_MODE_TOGGLED,
+                });
             }
         }
     };
