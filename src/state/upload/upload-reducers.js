@@ -2,30 +2,7 @@ import uploadActionTypes from './upload-action-types';
 
 const initialState = {
     file: null,
-    data: {
-        "groups": [
-            {
-                "id": "1234s",
-                "name": "Journal",
-                "fields": [
-                    {
-                        "id": "3435d",
-                        "name": "name 1",
-                        "type": "string"
-                    },
-                    {
-                        "id": "58964",
-                        "name": "name 2",
-                        "type": "string"
-                    }
-                ]
-            },
-            {
-                "id": "58964",
-                "name": "URL",
-                "fields": []
-            }
-        ]}
+    items: null,
 };
 
 export default function (state = initialState, action) {
@@ -47,6 +24,15 @@ export default function (state = initialState, action) {
                 ...state,
             };
         }
+
+        case uploadActionTypes.FETCH_ITEMS_SUCCEEDED: {
+            const {items} = action.data;
+            return {
+                ...state,
+                items,
+            }
+        }
+
     }
     return state;
 }

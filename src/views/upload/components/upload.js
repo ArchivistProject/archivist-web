@@ -12,9 +12,14 @@ export default class Upload extends Component {
     static propTypes = {
         updateUploadFile: PropTypes.func.isRequired,
         submitFile: PropTypes.func.isRequired,
-        currentItemType: PropTypes.string,
-        data: PropTypes.arrayOf(Object),
+        fetchItemTypes: PropTypes.func.isRequired,
+        items: PropTypes.arrayOf(Object),
     };
+
+    componentWillMount() {
+        const { fetchItemTypes } = this.props;
+        fetchItemTypes();
+    }
 
     handleFileChange = (file) => {
         const {updateUploadFile} = this.props;
@@ -48,67 +53,19 @@ export default class Upload extends Component {
     }
 
     handleOnItemSelect(item) {
-        const data = {
-            "groups": [
-                {
-                    "id": "1234s",
-                    "name": "Journal",
-                    "fields": [
-                        {
-                            "id": "3435d",
-                            "name": "name 1",
-                            "type": "string"
-                        },
-                        {
-                            "id": "58964",
-                            "name": "name 2",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "id": "58964",
-                    "name": "URL",
-                    "fields": []
-                }
-            ]}
+       const {items} = this.props;
 
         let itemID = item.target.value;
         console.log("selected: " + itemID);
 
-        let temp = data.groups.filter(x => x.id === itemID)[0].fields.map(obj => obj.name);
+        let temp = items.groups.filter(x => x.id === itemID)[0].fields.map(obj => obj.name);
 
         for (let i = 0; i < temp.length; i++)
             console.log(temp[i]);
-
-
     }
 
     render() {
-        const data = {
-            "groups": [
-                {
-                    "id": "1234s",
-                    "name": "Journal",
-                    "fields": [
-                        {
-                            "id": "3435d",
-                            "name": "name 1",
-                            "type": "string"
-                        },
-                        {
-                            "id": "58964",
-                            "name": "name 2",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "id": "58964",
-                    "name": "URL",
-                    "fields": []
-                }
-            ]}
+        const {items} = this.props;
 
         return (
             <div className="upload-content">
@@ -133,7 +90,7 @@ export default class Upload extends Component {
                             <ControlLabel>Item Type*</ControlLabel>
                             <FormGroup controlId="formControlsSelect">
                                 <FormControl componentClass="select" onChange={this.handleOnItemSelect}>
-                                    {data.groups.map((op) =>
+                                    {items.groups.map((op) =>
                                         <option value={op.id}>{op.name}</option>
                                     )}
                                 </FormControl>
