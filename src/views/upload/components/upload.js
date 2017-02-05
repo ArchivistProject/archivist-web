@@ -10,14 +10,17 @@ import './upload.scss';
 export default class Upload extends Component {
 
     static propTypes = {
+        groups: PropTypes.arrayOf(Object),
         updateUploadFile: PropTypes.func.isRequired,
         submitFile: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
-        items: PropTypes.arrayOf(Object),
+        setActiveItem: PropTypes.func.isRequired,
+        fieldVisible: PropTypes.boolean,
+        activeItem: PropTypes.string,
     };
 
     componentWillMount() {
-        const { fetchItemTypes } = this.props;
+        const {fetchItemTypes} = this.props;
         fetchItemTypes();
     }
 
@@ -52,20 +55,15 @@ export default class Upload extends Component {
         submitFile();
     }
 
-    handleOnItemSelect(item) {
-       const {items} = this.props;
-
+    handleOnItemSelect = (item) => {
+        const {setActiveItem} = this.props;
         let itemID = item.target.value;
-        console.log("selected: " + itemID);
+        setActiveItem(itemID);
 
-        let temp = items.groups.filter(x => x.id === itemID)[0].fields.map(obj => obj.name);
-
-        for (let i = 0; i < temp.length; i++)
-            console.log(temp[i]);
     }
 
     render() {
-        const {items} = this.props;
+        const {groups, fieldVisible, activeItem} = this.props;
 
         return (
             <div className="upload-content">
@@ -89,25 +87,40 @@ export default class Upload extends Component {
                         <Col sm={12}>
                             <ControlLabel>Item Type*</ControlLabel>
                             <FormGroup controlId="formControlsSelect">
-                                <FormControl componentClass="select" onChange={this.handleOnItemSelect}>
-                                    {items.groups.map((op) =>
+                                <FormControl componentClass="select" placeHolder="Select item type"
+                                             onChange={this.handleOnItemSelect}>
+                                    {groups.map((op) =>
                                         <option value={op.id}>{op.name}</option>
                                     )}
                                 </FormControl>
                             </FormGroup>
                         </Col>
-
-
-
-
+                        <br/>
+                        {fieldVisible ?
+                            <div>
+                                <ControlLabel>Meta Data:</ControlLabel>
+                                {groups.filter(x => x.id === activeItem)[0].fields.map(obj =>
+                                    <div>
+                                        <Col sm={4}>
+                                            <ControlLabel>{obj.name}</ControlLabel>
+                                            <FormControl type="text"/>
+                                        </Col>
+                                    </div>
+                                )
+                                }
+                            </div> : null
+                        }
                     </div>
                 </div>
                 <div>
-                    <ControlLabel>Tags:</ControlLabel>
-                    <TagBox/>
                     <br/>
-                    <br/>
-                    <Button onClick={this.handleSubmit}>Upload</Button>
+                    <Col sm={12}>
+                        <ControlLabel>Tags:</ControlLabel>
+                        <TagBox/>
+                        <br/>
+                        <br/>
+                        <Button onClick={this.handleSubmit}>Upload</Button>
+                    </Col>
                 </div>
             </div>
         );

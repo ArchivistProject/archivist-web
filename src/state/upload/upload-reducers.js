@@ -2,13 +2,15 @@ import uploadActionTypes from './upload-action-types';
 
 const initialState = {
     file: null,
-    items: null,
+    groups: [],
+    fieldVisible: false,
+    activeItem: null,
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case uploadActionTypes.UPLOAD_FILE_UPDATED: {
-            const { file } = action.data;
+            const {file} = action.data;
             return {
                 ...state,
                 file,
@@ -26,10 +28,19 @@ export default function (state = initialState, action) {
         }
 
         case uploadActionTypes.FETCH_ITEMS_SUCCEEDED: {
-            const {items} = action.data;
+            const {groups} = action.data;
             return {
                 ...state,
-                items,
+                groups: groups,
+            }
+        }
+
+        case uploadActionTypes.FIELDS_RENDERED: {
+            const {itemID} = action.data;
+            return {
+                ...state,
+                activeItem: itemID,
+                fieldVisible: true,
             }
         }
 

@@ -32,3 +32,10 @@ export function fetchItemTypes() {
             .catch(error => dispatch({ type: uploadActionTypes.FETCH_ITEMS_FAILED }));
     };
 }
+
+export function setActiveItem(itemID){
+    return{
+        type: uploadActionTypes.FIELDS_RENDERED,
+        data: {itemID},
+    }
+}
