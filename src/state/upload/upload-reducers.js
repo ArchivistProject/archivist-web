@@ -2,6 +2,7 @@ import uploadActionTypes from './upload-action-types';
 
 const initialState = {
     file: null,
+    items: null,
 };
 
 export default function (state = initialState, action) {
@@ -23,6 +24,15 @@ export default function (state = initialState, action) {
                 ...state,
             };
         }
+
+        case uploadActionTypes.FETCH_ITEMS_SUCCEEDED: {
+            const {items} = action.data;
+            return {
+                ...state,
+                items,
+            }
+        }
+
     }
     return state;
 }

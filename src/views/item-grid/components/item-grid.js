@@ -3,7 +3,7 @@ import moment from 'moment';
 import Grid from '~/src/components/grid/grid';
 import Paginator from '~/src/components/paginator/paginator';
 import { formatDate } from '~/src/utils/utils';
-import SadFace from '~/src/images/sadface.png';
+//import SadFace from '~/src/images/sadface.png';
 import './item-grid.scss';
 
 export default class ItemGrid extends Component {
@@ -70,7 +70,7 @@ export default class ItemGrid extends Component {
                             onHeaderClick={headerClicked}
                             activeRowNum={activeItemIndex}
                             noResultsText={'You don\'t have any files yet!'}
-                            noResultsImage={SadFace}
+                            //noResultsImage={SadFace}
                         />
                         { rows.length ? <span>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
                     </div>

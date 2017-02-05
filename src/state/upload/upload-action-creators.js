@@ -17,3 +17,18 @@ export function submitFile() {
             .catch(error => dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED }));
     };
 }
+
+export function fetchItemTypes() {
+    return (dispatch) => {
+        /**
+        dispatch({
+            type: itemActionTypes.ITEMS_REQUESTED,
+        });**/
+        uploadApi.fetchItemTypes()
+            .then(response => dispatch({
+                type: uploadActionTypes.FETCH_ITEMS_SUCCEEDED,
+                data: response,
+            }))
+            .catch(error => dispatch({ type: uploadActionTypes.FETCH_ITEMS_FAILED }));
+    };
+}

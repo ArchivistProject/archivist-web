@@ -12,7 +12,14 @@ export default class Upload extends Component {
     static propTypes = {
         updateUploadFile: PropTypes.func.isRequired,
         submitFile: PropTypes.func.isRequired,
+        fetchItemTypes: PropTypes.func.isRequired,
+        items: PropTypes.arrayOf(Object),
     };
+
+    componentWillMount() {
+        const { fetchItemTypes } = this.props;
+        fetchItemTypes();
+    }
 
     handleFileChange = (file) => {
         const {updateUploadFile} = this.props;
@@ -36,16 +43,30 @@ export default class Upload extends Component {
     }
 
     handleFileChange = (file) => {
-        const { updateUploadFile } = this.props;
+        const {updateUploadFile} = this.props;
         updateUploadFile(file);
     }
 
     handleSubmit = () => {
-        const { submitFile } = this.props;
+        const {submitFile} = this.props;
         submitFile();
     }
 
+    handleOnItemSelect(item) {
+       const {items} = this.props;
+
+        let itemID = item.target.value;
+        console.log("selected: " + itemID);
+
+        let temp = items.groups.filter(x => x.id === itemID)[0].fields.map(obj => obj.name);
+
+        for (let i = 0; i < temp.length; i++)
+            console.log(temp[i]);
+    }
+
     render() {
+        const {items} = this.props;
+
         return (
             <div className="upload-content">
                 <div>
@@ -56,25 +77,29 @@ export default class Upload extends Component {
                             <br/>
                             <input type='file' accept='.pdf, .html' onChange={this.handleFileChange}/>
                         </div>
-                        <Row>
-                            <Col sm={5}>
-                                <ControlLabel>Title*</ControlLabel>
-                                <FormControl type="text"></FormControl>
-                            </Col>
-                            <Col sm={7}>
-                                <ControlLabel>Author*</ControlLabel>
-                                <FormControl type="text"></FormControl>
-                            </Col>
-                            <Col sm={12}>
-                                <ControlLabel>Item Type*</ControlLabel>
-                                <FormGroup controlId="formControlsSelect">
-                                    <FormControl componentClass="select" placeholder="select field type">
-                                        <option value="other">Website</option>
-                                        <option value="other">Magazine</option>
-                                    </FormControl>
-                                </FormGroup>
-                            </Col>
-                        </Row>
+
+                        <Col sm={5}>
+                            <ControlLabel>Title*</ControlLabel>
+                            <FormControl type="text"/>
+                        </Col>
+                        <Col sm={7}>
+                            <ControlLabel>Author*</ControlLabel>
+                            <FormControl type="text"/>
+                        </Col>
+                        <Col sm={12}>
+                            <ControlLabel>Item Type*</ControlLabel>
+                            <FormGroup controlId="formControlsSelect">
+                                <FormControl componentClass="select" onChange={this.handleOnItemSelect}>
+                                    {items.groups.map((op) =>
+                                        <option value={op.id}>{op.name}</option>
+                                    )}
+                                </FormControl>
+                            </FormGroup>
+                        </Col>
+
+
+
+
                     </div>
                 </div>
                 <div>
