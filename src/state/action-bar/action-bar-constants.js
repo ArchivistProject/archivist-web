@@ -1,23 +1,29 @@
 export const VISIBILITIES = {
-    '/items': {
+    items: {
         backVisible: false,
         uploadVisible: true,
         searchVisible: true,
         settingsVisible: true,
     },
-    '/upload': {
+    viewer: {
+        backVisible: true,
+        uploadVisible: true,
+        searchVisible: true,
+        settingsVisible: true,
+    },
+    upload: {
         backVisible: true,
         uploadVisible: false,
         searchVisible: false,
         settingsVisible: true,
     },
-    '/settings': {
+    settings: {
         backVisible: true,
         uploadVisible: true,
         searchVisible: false,
         settingsVisible: false,
     },
-    '/login': {
+    login: {
         backVisible: false,
         uploadVisible: false,
         searchVisible: false,
