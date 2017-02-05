@@ -11,57 +11,44 @@ export default class Viewer extends Component {
     static propTypes = {
     };
 
-    onDocumentComplete = () => {
-        console.log('doc complete');
-    }
-    onPageComplete = () => {
-        console.log('page complete');
-    }
-    //<iframe
-      //  id='object'
-       // height='100%'
-       // width='100%'
-      //  type='application/pdf'
-      //  src={doc}
-    // />
-
     render() {
-        console.log(pdflib);
-        console.log(worker);
+        // <div className='viewer-container'>
+        //  <div className='-page-1'><svg elements></div>
+        //  <div className='-page-2'><svg elements></div>
+        //  <div className='-page-3'><svg elements></div>
+        // </div>
+        const scale = 1.0;
         pdflib.PDFJS.workerSrc = worker;
         pdflib.PDFJS.getDocument(doc).then((pdf) => {
-            pdf.getPage(1).then((page) => {
-                const pdfPageView = new pdflib.PDFJS.PDFPageView({
-                    container: this.pdfcontainer,
-                    id: 1,
-                    scale: 1,
-                    defaultViewport: page.getViewport(1),
-                    // We can enable text/annotations layers, if needed
-                    // textLayerFactory: new pdflib.PDFJS.DefaultTextLayerFactory(),
-                    annotationLayerFactory: new pdflib.PDFJS.DefaultAnnotationLayerFactory(),
+            for (let i = 1; i <= pdf.pdfInfo.numPages; i += 1) {
+                const pageContainer = document.createElement('div');
+                pageContainer.className += `page-${i}`;
+                this.viewer.appendChild(pageContainer);
+                pdf.getPage(i).then((pdfPage) => {
+                    // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
+                    // TODO: change this if the sidebar is open
+                    const viewport = pdfPage.getViewport((window.innerWidth - 300) / pdfPage.getViewport(scale).width);
+                    pageContainer.width = `${viewport.width}px`;
+                    pageContainer.height = `${viewport.height}px`;
+
+                    // Render the SVG element and add it as a child to the page container
+                    pdfPage.getOperatorList()
+                        .then((opList) => {
+                            const svgGfx = new pdflib.PDFJS.SVGGraphics(pdfPage.commonObjs, pdfPage.objs);
+                            return svgGfx.getSVG(opList, viewport);
+                        })
+                            .then((svg) => {
+                                pageContainer.appendChild(svg);
+                            });
                 });
-                   // Associates the actual page with the view, and drawing it
-                pdfPageView.setPdfPage(page);
-                pdfPageView.draw();
-                // const viewport = page.getViewport(1);
-                // const canvas = this.pdf;
-                // const canvasContext = canvas.getContext('2d');
-                // const renderContext = {
-                //     canvasContext,
-                //     viewport,
-                // };
-                // canvas.height = viewport.height;
-                // canvas.width = viewport.width;
-                // page.render(renderContext);
-            });
+            }
         });
 
         // console.log(this.props.params); // item id
         return (
             <div className='viewer'>
-                <div className='viewer-content'>
-                    <div ref={(c) => { this.pdfcontainer = c; }} />
-                </div>
+                <div className='viewer-container' ref={(c) => { this.viewer = c; }} />
+                <Sidebar />
             </div>
         );
     }

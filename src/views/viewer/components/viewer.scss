@@ -1,9 +1,14 @@
 .viewer {    
     height: calc(100% - 60px);
     width: 100%;
-    position: fixed;
-    &-content {
+    display: flex;
+    flex-direction: row;
+    &-container {
         height: 100%;
-        width: 100%;
+        width: 700px;
+    }
+
+    *[class^='page-'] {
+        border: 1px solid black;
     }
 }
