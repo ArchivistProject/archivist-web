@@ -17,3 +17,4 @@ export function submitFile() {
             .catch(error => dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED }));
     };
 }
+
