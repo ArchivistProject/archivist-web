@@ -79,8 +79,7 @@ export default class ItemGrid extends Component {
                             onHeaderClick={headerClicked}
                             activeRowNum={activeItemIndex}
                             noResultsText={'You don\'t have any files yet!'}
-                            noResultsImage={SadFace}
-                        />
+                            noResultsImage={SadFace}/>
                         { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
                     </div>
                 ) : <span className='item-grid-text'>Loading...</span> }

@@ -21,6 +21,7 @@ export default class Sidebar extends Component {
         editMode: PropTypes.bool.isRequired,
     };
 
+
     handleTabClicked = (tabName) => {
         const { updateTabVisibility, visibleTab } = this.props;
         if (visibleTab !== tabName) {
