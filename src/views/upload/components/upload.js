@@ -17,6 +17,12 @@ export default class Upload extends Component {
         setActiveItem: PropTypes.func.isRequired,
         fieldVisible: PropTypes.boolean,
         activeItem: PropTypes.string,
+        title: PropTypes.string,
+        author: PropTypes.string,
+        handleTitleChange: PropTypes.func.isRequired,
+        handleAuthorChange: PropTypes.func.isRequired,
+        tags: PropTypes.arrayOf(String),
+        handleTagsChange: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -62,8 +68,23 @@ export default class Upload extends Component {
 
     }
 
+    handleTitleChange = (name) => {
+        const {handleTitleChange} = this.props;
+        handleTitleChange(name.target.value);
+    }
+
+    handleAuthorChange = (name) => {
+        const {handleAuthorChange} = this.props;
+        handleAuthorChange(name.target.value);
+    }
+
+    handleTagChange = (tag) => {
+        const {handleTagsChange} = this.props;
+        handleTagsChange(tag);
+    }
+
     render() {
-        const {groups, fieldVisible, activeItem} = this.props;
+        const {groups, fieldVisible, activeItem, title, author, tags} = this.props;
 
         return (
             <div className="upload-content">
@@ -78,17 +99,17 @@ export default class Upload extends Component {
 
                         <Col sm={5}>
                             <ControlLabel>Title*</ControlLabel>
-                            <FormControl type="text"/>
+                            <FormControl type="text" value={title} onChange={this.handleTitleChange}/>
                         </Col>
                         <Col sm={7}>
                             <ControlLabel>Author*</ControlLabel>
-                            <FormControl type="text"/>
+                            <FormControl type="text" value={author} onChange={this.handleAuthorChange}/>
                         </Col>
+                        <br/>
                         <Col sm={12}>
                             <ControlLabel>Item Type*</ControlLabel>
                             <FormGroup controlId="formControlsSelect">
-                                <FormControl componentClass="select" placeHolder="Select item type"
-                                             onChange={this.handleOnItemSelect}>
+                                <FormControl componentClass="select" onChange={this.handleOnItemSelect}>
                                     {groups.map((op) =>
                                         <option value={op.id}>{op.name}</option>
                                     )}
@@ -98,7 +119,9 @@ export default class Upload extends Component {
                         <br/>
                         {fieldVisible ?
                             <div>
-                                <ControlLabel>Meta Data:</ControlLabel>
+                                <Col sm={12}>
+                                    <ControlLabel>Meta Data:</ControlLabel>
+                                </Col>
                                 {groups.filter(x => x.id === activeItem)[0].fields.map(obj =>
                                     <div>
                                         <Col sm={4}>
@@ -112,11 +135,13 @@ export default class Upload extends Component {
                         }
                     </div>
                 </div>
+
                 <div>
-                    <br/>
                     <Col sm={12}>
+                        <br/>
+                        <br/>
                         <ControlLabel>Tags:</ControlLabel>
-                        <TagBox/>
+                        <TagsInput value={tags} onChange={this.handleTagChange}/>
                         <br/>
                         <br/>
                         <Button onClick={this.handleSubmit}>Upload</Button>

@@ -39,3 +39,24 @@ export function setActiveItem(itemID){
         data: {itemID},
     }
 }
+
+export function handleTitleChange(name){
+    return {
+        type: uploadActionTypes.TITLE_CHANGED,
+        data: name,
+    }
+}
+
+export function handleAuthorChange(name){
+    return {
+        type: uploadActionTypes.AUTHOR_CHANGED,
+        data: name,
+    }
+}
+
+export function handleTagsChange(tag){
+    return {
+        type: uploadActionTypes.TAGS_CHANGED,
+        data: tag,
+    }
+}
