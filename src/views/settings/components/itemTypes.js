@@ -9,31 +9,35 @@ import {
 export default class ItemTypes extends Component {
 
     static propTypes = {
-        groups: PropTypes.arrayOf(PropTypes.object),
+        groups: PropTypes.arrayOf(Object),
         itemName: PropTypes.string,
-        fieldName: PropTypes.string,
-        items: PropTypes.arrayOf(PropTypes.string),
-        fields: PropTypes.arrayOf(PropTypes.string),
-        itemSelected: PropTypes.string,
-        contentVisible: PropTypes.boolean,
-        fieldNameSelected: PropTypes.string,
+        currentItem: PropTypes.string,
+
+        handleItemNameChange: PropTypes.func.isRequired,
+        fetchItemTypes: PropTypes.func.isRequired,
+        addItem: PropTypes.func.isRequired,
     };
 
-    createAllItemList(){
-        //fetch and put all names and ID in "items" array
+    componentWillMount(){
+        const {fetchItemTypes} = this.props;
+        fetchItemTypes();
     }
 
-    handleChange(e){
-        this.setState({itemName: e.target.value});
+    handleItemNameChange = (e) =>{
+        const {handleItemNameChange} = this.props;
+        let name = e.target.value;
+        handleItemNameChange(name);
     }
+
+    addItem = () => {
+       const {addItem, itemName} = this.props;
+       let name = itemName;
+       addItem(name);
+    }
+
 
     handleFieldNameChange(e){
         this.setState({fieldName: e.target.value});
-    }
-
-    addItem() {
-        this.postItemType(this.props.itemName);
-        this.setState({items: this.props.items.concat(this.props.itemName)});
     }
 
     addField() {
@@ -41,19 +45,10 @@ export default class ItemTypes extends Component {
         this.setState({fields: this.props.fields.concat(this.props.fieldName)});
     }
 
-    //get the value being selected in the dropdown item types
-    onDropdownSelected(e){
-        this.setState({itemSelected: e.target.value});
-
-        //compare name
-        //get the item id from the array with that name
-
-        //do a GET with that specific ID
-
-        //put all the field names and ID in "fields' array
-
-        this.setState({contentVisible: false});
-        console.log("Selected: " + this.props.itemSelected);
+    onDropdownSelected = (e) =>{
+        const {setActiveItem} = this.props;
+        let itemID = e.target.value;
+        setActiveItem(itemID);
     }
 
     edit() {
@@ -118,6 +113,7 @@ export default class ItemTypes extends Component {
 
 
     render() {
+        const {itemName, groups, allItemNames} = this.props;
         return (
             <div>
                 <Form horizontal>
@@ -126,11 +122,10 @@ export default class ItemTypes extends Component {
                             Enter Item Name
                         </Col>
                         <Col sm={5}>
-                            <FormControl type="text" value={this.props.itemName}
-                                         onChange={this.handleChange}></FormControl>
+                            <FormControl type="text" value={itemName} onChange={this.handleItemNameChange}/>
                         </Col>
                         <Col sm={4}>
-                            <Button onClick={() => this.addItem()}>Add</Button>
+                            <Button onClick={this.addItem()}>Add</Button>
                         </Col>
                     </FormGroup>
 
@@ -138,10 +133,9 @@ export default class ItemTypes extends Component {
                     <FormGroup controlId="formControlsSelect">
                         <Col sm={3} componentClass={ControlLabel}>All Item Types</Col>
                         <Col sm={5}>
-                            <FormControl onChange={this.onDropdownSelected} componentClass="select"
-                                         placeholder="select">
-                                {this.props.items.map((op) =>
-                                    <option value={op}>{op}</option>
+                            <FormControl onChange={this.onDropdownSelected} componentClass="select" placeholder="select">
+                                {groups.map((op) =>
+                                    <option value={op.id}>{op.name}</option>
                                 )}
                             </FormControl>
                         </Col>

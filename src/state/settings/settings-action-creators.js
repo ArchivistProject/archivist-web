@@ -1,20 +1,35 @@
 import * as settingsApi from '~/src/api/settings-api';
 import settingsActionTypes from './settings-action-types';
 
-export function fetchItemType() {
+export function fetchItemTypes() {
     return (dispatch) => {
-        settingsApi.fetchItemType()
+        settingsApi.fetchItemTypes()
             .then(response => dispatch({
-                type: settingsActionTypes.FETCH_SETTINGS_ITEMTYPE_SUCCEEDED,
+                type: settingsActionTypes.FETCH_ITEMTYPE_SUCCEEDED,
                 data: response,
             }))
             .catch(error => { throw new Error("Item type failed", error); });
     };
 }
 
-export function postItemType(itemName) {
+export function handleItemNameChange(name){
+    return {
+        type: settingsActionTypes.ITEM_NAME_CHANGED,
+        data: name,
+    }
+}
+
+export function addItem(name){
+    return {
+        type: settingsActionTypes.ITEM_ADDED,
+        data: name,
+    }
+}
+
+
+export function postItemType(name) {
     return (dispatch) => {
-        settingsApi.postItemType(itemName);
+        settingsApi.postItemType(name);
     };
 }
 

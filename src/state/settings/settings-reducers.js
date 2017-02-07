@@ -23,22 +23,42 @@ const initialState = {
     storage: 0,
 
     //Item Types
-    groups: null,
+    groups: [],
+    itemName: '',
+    currentItem: '',
 
 
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case settingsActionTypes.FETCH_SETTINGS_ITEMTYPE_SUCCEEDED: {
+        case settingsActionTypes.FETCH_ITEMTYPE_SUCCEEDED: {
             const { groups } = action.data;
-
             return {
                 ...state,
-                groups
+                groups: groups,
 
             };
         }
+
+        case settingsActionTypes.ITEM_NAME_CHANGED: {
+            const { name } = action.data;
+            return {
+                ...state,
+               itemName: name,
+
+            };
+        }
+
+        case settingsActionTypes.ITEM_ADDED: {
+            const { name} = action.data;
+            return {
+                ...state,
+                 groups: state.groups.push({name}),
+
+            };
+        }
+
 
         case settingsActionTypes.CONFIRM_PASSWORD_CHANGED: {
             const {password} = action.data;

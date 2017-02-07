@@ -1,6 +1,7 @@
 import config from '~/config';
 
-export function fetchItemType() {
+
+export function fetchItemTypes() {
     return fetch(`${config.backend}/system/groups`)
         .then(response => response.json())
         .catch((error) => { throw new Error(error); });
