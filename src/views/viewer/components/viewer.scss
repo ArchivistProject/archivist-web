@@ -1,14 +1,50 @@
+@import '../../../defaults';
+
 .viewer {    
-    height: calc(100% - 60px);
-    width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     &-container {
-        height: 100%;
-        // width: 700px;
+        width: 100%;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: $light-gray;
+        border: 1px solid black;
     }
 
-    *[class^='page-'] {
-        border: 1px solid black;
+    &-toolbar {
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $dark-gray;
+        color: $white;
+
+        &-zoom {
+            display: flex;
+            flex-direction: row;
+            .scale {
+                width: 20px;
+            }
+        }
+        .paginator button {
+            background-color: $white;
+            border-radius: 3px;
+            margin: 0 2px;
+            // color: $white;
+            // &:disabled {
+            //     color: $black;
+            // }
+        }
+    }
+
+    &-page {
+        margin: 0 auto;
+        border-style: solid;
+        border-width: 0 1px;
+        border-color: $black;
+        background-color: $white;
     }
 }

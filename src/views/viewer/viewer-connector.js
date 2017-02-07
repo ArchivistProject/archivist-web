@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as homeActionCreators from '~/src/state/viewer/viewer-action-creators';
+import * as viewerActionCreators from '~/src/state/viewer/viewer-action-creators';
+import * as itemActionCreators from '~/src/state/item/item-action-creators';
 import Viewer from './components/viewer';
 
 class ViewerConnector extends Component {
@@ -10,7 +11,8 @@ class ViewerConnector extends Component {
         return (
             <Viewer
                 {...this.props}
-                {...bindActionCreators(homeActionCreators, dispatch)}
+                {...bindActionCreators(viewerActionCreators, dispatch)}
+                {...bindActionCreators(itemActionCreators, dispatch)}
             />
         );
     }
@@ -18,7 +20,8 @@ class ViewerConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state.home,
+        ...state.viewer,
+        ...state.item,
     };
 }
 
