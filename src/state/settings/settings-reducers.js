@@ -25,11 +25,11 @@ const initialState = {
     //Item Types
     groups: [],
     itemName: null,
-    currentItem: null,
+    currentItem: "blank",
     fieldVisible: false,
-    fieldType: null,
+    fieldType: "blank",
     fieldName: null,
-    fieldID: null,
+    fieldID: "blank",
 
 
 };
@@ -61,9 +61,10 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.EDIT_CLICKED: {
+            const {visible} = action.data;
             return {
                 ...state,
-                fieldVisible: true,
+                fieldVisible: visible,
             };
         }
 
@@ -175,6 +176,12 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.POST_ITEM_FAILED: {
+            return {
+                ...state,
+            };
+        }
+
+        case settingsActionTypes.DELETE_FIELD_FAILED: {
             return {
                 ...state,
             };

@@ -50,9 +50,25 @@ export function postFieldType(name, type, id) {
 }
 
 
-export function setFieldVisible() {
+export function removeItem(itemID) {
+
+}
+
+
+export function removeField(groupID, fieldID){
+    return (dispatch) => {
+        settingsApi.deleteField(groupID, fieldID)
+            .then(response => dispatch(fetchItemTypes()))
+            .catch(error => dispatch({ type: settingsActionTypes.DELETE_FIELD_FAILED }));
+    };
+
+}
+
+
+export function setFieldVisible(visible) {
     return {
         type: settingsActionTypes.EDIT_CLICKED,
+        data: {visible},
     }
 }
 
@@ -76,6 +92,8 @@ export function setFieldID(id){
         data: {id},
     }
 }
+
+
 //----------------------Password-------------------------------
 
 export function newPasswordChange(password) {

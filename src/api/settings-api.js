@@ -31,6 +31,12 @@ export function postFieldType(name, type, id) {
 }
 
 
+export function deleteField(groupID, fieldID) {
+    return $.remove(`${config.backend}/system/groups/` + groupID + '/field/' + fieldID)
+        .then(response => response)
+}
+
+
 export function postBackgroundColor(color) {
     const backgroundColor = {
         "color": {

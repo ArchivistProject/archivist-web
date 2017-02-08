@@ -26,8 +26,7 @@ export default class ItemTypes extends Component {
         setFieldName: PropTypes.func.isRequired,
         setFieldType: PropTypes.func.isRequired,
         setFieldID: PropTypes.func.isRequired,
-
-
+        removeField: PropTypes.func.isRequired,
     };
 
     componentWillMount(){
@@ -45,7 +44,8 @@ export default class ItemTypes extends Component {
        const {postItemType, itemName, fetchItemTypes} = this.props;
        console.log("Item Name: " + itemName);
 
-       if(itemName !== null || itemName !== undefined) {
+       if(itemName !== "" && itemName !== undefined && itemName !== null) {
+           console.log("posting item name.....");
            postItemType(itemName).then(response => {fetchItemTypes()});
        } else {
            console.log("Empty item name...");
@@ -53,21 +53,24 @@ export default class ItemTypes extends Component {
     }
 
     handleOnItemSelect = (item) => {
-       const {setActiveItem} = this.props;
+       const {setActiveItem, setFieldVisible} = this.props;
 
         let itemID = item.target.value;
         console.log(itemID);
         setActiveItem(itemID);
+        setFieldVisible(false);
     }
 
     edit = () => {
-        const {setFieldVisible} = this.props;
-        setFieldVisible();
+        const {setFieldVisible, currentItem} = this.props;
+        if(currentItem !== "blank")
+            setFieldVisible(true);
     }
 
-    handleFieldTypeChange = (e) => {
+    onFieldTypeDropDown = (e) => {
         const {setFieldType} = this.props;
         let type = e.target.value;
+        console.log("Field Type Selected: " + type);
         setFieldType(type);
     }
 
@@ -79,34 +82,54 @@ export default class ItemTypes extends Component {
 
     addField = () => {
         const {postFieldType, fieldType, fieldName, currentItem, fetchItemTypes} = this.props;
-        console.log("Add field clicked..");
         console.log("Field type: " + fieldType);
         console.log("Field name: " + fieldName);
         console.log("Field id: " + currentItem);
 
-        postFieldType(fieldName, fieldType, currentItem).then(response => {fetchItemTypes()});
+        if(fieldName !== null && fieldName !== undefined && fieldType !== "blank") {
+            postFieldType(fieldName, fieldType, currentItem).then(response => {fetchItemTypes()});
+        } else {
+            console.log("Empty field name...");
+        }
     }
 
-    onFieldNameDropDown = (e) =>{
+    onCurrentFieldDropDown = (e) =>{
         const {setFieldID} = this.props;
         let id = e.target.value;
         setFieldID(id);
-        console.log("Field ID Selected: " + e.target.value);
+        console.log("Field ID Selected: " + id);
+    }
+
+    deleteCurrentField = () => {
+        const {removeField, fieldID, currentItem, fetchItemTypes} = this.props;
+
+        console.log("Delete field ID: " + fieldID);
+        console.log("delete item ID: " + currentItem);
+
+        if(currentItem !== undefined && fieldID !== undefined && fieldID !== null) {
+            removeField(currentItem, fieldID).then(response => {fetchItemTypes()});
+        } else {
+            console.log("empty field id...");
+        }
+    }
+
+    deleteCurrentItem = () => {
+
     }
 
     generateFieldsContent = () => {
-        const {groups, currentItem} = this.props;
-        console.log("Current item ID: " + currentItem);
+        const {groups, currentItem, fieldID} = this.props;
+        console.log(fieldID);
         return (
             <div>
                 <br/>
-                <br/>
-                <ControlLabel>item_name Properties:</ControlLabel>
+                <ControlLabel>Item Properties:</ControlLabel>
                 <br/>
                 <FormGroup>
                     <Col sm={3} componentClass={ControlLabel}>Field Type</Col>
                     <Col sm={5}>
-                        <FormControl componentClass="select" placeholder="select" onChange={this.handleFieldTypeChange}>
+                        <FormControl componentClass="select" placeholder="select" onChange={this.onFieldTypeDropDown}>
+                            <option value="blank">Select a field type...</option>
                             <option value="string">String</option>
                             <option value="date">Date</option>
                         </FormControl>
@@ -128,14 +151,19 @@ export default class ItemTypes extends Component {
                 <FormGroup controlId="formControlsSelect">
                     <Col sm={3} componentClass={ControlLabel}>Current Fields</Col>
                     <Col sm={5}>
-                        <FormControl componentClass="select" placeholder="select" onChange={this.onFieldNameDropDown}>
+                        <FormControl componentClass="select" placeholder="select" onChange={this.onCurrentFieldDropDown}>
+                            <option value="blank">Select a field...</option>
                             {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
-                                <option value={op.id}>{op.name}</option>
+                                <option value={obj.id}>{obj.name}</option>
                             )}
                         </FormControl>
                     </Col>
                     <Col sm={4}>
-                        <Button bsStyle="danger">X</Button>
+                        <Button bsStyle="danger" onClick={this.deleteCurrentField}>X</Button>
+                    </Col>
+
+                    <Col sm={12}>
+                        <Button bsStyle="danger">Delete Item</Button>
                     </Col>
                 </FormGroup>
             </div>
@@ -165,6 +193,7 @@ export default class ItemTypes extends Component {
                         <Col sm={3} componentClass={ControlLabel}>All Item Types</Col>
                         <Col sm={5}>
                             <FormControl onChange={this.handleOnItemSelect} componentClass="select" placeholder="select">
+                                <option value="blank">Select an item...</option>
                                 {groups.map((op) =>
                                     <option value={op.id}>{op.name}</option>
                                 )}
