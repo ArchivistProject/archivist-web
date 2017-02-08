@@ -15,7 +15,7 @@ export function fetchItemTypes() {
 export function handleItemNameChange(name){
     return {
         type: settingsActionTypes.ITEM_NAME_CHANGED,
-        data: name,
+        data: {name},
     }
 }
 
@@ -26,14 +26,56 @@ export function addItem(name){
     }
 }
 
+export function setActiveItem(itemID){
+    return{
+        type: settingsActionTypes.ITEM_NAME_SELECTED,
+        data: {itemID},
+    }
+}
 
 export function postItemType(name) {
     return (dispatch) => {
-        settingsApi.postItemType(name);
+        settingsApi.postItemType(name)
+            .then(response => dispatch(fetchItemTypes()))
+            .catch(error => dispatch({ type: settingsActionTypes.POST_ITEM_FAILED }));
+    };
+}
+
+export function postFieldType(name, type, id) {
+    return (dispatch) => {
+        settingsApi.postFieldType(name, type, id)
+            .then(response => dispatch(fetchItemTypes()))
+            .catch(error => dispatch({ type: settingsActionTypes.POST_FIELD_FAILED }));
     };
 }
 
 
+export function setFieldVisible() {
+    return {
+        type: settingsActionTypes.EDIT_CLICKED,
+    }
+}
+
+export function setFieldType(type) {
+    return {
+        type: settingsActionTypes.FIELD_TYPE_DROPDOWN_SELECTED,
+        data: {type},
+    }
+}
+
+export function setFieldName(name) {
+    return {
+        type: settingsActionTypes.FIELD_NAME_CHANGED,
+        data: {name},
+    }
+}
+
+export function setFieldID(id){
+    return {
+        type: settingsActionTypes.FIELD_NAME_SELECTED,
+        data: {id},
+    }
+}
 //----------------------Password-------------------------------
 
 export function newPasswordChange(password) {

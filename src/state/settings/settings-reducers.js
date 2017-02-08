@@ -24,8 +24,12 @@ const initialState = {
 
     //Item Types
     groups: [],
-    itemName: '',
-    currentItem: '',
+    itemName: null,
+    currentItem: null,
+    fieldVisible: false,
+    fieldType: null,
+    fieldName: null,
+    fieldID: null,
 
 
 };
@@ -37,7 +41,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 groups: groups,
-
             };
         }
 
@@ -46,19 +49,47 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                itemName: name,
-
             };
         }
 
-        case settingsActionTypes.ITEM_ADDED: {
-            const { name} = action.data;
+        case settingsActionTypes.ITEM_NAME_SELECTED: {
+            const { itemID } = action.data;
             return {
                 ...state,
-                 groups: state.groups.push({name}),
-
+                 currentItem: itemID,
             };
         }
 
+        case settingsActionTypes.EDIT_CLICKED: {
+            return {
+                ...state,
+                fieldVisible: true,
+            };
+        }
+
+        case settingsActionTypes.FIELD_TYPE_DROPDOWN_SELECTED: {
+            const {type} = action.data;
+            return {
+                ...state,
+                fieldType: type,
+            };
+        }
+
+        case settingsActionTypes.FIELD_NAME_CHANGED: {
+            const {name} = action.data;
+            return {
+                ...state,
+                fieldName: name,
+            };
+        }
+
+        case settingsActionTypes.FIELD_NAME_SELECTED: {
+            const {id} = action.data;
+            return {
+                ...state,
+                fieldID: id,
+            };
+        }
 
         case settingsActionTypes.CONFIRM_PASSWORD_CHANGED: {
             const {password} = action.data;
@@ -140,6 +171,12 @@ export default function (state = initialState, action) {
                 ...state,
                 fileCount: count,
                 storage: size,
+            };
+        }
+
+        case settingsActionTypes.POST_ITEM_FAILED: {
+            return {
+                ...state,
             };
         }
 

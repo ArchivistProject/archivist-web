@@ -12,10 +12,22 @@ export default class ItemTypes extends Component {
         groups: PropTypes.arrayOf(Object),
         itemName: PropTypes.string,
         currentItem: PropTypes.string,
+        fieldVisible: PropTypes.boolean,
+        fieldType: PropTypes.string,
+        fieldName: PropTypes.string,
+        fieldID: PropTypes.string,
 
+        setActiveItem: PropTypes.func.isRequired,
         handleItemNameChange: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
-        addItem: PropTypes.func.isRequired,
+        postItemType: PropTypes.func.isRequired,
+        postFieldType: PropTypes.func.isRequired,
+        setFieldVisible: PropTypes.func.isRequired,
+        setFieldName: PropTypes.func.isRequired,
+        setFieldType: PropTypes.func.isRequired,
+        setFieldID: PropTypes.func.isRequired,
+
+
     };
 
     componentWillMount(){
@@ -30,42 +42,61 @@ export default class ItemTypes extends Component {
     }
 
     addItem = () => {
-       const {addItem, itemName} = this.props;
-       let name = itemName;
-       addItem(name);
+       const {postItemType, itemName, fetchItemTypes} = this.props;
+       console.log("Item Name: " + itemName);
+
+       if(itemName !== null || itemName !== undefined) {
+           postItemType(itemName).then(response => {fetchItemTypes()});
+       } else {
+           console.log("Empty item name...");
+       }
     }
 
+    handleOnItemSelect = (item) => {
+       const {setActiveItem} = this.props;
 
-    handleFieldNameChange(e){
-        this.setState({fieldName: e.target.value});
-    }
-
-    addField() {
-        //this.postFieldType();
-        this.setState({fields: this.props.fields.concat(this.props.fieldName)});
-    }
-
-    onDropdownSelected = (e) =>{
-        const {setActiveItem} = this.props;
-        let itemID = e.target.value;
+        let itemID = item.target.value;
+        console.log(itemID);
         setActiveItem(itemID);
     }
 
-    edit() {
-        this.setState({contentVisible: true});
+    edit = () => {
+        const {setFieldVisible} = this.props;
+        setFieldVisible();
     }
 
-    handleFieldTypeChange(e) {
-        this.setState({fieldType: e.target.value});
-        console.log("Field Type:" + this.props.fieldType);
+    handleFieldTypeChange = (e) => {
+        const {setFieldType} = this.props;
+        let type = e.target.value;
+        setFieldType(type);
     }
 
-    onFieldNameDropDown(e){
-        this.setState({fieldNameSelected: e.target.value});
-        console.log("Field Name Selected: " + this.props.fieldNameSelected);
+    handleFieldNameChange = (e) => {
+        const {setFieldName} = this.props;
+        let name = e.target.value;
+        setFieldName(name);
     }
 
-    generateFieldsContent(){
+    addField = () => {
+        const {postFieldType, fieldType, fieldName, currentItem, fetchItemTypes} = this.props;
+        console.log("Add field clicked..");
+        console.log("Field type: " + fieldType);
+        console.log("Field name: " + fieldName);
+        console.log("Field id: " + currentItem);
+
+        postFieldType(fieldName, fieldType, currentItem).then(response => {fetchItemTypes()});
+    }
+
+    onFieldNameDropDown = (e) =>{
+        const {setFieldID} = this.props;
+        let id = e.target.value;
+        setFieldID(id);
+        console.log("Field ID Selected: " + e.target.value);
+    }
+
+    generateFieldsContent = () => {
+        const {groups, currentItem} = this.props;
+        console.log("Current item ID: " + currentItem);
         return (
             <div>
                 <br/>
@@ -86,7 +117,7 @@ export default class ItemTypes extends Component {
                 <FormGroup>
                     <Col sm={3} componentClass={ControlLabel}>Field Name</Col>
                     <Col sm={5}>
-                        <FormControl type="text" value={this.props.fieldName} onChange={this.handleFieldNameChange}/>
+                        <FormControl type="text" onChange={this.handleFieldNameChange}/>
                     </Col>
                     <Col sm={4}>
                         <Button onClick={this.addField}>Add Field</Button>
@@ -98,8 +129,8 @@ export default class ItemTypes extends Component {
                     <Col sm={3} componentClass={ControlLabel}>Current Fields</Col>
                     <Col sm={5}>
                         <FormControl componentClass="select" placeholder="select" onChange={this.onFieldNameDropDown}>
-                            {this.props.fields.map((op) =>
-                                <option value={op}>{op}</option>
+                            {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
+                                <option value={op.id}>{op.name}</option>
                             )}
                         </FormControl>
                     </Col>
@@ -113,7 +144,7 @@ export default class ItemTypes extends Component {
 
 
     render() {
-        const {itemName, groups, allItemNames} = this.props;
+        const {fieldVisible, groups} = this.props;
         return (
             <div>
                 <Form horizontal>
@@ -122,10 +153,10 @@ export default class ItemTypes extends Component {
                             Enter Item Name
                         </Col>
                         <Col sm={5}>
-                            <FormControl type="text" value={itemName} onChange={this.handleItemNameChange}/>
+                            <FormControl type="text" onChange={this.handleItemNameChange}/>
                         </Col>
                         <Col sm={4}>
-                            <Button onClick={this.addItem()}>Add</Button>
+                            <Button onClick={() => this.addItem()}>Add</Button>
                         </Col>
                     </FormGroup>
 
@@ -133,7 +164,7 @@ export default class ItemTypes extends Component {
                     <FormGroup controlId="formControlsSelect">
                         <Col sm={3} componentClass={ControlLabel}>All Item Types</Col>
                         <Col sm={5}>
-                            <FormControl onChange={this.onDropdownSelected} componentClass="select" placeholder="select">
+                            <FormControl onChange={this.handleOnItemSelect} componentClass="select" placeholder="select">
                                 {groups.map((op) =>
                                     <option value={op.id}>{op.name}</option>
                                 )}
@@ -145,7 +176,7 @@ export default class ItemTypes extends Component {
                     </FormGroup>
 
                     <div>
-                        { this.props.contentVisible ? this.generateFieldsContent() : null }
+                        { fieldVisible ? this.generateFieldsContent() : null }
                     </div>
                 </Form>
             </div>

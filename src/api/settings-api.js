@@ -1,5 +1,5 @@
 import config from '~/config';
-
+import $ from 'jquery';
 
 export function fetchItemTypes() {
     return fetch(`${config.backend}/system/groups`)
@@ -9,14 +9,25 @@ export function fetchItemTypes() {
 
 
 export function postItemType(itemName) {
-    const items = {
+    const group = {
         "group": {
             "name": itemName,
             "fields": []
         }
     };
+    return $.post(`${config.backend}/system/groups`, group)
+        .then(response => response)
+}
 
-    $.post(`${config.backend}/system/groups`, items);
+export function postFieldType(name, type, id) {
+    const field = {
+        "field": {
+            "name": name,
+            "type": type
+        }
+    };
+    return $.post(`${config.backend}/system/groups/` + id + '/field', field)
+        .then(response => response)
 }
 
 
