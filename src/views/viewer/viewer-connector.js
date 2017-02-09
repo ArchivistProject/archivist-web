@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as viewerActionCreators from '~/src/state/viewer/viewer-action-creators';
-import * as itemActionCreators from '~/src/state/item/item-action-creators';
+import { fetchItem } from '~/src/state/item/item-action-creators';
+import { updateVisibility } from '~/src/state/sidebar/sidebar-action-creators';
 import Viewer from './components/viewer';
 
 class ViewerConnector extends Component {
@@ -12,7 +13,7 @@ class ViewerConnector extends Component {
             <Viewer
                 {...this.props}
                 {...bindActionCreators(viewerActionCreators, dispatch)}
-                {...bindActionCreators(itemActionCreators, dispatch)}
+                {...bindActionCreators({ fetchItem, updateVisibility }, dispatch)}
             />
         );
     }
@@ -22,6 +23,7 @@ function mapStateToProps(state) {
     return {
         ...state.viewer,
         ...state.item,
+        sidebarVisible: state.sidebar.visible,
     };
 }
 

@@ -13,11 +13,25 @@ export default class Viewer extends Component {
         updateScale: PropTypes.func.isRequired,
         resetScale: PropTypes.func.isRequired,
         updatePage: PropTypes.func.isRequired,
+        fetchItem: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
         scaleMin: PropTypes.number.isRequired,
         scaleMax: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
+        sidebarVisible: PropTypes.bool.isRequired,
+        params: PropTypes.object.isRequired,
     };
+
+    componentWillMount() {
+        const { activeItem, fetchItem, params: { itemId } } = this.props;
+        if (!activeItem) {
+            fetchItem(itemId);
+        }
+    }
+
+    shouldComponentUpdate() {
+        return !!this.svg;
+    }
 
     handleScaleClicked = (increment) => {
         const { updateScale } = this.props;
@@ -30,10 +44,7 @@ export default class Viewer extends Component {
     }
 
     render() {
-        const { scale, scaleMin, scaleMax, currentPage, updatePage } = this.props;
-        // <div className='viewer-container'>
-        //  <div className='-page-1'><svg elements></div>
-        // </div>
+        const { scale, scaleMin, scaleMax, currentPage, updatePage, sidebarVisible } = this.props;
         if (this.viewer) {
             this.viewer.innerHTML = '';
         }
@@ -44,8 +55,9 @@ export default class Viewer extends Component {
             this.viewer.appendChild(pageContainer);
             pdf.getPage(currentPage).then((pdfPage) => {
                 // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
-                const viewport = pdfPage.getViewport((window.innerWidth) / pdfPage.getViewport(scale).width);
-                pageContainer.width = `${viewport.width < window.innerWidth ? viewport.width : window.innerWidth}px`;
+                const reduceScale = sidebarVisible ? 0.8 : 0.98;
+                const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
+                pageContainer.width = `${viewport.width}px`;
                 pageContainer.height = `${viewport.height}px`;
 
                 // Render the SVG element and add it as a child to the page container
@@ -55,12 +67,12 @@ export default class Viewer extends Component {
                         return svgGfx.getSVG(opList, viewport);
                     })
                         .then((svg) => {
+                            this.svg = svg;
                             pageContainer.appendChild(svg);
                         });
             });
         });
 
-        // console.log(this.props.params); // item id
         return (
             <div className='viewer'>
                 <div className='viewer-toolbar'>
@@ -86,7 +98,7 @@ export default class Viewer extends Component {
                 </div>
                 <div className='viewer-wrapper'>
                     <div className='viewer-container' ref={(c) => { this.viewer = c; }} />
-                    <Sidebar />
+                    <Sidebar unfocusItem={false} />
                 </div>
             </div>
         );

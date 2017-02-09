@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import * as itemApi from '~/src/api/item-api';
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
@@ -57,6 +58,8 @@ export function itemFocused(itemIndex) {
                     data: { visible: true },
                 });
             }
+        } else {
+            dispatch(push(`items/${itemId}`));
         }
     };
 }

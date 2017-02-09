@@ -10,7 +10,7 @@ export function formatDateTime(dateString) {
 
 export function getFormattedPathname(pathname) {
     const formattedPathname = pathname.replace(/\/$/, '').split('/');
-    if (/items\/[0-9][0-9]*/.test(pathname)) {
+    if (/items\/\d*[a-zA-Z][a-zA-Z0-9]*$/.test(pathname)) {
         return 'viewer';
     }
     return formattedPathname.join('');

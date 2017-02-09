@@ -82,11 +82,11 @@ export default function (state = initialState, action) {
             const { items, activeItemIndex } = state;
             return {
                 ...state,
-                items: [
+                items: state.item ? [
                     ...items.slice(0, activeItemIndex),
                     document,
                     ...items.slice(activeItemIndex + 1, items.length),
-                ],
+                ] : null,
                 activeItem: document,
                 activeItemEditing: document,
             };
@@ -186,12 +186,12 @@ export default function (state = initialState, action) {
         }
 
         case sidebarActionTypes.VISIBILITY_UPDATED: {
-            const { visible } = action.data;
-
-            if (!visible) { // closing sidebar, unfocus item
+            const { visible, unfocusItem } = action.data;
+            if (!visible && unfocusItem) { // closing sidebar from item grid, unfocus item
                 return {
                     ...state,
                     activeItem: initialState.activeItem,
+                    activeItemEditing: initialState.activeItemEditing,
                     activeItemIndex: initialState.activeItemIndex,
                     activeItemIndexCached: initialState.activeItemIndexCached,
                     activeItemPage: initialState.activeItemPage,
