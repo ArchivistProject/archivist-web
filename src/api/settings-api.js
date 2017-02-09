@@ -32,7 +32,7 @@ export function postFieldType(name, type, id) {
 
 
 export function deleteField(groupID, fieldID) {
-    return $.remove(`${config.backend}/system/groups/` + groupID + '/field/' + fieldID)
+    return $.delete(`${config.backend}/system/groups/` + groupID + '/field/' + fieldID)
         .then(response => response)
 }
 

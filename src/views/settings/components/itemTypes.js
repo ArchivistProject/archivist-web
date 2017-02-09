@@ -113,13 +113,8 @@ export default class ItemTypes extends Component {
         }
     }
 
-    deleteCurrentItem = () => {
-
-    }
-
     generateFieldsContent = () => {
-        const {groups, currentItem, fieldID} = this.props;
-        console.log(fieldID);
+        const {groups, currentItem} = this.props;
         return (
             <div>
                 <br/>
@@ -151,7 +146,7 @@ export default class ItemTypes extends Component {
                 <FormGroup controlId="formControlsSelect">
                     <Col sm={3} componentClass={ControlLabel}>Current Fields</Col>
                     <Col sm={5}>
-                        <FormControl componentClass="select" placeholder="select" onChange={this.onCurrentFieldDropDown}>
+                        <FormControl componentClass="select" onChange={this.onCurrentFieldDropDown}>
                             <option value="blank">Select a field...</option>
                             {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
                                 <option value={obj.id}>{obj.name}</option>
@@ -161,8 +156,8 @@ export default class ItemTypes extends Component {
                     <Col sm={4}>
                         <Button bsStyle="danger" onClick={this.deleteCurrentField}>X</Button>
                     </Col>
-
-                    <Col sm={12}>
+                    <br/>
+                    <Col sm={4}>
                         <Button bsStyle="danger">Delete Item</Button>
                     </Col>
                 </FormGroup>
@@ -192,7 +187,7 @@ export default class ItemTypes extends Component {
                     <FormGroup controlId="formControlsSelect">
                         <Col sm={3} componentClass={ControlLabel}>All Item Types</Col>
                         <Col sm={5}>
-                            <FormControl onChange={this.handleOnItemSelect} componentClass="select" placeholder="select">
+                            <FormControl onChange={this.handleOnItemSelect} componentClass="select">
                                 <option value="blank">Select an item...</option>
                                 {groups.map((op) =>
                                     <option value={op.id}>{op.name}</option>

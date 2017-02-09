@@ -30,8 +30,6 @@ const initialState = {
     fieldType: "blank",
     fieldName: null,
     fieldID: "blank",
-
-
 };
 
 export default function (state = initialState, action) {
