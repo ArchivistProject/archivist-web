@@ -57,6 +57,6 @@ export function handleAuthorChange(name){
 export function handleTagsChange(tag){
     return {
         type: uploadActionTypes.TAGS_CHANGED,
-        data: tag,
+        data: {tag},
     }
 }

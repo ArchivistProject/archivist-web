@@ -4,6 +4,7 @@ import {
     Col, Form, ControlLabel, MenuItem, Row
 } from 'react-bootstrap/lib/';
 import TagsInput from 'react-tagsinput';
+import SelectPopover from "react-select-popover";
 import './upload.scss';
 
 
@@ -61,10 +62,15 @@ export default class Upload extends Component {
         submitFile();
     }
 
-    handleOnItemSelect = (item) => {
+    handleOnItemSelect = (obj) => {
         const {setActiveItem} = this.props;
-        let itemID = item.target.value;
+        let itemID = obj.item.value;
+        console.log("item id: " + itemID);
         setActiveItem(itemID);
+
+        console.log("EVENT", obj.event); // "added" or "removed"
+        console.log("ITEM", obj.item);   // item that has been added/removed { label: '...', value: '...' }
+        console.log("VALUE", obj.value); // [{label: '...', value: '...'}, {label: '...', value: '...'}]
 
     }
 
@@ -85,6 +91,24 @@ export default class Upload extends Component {
 
     render() {
         const {groups, fieldVisible, activeItem, title, author, tags} = this.props;
+        let allNames = [];
+        let allIDs = [];
+        let items = [];
+
+        allNames= groups.map((item) => allNames.concat(item.name));
+        allIDs = groups.map((item) => allIDs.concat(item.id));
+
+        console.log("all name size: " + allNames.length);
+        console.log(allIDs.length);
+
+        for(let i = 0; i < allNames.length; i++)
+        {
+            let object = {value: allIDs[i], label: allNames[i]};
+            items = items.concat(object);
+        }
+
+        console.log("item size: " + items.length);
+        console.log("active item: " + activeItem);
 
         return (
             <div className="upload-content">
@@ -106,19 +130,28 @@ export default class Upload extends Component {
                             <FormControl type="text" value={author} onChange={this.handleAuthorChange}/>
                         </Col>
                         <br/>
+
+                        <div>
+                            <Col sm={12}>
+                                <br/>
+                                <br/>
+                                <ControlLabel>Tags:</ControlLabel>
+                                <TagsInput value={tags} onChange={this.handleTagChange}/>
+                                <br/>
+                                <br/>
+                            </Col>
+                        </div>
+
                         <Col sm={12}>
                             <ControlLabel>Item Type*</ControlLabel>
-                            <FormGroup controlId="formControlsSelect">
-                                <FormControl componentClass="select" onChange={this.handleOnItemSelect}>
-                                    {groups.map((op) =>
-                                        <option value={op.id}>{op.name}</option>
-                                    )}
-                                </FormControl>
-                            </FormGroup>
+                            <SelectPopover placeholder="No items yet" options={items} onChange={this.handleOnItemSelect}/>
                         </Col>
-                        <br/>
+
                         {fieldVisible ?
                             <div>
+                                <br/>
+                                <br/>
+                                <br/>
                                 <Col sm={12}>
                                     <ControlLabel>Meta Data:</ControlLabel>
                                 </Col>
@@ -133,45 +166,11 @@ export default class Upload extends Component {
                                 }
                             </div> : null
                         }
-                    </div>
-                </div>
 
-                <div>
-                    <Col sm={12}>
-                        <br/>
-                        <br/>
-                        <ControlLabel>Tags:</ControlLabel>
-                        <TagsInput value={tags} onChange={this.handleTagChange}/>
-                        <br/>
-                        <br/>
-                        <Button onClick={this.handleSubmit}>Upload</Button>
-                    </Col>
+                        <Button className="upload-submit-btn" onClick={this.handleSubmit}>Upload</Button>
+                    </div>
                 </div>
             </div>
         );
     }
 }
-
-//Create the tag box
-const TagBox = React.createClass({
-
-    getInitialState(){
-        return {tags: []}
-    },
-
-    handleChange(value){
-        this.setState({tags: value});
-
-        for (let i = 0; i <= this.state.tags.length; i++)
-            console.log(this.state.tags[i]);
-
-    },
-
-    render(){
-        return (
-            <div>
-                <TagsInput value={this.state.tags} onChange={this.handleChange}/>
-            </div>
-        );
-    }
-})
