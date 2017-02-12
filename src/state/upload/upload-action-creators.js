@@ -33,7 +33,7 @@ export function fetchItemTypes() {
     };
 }
 
-export function setActiveItem(itemID){
+export function setAllItemID(itemID){
     return{
         type: uploadActionTypes.FIELDS_RENDERED,
         data: {itemID},

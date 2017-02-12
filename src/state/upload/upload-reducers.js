@@ -8,6 +8,7 @@ const initialState = {
     title: '',
     author: '',
     tags: [],
+    allItemID: [],
 };
 
 export default function (state = initialState, action) {
@@ -35,8 +36,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 groups: groups,
-                activeItem: groups[0].id,
-                fieldVisible: true,
             }
         }
 
@@ -44,7 +43,8 @@ export default function (state = initialState, action) {
             const {itemID} = action.data;
             return {
                 ...state,
-                activeItem: itemID,
+                allItemID: itemID,
+                fieldVisible: true,
             }
         }
 

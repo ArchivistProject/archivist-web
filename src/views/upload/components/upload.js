@@ -15,7 +15,7 @@ export default class Upload extends Component {
         updateUploadFile: PropTypes.func.isRequired,
         submitFile: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
-        setActiveItem: PropTypes.func.isRequired,
+        setAllItemID: PropTypes.func.isRequired,
         fieldVisible: PropTypes.boolean,
         activeItem: PropTypes.string,
         title: PropTypes.string,
@@ -24,6 +24,7 @@ export default class Upload extends Component {
         handleAuthorChange: PropTypes.func.isRequired,
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
+        allItemID: PropTypes.arrayOf(String),
     };
 
     componentWillMount() {
@@ -63,15 +64,11 @@ export default class Upload extends Component {
     }
 
     handleOnItemSelect = (obj) => {
-        const {setActiveItem} = this.props;
-        let itemID = obj.item.value;
-        console.log("item id: " + itemID);
-        setActiveItem(itemID);
-
-        console.log("EVENT", obj.event); // "added" or "removed"
-        console.log("ITEM", obj.item);   // item that has been added/removed { label: '...', value: '...' }
-        console.log("VALUE", obj.value); // [{label: '...', value: '...'}, {label: '...', value: '...'}]
-
+        const {allItemID, setAllItemID} = this.props;
+        let itemID = obj.target.value;
+        let array = allItemID;
+        array = array.concat(itemID);
+        setAllItemID(array);
     }
 
     handleTitleChange = (name) => {
@@ -90,26 +87,7 @@ export default class Upload extends Component {
     }
 
     render() {
-        const {groups, fieldVisible, activeItem, title, author, tags} = this.props;
-        let allNames = [];
-        let allIDs = [];
-        let items = [];
-
-        allNames= groups.map((item) => allNames.concat(item.name));
-        allIDs = groups.map((item) => allIDs.concat(item.id));
-
-        console.log("all name size: " + allNames.length);
-        console.log(allIDs.length);
-
-        for(let i = 0; i < allNames.length; i++)
-        {
-            let object = {value: allIDs[i], label: allNames[i]};
-            items = items.concat(object);
-        }
-
-        console.log("item size: " + items.length);
-        console.log("active item: " + activeItem);
-
+        const {groups, fieldVisible, title, author, tags, allItemID} = this.props;
         return (
             <div className="upload-content">
                 <div>
@@ -143,28 +121,35 @@ export default class Upload extends Component {
                         </div>
 
                         <Col sm={12}>
-                            <ControlLabel>Item Type*</ControlLabel>
-                            <SelectPopover placeholder="No items yet" options={items} onChange={this.handleOnItemSelect}/>
+                            <FormGroup controlId="formControlsSelectMultiple">
+                                <ControlLabel>Item Types (Ctrl + left click to select multiple types):</ControlLabel>
+                                <FormControl componentClass="select" multiple onChange={this.handleOnItemSelect}>
+                                    {groups.map((op) =>
+                                        <option value={op.id}>{op.name}</option>
+                                    )}
+                                </FormControl>
+                            </FormGroup>
+                        </Col>
+
+                        <Col sm={12}>
+                            <ControlLabel>Meta Data:</ControlLabel>
                         </Col>
 
                         {fieldVisible ?
-                            <div>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <Col sm={12}>
-                                    <ControlLabel>Meta Data:</ControlLabel>
-                                </Col>
-                                {groups.filter(x => x.id === activeItem)[0].fields.map(obj =>
-                                    <div>
-                                        <Col sm={4}>
-                                            <ControlLabel>{obj.name}</ControlLabel>
-                                            <FormControl type="text"/>
-                                        </Col>
-                                    </div>
-                                )
-                                }
-                            </div> : null
+                            allItemID.map((ID) =>
+                                <div>
+                                    {groups.filter(x => x.id === ID)[0].fields.map(obj =>
+                                        <div>
+                                            <Col sm={3}>
+                                                <ControlLabel>{obj.name}</ControlLabel>
+                                                <FormControl type="text"/>
+                                            </Col>
+                                        </div>
+                                    )
+                                    }
+                                </div>
+                            )
+                            : null
                         }
 
                         <Button className="upload-submit-btn" onClick={this.handleSubmit}>Upload</Button>
