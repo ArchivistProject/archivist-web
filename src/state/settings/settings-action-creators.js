@@ -50,8 +50,12 @@ export function postFieldType(name, type, id) {
 }
 
 
-export function removeItem(itemID) {
-
+export function removeItem(groupID) {
+    return (dispatch) => {
+        settingsApi.deleteItem(groupID)
+            .then(response => dispatch(fetchItemTypes()))
+            .catch(error => dispatch({ type: settingsActionTypes.DELETE_ITEM_FAILED }));
+    };
 }
 
 

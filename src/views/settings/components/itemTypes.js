@@ -27,6 +27,7 @@ export default class ItemTypes extends Component {
         setFieldType: PropTypes.func.isRequired,
         setFieldID: PropTypes.func.isRequired,
         removeField: PropTypes.func.isRequired,
+        removeItem: PropTypes.func.isRequired,
     };
 
     componentWillMount(){
@@ -48,7 +49,7 @@ export default class ItemTypes extends Component {
            console.log("posting item name.....");
            postItemType(itemName).then(response => {fetchItemTypes()});
        } else {
-           console.log("Empty item name...");
+           alert("Please enter an item name");
        }
     }
 
@@ -113,6 +114,11 @@ export default class ItemTypes extends Component {
         }
     }
 
+    deleteItem = () => {
+        const {removeItem, currentItem, fetchItemTypes} = this.props;
+        removeItem(currentItem).then(response => {fetchItemTypes()});
+    }
+
     generateFieldsContent = () => {
         const {groups, currentItem} = this.props;
         return (
@@ -158,7 +164,7 @@ export default class ItemTypes extends Component {
                     </Col>
                     <br/>
                     <Col sm={4}>
-                        <Button bsStyle="danger">Delete Item</Button>
+                        <Button bsStyle="danger" onClick={this.deleteItem}>Delete Item</Button>
                     </Col>
                 </FormGroup>
             </div>

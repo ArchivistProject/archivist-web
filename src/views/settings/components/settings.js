@@ -58,6 +58,7 @@ export default class Settings extends Component {
         postFieldType: PropTypes.func.isRequired,
         removeField: PropTypes.func.isRequired,
         fieldID: PropTypes.string,
+        removeItem: PropTypes.func.isRequired,
 
     };
 
@@ -125,7 +126,7 @@ export default class Settings extends Component {
 
     ItemTypes() {
         const {groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
-            setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField} = this.props;
+            setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField, removeItem} = this.props;
         return (
             <div>
                 <Panel header="Item Types" bsStyle="info">
@@ -142,7 +143,8 @@ export default class Settings extends Component {
                     setFieldID={setFieldID}
                     postFieldType={postFieldType}
                     removeField={removeField}
-                    fieldID={fieldID}/>
+                    fieldID={fieldID}
+                    removeItem={removeItem}/>
                 </Panel>
             </div>
         );

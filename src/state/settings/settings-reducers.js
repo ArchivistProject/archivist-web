@@ -185,6 +185,18 @@ export default function (state = initialState, action) {
             };
         }
 
+        case settingsActionTypes.DELETE_ITEM_FAILED: {
+            return {
+                ...state,
+            };
+        }
+
+        case settingsActionTypes.DELETE_ITEM_SUCCEED: {
+            return {
+                ...state,
+                fieldVisible: false,
+            };
+        }
     }
     return state;
 }

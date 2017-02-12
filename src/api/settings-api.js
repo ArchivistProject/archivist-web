@@ -32,9 +32,38 @@ export function postFieldType(name, type, id) {
 
 
 export function deleteField(groupID, fieldID) {
-    return $.delete(`${config.backend}/system/groups/` + groupID + '/field/' + fieldID)
-        .then(response => response)
+
+    let finalUrl = `${config.backend}/system/groups/` + groupID + '/field/' + fieldID;
+    return $.ajax({
+        type: "DELETE",
+        url: finalUrl,
+        dataType: "json",
+        success: function(response) {
+            console.log("successfully deleted");
+        },
+        error: function () {
+            console.log("error");
+        }
+    }).then(response => response)
 }
+
+
+export function deleteItem(groupID) {
+
+    let finalUrl = `${config.backend}/system/groups/` + groupID;
+    return $.ajax({
+        type: "DELETE",
+        url: finalUrl,
+        dataType: "json",
+        success: function(response) {
+            console.log("successfully deleted");
+        },
+        error: function () {
+            console.log("error");
+        }
+    }).then(response => response)
+}
+
 
 
 export function postBackgroundColor(color) {
