@@ -35,7 +35,7 @@ module.exports = {
             loader: 'style-loader',
         },
         {
-            test: /\.(pdf)$/,
+            test: /\.(pdf|htm|html)$/,
             loader: 'file-loader?name=[name].[ext]',
         },
         {

@@ -4,6 +4,7 @@ import worker from 'pdfjs-dist/build/pdf.worker';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import doc from '~/src/assets/multi.pdf';
+import test from '~/src/assets/test.html';
 import './viewer.scss';
 
 export default class Viewer extends Component {
@@ -43,6 +44,33 @@ export default class Viewer extends Component {
         resetScale();
     }
 
+    renderToolbar() {
+        const { scale, scaleMax, scaleMin, currentPage, updatePage } = this.props;
+        return (
+            <div className='viewer-toolbar'>
+                <div className='viewer-toolbar-zoom'>
+                    <button className='viewer-zoom' onClick={() => this.handleScaleClicked(true)} disabled={scale >= scaleMax}>
+                        <i className='icon-zoom-out' />
+                    </button>
+
+                    <div className='scale'>{scale}</div>
+
+                    <button className='viewer-zoom' onClick={() => this.handleScaleClicked(false)} disabled={scale <= scaleMin}>
+                        <i className='icon-zoom-in' />
+                    </button>
+
+                    <button onClick={this.handleResetClicked} disabled={scale === 1}>Reset</button>
+                </div>
+                <Paginator
+                    currentPage={currentPage}
+                    totalPages={3}
+                    onPageChange={updatePage}
+                />
+                <div />
+            </div>
+        );
+    }
+
     render() {
         const { scale, scaleMin, scaleMax, currentPage, updatePage, sidebarVisible } = this.props;
         if (this.viewer) {
@@ -55,7 +83,7 @@ export default class Viewer extends Component {
             this.viewer.appendChild(pageContainer);
             pdf.getPage(currentPage).then((pdfPage) => {
                 // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
-                const reduceScale = sidebarVisible ? 0.8 : 0.98;
+                const reduceScale = sidebarVisible ? 0.8 : 0.985;
                 const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
                 pageContainer.width = `${viewport.width}px`;
                 pageContainer.height = `${viewport.height}px`;
@@ -75,29 +103,11 @@ export default class Viewer extends Component {
 
         return (
             <div className='viewer'>
-                <div className='viewer-toolbar'>
-                    <div className='viewer-toolbar-zoom'>
-                        <button className='viewer-zoom' onClick={() => this.handleScaleClicked(true)} disabled={scale >= scaleMax}>
-                            <i className='icon-zoom-out' />
-                        </button>
-
-                        <div className='scale'>{scale}</div>
-
-                        <button className='viewer-zoom' onClick={() => this.handleScaleClicked(false)} disabled={scale <= scaleMin}>
-                            <i className='icon-zoom-in' />
-                        </button>
-
-                        <button onClick={this.handleResetClicked} disabled={scale === 1}>Reset</button>
-                    </div>
-                    <Paginator
-                        currentPage={currentPage}
-                        totalPages={3}
-                        onPageChange={updatePage}
-                    />
-                    <div />
-                </div>
                 <div className='viewer-wrapper'>
-                    <div className='viewer-container' ref={(c) => { this.viewer = c; }} />
+                    <div>
+                        {this.renderToolbar()}
+                        <div className='viewer-container' ref={(c) => { this.viewer = c; }} />
+                    </div>
                     <Sidebar unfocusItem={false} />
                 </div>
             </div>

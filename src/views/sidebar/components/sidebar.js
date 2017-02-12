@@ -55,7 +55,6 @@ export default class Sidebar extends Component {
                         </button>
                     )
                 )}
-                <button className='sidebar-close' onClick={this.handleSidebarToggleClicked}><i className='icon-cross' /></button>
             </div>
         );
     }
@@ -97,7 +96,7 @@ export default class Sidebar extends Component {
         const { visible } = this.props;
         return (
             <div className='sidebar-wrapper'>
-                <div className='sidebar-toggler' onClick={this.handleSidebarToggleClicked}>
+                <div className={`sidebar-toggler ${visible ? 'opened' : null}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
                     <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
                 </div>
                 {visible ? (

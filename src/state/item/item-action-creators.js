@@ -2,6 +2,7 @@ import { push } from 'react-router-redux';
 import * as itemApi from '~/src/api/item-api';
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
+import viewerActionTypes from '../viewer/viewer-action-types';
 
 export function fetchItems(currentPage) {
     return (dispatch) => {
@@ -59,6 +60,9 @@ export function itemFocused(itemIndex) {
                 });
             }
         } else {
+            dispatch({
+                type: viewerActionTypes.VIEWER_OPENED,
+            });
             dispatch(push(`items/${itemId}`));
         }
     };

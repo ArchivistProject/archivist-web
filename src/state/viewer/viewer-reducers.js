@@ -9,6 +9,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case viewerActionTypes.VIEWER_OPENED: {
+            return {
+                ...state,
+                currentPage: initialState.currentPage,
+            };
+        }
         case viewerActionTypes.SCALE_INCREMENTED: {
             return {
                 ...state,
@@ -24,7 +30,7 @@ export default function (state = initialState, action) {
         case viewerActionTypes.SCALE_RESET: {
             return {
                 ...state,
-                scale: 1.0,
+                scale: initialState.scale,
             };
         }
         case viewerActionTypes.PAGE_UPDATED: {

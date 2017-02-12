@@ -5,7 +5,6 @@
     width: 300px;
     background-color: $white;
     border-left: 1px solid $dark-blue;
-    margin-left: -1px;
 
     &-wrapper {
         display: flex;
@@ -64,10 +63,22 @@
         border-left: 1px solid $dark-blue;
         width: 20px;
         z-index: 1;
+        cursor: pointer;
+        background-color: $white;
+        &:hover {
+            background-color: $light-gray;
+        }
+        &.opened {
+            background-color: $light-gray;
+            &:hover {
+                background-color: lighten($dark-gray, 50%);
+            }
+        }
         i {
             position: relative;
             top: 50%;
-            height: 100px;
+            margin: 0 2px;
+            color: $dark-gray;
         }
     }
 }
