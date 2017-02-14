@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
             }
         }
 
-        case uploadActionTypes.FIELDS_RENDERED: {
+        case uploadActionTypes.SET_ITEM_ID: {
             const {itemID} = action.data;
             return {
                 ...state,

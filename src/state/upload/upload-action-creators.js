@@ -35,7 +35,7 @@ export function fetchItemTypes() {
 
 export function setAllItemID(itemID){
     return{
-        type: uploadActionTypes.FIELDS_RENDERED,
+        type: uploadActionTypes.SET_ITEM_ID,
         data: {itemID},
     }
 }

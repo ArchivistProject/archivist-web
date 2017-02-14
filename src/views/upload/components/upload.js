@@ -1,10 +1,9 @@
 import React, {PropTypes, Component} from 'react';
 import {
     Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup,
-    Col, Form, ControlLabel, MenuItem, Row
+    Col, Form, ControlLabel, MenuItem, Row, Checkbox
 } from 'react-bootstrap/lib/';
 import TagsInput from 'react-tagsinput';
-import SelectPopover from "react-select-popover";
 import './upload.scss';
 
 
@@ -66,8 +65,49 @@ export default class Upload extends Component {
     handleOnItemSelect = (obj) => {
         const {allItemID, setAllItemID} = this.props;
         let itemID = obj.target.value;
+        let checked = obj.target.checked;
+
+        console.log("selected: " + itemID);
+        console.log("checked: " + checked);
+
         let array = allItemID;
-        array = array.concat(itemID);
+
+        //if checked then add to array
+        if (checked === true) {
+
+            let found = false;
+
+            //if id already in the array then don't add
+            for(let i = 0; i < array.length; i++) {
+                if(array[i] === itemID) {
+                    found = true;
+                }
+            }
+
+            if(found === false)
+                array = array.concat(itemID);
+            else
+                console.log("already exist...");
+        }
+        //if unchecked then remove from array
+        else {
+            let index;
+            //find the index
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === itemID) {
+                    index = i;
+                }
+            }
+            //remove element
+            console.log("index is " + index);
+            array.splice(index, 1);
+        }
+
+        for(let i = 0; i < array.length; i++)
+        {
+            console.log(array[i]);
+        }
+
         setAllItemID(array);
     }
 
@@ -88,6 +128,13 @@ export default class Upload extends Component {
 
     render() {
         const {groups, fieldVisible, title, author, tags, allItemID} = this.props;
+
+        console.log("In render: ");
+        for(let i = 0; i < allItemID.length; i++){
+            console.log("id is: " + allItemID[i]);
+        }
+
+
         return (
             <div className="upload-content">
                 <div>
@@ -120,16 +167,19 @@ export default class Upload extends Component {
                             </Col>
                         </div>
 
+
                         <Col sm={12}>
-                            <FormGroup controlId="formControlsSelectMultiple">
-                                <ControlLabel>Item Types (Ctrl + left click to select multiple types):</ControlLabel>
-                                <FormControl componentClass="select" multiple onChange={this.handleOnItemSelect}>
-                                    {groups.map((op) =>
-                                        <option value={op.id}>{op.name}</option>
-                                    )}
-                                </FormControl>
-                            </FormGroup>
+                            <ControlLabel>Item Types:</ControlLabel>
                         </Col>
+                        <div>
+                            {groups.map((op) =>
+                                <Col sm={2}>
+                                    <Checkbox
+                                        value={op.id}
+                                        onChange={this.handleOnItemSelect}>{op.name}</Checkbox>
+                                </Col>
+                            )}
+                        </div>
 
                         <Col sm={12}>
                             <ControlLabel>Meta Data:</ControlLabel>
@@ -152,7 +202,9 @@ export default class Upload extends Component {
                             : null
                         }
 
-                        <Button className="upload-submit-btn" onClick={this.handleSubmit}>Upload</Button>
+                        <Col sm={12}>
+                            <Button className="upload-submit-btn" onClick={this.handleSubmit}>Upload</Button>
+                        </Col>
                     </div>
                 </div>
             </div>
