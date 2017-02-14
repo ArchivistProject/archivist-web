@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
 
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { documents: items, meta } = action.data;
-            const { activeItemPage, activeItemIndexCached } = state;
+            const { activeItem, activeItemIndex, activeItemIndexCached, activeItemPage } = state;
             const { current_page: currentPage,
                     next_page: nextPage,
                     prev_page: prevPage,
@@ -49,6 +49,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 items,
+                activeItem: activeItem ? items[activeItemIndex] : null,
                 activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
                 waitingForItems: false,
                 fetchItemsFailed: false,
@@ -70,6 +71,14 @@ export default function (state = initialState, action) {
                 ...state,
                 waitingForItems: false,
                 fetchItemsFailed: true,
+            };
+        }
+        case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
+            const { document } = action.data;
+            return {
+                ...state,
+                activeItem: document,
+                activeItemEditing: document,
             };
         }
 
@@ -107,6 +116,24 @@ export default function (state = initialState, action) {
                         { ...metadataField, data: value },
                         ...metadata_fields.slice(metadataIndex + 1, metadata_fields.length),
                     ],
+                },
+            };
+        }
+
+        case itemActionTypes.METADATA_SAVE_SUCCEEDED: {
+            return {
+                ...state,
+            };
+        }
+
+        case itemActionTypes.TAGS_UPDATED: {
+            const { tags } = action.data;
+            const { activeItem } = state;
+            return {
+                ...state,
+                activeItem: {
+                    ...activeItem,
+                    tags,
                 },
             };
         }

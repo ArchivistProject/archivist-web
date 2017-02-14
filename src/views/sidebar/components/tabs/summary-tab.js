@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
+import TagsInput from 'react-tagsinput';
 import { formatDate } from '~/src/utils/utils';
 import { canEditMetadata } from '~/src/state/user/privileges';
+import '~/src/assets/style/react-tagsinput.scss';
 import './summary-tab.scss';
 
 export default class SummaryTab extends Component {
@@ -11,13 +13,14 @@ export default class SummaryTab extends Component {
         toggleEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
+        updateTags: PropTypes.func.isRequired,
         editMode: PropTypes.bool.isRequired,
     };
 
     handleEditModeToggled = (save) => {
-        const { toggleEditMode, saveMetadata, activeItem } = this.props;
+        const { toggleEditMode, saveMetadata } = this.props;
         if (save) {
-            saveMetadata(activeItem);
+            saveMetadata();
         }
         toggleEditMode();
     }
@@ -27,14 +30,20 @@ export default class SummaryTab extends Component {
         updateMetadata(metadataIndex, e.target.value);
     }
 
+    handleTagsUpdated = (tags) => {
+        const { updateTags } = this.props;
+        updateTags(tags);
+    }
+
     renderMetadataRow(metadata, metadataIndex) {
-        const { editMode } = this.props;
+        const { editMode, activeItem } = this.props;
         // TODO: editMode && metadata.isEditable
+        const valueChanged = activeItem.metadata_fields[metadataIndex].data !== metadata.data;
         return (
             <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
-                <td className='summary-tab-label'>{metadata.name}</td>
+                <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
                 <td className='summary-tab-value'>
-                    {editMode ? <input value={metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
+                    {editMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
                     : <div>{metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)}</div>}
                 </td>
             </tr>
@@ -69,6 +78,9 @@ export default class SummaryTab extends Component {
                     </tbody>
                 </table>
                 { canEditMetadata ? this.renderEditControls() : null }
+                <div className='summary-tab-tags'>
+                    <TagsInput value={activeItem.tags} onChange={this.handleTagsUpdated} />
+                </div>
             </div>
         );
     }

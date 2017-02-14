@@ -16,6 +16,20 @@ export function fetchItems(currentPage) {
     };
 }
 
+export function fetchItem(itemId) {
+    return (dispatch) => {
+        dispatch({
+            type: itemActionTypes.ITEM_REQUESTED,
+        });
+        itemApi.fetchItem(itemId)
+            .then(response => dispatch({
+                type: itemActionTypes.FETCH_ITEM_SUCCEEDED,
+                data: response,
+            }))
+            .catch(error => dispatch({ type: itemActionTypes.FETCH_ITEM_FAILED }));
+    };
+}
+
 export function fetchHeaders() {
     return (dispatch) => {
         itemApi.fetchHeaders()
@@ -57,16 +71,35 @@ export function updateMetadata(metadataIndex, value) {
     };
 }
 
-export function saveMetadata(activeItem) {
-    return (dispatch) => {
-        itemApi.updateItemMetadata(activeItem)
+export function saveMetadata() {
+    return (dispatch, getState) => {
+        const { item: { activeItem, activeItemEditing } } = getState();
+        itemApi.updateItemMetadata(activeItem, activeItemEditing)
             .then((response) => {
-                dispatch({
-                    type: itemActionTypes.METADATA_SAVED_SUCCEEDED,
-                    data: { activeItem },
-                });
+                dispatch({ type: itemActionTypes.METADATA_SAVE_SUCCEEDED });
+                if (response.length) {
+                    dispatch(fetchItem(activeItem.id));
+                }
             })
             .catch(error => dispatch({ type: itemActionTypes.METADATA_SAVE_FAILED }));
+    };
+}
+
+export function updateTags(tags) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: itemActionTypes.TAGS_UPDATED,
+            data: { tags },
+        });
+
+        const { item: { activeItem } } = getState();
+        itemApi.updateTags(activeItem, tags)
+            .then((response) => {
+                console.log(response);
+                dispatch({ type: itemActionTypes.TAGS_UPDATE_SUCCEEDED });
+                dispatch(fetchItem(activeItem.id));
+            })
+            .catch(error => dispatch({ type: itemActionTypes.TAGS_UPDATE_FAILED }));
     };
 }
 

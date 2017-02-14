@@ -19,6 +19,9 @@
     &-label {
         padding-left: 3px;
         font-weight: bold;
+        &.modified {
+            color: $blue;
+        }
     }
 
     &-edit {
