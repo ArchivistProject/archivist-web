@@ -16,10 +16,15 @@
     margin: 0 0px;
 
     &-search, &-search-input {
-        width: 60%;
+        width: 50%;
+        font-family: $default-family;
+        font-size: $default-size;
+
     }
     &-back, &-right-buttons {
         width: 250px;
         padding: 0 10px;
+        font-family: $default-family;
+        font-size: $default-size;
     }
 }
