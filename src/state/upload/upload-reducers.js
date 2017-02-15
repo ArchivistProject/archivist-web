@@ -9,6 +9,7 @@ const initialState = {
     author: '',
     tags: [],
     allItemID: [],
+    allMetaDataValue: [],
 };
 
 export default function (state = initialState, action) {

@@ -24,6 +24,9 @@ export default class Upload extends Component {
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
+
+        //holds all values from meta data text fields
+        allMetaDataValue: PropTypes.arrayOf(Object),
     };
 
     componentWillMount() {
@@ -67,24 +70,20 @@ export default class Upload extends Component {
         let itemID = obj.target.value;
         let checked = obj.target.checked;
 
-        console.log("selected: " + itemID);
-        console.log("checked: " + checked);
-
-        let array = allItemID;
+        let array = allItemID.slice();
 
         //if checked then add to array
         if (checked === true) {
-
             let found = false;
 
             //if id already in the array then don't add
-            for(let i = 0; i < array.length; i++) {
-                if(array[i] === itemID) {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === itemID) {
                     found = true;
                 }
             }
 
-            if(found === false)
+            if (found === false)
                 array = array.concat(itemID);
             else
                 console.log("already exist...");
@@ -99,15 +98,10 @@ export default class Upload extends Component {
                 }
             }
             //remove element
-            console.log("index is " + index);
             array.splice(index, 1);
         }
 
-        for(let i = 0; i < array.length; i++)
-        {
-            console.log(array[i]);
-        }
-
+        //set the state to the new array
         setAllItemID(array);
     }
 
@@ -126,14 +120,21 @@ export default class Upload extends Component {
         handleTagsChange(tag);
     }
 
+    handleMetaDataTextChange = (obj) => {
+        const {allMetaDataValue} = this.props;
+        let val = obj.target.value;
+        let id = obj.target.id;
+
+        console.log("Text val: " + val);
+        console.log("Text id: " + id);
+
+        let array = allMetaDataValue.slice();
+
+    }
+
+
     render() {
         const {groups, fieldVisible, title, author, tags, allItemID} = this.props;
-
-        console.log("In render: ");
-        for(let i = 0; i < allItemID.length; i++){
-            console.log("id is: " + allItemID[i]);
-        }
-
 
         return (
             <div className="upload-content">
@@ -181,24 +182,26 @@ export default class Upload extends Component {
                             )}
                         </div>
 
-                        <Col sm={12}>
-                            <ControlLabel>Meta Data:</ControlLabel>
-                        </Col>
 
                         {fieldVisible ?
-                            allItemID.map((ID) =>
+                            <div>
+                                <Col sm={12}>
+                                    <ControlLabel>Meta Data:</ControlLabel>
+                                </Col>
+                                {allItemID.map((ID) =>
                                 <div>
                                     {groups.filter(x => x.id === ID)[0].fields.map(obj =>
                                         <div>
                                             <Col sm={3}>
                                                 <ControlLabel>{obj.name}</ControlLabel>
-                                                <FormControl type="text"/>
+                                                <FormControl id={obj.id} onChange={this.handleMetaDataTextChange} type="text"/>
                                             </Col>
                                         </div>
                                     )
                                     }
                                 </div>
-                            )
+                                )}
+                            </div>
                             : null
                         }
 
