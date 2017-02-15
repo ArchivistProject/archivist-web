@@ -17,3 +17,46 @@ export function submitFile() {
             .catch(error => dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED }));
     };
 }
+
+export function fetchItemTypes() {
+    return (dispatch) => {
+        /**
+        dispatch({
+            type: itemActionTypes.ITEMS_REQUESTED,
+        });**/
+        uploadApi.fetchItemTypes()
+            .then(response => dispatch({
+                type: uploadActionTypes.FETCH_ITEMS_SUCCEEDED,
+                data: response,
+            }))
+            .catch(error => dispatch({ type: uploadActionTypes.FETCH_ITEMS_FAILED }));
+    };
+}
+
+export function setAllItemID(itemID){
+    return{
+        type: uploadActionTypes.SET_ITEM_ID,
+        data: {itemID},
+    }
+}
+
+export function handleTitleChange(name){
+    return {
+        type: uploadActionTypes.TITLE_CHANGED,
+        data: name,
+    }
+}
+
+export function handleAuthorChange(name){
+    return {
+        type: uploadActionTypes.AUTHOR_CHANGED,
+        data: name,
+    }
+}
+
+export function handleTagsChange(tag){
+    return {
+        type: uploadActionTypes.TAGS_CHANGED,
+        data: {tag},
+    }
+}

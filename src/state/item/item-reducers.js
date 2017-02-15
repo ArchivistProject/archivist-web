@@ -1,4 +1,5 @@
 import itemActionTypes from './item-action-types';
+import sidebarActionTypes from '../sidebar/sidebar-action-types';
 
 const initialState = {
     items: null,
@@ -8,11 +9,13 @@ const initialState = {
         'Date Added',
     ],
     activeItem: null,
+    activeItemEditing: null,
     activeItemIndex: null,
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
     sortBy: null,
     waitingForItems: null,
+    fetchItemsFailed: false,
     meta: {
         currentPage: 1,
         nextPage: null,
@@ -48,6 +51,7 @@ export default function (state = initialState, action) {
                 items,
                 activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
                 waitingForItems: false,
+                fetchItemsFailed: false,
                 meta: {
                     ...state.meta,
                     currentPage,
@@ -57,6 +61,15 @@ export default function (state = initialState, action) {
                     totalCount,
                     // pageSize,
                 },
+            };
+        }
+
+        case itemActionTypes.FETCH_ITEMS_FAILED: {
+            console.log('error fetching items..');
+            return {
+                ...state,
+                waitingForItems: false,
+                fetchItemsFailed: true,
             };
         }
 
@@ -74,9 +87,27 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 activeItem: state.items[itemIndex],
+                activeItemEditing: state.items[itemIndex],
                 activeItemIndex: itemIndex,
                 activeItemIndexCached: itemIndex,
                 activeItemPage: currentPage,
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATED: {
+            const { metadataIndex, value } = action.data;
+            const { metadata_fields, metadata_fields: { [metadataIndex]: metadataField } } = state.activeItemEditing;
+
+            return {
+                ...state,
+                activeItemEditing: {
+                    ...state.activeItemEditing,
+                    metadata_fields: [
+                        ...metadata_fields.slice(0, metadataIndex),
+                        { ...metadataField, data: value },
+                        ...metadata_fields.slice(metadataIndex + 1, metadata_fields.length),
+                    ],
+                },
             };
         }
 
@@ -85,6 +116,31 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 sortby: header,
+            };
+        }
+
+        case sidebarActionTypes.VISIBILITY_UPDATED: {
+            const { visible } = action.data;
+
+            if (!visible) { // closing sidebar, unfocus item
+                return {
+                    ...state,
+                    activeItem: initialState.activeItem,
+                    activeItemIndex: initialState.activeItemIndex,
+                    activeItemIndexCached: initialState.activeItemIndexCached,
+                    activeItemPage: initialState.activeItemPage,
+                };
+            }
+
+            return { // opening sidebar, keep item focused
+                ...state,
+            };
+        }
+
+        case sidebarActionTypes.EDIT_MODE_TOGGLED: {
+            return {
+                ...state,
+                activeItemEditing: state.activeItem,
             };
         }
     }

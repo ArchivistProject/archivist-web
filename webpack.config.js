@@ -31,8 +31,16 @@ module.exports = {
             loader: 'style!css!sass',
         },
         {
+            test: /\.css$/,
+            loader: 'style-loader',
+        },
+        {
             test: /images\/.*\.(?:png)$/i,
             loader: 'file-loader?name=images/[name].[ext]',
+        },
+        {
+            test: /fonts\/.*\.(?:eot|otf|svg|ttf|woff)(?:\?[a-z0-9=.]+)?$/i,
+            loader: 'file-loader?name=fonts/[name].[ext]',
         }],
     },
     resolve: {

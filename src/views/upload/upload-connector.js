@@ -18,7 +18,7 @@ class UploadConnector extends Component {
 
 function mapStateToProps(state) {
     return {
-        ...state,
+        ...state.upload,
     };
 }
 

@@ -4,21 +4,25 @@
 
     span {
         padding: 0 5px;
+        font-family: $default-family;
+        font-size: $default-size;
     }
 
     button {
         margin: 0 px;
         border: none;
         outline: none;
-        background-color: $white;
+        background-color : transparent;
+
         &:hover:enabled {
-            color: $light-blue;
+            color: $blue;
         }
     }
 
     &-disabled {
         color: $light-gray;
         cursor: not-allowed;
+
         &:hover {
             color: $light-gray;
         }
