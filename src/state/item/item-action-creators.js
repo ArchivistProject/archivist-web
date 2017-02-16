@@ -50,6 +50,21 @@ export function itemFocused(itemIndex) {
                 type: itemActionTypes.ITEM_FOCUSED,
                 data: { itemIndex },
             });
+            const getTags = itemApi.getTags(itemId);
+            const getDescription = itemApi.getDescription(itemId);
+            Promise.all([getTags, getDescription])
+                .then((responses) => {
+                    const { document: { tags } } = responses[0];
+                    const { document: { description } } = responses[1];
+                    dispatch({
+                        type: itemActionTypes.TAGS_UPDATED,
+                        data: { tags },
+                    });
+                    dispatch({
+                        type: itemActionTypes.DESCRIPTION_UPDATED,
+                        data: { description, tempDescription: description },
+                    });
+                });
             if (!sidebar.visible) {
                 dispatch({
                     type: sidebarActionTypes.VISIBILITY_UPDATED,
@@ -73,13 +88,11 @@ export function updateMetadata(metadataIndex, value) {
 
 export function saveMetadata() {
     return (dispatch, getState) => {
-        const { item: { activeItem, activeItemEditing } } = getState();
+        const { item: { activeItem, activeItemEditing, meta: { currentPage } } } = getState();
         itemApi.updateItemMetadata(activeItem, activeItemEditing)
-            .then((response) => {
+            .then((success) => {
                 dispatch({ type: itemActionTypes.METADATA_SAVE_SUCCEEDED });
-                if (response.length) {
-                    dispatch(fetchItem(activeItem.id));
-                }
+                dispatch(fetchItems(currentPage));
             })
             .catch(error => dispatch({ type: itemActionTypes.METADATA_SAVE_FAILED }));
     };
@@ -87,19 +100,37 @@ export function saveMetadata() {
 
 export function updateTags(tags) {
     return (dispatch, getState) => {
+        const tagSet = new Set(tags);
+        const tagArray = Array.from(tagSet.values());
         dispatch({
             type: itemActionTypes.TAGS_UPDATED,
-            data: { tags },
+            data: { tags: tagArray },
         });
 
         const { item: { activeItem } } = getState();
         itemApi.updateTags(activeItem, tags)
             .then((response) => {
-                console.log(response);
                 dispatch({ type: itemActionTypes.TAGS_UPDATE_SUCCEEDED });
-                dispatch(fetchItem(activeItem.id));
             })
             .catch(error => dispatch({ type: itemActionTypes.TAGS_UPDATE_FAILED }));
+    };
+}
+
+export function updateDescription(description) {
+    return {
+        type: itemActionTypes.DESCRIPTION_UPDATED,
+        data: { description },
+    };
+}
+
+export function saveDescription() {
+    return (dispatch, getState) => {
+        const { item: { activeItem } } = getState();
+        itemApi.updateDescription(activeItem)
+            .then((response) => {
+                dispatch({ type: itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED });
+            })
+            .catch(error => dispatch({ type: itemActionTypes.DESCRIPTION_UPDATE_FAILED }));
     };
 }
 

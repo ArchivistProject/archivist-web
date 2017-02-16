@@ -24,11 +24,13 @@ const initialState = {
         totalCount: null,
         pageSize: 10,
     },
+    tempDescription: '',
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case itemActionTypes.ITEMS_REQUESTED: {
+        case itemActionTypes.ITEMS_REQUESTED:
+        case itemActionTypes.ITEM_REQUESTED: {
             return {
                 ...state,
                 waitingForItems: true,
@@ -135,6 +137,26 @@ export default function (state = initialState, action) {
                     ...activeItem,
                     tags,
                 },
+            };
+        }
+
+        case itemActionTypes.DESCRIPTION_UPDATED: {
+            const { description, tempDescription } = action.data;
+            const { activeItem } = state;
+            return {
+                ...state,
+                activeItem: {
+                    ...activeItem,
+                    description,
+                },
+                tempDescription: tempDescription || state.tempDescription,
+            };
+        }
+
+        case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
+            return {
+                ...state,
+                tempDescription: state.activeItem.description,
             };
         }
 

@@ -14,7 +14,10 @@ export default class SummaryTab extends Component {
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
         updateTags: PropTypes.func.isRequired,
+        updateDescription: PropTypes.func.isRequired,
+        saveDescription: PropTypes.func.isRequired,
         editMode: PropTypes.bool.isRequired,
+        tempDescription: PropTypes.string,
     };
 
     handleEditModeToggled = (save) => {
@@ -33,6 +36,16 @@ export default class SummaryTab extends Component {
     handleTagsUpdated = (tags) => {
         const { updateTags } = this.props;
         updateTags(tags);
+    }
+
+    handleDescriptionUpdated = (e) => {
+        const { updateDescription } = this.props;
+        updateDescription(e.target.value);
+    }
+
+    handleDescriptionSaved = () => {
+        const { saveDescription } = this.props;
+        saveDescription();
     }
 
     renderMetadataRow(metadata, metadataIndex) {
@@ -54,32 +67,39 @@ export default class SummaryTab extends Component {
         const { editMode } = this.props;
         if (editMode) {
             return (
-                <div>
-                    <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(true)}>Save</button>
-                    <button className='summary-tab-cancel' onClick={() => this.handleEditModeToggled(false)}>Cancel</button>
+                <div className='summary-tab-metadata-controls'>
+                    <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(true)}>SAVE</button>
+                    <button className='summary-tab-cancel' onClick={() => this.handleEditModeToggled(false)}>CANCEL</button>
                 </div>
             );
         }
         return (
-            <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(false)}>Edit</button>
+            <div className='summary-tab-metadata-controls'>
+                <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(false)}>EDIT METADATA</button>
+            </div>
         );
     }
 
     render() {
-        const { activeItem, activeItemEditing, editMode } = this.props;
-
+        const { activeItem, activeItemEditing, tempDescription, editMode } = this.props;
         return (
             <div className='summary-tab'>
-                <table className='summary-tab-table'>
-                    <tbody>
-                        {editMode ? activeItemEditing.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))
-                            : activeItem.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))}
+                <div className='summary-tab-metadata'>
+                    <table className='summary-tab-table'>
+                        <tbody>
+                            {editMode ? activeItemEditing.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))
+                                : activeItem.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))}
 
-                    </tbody>
-                </table>
-                { canEditMetadata ? this.renderEditControls() : null }
+                        </tbody>
+                    </table>
+                    { canEditMetadata ? this.renderEditControls() : null }
+                </div>
                 <div className='summary-tab-tags'>
-                    <TagsInput value={activeItem.tags} onChange={this.handleTagsUpdated} />
+                    <TagsInput value={activeItem.tags || []} onChange={this.handleTagsUpdated} />
+                </div>
+                <div className='summary-tab-description'>
+                    <textarea className='summary-tab-description-input' value={activeItem.description} onChange={this.handleDescriptionUpdated} />
+                    <button disabled={activeItem.description === tempDescription} onClick={this.handleDescriptionSaved}>SAVE DESCRIPTION</button>
                 </div>
             </div>
         );
