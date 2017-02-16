@@ -84,7 +84,8 @@ export default class SummaryTab extends Component {
         const { activeItem, activeItemEditing, tempDescription, editMode } = this.props;
         return (
             <div className='summary-tab'>
-                <div className='summary-tab-metadata'>
+                <section className='summary-tab-metadata'>
+                    <span className='summary-tab-category'>Metadata</span>
                     <table className='summary-tab-table'>
                         <tbody>
                             {editMode ? activeItemEditing.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))
@@ -93,14 +94,20 @@ export default class SummaryTab extends Component {
                         </tbody>
                     </table>
                     { canEditMetadata ? this.renderEditControls() : null }
-                </div>
-                <div className='summary-tab-tags'>
-                    <TagsInput value={activeItem.tags || []} onChange={this.handleTagsUpdated} />
-                </div>
-                <div className='summary-tab-description'>
+                </section>
+                <section className='summary-tab-tags'>
+                    <span className='summary-tab-category'>Tags</span>
+                    <TagsInput
+                        value={activeItem.tags || []}
+                        onChange={this.handleTagsUpdated}
+                        inputProps={{ placeholder: '' }}
+                    />
+                </section>
+                <section className='summary-tab-description'>
+                    <span className='summary-tab-category'>Description</span>
                     <textarea className='summary-tab-description-input' value={activeItem.description} onChange={this.handleDescriptionUpdated} />
                     <button disabled={activeItem.description === tempDescription} onClick={this.handleDescriptionSaved}>SAVE DESCRIPTION</button>
-                </div>
+                </section>
             </div>
         );
     }
