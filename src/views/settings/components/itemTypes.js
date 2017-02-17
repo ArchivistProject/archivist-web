@@ -43,10 +43,8 @@ export default class ItemTypes extends Component {
 
     addItem = () => {
        const {postItemType, itemName, fetchItemTypes} = this.props;
-       console.log("Item Name: " + itemName);
 
        if(itemName !== "" && itemName !== undefined && itemName !== null) {
-           console.log("posting item name.....");
            postItemType(itemName).then(response => {fetchItemTypes()});
        } else {
            alert("Please enter an item name");
@@ -164,7 +162,7 @@ export default class ItemTypes extends Component {
                     </Col>
                     <br/>
                     <Col sm={4}>
-                        <Button bsStyle="danger" onClick={this.deleteItem}>Delete Item</Button>
+                        <Button bsStyle="danger" onClick={() => {if(confirm('Are you sure you want to delete this item type?')) {this.deleteItem()}}}>Delete Item</Button>
                     </Col>
                 </FormGroup>
             </div>
@@ -173,7 +171,7 @@ export default class ItemTypes extends Component {
 
 
     render() {
-        const {fieldVisible, groups} = this.props;
+        const {fieldVisible, groups, itemName} = this.props;
         return (
             <div>
                 <Form horizontal>
@@ -182,7 +180,7 @@ export default class ItemTypes extends Component {
                             Enter Item Name
                         </Col>
                         <Col sm={5}>
-                            <FormControl type="text" onChange={this.handleItemNameChange}/>
+                            <FormControl value={itemName} type="text" onChange={this.handleItemNameChange}/>
                         </Col>
                         <Col sm={4}>
                             <Button onClick={() => this.addItem()}>Add</Button>

@@ -9,6 +9,7 @@ import ColorPickerDialog from '~/src/views/settings/components/backgroundColor';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
 import Statistic from '~/src/views/settings/components/statistic';
 import ItemTypes from '~/src/views/settings/components/itemTypes';
+import Logo from '~/src/assets/images/logo.png';
 import './settings.scss';
 
 export default class Settings extends Component {
@@ -156,16 +157,18 @@ export default class Settings extends Component {
                 <h1 className="Settings">SETTINGS</h1>
 
                 <div className="aside">
-                    <img src="" alt="LOGO" width='304'
-                         height="228"/>
+                    <img src={Logo} alt="Archivist Logo" width='200'
+                         height="164"/>
+
+                    <p className="caption">Version 1.0</p>
                 </div>
 
                 <div className="section">
-                    {this.Password()}
-                    {this.Background()}
                     {this.Statistic()}
-                    {this.APIToken()}
                     {this.ItemTypes()}
+                    {this.Background()}
+                    {this.Password()}
+                    {this.APIToken()}
                 </div>
             </div>
         );

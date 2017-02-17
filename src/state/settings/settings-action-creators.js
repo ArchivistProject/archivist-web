@@ -36,7 +36,10 @@ export function setActiveItem(itemID){
 export function postItemType(name) {
     return (dispatch) => {
         settingsApi.postItemType(name)
-            .then(response => dispatch(fetchItemTypes()))
+            .then(response => {
+                dispatch({type: settingsActionTypes.POST_ITEM_SUCCEEDED});
+                dispatch(fetchItemTypes());
+            })
             .catch(error => dispatch({ type: settingsActionTypes.POST_ITEM_FAILED }));
     };
 }
@@ -53,7 +56,10 @@ export function postFieldType(name, type, id) {
 export function removeItem(groupID) {
     return (dispatch) => {
         settingsApi.deleteItem(groupID)
-            .then(response => dispatch(fetchItemTypes()))
+            .then(response => {
+                dispatch(fetchItemTypes());
+                dispatch( {type: settingsActionTypes.DELETE_ITEM_SUCCEED})
+            })
             .catch(error => dispatch({ type: settingsActionTypes.DELETE_ITEM_FAILED }));
     };
 }

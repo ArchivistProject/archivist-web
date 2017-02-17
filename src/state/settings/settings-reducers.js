@@ -179,6 +179,13 @@ export default function (state = initialState, action) {
             };
         }
 
+        case settingsActionTypes.POST_ITEM_SUCCEEDED: {
+            return {
+                ...state,
+                itemName: "",
+            };
+        }
+
         case settingsActionTypes.DELETE_FIELD_FAILED: {
             return {
                 ...state,
