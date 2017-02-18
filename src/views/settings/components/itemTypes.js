@@ -1,9 +1,10 @@
 /**
  * Created by Dung Mai on 1/31/2017.
  */
-import React, { PropTypes, Component } from 'react';
+import React, {PropTypes, Component} from 'react';
 import {
-    Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
+    Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row,
+    ListGroup, ListGroupItem
 } from 'react-bootstrap/lib/';
 
 export default class ItemTypes extends Component {
@@ -30,40 +31,36 @@ export default class ItemTypes extends Component {
         removeItem: PropTypes.func.isRequired,
     };
 
-    componentWillMount(){
+    componentWillMount() {
         const {fetchItemTypes} = this.props;
         fetchItemTypes();
     }
 
-    handleItemNameChange = (e) =>{
+    handleItemNameChange = (e) => {
         const {handleItemNameChange} = this.props;
         let name = e.target.value;
         handleItemNameChange(name);
     }
 
     addItem = () => {
-       const {postItemType, itemName, fetchItemTypes} = this.props;
+        const {postItemType, itemName, fetchItemTypes} = this.props;
 
-       if(itemName !== "" && itemName !== undefined && itemName !== null) {
-           postItemType(itemName).then(response => {fetchItemTypes()});
-       } else {
-           alert("Please enter an item name");
-       }
+        if (itemName !== "" && itemName !== undefined && itemName !== null) {
+            postItemType(itemName).then(response => {
+                fetchItemTypes()
+            });
+        } else {
+            alert("Please enter an item name");
+        }
     }
 
     handleOnItemSelect = (item) => {
-       const {setActiveItem, setFieldVisible} = this.props;
+        const {setActiveItem, setFieldVisible} = this.props;
 
         let itemID = item.target.value;
         console.log(itemID);
         setActiveItem(itemID);
-        setFieldVisible(false);
-    }
-
-    edit = () => {
-        const {setFieldVisible, currentItem} = this.props;
-        if(currentItem !== "blank")
-            setFieldVisible(true);
+        setFieldVisible(true);
     }
 
     onFieldTypeDropDown = (e) => {
@@ -85,14 +82,16 @@ export default class ItemTypes extends Component {
         console.log("Field name: " + fieldName);
         console.log("Field id: " + currentItem);
 
-        if(fieldName !== null && fieldName !== undefined && fieldType !== "blank") {
-            postFieldType(fieldName, fieldType, currentItem).then(response => {fetchItemTypes()});
+        if (fieldName !== null && fieldName !== undefined && fieldType !== "blank") {
+            postFieldType(fieldName, fieldType, currentItem).then(response => {
+                fetchItemTypes()
+            });
         } else {
             console.log("Empty field name...");
         }
     }
 
-    onCurrentFieldDropDown = (e) =>{
+    onCurrentFieldDropDown = (e) => {
         const {setFieldID} = this.props;
         let id = e.target.value;
         setFieldID(id);
@@ -105,8 +104,10 @@ export default class ItemTypes extends Component {
         console.log("Delete field ID: " + fieldID);
         console.log("delete item ID: " + currentItem);
 
-        if(currentItem !== undefined && fieldID !== undefined && fieldID !== null) {
-            removeField(currentItem, fieldID).then(response => {fetchItemTypes()});
+        if (currentItem !== undefined && fieldID !== undefined && fieldID !== null) {
+            removeField(currentItem, fieldID).then(response => {
+                fetchItemTypes()
+            });
         } else {
             console.log("empty field id...");
         }
@@ -114,16 +115,21 @@ export default class ItemTypes extends Component {
 
     deleteItem = () => {
         const {removeItem, currentItem, fetchItemTypes} = this.props;
-        removeItem(currentItem).then(response => {fetchItemTypes()});
+        removeItem(currentItem).then(response => {
+            fetchItemTypes()
+        });
+    }
+
+    close = () => {
+        const {setFieldVisible} = this.props;
+        setFieldVisible(false);
     }
 
     generateFieldsContent = () => {
         const {groups, currentItem} = this.props;
+        console.log("generate field entered...");
         return (
             <div>
-                <br/>
-                <ControlLabel>Item Properties:</ControlLabel>
-                <br/>
                 <FormGroup>
                     <Col sm={3} componentClass={ControlLabel}>Field Type</Col>
                     <Col sm={5}>
@@ -160,10 +166,6 @@ export default class ItemTypes extends Component {
                     <Col sm={4}>
                         <Button bsStyle="danger" onClick={this.deleteCurrentField}>X</Button>
                     </Col>
-                    <br/>
-                    <Col sm={4}>
-                        <Button bsStyle="danger" onClick={() => {if(confirm('Are you sure you want to delete this item type?')) {this.deleteItem()}}}>Delete Item</Button>
-                    </Col>
                 </FormGroup>
             </div>
         );
@@ -191,20 +193,28 @@ export default class ItemTypes extends Component {
                     <FormGroup controlId="formControlsSelect">
                         <Col sm={3} componentClass={ControlLabel}>All Item Types</Col>
                         <Col sm={5}>
-                            <FormControl onChange={this.handleOnItemSelect} componentClass="select">
-                                <option value="blank">Select an item...</option>
+                            <ListGroup>
                                 {groups.map((op) =>
-                                    <option value={op.id}>{op.name}</option>
+                                    <ListGroupItem onClick={this.handleOnItemSelect} value={op.id}>{op.name}</ListGroupItem>
                                 )}
-                            </FormControl>
-                        </Col>
-                        <Col sm={4}>
-                            <Button onClick={this.edit}>Edit</Button>
+                            </ListGroup>
                         </Col>
                     </FormGroup>
 
                     <div>
-                        { fieldVisible ? this.generateFieldsContent() : null }
+                        <Modal show={fieldVisible}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Edit Meta Data</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form horizontal>
+                                    {fieldVisible ? this.generateFieldsContent() : null}
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button bsStyle="success" onClick={this.close}>Done</Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </Form>
             </div>
