@@ -72,7 +72,7 @@ export default class Viewer extends Component {
     }
 
     render() {
-        const { scale, scaleMin, scaleMax, currentPage, updatePage, sidebarVisible } = this.props;
+        const { scale, currentPage, sidebarVisible } = this.props;
         if (this.viewer) {
             this.viewer.innerHTML = '';
         }
@@ -83,10 +83,12 @@ export default class Viewer extends Component {
             this.viewer.appendChild(pageContainer);
             pdf.getPage(currentPage).then((pdfPage) => {
                 // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
-                const reduceScale = sidebarVisible ? 0.8 : 0.985;
+                const reduceScale = sidebarVisible ? 0.65 : 0.95;
                 const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
+
                 pageContainer.width = `${viewport.width}px`;
                 pageContainer.height = `${viewport.height}px`;
+                this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 330 : 21)}px`;
 
                 // Render the SVG element and add it as a child to the page container
                 pdfPage.getOperatorList()
