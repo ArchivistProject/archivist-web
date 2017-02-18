@@ -1,6 +1,7 @@
 import viewerActionTypes from './viewer-action-types';
 
 const initialState = {
+    docType: 'web', // TODO: update
     scale: 1.0,
     scaleMax: 3.0,
     scaleMin: 0.3,
