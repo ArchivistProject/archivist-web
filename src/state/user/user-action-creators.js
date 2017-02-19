@@ -1,4 +1,5 @@
 import * as userApi from '~/src/api/user-api';
+import { APP_CONSTANTS } from '~/src/utils/app-constants';
 import userActionTypes from './user-action-types';
 
 export function usernameChanged(username) {
@@ -21,7 +22,7 @@ export function login(username, password, router) {
             .then((response) => {
                 const { auth_token: token, error } = response;
                 if (token) {
-                    localStorage.setItem('auth_token', token);
+                    localStorage.setItem(APP_CONSTANTS.AUTH_TOKEN, token);
                     dispatch({
                         type: userActionTypes.LOGIN_SUCCEEDED,
                     });
@@ -54,10 +55,11 @@ export function logout(router) {
             },
         });
         router.push('/login');
+        localStorage.removeItem(APP_CONSTANTS.AUTH_TOKEN);
     };
 }
 
-export function checkAuth(redirect, router) {
+export function checkAuth(router) {
     return (dispatch) => {
         dispatch({
             type: userActionTypes.CHECK_AUTH,
@@ -74,6 +76,7 @@ export function checkAuth(redirect, router) {
                 }
             })
             .catch((error) => {
+                router.push('/login');
                 dispatch({
                     type: userActionTypes.AUTH_FAILED,
                     notification: {
@@ -82,7 +85,6 @@ export function checkAuth(redirect, router) {
                         level: 'error',
                     },
                 });
-                router.push('/login');
             });
     };
 }

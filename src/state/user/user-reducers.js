@@ -40,6 +40,12 @@ export default function (state = initialState, action) {
                 passwordField: initialState.passwordField,
             };
         }
+        case userActionTypes.AUTH_FAILED: {
+            return {
+                ...state,
+                loggedIn: false,
+            };
+        }
 
     }
     return state;

@@ -20,7 +20,6 @@ class AuthConnector extends Component {
 function mapStateToProps(state) {
     return {
         ...state.user,
-        redirect: state.routing.locationBeforeTransitions.pathname,
     };
 }
 

@@ -1,6 +1,6 @@
 import Notifications from 'react-notification-system-redux';
 
-export default ({ dispatch, getState }) => next => action => {
+export default ({ dispatch, getState }) => next => (action) => {
     const { notification } = action;
     // Should be in the form:
     // notification: {

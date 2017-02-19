@@ -9,7 +9,6 @@ import ActionBar from './components/action-bar';
 class ActionBarConnector extends Component {
     render() {
         const { dispatch } = this.props;
-        console.log(this.props);
         return (
             <ActionBar
                 {...this.props}
