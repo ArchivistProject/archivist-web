@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
-import { App, Home, Login, Upload } from './views';
+import { App, Auth, Home, Login, Upload } from './views';
 import './style.scss';
 
 const store = configureStore();
@@ -17,9 +17,11 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path='/' component={App}>
-                <IndexRoute component={Home} />
                 <Route path='login' component={Login} />
-                <Route path='upload' component={Upload} />
+                <Route component={Auth}>
+                    <IndexRoute component={Home} />
+                    <Route path='upload' component={Upload} />
+                </Route>
             </Route>
         </Router>
     </Provider>,

@@ -32,10 +32,8 @@ export default function (state = initialState, action) {
         }
 
         case userActionTypes.LOGIN_SUCCEEDED: {
-            const { authToken } = action.data;
             return {
                 ...state,
-                authToken,
                 loggedIn: true,
             };
         }

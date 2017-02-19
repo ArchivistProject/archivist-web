@@ -1,5 +1,6 @@
 import * as userApi from '~/src/api/user-api';
 import userActionTypes from './user-action-types';
+import { browserHistory } from 'react-router';
 
 export function usernameChanged(username) {
     return {
@@ -15,28 +16,44 @@ export function passwordChanged(password) {
     };
 }
 
-export function login(username, password) {
+export function login(username, password, history) {
     return (dispatch) => {
-        userApi.login(username, password)
+        userApi.login(username, password, history)
             .then((response) => {
                 const { auth_token } = response;
+                console.log(auth_token);
+                localStorage.setItem('auth_token', auth_token);
                 dispatch({
                     type: userActionTypes.LOGIN_SUCCEEDED,
-                    data: { authToken: auth_token },
                 });
+                history.push('/');
             })
-            .catch((response) => {
-                const { error } = response.responseJSON;
+            .catch((error) => {
+                console.log(error);
                 dispatch({
                     type: userActionTypes.LOGIN_FAILED,
-                    data: { error },
                 });
             });
+    };
+}
 
-            // .then(response => dispatch({
-            //     type: userActionTypes.LOGIN_SUCCEEDED,
-            //     data: response,
-            // }))
-            // .catch(error => dispatch({ type: userActionTypes.LOGIN_FAILED, data: error }));
+export function checkAuth(redirect, history) {
+    return (dispatch) => {
+        console.log(redirect, history);
+        dispatch({
+            type: userActionTypes.CHECK_AUTH,
+        });
+        userApi.checkAuth()
+            .then((response) => {
+                const { valid } = response;
+                if (valid) {
+                    history.push(redirect);
+                } else {
+                    history.push('/login');
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 }
