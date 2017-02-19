@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 import * as userActionCreators from '~/src/state/user/user-action-creators';
 import Auth from './auth';
 
@@ -23,4 +24,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(AuthConnector);
+export default connect(mapStateToProps)(withRouter(AuthConnector));

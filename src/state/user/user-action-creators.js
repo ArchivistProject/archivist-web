@@ -15,9 +15,9 @@ export function passwordChanged(password) {
     };
 }
 
-export function login(username, password, history) {
+export function login(username, password, router) {
     return (dispatch) => {
-        userApi.login(username, password, history)
+        userApi.login(username, password, router)
             .then((response) => {
                 const { auth_token: token, error } = response;
                 if (token) {
@@ -25,7 +25,7 @@ export function login(username, password, history) {
                     dispatch({
                         type: userActionTypes.LOGIN_SUCCEEDED,
                     });
-                    history.push('/');
+                    router.push('/');
                 } else {
                     throw new Error(error);
                 }
@@ -43,7 +43,7 @@ export function login(username, password, history) {
     };
 }
 
-export function logout(history) {
+export function logout(router) {
     return (dispatch) => {
         dispatch({
             type: userActionTypes.LOGOUT,
@@ -53,11 +53,11 @@ export function logout(history) {
                 level: 'success',
             },
         });
-        history.push('/login');
+        router.push('/login');
     };
 }
 
-export function checkAuth(redirect, history) {
+export function checkAuth(redirect, router) {
     return (dispatch) => {
         dispatch({
             type: userActionTypes.CHECK_AUTH,
@@ -82,7 +82,7 @@ export function checkAuth(redirect, history) {
                         level: 'error',
                     },
                 });
-                history.push('/login');
+                router.push('/login');
             });
     };
 }

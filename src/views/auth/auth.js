@@ -7,13 +7,13 @@ export default class Auth extends Component {
         loggedIn: PropTypes.bool.isRequired,
         checkAuth: PropTypes.func.isRequired,
         redirect: PropTypes.string.isRequired,
-        history: PropTypes.object.isRequired,
+        router: PropTypes.object.isRequired,
     };
 
     componentWillMount() {
-        const { loggedIn, checkAuth, redirect, history } = this.props;
+        const { loggedIn, checkAuth, redirect, router } = this.props;
         if (!loggedIn) {
-            checkAuth(redirect, history);
+            checkAuth(redirect, router);
         }
     }
 

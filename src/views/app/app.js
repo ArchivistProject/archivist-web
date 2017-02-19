@@ -9,14 +9,13 @@ class App extends Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
         notifications: PropTypes.array,
-        history: PropTypes.object.isRequired,
     };
 
     render() {
-        const { children, notifications, history } = this.props;
+        const { children, notifications } = this.props;
         return (
             <div id='app'>
-                <ActionBar history={history} />
+                <ActionBar />
                 <div>{children}</div>
                 <Notifications notifications={notifications} />
             </div>

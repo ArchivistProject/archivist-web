@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 import * as actionBarActionCreators from '~/src/state/action-bar/action-bar-action-creators';
 import { logout } from '~/src/state/user/user-action-creators';
 import ActionBar from './components/action-bar';
@@ -26,4 +27,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ActionBarConnector);
+export default connect(mapStateToProps)(withRouter(ActionBarConnector));
