@@ -60,6 +60,8 @@ export default class Settings extends Component {
         removeField: PropTypes.func.isRequired,
         fieldID: PropTypes.string,
         removeItem: PropTypes.func.isRequired,
+        popupName: PropTypes.string,
+        setPopupName: PropTypes.func.isRequired,
 
     };
 
@@ -127,11 +129,12 @@ export default class Settings extends Component {
 
     ItemTypes() {
         const {groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
-            setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField, removeItem} = this.props;
+            setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
+            removeItem, popupName, setPopupName} = this.props;
         return (
             <div>
-                <Panel header="Item Types" bsStyle="info">
-                    <p>Add a new item type then select one from the list to add fields to it.</p>
+                <Panel header="Item Category" bsStyle="info">
+                    <p>Add new categories for your file and manage meta data for each category.</p>
                     <ItemTypes groups={groups} postItemType={postItemType} itemName={itemName}
                     currentItem={currentItem} handleItemNameChange={handleItemNameChange} fetchItemTypes={fetchItemTypes}
                     setActiveItem={setActiveItem}
@@ -145,7 +148,9 @@ export default class Settings extends Component {
                     postFieldType={postFieldType}
                     removeField={removeField}
                     fieldID={fieldID}
-                    removeItem={removeItem}/>
+                    removeItem={removeItem}
+                    popupName={popupName}
+                    setPopupName={setPopupName}/>
                 </Panel>
             </div>
         );

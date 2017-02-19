@@ -103,6 +103,13 @@ export function setFieldID(id){
     }
 }
 
+export function setPopupName(name){
+    return {
+        type: settingsActionTypes.SETTING_POPUP_NAME,
+        data: {name},
+    }
+}
+
 
 //----------------------Password-------------------------------
 

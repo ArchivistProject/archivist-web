@@ -30,6 +30,7 @@ const initialState = {
     fieldType: "blank",
     fieldName: null,
     fieldID: "blank",
+    popupName: null,
 };
 
 export default function (state = initialState, action) {
@@ -202,6 +203,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 fieldVisible: false,
+            };
+        }
+
+        case settingsActionTypes.SETTING_POPUP_NAME: {
+            const {name} = action.data;
+            return {
+                ...state,
+                popupName: name,
             };
         }
     }

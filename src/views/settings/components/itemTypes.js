@@ -6,6 +6,7 @@ import {
     Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row,
     ListGroup, ListGroupItem
 } from 'react-bootstrap/lib/';
+import './settings.scss';
 
 export default class ItemTypes extends Component {
 
@@ -17,6 +18,7 @@ export default class ItemTypes extends Component {
         fieldType: PropTypes.string,
         fieldName: PropTypes.string,
         fieldID: PropTypes.string,
+        popupName: PropTypes.string,
 
         setActiveItem: PropTypes.func.isRequired,
         handleItemNameChange: PropTypes.func.isRequired,
@@ -29,6 +31,7 @@ export default class ItemTypes extends Component {
         setFieldID: PropTypes.func.isRequired,
         removeField: PropTypes.func.isRequired,
         removeItem: PropTypes.func.isRequired,
+        setPopupName: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -55,12 +58,22 @@ export default class ItemTypes extends Component {
     }
 
     handleOnItemSelect = (item) => {
-        const {setActiveItem, setFieldVisible} = this.props;
+        const {groups, setActiveItem, setFieldVisible, setPopupName} = this.props;
 
         let itemID = item.target.value;
         console.log(itemID);
         setActiveItem(itemID);
         setFieldVisible(true);
+
+        //get the group name
+        let name = null;
+        for (let i = 0; i < groups.length; i++) {
+            if (groups[i].id === itemID) {
+                name = groups[i].name;
+            }
+        }
+
+        setPopupName(name);
     }
 
     onFieldTypeDropDown = (e) => {
@@ -98,8 +111,10 @@ export default class ItemTypes extends Component {
         console.log("Field ID Selected: " + id);
     }
 
-    deleteCurrentField = () => {
-        const {removeField, fieldID, currentItem, fetchItemTypes} = this.props;
+    deleteCurrentField = (e) => {
+        const {removeField, currentItem, fetchItemTypes} = this.props;
+
+        let fieldID = e.target.id;
 
         console.log("Delete field ID: " + fieldID);
         console.log("delete item ID: " + currentItem);
@@ -126,48 +141,57 @@ export default class ItemTypes extends Component {
     }
 
     generateFieldsContent = () => {
-        const {groups, currentItem} = this.props;
+        const {groups, currentItem, popupName} = this.props;
         console.log("generate field entered...");
+
         return (
             <div>
-                <FormGroup>
-                    <Col sm={3} componentClass={ControlLabel}>Field Type</Col>
-                    <Col sm={5}>
-                        <FormControl componentClass="select" placeholder="select" onChange={this.onFieldTypeDropDown}>
-                            <option value="blank">Select a field type...</option>
-                            <option value="string">String</option>
-                            <option value="date">Date</option>
-                        </FormControl>
-                    </Col>
-                    <Col sm={4}/>
-                </FormGroup>
+                <hr/>
+                <Col sm={12}>
+                    <p><b>{popupName}</b> Meta Data:</p>
+                </Col>
+                <Form horizontal>
+                    <FormGroup>
+                        <Col sm={3} componentClass={ControlLabel}>Field Type</Col>
+                        <Col sm={5}>
+                            <FormControl componentClass="select" placeholder="select"
+                                         onChange={this.onFieldTypeDropDown}>
+                                <option value="blank">Select a field type...</option>
+                                <option value="string">String</option>
+                                <option value="date">Date</option>
+                            </FormControl>
+                        </Col>
+                        <Col sm={4}/>
+                    </FormGroup>
 
-                <FormGroup>
-                    <Col sm={3} componentClass={ControlLabel}>Field Name</Col>
-                    <Col sm={5}>
-                        <FormControl type="text" onChange={this.handleFieldNameChange}/>
-                    </Col>
-                    <Col sm={4}>
-                        <Button onClick={this.addField}>Add Field</Button>
-                    </Col>
-                </FormGroup>
+                    <FormGroup>
+                        <Col sm={3} componentClass={ControlLabel}>Field Name</Col>
+                        <Col sm={5}>
+                            <FormControl type="text" onChange={this.handleFieldNameChange}/>
+                        </Col>
+                        <Col sm={4}>
+                            <Button onClick={this.addField}>Add</Button>
+                        </Col>
+                    </FormGroup>
 
-                <br/>
-                <FormGroup controlId="formControlsSelect">
-                    <Col sm={3} componentClass={ControlLabel}>Current Fields</Col>
-                    <Col sm={5}>
-                        <FormControl componentClass="select" onChange={this.onCurrentFieldDropDown}>
-                            <option value="blank">Select a field...</option>
+                    <p>
+
+                    <Col sm={8}>
+                        <ul className="list-group">
                             {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
-                                <option value={obj.id}>{obj.name}</option>
+                                    <li className="list-group-item clearfix">
+                                        {obj.name}
+                                        <span className="pull-right button-group">
+                            <button id={obj.id} type="button" onClick={this.deleteCurrentField}
+                                    className="btn btn-danger"><span className="glyphicon glyphicon-remove"/></button>
+                            </span>
+                                    </li>
                             )}
-                        </FormControl>
+                        </ul>
                     </Col>
-                    <Col sm={4}>
-                        <Button bsStyle="danger" onClick={this.deleteCurrentField}>X</Button>
-                    </Col>
-                </FormGroup>
+                </Form>
             </div>
+
         );
     }
 
@@ -179,7 +203,7 @@ export default class ItemTypes extends Component {
                 <Form horizontal>
                     <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={3}>
-                            Enter Item Name
+                            Enter Category Name
                         </Col>
                         <Col sm={5}>
                             <FormControl value={itemName} type="text" onChange={this.handleItemNameChange}/>
@@ -191,30 +215,19 @@ export default class ItemTypes extends Component {
 
 
                     <FormGroup controlId="formControlsSelect">
-                        <Col sm={3} componentClass={ControlLabel}>All Item Types</Col>
+                        <Col sm={3} componentClass={ControlLabel}>All Categories</Col>
                         <Col sm={5}>
                             <ListGroup>
                                 {groups.map((op) =>
-                                    <ListGroupItem onClick={this.handleOnItemSelect} value={op.id}>{op.name}</ListGroupItem>
+                                    <ListGroupItem onClick={this.handleOnItemSelect}
+                                                   value={op.id}>{op.name}</ListGroupItem>
                                 )}
                             </ListGroup>
                         </Col>
                     </FormGroup>
 
                     <div>
-                        <Modal show={fieldVisible}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Edit Meta Data</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Form horizontal>
-                                    {fieldVisible ? this.generateFieldsContent() : null}
-                                </Form>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button bsStyle="success" onClick={this.close}>Done</Button>
-                            </Modal.Footer>
-                        </Modal>
+                        {fieldVisible ? this.generateFieldsContent() : null}
                     </div>
                 </Form>
             </div>
