@@ -47,7 +47,9 @@ export function checkAuth(redirect, history) {
             .then((response) => {
                 const { valid } = response;
                 if (valid) {
-                    history.push(redirect);
+                    dispatch({
+                        type: userActionTypes.AUTH_VALIDATED,
+                    });
                 } else {
                     history.push('/login');
                 }

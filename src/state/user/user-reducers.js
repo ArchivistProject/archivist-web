@@ -31,7 +31,8 @@ export default function (state = initialState, action) {
             };
         }
 
-        case userActionTypes.LOGIN_SUCCEEDED: {
+        case userActionTypes.LOGIN_SUCCEEDED:
+        case userActionTypes.AUTH_VALIDATED: {
             return {
                 ...state,
                 loggedIn: true,

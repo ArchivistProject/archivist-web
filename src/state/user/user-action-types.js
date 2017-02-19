@@ -7,4 +7,5 @@ export default {
     LOGIN_FAILED: 'user/LOGIN_FAILED',
 
     CHECK_AUTH: 'user/CHECK_AUTH',
+    AUTH_VALIDATED: 'user/AUTH_VALIDATED',
 };
