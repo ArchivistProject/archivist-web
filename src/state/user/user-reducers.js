@@ -36,6 +36,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 loggedIn: true,
+                usernameField: initialState.usernameField,
+                passwordField: initialState.passwordField,
             };
         }
 

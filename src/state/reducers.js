@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import { reducer as notifications } from 'react-notification-system-redux';
 import actionBar from './action-bar/action-bar-reducers';
 import home from './home/home-reducers';
 import item from './item/item-reducers';
@@ -15,4 +16,5 @@ export default combineReducers({
     upload,
     user,
     routing: routerReducer,
+    notifications,
 });

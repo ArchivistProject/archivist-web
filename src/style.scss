@@ -10,3 +10,11 @@ html, body {
 button {
     cursor: pointer;
 }
+
+.notification {
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    &-dismiss {
+        border-radius: 0 !important;
+    }
+}

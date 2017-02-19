@@ -10,7 +10,7 @@ export default class Auth extends Component {
         history: PropTypes.object.isRequired,
     };
 
-    componentDidMount() {
+    componentWillMount() {
         const { loggedIn, checkAuth, redirect, history } = this.props;
         if (!loggedIn) {
             checkAuth(redirect, history);
@@ -18,10 +18,6 @@ export default class Auth extends Component {
     }
 
     render() {
-        const { loggedIn } = this.props;
-        if (loggedIn) {
-            return this.props.children;
-        }
-        return null;
+        return this.props.children;
     }
 }

@@ -1,19 +1,13 @@
-import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 
 export function login(username, password) {
-    const payload = {
+    const data = {
         email: username,
         password,
     };
-    return $.post(`${config.backend}/authentication/login`, payload);
+    return ajax('POST', 'authentication/login', data);
 }
 
 export function checkAuth() {
-    const token = localStorage.getItem('auth_token');
-    return $.ajax({
-        type: 'GET',
-        url: `${config.backend}/authentication/status`,
-        beforeSend: (xhr) => { xhr.setRequestHeader('Authorization', token); },
-    });
+    return ajax('GET', 'authentication/status');
 }

@@ -6,12 +6,15 @@ export default class ActionBar extends Component {
 
     static propTypes = {
         loggedIn: PropTypes.bool,
+        logout: PropTypes.func.isRequired,
         backVisible: PropTypes.bool.isRequired,
         uploadVisible: PropTypes.bool.isRequired,
         searchVisible: PropTypes.bool.isRequired,
         settingsVisible: PropTypes.bool.isRequired,
+        logoutVisible: PropTypes.bool.isRequired,
         updateVisibilities: PropTypes.func.isRequired,
         pathname: PropTypes.string.isRequired,
+        history: PropTypes.object.isRequired,
     };
 
     componentDidMount() {
@@ -28,8 +31,13 @@ export default class ActionBar extends Component {
         }
     }
 
+    handleLogout = () => {
+        const { logout, history } = this.props;
+        logout(history);
+    }
+
     render() {
-        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible } = this.props;
         return (
             <div className='action-bar-wrapper'>
                 { !loggedIn ?
@@ -51,7 +59,7 @@ export default class ActionBar extends Component {
                         <div className='action-bar-right-buttons'>
                             {uploadVisible ? <Link to='/upload' className='action-bar-upload'>Upload</Link> : null }
                             {settingsVisible ? <Link to='/settings' className='action-bar-settings'>Settings</Link> : null }
-                            <a className='action-bar-logout'>Log Out</a>
+                            {logoutVisible ? <button className='action-bar-logout' onClick={this.handleLogout}>Log Out</button> : null }
                         </div>
                     </div>
                 : null}
