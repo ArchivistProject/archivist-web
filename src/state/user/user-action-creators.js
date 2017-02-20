@@ -1,5 +1,6 @@
 import * as userApi from '~/src/api/user-api';
 import { APP_CONSTANTS } from '~/src/utils/app-constants';
+import { handleError } from '~/src/utils/utils';
 import userActionTypes from './user-action-types';
 
 export function usernameChanged(username) {
@@ -16,35 +17,29 @@ export function passwordChanged(password) {
     };
 }
 
-export function login(username, password, router) {
+export function login(username, password) {
     return (dispatch) => {
-        userApi.login(username, password, router)
+        userApi.login(username, password)
             .then((response) => {
                 const { auth_token: token, error } = response;
                 if (token) {
                     localStorage.setItem(APP_CONSTANTS.AUTH_TOKEN, token);
                     dispatch({
                         type: userActionTypes.LOGIN_SUCCEEDED,
+                        redirect: '/',
                     });
-                    router.push('/');
                 } else {
                     throw new Error(error);
                 }
             })
             .catch((error) => {
-                dispatch({
-                    type: userActionTypes.LOGIN_FAILED,
-                    notification: {
-                        title: 'Authentication failed',
-                        message: error.message,
-                        level: 'error',
-                    },
-                });
+                dispatch({ type: userActionTypes.LOGIN_FAILED });
+                handleError(error, dispatch);
             });
     };
 }
 
-export function logout(router) {
+export function logout() {
     return (dispatch) => {
         dispatch({
             type: userActionTypes.LOGOUT,
@@ -53,13 +48,13 @@ export function logout(router) {
                 message: 'You have been logged out.',
                 level: 'success',
             },
+            redirect: '/login',
         });
-        router.push('/login');
         localStorage.removeItem(APP_CONSTANTS.AUTH_TOKEN);
     };
 }
 
-export function checkAuth(router) {
+export function checkAuth() {
     return (dispatch) => {
         dispatch({
             type: userActionTypes.CHECK_AUTH,
@@ -72,11 +67,10 @@ export function checkAuth(router) {
                         type: userActionTypes.AUTH_VALIDATED,
                     });
                 } else {
-                    throw new Error();
+                    throw response;
                 }
             })
             .catch((error) => {
-                router.push('/login');
                 dispatch({
                     type: userActionTypes.AUTH_FAILED,
                     notification: {
@@ -84,6 +78,7 @@ export function checkAuth(router) {
                         message: 'Please log in.',
                         level: 'error',
                     },
+                    redirect: '/login',
                 });
             });
     };

@@ -10,7 +10,6 @@ export default class Login extends Component {
 
         usernameField: PropTypes.string.isRequired,
         passwordField: PropTypes.string.isRequired,
-        router: PropTypes.object.isRequired,
     };
 
     componentDidMount() {
@@ -32,8 +31,8 @@ export default class Login extends Component {
     }
 
     handleLoginClicked = () => {
-        const { login, usernameField, passwordField, router } = this.props;
-        login(usernameField, passwordField, router);
+        const { login, usernameField, passwordField } = this.props;
+        login(usernameField, passwordField);
     }
 
     handleKeyDown = (e) => {

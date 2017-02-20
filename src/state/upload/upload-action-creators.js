@@ -1,5 +1,7 @@
 import * as uploadApi from '~/src/api/upload-api';
+import { handleError } from '~/src/utils/utils';
 import uploadActionTypes from './upload-action-types';
+
 
 export function updateUploadFile(file) {
     return {
@@ -14,6 +16,9 @@ export function submitFile() {
         const { file } = state.upload;
         uploadApi.uploadFile(file)
             .then(response => dispatch({ type: uploadActionTypes.FILE_UPLOAD_SUCCEEDED }))
-            .catch(error => dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED }));
+            .catch((error) => {
+                dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED });
+                handleError(error, dispatch);
+            });
     };
 }

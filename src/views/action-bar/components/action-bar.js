@@ -14,7 +14,6 @@ export default class ActionBar extends Component {
         logoutVisible: PropTypes.bool.isRequired,
         updateVisibilities: PropTypes.func.isRequired,
         pathname: PropTypes.string.isRequired,
-        router: PropTypes.object.isRequired,
     };
 
     componentDidMount() {
@@ -32,8 +31,8 @@ export default class ActionBar extends Component {
     }
 
     handleLogout = () => {
-        const { logout, router } = this.props;
-        logout(router);
+        const { logout } = this.props;
+        logout();
     }
 
     render() {
