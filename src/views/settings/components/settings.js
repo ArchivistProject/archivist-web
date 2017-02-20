@@ -1,14 +1,13 @@
-import React, {PropTypes, Component} from 'react';
-import {Link} from 'react-router';
-import {ActionBar} from '~/src/views';
+import React, { PropTypes, Component } from 'react';
 import {
-    Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
+     Panel,
 } from 'react-bootstrap/lib/';
 import PasswordDialog from '~/src/views/settings/components/password';
 import ColorPickerDialog from '~/src/views/settings/components/backgroundColor';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
 import Statistic from '~/src/views/settings/components/statistic';
 import ItemTypes from '~/src/views/settings/components/itemTypes';
+import Logo from '~/src/assets/images/logo.png';
 import './settings.scss';
 
 export default class Settings extends Component {
@@ -59,92 +58,105 @@ export default class Settings extends Component {
         removeField: PropTypes.func.isRequired,
         fieldID: PropTypes.string,
         removeItem: PropTypes.func.isRequired,
+        popupName: PropTypes.string,
+        setPopupName: PropTypes.func.isRequired,
 
     };
 
-    Password() {
-        const {showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog} = this.props;
+    password() {
+        const { showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog } = this.props;
         return (
             <div>
-                <Panel header="Password" bsStyle="info">
-                    <PasswordDialog showModal={showModal}
-                                    newPassword={newPassword}
-                                    confirmPassword={confirmPassword}
-                                    newPasswordChange={newPasswordChange}
-                                    confirmPasswordChange={confirmPasswordChange}
-                                    openDialog={openDialog}
-                                    closeDialog={closeDialog}
+                <Panel header='Password' bsStyle='info'>
+                    <PasswordDialog
+                        showModal={showModal}
+                        newPassword={newPassword}
+                        confirmPassword={confirmPassword}
+                        newPasswordChange={newPasswordChange}
+                        confirmPasswordChange={confirmPasswordChange}
+                        openDialog={openDialog}
+                        closeDialog={closeDialog}
                     />
                 </Panel>
             </div>
-        )
+        );
     }
 
-    Background() {
-        const {showColorModal, colorPicked, background, closeColorDialog, openColorDialog, handleOnSelectColor, changeBackgroundColor} = this.props;
+    background() {
+        const { showColorModal, colorPicked, background, closeColorDialog, openColorDialog, handleOnSelectColor, changeBackgroundColor } = this.props;
 
         return (
             <div>
-                <Panel header="Background" bsStyle="info">
+                <Panel header='Background' bsStyle='info'>
                     <p>Change your background color</p>
-                    <ColorPickerDialog showColorModal={showColorModal}
-                                       colorPicked={colorPicked}
-                                       background={background}
-                                       closeColorDialog={closeColorDialog}
-                                       openColorDialog={openColorDialog}
-                                       handleOnSelectColor={handleOnSelectColor}
-                                       changeBackgroundColor={changeBackgroundColor}
+                    <ColorPickerDialog
+                        showColorModal={showColorModal}
+                        colorPicked={colorPicked}
+                        background={background}
+                        closeColorDialog={closeColorDialog}
+                        openColorDialog={openColorDialog}
+                        handleOnSelectColor={handleOnSelectColor}
+                        changeBackgroundColor={changeBackgroundColor}
                     />
                 </Panel>
             </div>
         );
     }
 
-    Statistic() {
-        const {fetchFileStorage, storage, fileCount} = this.props;
+    statistic() {
+        const { fetchFileStorage, storage, fileCount } = this.props;
         return (
             <div>
-                <Panel header="Statistic" bsStyle="info">
-                    <Statistic fetchFileStorage={fetchFileStorage}
-                               storage={storage} fileCount={fileCount}/>
+                <Panel header='Statistic' bsStyle='info'>
+                    <Statistic
+                        fetchFileStorage={fetchFileStorage}
+                        storage={storage} fileCount={fileCount}
+                    />
                 </Panel>
             </div>
         );
     }
 
-    APIToken() {
-        const {apiToken, refreshAPI} = this.props;
+    apiToken() {
+        const { apiToken, refreshAPI } = this.props;
         return (
             <div>
-                <Panel header="API Token" bsStyle="info">
-                    <RefreshAPI apiToken={apiToken}
-                                refreshAPI={refreshAPI}/>
+                <Panel header='API Token' bsStyle='info'>
+                    <RefreshAPI
+                        apiToken={apiToken}
+                        refreshAPI={refreshAPI}
+                    />
                 </Panel>
             </div>
         );
     }
 
-    ItemTypes() {
-        const {groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
-            setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField, removeItem} = this.props;
+    itemTypes() {
+        const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
+            setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
+            removeItem, popupName, setPopupName } = this.props;
         return (
             <div>
-                <Panel header="Item Types" bsStyle="info">
-                    <p>Add a new item type then select one from the list to add fields to it.</p>
-                    <ItemTypes groups={groups} postItemType={postItemType} itemName={itemName}
-                    currentItem={currentItem} handleItemNameChange={handleItemNameChange} fetchItemTypes={fetchItemTypes}
-                    setActiveItem={setActiveItem}
-                    setFieldVisible={setFieldVisible}
-                    fieldVisible={fieldVisible}
-                    setFieldName={setFieldName}
-                    setFieldType={setFieldType}
-                    fieldName={fieldName}
-                    fieldType={fieldType}
-                    setFieldID={setFieldID}
-                    postFieldType={postFieldType}
-                    removeField={removeField}
-                    fieldID={fieldID}
-                    removeItem={removeItem}/>
+                <Panel header='Item Category' bsStyle='info'>
+                    <p>Add new categories for your file and manage meta data for each category. A category can be used when uploading a file.</p>
+                    <ItemTypes
+                        groups={groups} postItemType={postItemType} itemName={itemName}
+                        currentItem={currentItem} handleItemNameChange={handleItemNameChange} fetchItemTypes={fetchItemTypes}
+                        setActiveItem={setActiveItem}
+                        setFieldVisible={setFieldVisible}
+                        fieldVisible={fieldVisible}
+                        setFieldName={setFieldName}
+                        setFieldType={setFieldType}
+                        fieldName={fieldName}
+                        fieldType={fieldType}
+                        setFieldID={setFieldID}
+                        postFieldType={postFieldType}
+                        removeField={removeField}
+                        fieldID={fieldID}
+                        removeItem={removeItem}
+                        popupName={popupName}
+                        setPopupName={setPopupName}
+                    />
                 </Panel>
             </div>
         );
@@ -153,19 +165,23 @@ export default class Settings extends Component {
     render() {
         return (
             <div>
-                <h1 className="Settings">SETTINGS</h1>
+                <h1 className='Settings'>SETTINGS</h1>
 
-                <div className="aside">
-                    <img src="" alt="LOGO" width='304'
-                         height="228"/>
+                <div className='aside'>
+                    <img
+                        src={Logo} alt='Archivist Logo' width='200'
+                        height='164'
+                    />
+
+                    <p className='caption'>Version 1.0</p>
                 </div>
 
-                <div className="section">
-                    {this.Password()}
-                    {this.Background()}
-                    {this.Statistic()}
-                    {this.APIToken()}
-                    {this.ItemTypes()}
+                <div className='section'>
+                    {this.statistic()}
+                    {this.itemTypes()}
+                    {this.background()}
+                    {this.password()}
+                    {this.apiToken()}
                 </div>
             </div>
         );

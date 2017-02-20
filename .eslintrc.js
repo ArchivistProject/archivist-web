@@ -37,6 +37,7 @@ module.exports = {
         "react/no-unused-prop-types": 1,
         "react/forbid-prop-types": 0,
         "jsx-a11y/no-static-element-interactions": 0,
+        "linebreak-style": 0,
     },
     "ecmaFeatures": {
         "experimentalObjectRestSpread": true

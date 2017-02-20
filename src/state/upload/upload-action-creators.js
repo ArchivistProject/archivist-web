@@ -33,30 +33,30 @@ export function fetchItemTypes() {
     };
 }
 
-export function setAllItemID(itemID){
-    return{
+export function setAllItemID(itemID) {
+    return {
         type: uploadActionTypes.SET_ITEM_ID,
-        data: {itemID},
-    }
+        data: { itemID },
+    };
 }
 
-export function handleTitleChange(name){
+export function handleTitleChange(name) {
     return {
         type: uploadActionTypes.TITLE_CHANGED,
         data: name,
-    }
+    };
 }
 
-export function handleAuthorChange(name){
+export function handleAuthorChange(name) {
     return {
         type: uploadActionTypes.AUTHOR_CHANGED,
         data: name,
-    }
+    };
 }
 
-export function handleTagsChange(tag){
+export function handleTagsChange(tag) {
     return {
         type: uploadActionTypes.TAGS_CHANGED,
-        data: {tag},
-    }
+        data: { tag },
+    };
 }

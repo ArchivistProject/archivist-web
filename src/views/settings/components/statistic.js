@@ -1,10 +1,5 @@
-/**
- * Created by Dung Mai on 2/1/2017.
- */
-import React, {PropTypes, Component} from 'react';
-import {
-    Button, FormControl
-} from 'react-bootstrap/lib/';
+import React, { PropTypes, Component } from 'react';
+import { Col, ControlLabel } from 'react-bootstrap/lib/';
 
 export default class Statistic extends Component {
 
@@ -15,20 +10,28 @@ export default class Statistic extends Component {
     };
 
     componentDidMount() {
-        const {fetchFileStorage} = this.props;
+        const { fetchFileStorage } = this.props;
         fetchFileStorage();
     }
 
 
     render() {
-        const {storage, fileCount} = this.props;
+        const { storage, fileCount } = this.props;
         return (
 
             <div>
-                <p>Uploaded Files: {fileCount}</p>
-                <p>Storage Size: {storage}</p>
+
+                <Col sm={3} componentClass={ControlLabel}>Total Files Uploaded: </Col>
+                <Col sm={8}>
+                    <p>{fileCount}</p>
+                </Col>
+
+                <Col sm={3} componentClass={ControlLabel}>Storage Size: </Col>
+                <Col sm={8}>
+                    <p>{storage}</p>
+                </Col>
             </div>
 
-        )
+        );
     }
 }

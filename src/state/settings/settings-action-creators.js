@@ -8,35 +8,38 @@ export function fetchItemTypes() {
                 type: settingsActionTypes.FETCH_ITEMTYPE_SUCCEEDED,
                 data: response,
             }))
-            .catch(error => { throw new Error("Item type failed", error); });
+            .catch((error) => { throw new Error('Item type failed', error); });
     };
 }
 
-export function handleItemNameChange(name){
+export function handleItemNameChange(name) {
     return {
         type: settingsActionTypes.ITEM_NAME_CHANGED,
-        data: {name},
-    }
+        data: { name },
+    };
 }
 
-export function addItem(name){
+export function addItem(name) {
     return {
         type: settingsActionTypes.ITEM_ADDED,
         data: name,
-    }
+    };
 }
 
-export function setActiveItem(itemID){
-    return{
+export function setActiveItem(itemID) {
+    return {
         type: settingsActionTypes.ITEM_NAME_SELECTED,
-        data: {itemID},
-    }
+        data: { itemID },
+    };
 }
 
 export function postItemType(name) {
     return (dispatch) => {
         settingsApi.postItemType(name)
-            .then(response => dispatch(fetchItemTypes()))
+            .then((response) => {
+                dispatch({ type: settingsActionTypes.POST_ITEM_SUCCEEDED });
+                dispatch(fetchItemTypes());
+            })
             .catch(error => dispatch({ type: settingsActionTypes.POST_ITEM_FAILED }));
     };
 }
@@ -53,133 +56,142 @@ export function postFieldType(name, type, id) {
 export function removeItem(groupID) {
     return (dispatch) => {
         settingsApi.deleteItem(groupID)
-            .then(response => dispatch(fetchItemTypes()))
+            .then((response) => {
+                dispatch(fetchItemTypes());
+                dispatch({ type: settingsActionTypes.DELETE_ITEM_SUCCEED });
+            })
             .catch(error => dispatch({ type: settingsActionTypes.DELETE_ITEM_FAILED }));
     };
 }
 
 
-export function removeField(groupID, fieldID){
+export function removeField(groupID, fieldID) {
     return (dispatch) => {
         settingsApi.deleteField(groupID, fieldID)
             .then(response => dispatch(fetchItemTypes()))
             .catch(error => dispatch({ type: settingsActionTypes.DELETE_FIELD_FAILED }));
     };
-
 }
 
 
 export function setFieldVisible(visible) {
     return {
         type: settingsActionTypes.EDIT_CLICKED,
-        data: {visible},
-    }
+        data: { visible },
+    };
 }
 
 export function setFieldType(type) {
     return {
         type: settingsActionTypes.FIELD_TYPE_DROPDOWN_SELECTED,
-        data: {type},
-    }
+        data: { type },
+    };
 }
 
 export function setFieldName(name) {
     return {
         type: settingsActionTypes.FIELD_NAME_CHANGED,
-        data: {name},
-    }
+        data: { name },
+    };
 }
 
-export function setFieldID(id){
+export function setFieldID(id) {
     return {
         type: settingsActionTypes.FIELD_NAME_SELECTED,
-        data: {id},
-    }
+        data: { id },
+    };
+}
+
+export function setPopupName(name) {
+    return {
+        type: settingsActionTypes.SETTING_POPUP_NAME,
+        data: { name },
+    };
 }
 
 
-//----------------------Password-------------------------------
+// ----------------------Password-------------------------------
 
 export function newPasswordChange(password) {
     return {
         type: settingsActionTypes.PASSWORD_CHANGED,
-        data: {password}
-    }
+        data: { password },
+    };
 }
 
 export function confirmPasswordChange(password) {
     return {
         type: settingsActionTypes.CONFIRM_PASSWORD_CHANGED,
-        data: {password}
-    }
+        data: { password },
+    };
 }
 
-export function closeDialog(val){
+export function closeDialog(val) {
     return {
         type: settingsActionTypes.PASSWORD_DIALOG_CLOSED,
-        data:  { val }
-    }
+        data: { val },
+    };
 }
 
 export function openDialog(val) {
     return {
         type: settingsActionTypes.PASSWORD_DIALOG_OPENED,
-        data: { val }
-    }
+        data: { val },
+    };
 }
 
-//----------------------------Background color---------------------------------
+// ----------------------------Background color---------------------------------
 
-export function closeColorDialog(val){
+export function closeColorDialog(val) {
     return {
         type: settingsActionTypes.BACKGROUND_DIALOG_CLOSED,
-        data:  { val }
-    }
+        data: { val },
+    };
 }
 
 export function openColorDialog(val) {
     return {
         type: settingsActionTypes.BACKGROUND_DIALOG_OPENED,
-        data: { val }
-    }
+        data: { val },
+    };
 }
 
 
 export function handleOnSelectColor(hexColor) {
     return {
         type: settingsActionTypes.BACKGROUND_COLOR_SELECTED,
-        data: { hexColor }
-    }
+        data: { hexColor },
+    };
 }
 
 export function changeBackgroundColor(color) {
     return {
         type: settingsActionTypes.BACKGROUND_COLOR_CHANGED,
-        data: { color }
-    }
+        data: { color },
+    };
 }
 
 
-//----------------------API Token---------------------------
-export function refreshAPI(){
+// ----------------------API Token---------------------------
+export function refreshAPI() {
     return (dispatch) => {
         settingsApi.fetchAPIToken()
             .then(response => dispatch({
                 type: settingsActionTypes.FETCH_API_SUCCEEDED,
                 data: response,
             }))
-            .catch(error => { throw new Error("fetch api token failed", error); });
+            .catch((error) => { throw new Error('fetch api token failed', error); });
     };
 }
 
-//-------------------statistic-------------------------------
-export function fetchFileStorage(){
+// -------------------statistic-------------------------------
+export function fetchFileStorage() {
     return (dispatch) => {
         settingsApi.fetchFileStorage()
             .then(response => dispatch({
                 type: settingsActionTypes.FETCH_FILE_STORAGE_SUCCEEDED,
                 data: response,
             }))
-            .catch(error => { throw new Error("Fetch file storage failed", error); });
+            .catch((error) => { throw new Error('Fetch file storage failed', error); });
     };
 }

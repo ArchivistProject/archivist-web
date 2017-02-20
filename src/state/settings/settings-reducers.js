@@ -1,35 +1,33 @@
-/**
- * Created by Dung Mai on 1/30/2017.
- */
 import settingsActionTypes from './settings-action-types';
 
 const initialState = {
 
-    //Password
+    // Password
     showModal: false,
     newPassword: '',
     confirmPassword: '',
 
-    //background color
+    // background color
     showColorModal: false,
     colorPicked: '',
     background: '#fff',
 
-    //api token
+    // api token
     apiToken: '',
 
-    //statistic
+    // statistic
     fileCount: 0,
     storage: 0,
 
-    //Item Types
+    // Item Types
     groups: [],
     itemName: null,
-    currentItem: "blank",
+    currentItem: 'blank',
     fieldVisible: false,
-    fieldType: "blank",
+    fieldType: 'blank',
     fieldName: null,
-    fieldID: "blank",
+    fieldID: 'blank',
+    popupName: null,
 };
 
 export default function (state = initialState, action) {
@@ -38,7 +36,7 @@ export default function (state = initialState, action) {
             const { groups } = action.data;
             return {
                 ...state,
-                groups: groups,
+                groups,
             };
         }
 
@@ -46,7 +44,7 @@ export default function (state = initialState, action) {
             const { name } = action.data;
             return {
                 ...state,
-               itemName: name,
+                itemName: name,
             };
         }
 
@@ -54,12 +52,12 @@ export default function (state = initialState, action) {
             const { itemID } = action.data;
             return {
                 ...state,
-                 currentItem: itemID,
+                currentItem: itemID,
             };
         }
 
         case settingsActionTypes.EDIT_CLICKED: {
-            const {visible} = action.data;
+            const { visible } = action.data;
             return {
                 ...state,
                 fieldVisible: visible,
@@ -67,7 +65,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.FIELD_TYPE_DROPDOWN_SELECTED: {
-            const {type} = action.data;
+            const { type } = action.data;
             return {
                 ...state,
                 fieldType: type,
@@ -75,7 +73,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.FIELD_NAME_CHANGED: {
-            const {name} = action.data;
+            const { name } = action.data;
             return {
                 ...state,
                 fieldName: name,
@@ -83,7 +81,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.FIELD_NAME_SELECTED: {
-            const {id} = action.data;
+            const { id } = action.data;
             return {
                 ...state,
                 fieldID: id,
@@ -91,7 +89,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.CONFIRM_PASSWORD_CHANGED: {
-            const {password} = action.data;
+            const { password } = action.data;
             return {
                 ...state,
                 confirmPassword: password,
@@ -99,7 +97,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.PASSWORD_CHANGED: {
-            const {password} = action.data;
+            const { password } = action.data;
             return {
                 ...state,
                 newPassword: password,
@@ -107,7 +105,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.PASSWORD_DIALOG_CLOSED: {
-            const {val} = action.data;
+            const { val } = action.data;
             return {
                 ...state,
                 showModal: val,
@@ -115,7 +113,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.PASSWORD_DIALOG_OPENED: {
-            const {val} = action.data;
+            const { val } = action.data;
             return {
                 ...state,
                 showModal: val,
@@ -123,7 +121,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.BACKGROUND_COLOR_SELECTED: {
-            const {color} = action.data;
+            const { color } = action.data;
             return {
                 ...state,
                 colorPicked: color,
@@ -131,7 +129,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.BACKGROUND_COLOR_CHANGED: {
-            const {color} = action.data;
+            const { color } = action.data;
             return {
                 ...state,
                 background: color,
@@ -139,7 +137,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.BACKGROUND_DIALOG_CLOSED: {
-            const {val} = action.data;
+            const { val } = action.data;
             return {
                 ...state,
                 showColorModal: val,
@@ -147,7 +145,7 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.BACKGROUND_DIALOG_OPENED: {
-            const {val} = action.data;
+            const { val } = action.data;
             return {
                 ...state,
                 showColorModal: val,
@@ -159,7 +157,7 @@ export default function (state = initialState, action) {
             const { apiToken } = action.data;
             return {
                 ...state,
-                apiToken
+                apiToken,
 
             };
         }
@@ -179,6 +177,13 @@ export default function (state = initialState, action) {
             };
         }
 
+        case settingsActionTypes.POST_ITEM_SUCCEEDED: {
+            return {
+                ...state,
+                itemName: '',
+            };
+        }
+
         case settingsActionTypes.DELETE_FIELD_FAILED: {
             return {
                 ...state,
@@ -195,6 +200,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 fieldVisible: false,
+            };
+        }
+
+        case settingsActionTypes.SETTING_POPUP_NAME: {
+            const { name } = action.data;
+            return {
+                ...state,
+                popupName: name,
             };
         }
     }

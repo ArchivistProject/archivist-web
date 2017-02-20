@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
-import {Button} from 'react-bootstrap/lib/';
+import { Button } from 'react-bootstrap/lib/';
 import './action-bar.scss';
 
 export default class ActionBar extends Component {
@@ -53,7 +53,7 @@ export default class ActionBar extends Component {
                         <div className='action-bar-right-buttons'>
                             {uploadVisible ? <Link to='/upload'><Button className='action-bar-upload'>Upload</Button></Link> : null }
                             {settingsVisible ? <Link to='/settings'> <Button className='action-bar-settings'>Settings</Button></Link> : null }
-                            <Button bsStyle="danger" className='action-bar-logout'>Log Out</Button>
+                            <Button bsStyle='danger' className='action-bar-logout'>Log Out</Button>
                         </div>
                     </div>
                 : null}

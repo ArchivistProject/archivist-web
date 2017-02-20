@@ -1,10 +1,6 @@
-/**
- * Created by Dung Mai on 1/31/2017.
- */
-import React, {PropTypes, Component} from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
-    Modal, Button, FormControl, Collapse, Well, Jumbotron, Panel, FormGroup, Col, Form, ControlLabel, MenuItem, Row
-} from 'react-bootstrap/lib/';
+    Modal, Button, FormControl, FormGroup, Col, Form, ControlLabel } from 'react-bootstrap/lib/';
 
 export default class Password extends Component {
 
@@ -20,12 +16,12 @@ export default class Password extends Component {
 
 
     handleNewPasswordChange = (e) => {
-        const {newPasswordChange} = this.props;
+        const { newPasswordChange } = this.props;
         newPasswordChange(e.target.value);
     };
 
     handleConfirmPassChange = (e) => {
-        const {confirmPasswordChange} = this.props;
+        const { confirmPasswordChange } = this.props;
         confirmPasswordChange(e.target.value);
     };
 
@@ -45,24 +41,24 @@ export default class Password extends Component {
 **/
 
     close = () => {
-        const {closeDialog} = this.props;
+        const { closeDialog } = this.props;
         closeDialog(false);
     };
 
     open = () => {
-        const {openDialog} = this.props;
+        const { openDialog } = this.props;
         openDialog(true);
     };
 
     render() {
-
-        const {showModal, newPassword, confirmPassword} = this.props;
+        const { showModal, newPassword, confirmPassword } = this.props;
         return (
             <div>
                 <p>Change your account password</p>
                 <Button
-                    bsStyle="info"
-                    onClick={this.open}>
+                    bsStyle='info'
+                    onClick={this.open}
+                >
                     Change Password
                 </Button>
                 <Modal show={showModal}>
@@ -71,41 +67,45 @@ export default class Password extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form horizontal>
-                            <FormGroup controlId="formBasicText">
+                            <FormGroup controlId='formBasicText'>
                                 <Col componentClass={ControlLabel} sm={3}>
                                     Old Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password"/>
+                                    <FormControl type='password' />
                                 </Col>
                             </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword">
+                            <FormGroup controlId='formHorizontalPassword'>
                                 <Col componentClass={ControlLabel} sm={3}>
                                     New Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password" value={newPassword}
-                                                 onChange={this.handleNewPasswordChange}/>
+                                    <FormControl
+                                        type='password' value={newPassword}
+                                        onChange={this.handleNewPasswordChange}
+                                    />
                                     <FormControl.Feedback />
                                 </Col>
                             </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword">
+                            <FormGroup controlId='formHorizontalPassword'>
                                 <Col componentClass={ControlLabel} sm={3}>
                                     Retype Password
                                 </Col>
                                 <Col sm={7}>
-                                    <FormControl type="password" value={confirmPassword}
-                                                 onChange={this.handleConfirmPassChange}/>
+                                    <FormControl
+                                        type='password' value={confirmPassword}
+                                        onChange={this.handleConfirmPassChange}
+                                    />
                                     <FormControl.Feedback />
                                 </Col>
                             </FormGroup>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button bsStyle="success" onClick={this.close}>Save</Button>
-                        <Button bsStyle="warning" onClick={this.close}>Cancel</Button>
+                        <Button bsStyle='success' onClick={this.close}>Save</Button>
+                        <Button bsStyle='warning' onClick={this.close}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

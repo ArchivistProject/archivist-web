@@ -10,73 +10,70 @@ export function fetchItemTypes() {
 
 export function postItemType(itemName) {
     const group = {
-        "group": {
-            "name": itemName,
-            "fields": []
-        }
+        group: {
+            name: itemName,
+            fields: [],
+        },
     };
     return $.post(`${config.backend}/system/groups`, group)
-        .then(response => response)
+        .then(response => response);
 }
 
 export function postFieldType(name, type, id) {
     const field = {
-        "field": {
-            "name": name,
-            "type": type
-        }
+        field: {
+            name,
+            type,
+        },
     };
-    return $.post(`${config.backend}/system/groups/` + id + '/field', field)
-        .then(response => response)
+    return $.post(`${config.backend}/system/groups/${id}/field`, field)
+        .then(response => response);
 }
 
 
 export function deleteField(groupID, fieldID) {
-
-    let finalUrl = `${config.backend}/system/groups/` + groupID + '/field/' + fieldID;
+    const finalUrl = `${config.backend}/system/groups/${groupID}/field/${fieldID}`;
     return $.ajax({
-        type: "DELETE",
+        type: 'DELETE',
         url: finalUrl,
-        dataType: "json",
-        success: function(response) {
-            console.log("successfully deleted");
+        dataType: 'json',
+        success(response) {
+            console.log('successfully deleted');
         },
-        error: function () {
-            console.log("error");
-        }
-    }).then(response => response)
+        error() {
+            console.log('error');
+        },
+    }).then(response => response);
 }
 
 
 export function deleteItem(groupID) {
-
-    let finalUrl = `${config.backend}/system/groups/` + groupID;
+    const finalUrl = `${config.backend}/system/groups/${groupID}`;
     return $.ajax({
-        type: "DELETE",
+        type: 'DELETE',
         url: finalUrl,
-        dataType: "json",
-        success: function(response) {
-            console.log("successfully deleted");
+        dataType: 'json',
+        success(response) {
+            console.log('successfully deleted');
         },
-        error: function () {
-            console.log("error");
-        }
-    }).then(response => response)
+        error() {
+            console.log('error');
+        },
+    }).then(response => response);
 }
-
 
 
 export function postBackgroundColor(color) {
     const backgroundColor = {
-        "color": {
-            "name": color,
-        }
+        color: {
+            name: color,
+        },
     };
 
     $.post(`${config.backend}/theURL`, backgroundColor);
 }
 
-//-------------------------Api token----------------------------------
+// -------------------------Api token----------------------------------
 export function fetchAPIToken() {
     return fetch(`${config.backend}/theURL`)
         .then(response => response.json())
@@ -84,7 +81,7 @@ export function fetchAPIToken() {
 }
 
 
-//--------------------------Statistic--------------------
+// --------------------------Statistic--------------------
 
 export function fetchFileStorage() {
     return fetch(`${config.backend}/statistics/documents`)
