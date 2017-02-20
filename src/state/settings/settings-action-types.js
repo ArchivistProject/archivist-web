@@ -1,6 +1,3 @@
-/**
- * Created by Dung Mai on 1/30/2017.
- */
 export default {
     FETCH_ITEMTYPE_SUCCEEDED: 'settings/FETCH_ITEMTYPE_SUCCEEDED',
     SETTINGS_ITEMTYPE_REQUESTED: 'settings/SETTINGS_ITEMTYPE_REQUESTED',
