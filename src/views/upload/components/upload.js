@@ -88,24 +88,30 @@ export default class Upload extends Component {
             array.splice(index, 1);
             // look for the group name
             let name = null;
-            let metaDataArray = allMetaDataValue;
+            const metaDataArray = allMetaDataValue.slice();
             for (let i = 0; i < groups.length; i += 1) {
                 if (groups[i].id === itemID) {
                     name = groups[i].name;
-                    console.log(`remove group name: ${name}`);
+                    console.log(`group name to remove: ${name}`);
                     break;
                 }
             }
             // remove meta data fields from meta data array if user uncheck a category using the group name
             console.log(`length: ${metaDataArray.length}`);
-            for (let i = 0; i < metaDataArray.length; i++) {
-                if (metaDataArray[i].group === name) {
-                    console.log(`removing ${metaDataArray[i].group}`);
-                    metaDataArray.splice(i, 1);
+            for (let i = 0; i < metaDataArray.length; i += 1) {
+                console.log(`before array val: ${metaDataArray[i].name}`);
+            }
+            index = metaDataArray.length;
+            while (index > 0) {
+                index -= 1;
+                if (metaDataArray[index].group === name) {
+                    console.log(`removing ${metaDataArray[index].group}`);
+                    metaDataArray.splice(index, 1);
                 }
             }
+            console.log(`length after: ${metaDataArray.length}`);
             for (let i = 0; i < metaDataArray.length; i += 1) {
-                console.log(`Array: ${metaDataArray[i].name}`);
+                console.log(`After array val: ${metaDataArray[i].name}`);
             }
             setAllMetaData(metaDataArray);
         }
