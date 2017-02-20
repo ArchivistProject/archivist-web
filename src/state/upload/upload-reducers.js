@@ -4,12 +4,12 @@ const initialState = {
     file: null,
     groups: [],
     fieldVisible: false,
-    activeItem: null,
     title: '',
     author: '',
     tags: [],
     allItemID: [],
     allMetaDataValue: [],
+    filePicked: false,
 };
 
 export default function (state = initialState, action) {
@@ -19,11 +19,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 file,
+                filePicked: true,
             };
         }
         case uploadActionTypes.FILE_UPLOAD_SUCCEEDED: {
             return {
                 ...state,
+                tags: [],
+                allMetaDataValue: [],
+                file: null,
             };
         }
         case uploadActionTypes.FILE_UPLOAD_FAILED: {
@@ -49,27 +53,27 @@ export default function (state = initialState, action) {
             };
         }
 
-        case uploadActionTypes.TITLE_CHANGED: {
-            const { name } = action.data;
-            return {
-                ...state,
-                title: name,
-            };
-        }
-
-        case uploadActionTypes.AUTHOR_CHANGED: {
-            const { name } = action.data;
-            return {
-                ...state,
-                author: name,
-            };
-        }
-
         case uploadActionTypes.TAGS_CHANGED: {
             const { tag } = action.data;
             return {
                 ...state,
                 tags: tag,
+            };
+        }
+
+        case uploadActionTypes.SET_ALL_METADATA: {
+            const { array } = action.data;
+            return {
+                ...state,
+                allMetaDataValue: array,
+            };
+        }
+
+        case uploadActionTypes.SET_FIELD_VISIBLE: {
+            const { array } = action.data;
+            return {
+                ...state,
+                allMetaDataValue: array,
             };
         }
     }

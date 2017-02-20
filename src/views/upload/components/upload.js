@@ -14,15 +14,17 @@ export default class Upload extends Component {
         fetchItemTypes: PropTypes.func.isRequired,
         setAllItemID: PropTypes.func.isRequired,
         fieldVisible: PropTypes.boolean,
-        activeItem: PropTypes.string,
         handleTitleChange: PropTypes.func.isRequired,
         handleAuthorChange: PropTypes.func.isRequired,
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
+        filePicked: PropTypes.boolean,
+        setFieldVisible: PropTypes.func.isRequired,
 
         // holds all values from meta data text fields
         allMetaDataValue: PropTypes.arrayOf(Object),
+        setAllMetaData: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -31,16 +33,39 @@ export default class Upload extends Component {
     }
 
     handleSubmit = () => {
-        const { submitFile } = this.props;
-        submitFile();
+        const { submitFile, tags, allMetaDataValue, filePicked, setAllItemID, setFieldVisible, handleTagsChange } = this.props;
+        let metaDataArray;
+        if (allMetaDataValue !== undefined) {
+            metaDataArray = allMetaDataValue.slice();
+        } else {
+            metaDataArray = [];
+        }
+        if (filePicked === false) {
+            alert('Please click browse to select a file to upload');
+        } else if (metaDataArray.length <= 0) {
+            alert('Please pick a category and enter some meta data for this file before uploading');
+        } else {
+            for (let i = 0; i < metaDataArray.length; i += 1) {
+                console.log(metaDataArray[i].data);
+            }
+            submitFile(tags, allMetaDataValue);
+            // this will uncheck all the category boxes
+            const allItemID = [];
+            setAllItemID(allItemID);
+            setFieldVisible(false);
+            // clear tags box
+            const allTags = [];
+            handleTagsChange(allTags);
+        }
     }
 
-    handleFileChange = (file) => {
+    handleFileChange = () => {
         const { updateUploadFile } = this.props;
+        const file = this.fileUpload.files[0];
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const { allItemID, setAllItemID } = this.props;
+        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue } = this.props;
         const itemID = obj.target.value;
         const checked = obj.target.checked;
 
@@ -48,16 +73,7 @@ export default class Upload extends Component {
 
         // if checked then add to array
         if (checked === true) {
-            let found = false;
-
-            // if id already in the array then don't add
-            for (let i = 0; i < array.length; i += 1) {
-                if (array[i] === itemID) {
-                    found = true;
-                }
-            }
-
-            if (found === false) { array = array.concat(itemID); } else { console.log('already exist...'); }
+            array = array.concat(itemID);
         } else {
             // if unchecked then remove from array
             let index;
@@ -65,10 +81,33 @@ export default class Upload extends Component {
             for (let i = 0; i < array.length; i += 1) {
                 if (array[i] === itemID) {
                     index = i;
+                    break;
                 }
             }
-            // remove element
+            // remove element so the meta data fields don't show
             array.splice(index, 1);
+            // look for the group name
+            let name = null;
+            let metaDataArray = allMetaDataValue;
+            for (let i = 0; i < groups.length; i += 1) {
+                if (groups[i].id === itemID) {
+                    name = groups[i].name;
+                    console.log(`remove group name: ${name}`);
+                    break;
+                }
+            }
+            // remove meta data fields from meta data array if user uncheck a category using the group name
+            console.log(`length: ${metaDataArray.length}`);
+            for (let i = 0; i < metaDataArray.length; i++) {
+                if (metaDataArray[i].group === name) {
+                    console.log(`removing ${metaDataArray[i].group}`);
+                    metaDataArray.splice(i, 1);
+                }
+            }
+            for (let i = 0; i < metaDataArray.length; i += 1) {
+                console.log(`Array: ${metaDataArray[i].name}`);
+            }
+            setAllMetaData(metaDataArray);
         }
 
         // set the state to the new array
@@ -91,14 +130,45 @@ export default class Upload extends Component {
     }
 
     handleMetaDataTextChange = (obj) => {
-        const { allMetaDataValue } = this.props;
-        const val = obj.target.value;
+        const { groups, allMetaDataValue, setAllMetaData } = this.props;
+        const theData = obj.target.value;
+        const theType = obj.target.getAttribute('data-type');
+        const theName = obj.target.name;
         const id = obj.target.id;
+        let theGroup = null;
 
-        console.log(`Text val: ${val}`);
-        console.log(`Text id: ${id}`);
+        console.log(`name: ${theName}`);
+        console.log(`type: ${theType}`);
+        console.log(`data: ${theData}`);
+        console.log(`id: ${id}`);
 
-        const array = allMetaDataValue.slice();
+        // use the id to find the group name
+        for (let i = 0; i < groups.length; i += 1) {
+            if (groups[i].id === id) {
+                theGroup = groups[i].name;
+                break;
+            }
+        }
+
+        console.log(`group: ${theGroup}`);
+
+        const object = {
+            name: theName,
+            type: theType,
+            data: theData,
+            group: theGroup,
+        };
+
+        let array = allMetaDataValue.slice();
+        // check if item already exist in the array in case user went back and change the value in the text box
+        for (let i = 0; i < array.length; i += 1) {
+            if (array[i].name === theName) {
+                // if found then remove the old one
+                array.splice(i, 1);
+            }
+        }
+        array = array.concat(object);
+        setAllMetaData(array);
     }
 
 
@@ -113,23 +183,12 @@ export default class Upload extends Component {
                         <div className='upload-file-upload'>
                             <ControlLabel>Choose A File*</ControlLabel>
                             <br />
-                            <input type='file' accept='.pdf, .html' onChange={this.handleFileChange} />
+                            <input type='file' accept='.pdf, .html' ref={(ref) => { this.fileUpload = ref; }} onChange={this.handleFileChange} />
                         </div>
-
-                        <div>
-                            <Col sm={12}>
-                                <br />
-                                <br />
-                                <ControlLabel>Tags:</ControlLabel>
-                                <TagsInput value={tags} onChange={this.handleTagChange} />
-                                <br />
-                                <br />
-                            </Col>
-                        </div>
-
-
+                        <br />
+                        <br />
                         <Col sm={12}>
-                            <ControlLabel>Item Types:</ControlLabel>
+                            <ControlLabel>Categories*:</ControlLabel>
                         </Col>
                         <div>
                             {groups.map(op =>
@@ -145,7 +204,7 @@ export default class Upload extends Component {
                         {fieldVisible ?
                             <div>
                                 <Col sm={12}>
-                                    <ControlLabel>Meta Data:</ControlLabel>
+                                    <ControlLabel>Meta Data Fields*:</ControlLabel>
                                 </Col>
                                 {allItemID.map(ID =>
                                     <div>
@@ -153,7 +212,7 @@ export default class Upload extends Component {
                                             <div>
                                                 <Col sm={3}>
                                                     <ControlLabel>{obj.name}</ControlLabel>
-                                                    <FormControl id={obj.id} onChange={this.handleMetaDataTextChange} type='text' />
+                                                    <FormControl name={obj.name} id={ID} data-type={obj.type} onBlur={this.handleMetaDataTextChange} type='text' />
                                                 </Col>
                                             </div>
                                     )
@@ -163,6 +222,15 @@ export default class Upload extends Component {
                             </div>
                             : null
                         }
+
+                        <div>
+                            <Col sm={12}>
+                                <br />
+                                <br />
+                                <ControlLabel>Tags:</ControlLabel>
+                                <TagsInput value={tags} onChange={this.handleTagChange} />
+                            </Col>
+                        </div>
 
                         <Col sm={12}>
                             <Button className='upload-submit-btn' onClick={this.handleSubmit}>Upload</Button>

@@ -8,13 +8,11 @@ export function updateUploadFile(file) {
     };
 }
 
-export function submitFile() {
+export function submitFile(tagArray, metaData) {
     return (dispatch, getState) => {
         const state = getState();
         const { file } = state.upload;
-        uploadApi.uploadFile(file)
-            .then(response => dispatch({ type: uploadActionTypes.FILE_UPLOAD_SUCCEEDED }))
-            .catch(error => dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED }));
+        uploadApi.uploadFile(file, tagArray, metaData);
     };
 }
 
@@ -40,23 +38,23 @@ export function setAllItemID(itemID) {
     };
 }
 
-export function handleTitleChange(name) {
-    return {
-        type: uploadActionTypes.TITLE_CHANGED,
-        data: name,
-    };
-}
-
-export function handleAuthorChange(name) {
-    return {
-        type: uploadActionTypes.AUTHOR_CHANGED,
-        data: name,
-    };
-}
-
 export function handleTagsChange(tag) {
     return {
         type: uploadActionTypes.TAGS_CHANGED,
         data: { tag },
+    };
+}
+
+export function setAllMetaData(array) {
+    return {
+        type: uploadActionTypes.SET_ALL_METADATA,
+        data: { array },
+    };
+}
+
+export function setFieldVisible(val) {
+    return {
+        type: uploadActionTypes.SET_FIELD_VISIBLE,
+        data: val,
     };
 }
