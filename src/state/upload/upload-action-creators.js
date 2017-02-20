@@ -55,6 +55,19 @@ export function setAllMetaData(array) {
 export function setFieldVisible(val) {
     return {
         type: uploadActionTypes.SET_FIELD_VISIBLE,
-        data: val,
+        data: { val },
+    };
+}
+
+export function setFilePicked(val) {
+    return {
+        type: uploadActionTypes.SET_FILE_PICKED,
+        data: { val },
+    };
+}
+
+export function resetFile() {
+    return {
+        type: uploadActionTypes.RESET_FILE_LOAD,
     };
 }

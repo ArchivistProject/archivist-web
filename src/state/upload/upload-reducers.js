@@ -4,8 +4,6 @@ const initialState = {
     file: null,
     groups: [],
     fieldVisible: false,
-    title: '',
-    author: '',
     tags: [],
     allItemID: [],
     allMetaDataValue: [],
@@ -49,7 +47,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 allItemID: itemID,
-                fieldVisible: true,
             };
         }
 
@@ -70,10 +67,25 @@ export default function (state = initialState, action) {
         }
 
         case uploadActionTypes.SET_FIELD_VISIBLE: {
-            const { array } = action.data;
+            const { val } = action.data;
             return {
                 ...state,
-                allMetaDataValue: array,
+                fieldVisible: val,
+            };
+        }
+
+        case uploadActionTypes.SET_FILE_PICKED: {
+            const { val } = action.data;
+            return {
+                ...state,
+                filePicked: val,
+            };
+        }
+
+        case uploadActionTypes.RESET_FILE_LOAD: {
+            return {
+                ...state,
+                file: null,
             };
         }
     }

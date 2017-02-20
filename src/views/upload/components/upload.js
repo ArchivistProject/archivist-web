@@ -14,13 +14,13 @@ export default class Upload extends Component {
         fetchItemTypes: PropTypes.func.isRequired,
         setAllItemID: PropTypes.func.isRequired,
         fieldVisible: PropTypes.boolean,
-        handleTitleChange: PropTypes.func.isRequired,
-        handleAuthorChange: PropTypes.func.isRequired,
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
         filePicked: PropTypes.boolean,
         setFieldVisible: PropTypes.func.isRequired,
+        setFilePicked: PropTypes.func.isRequired,
+        resetFile: PropTypes.func.isRequired,
 
         // holds all values from meta data text fields
         allMetaDataValue: PropTypes.arrayOf(Object),
@@ -28,12 +28,21 @@ export default class Upload extends Component {
     };
 
     componentWillMount() {
-        const { fetchItemTypes } = this.props;
+        const { fetchItemTypes, setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked } = this.props;
         fetchItemTypes();
+        const metaData = [];
+        const allItemID = [];
+        const allTags = [];
+        setAllMetaData(metaData);
+        setAllItemID(allItemID);
+        handleTagsChange(allTags);
+        setFieldVisible(false);
+        setFilePicked(false);
+        resetFile();
     }
 
     handleSubmit = () => {
-        const { submitFile, tags, allMetaDataValue, filePicked, setAllItemID, setFieldVisible, handleTagsChange } = this.props;
+        const { submitFile, tags, allMetaDataValue, filePicked } = this.props;
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
             metaDataArray = allMetaDataValue.slice();
@@ -49,13 +58,8 @@ export default class Upload extends Component {
                 console.log(metaDataArray[i].data);
             }
             submitFile(tags, allMetaDataValue);
-            // this will uncheck all the category boxes
-            const allItemID = [];
-            setAllItemID(allItemID);
-            setFieldVisible(false);
-            // clear tags box
-            const allTags = [];
-            handleTagsChange(allTags);
+            // reset the page after done uploading
+            this.componentWillMount();
         }
     }
 
@@ -65,7 +69,7 @@ export default class Upload extends Component {
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue } = this.props;
+        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible } = this.props;
         const itemID = obj.target.value;
         const checked = obj.target.checked;
 
@@ -74,6 +78,9 @@ export default class Upload extends Component {
         // if checked then add to array
         if (checked === true) {
             array = array.concat(itemID);
+            // set the state to the new array
+            setAllItemID(array);
+            setFieldVisible(true);
         } else {
             // if unchecked then remove from array
             let index;
@@ -86,48 +93,30 @@ export default class Upload extends Component {
             }
             // remove element so the meta data fields don't show
             array.splice(index, 1);
+            // set the state to the new array
+            setAllItemID(array);
+            if (array.length <= 0) {
+                setFieldVisible(false);
+            }
             // look for the group name
             let name = null;
             const metaDataArray = allMetaDataValue.slice();
             for (let i = 0; i < groups.length; i += 1) {
                 if (groups[i].id === itemID) {
                     name = groups[i].name;
-                    console.log(`group name to remove: ${name}`);
                     break;
                 }
             }
             // remove meta data fields from meta data array if user uncheck a category using the group name
-            console.log(`length: ${metaDataArray.length}`);
-            for (let i = 0; i < metaDataArray.length; i += 1) {
-                console.log(`before array val: ${metaDataArray[i].name}`);
-            }
             index = metaDataArray.length;
             while (index > 0) {
                 index -= 1;
                 if (metaDataArray[index].group === name) {
-                    console.log(`removing ${metaDataArray[index].group}`);
                     metaDataArray.splice(index, 1);
                 }
             }
-            console.log(`length after: ${metaDataArray.length}`);
-            for (let i = 0; i < metaDataArray.length; i += 1) {
-                console.log(`After array val: ${metaDataArray[i].name}`);
-            }
             setAllMetaData(metaDataArray);
         }
-
-        // set the state to the new array
-        setAllItemID(array);
-    }
-
-    handleTitleChange = (name) => {
-        const { handleTitleChange } = this.props;
-        handleTitleChange(name.target.value);
-    }
-
-    handleAuthorChange = (name) => {
-        const { handleAuthorChange } = this.props;
-        handleAuthorChange(name.target.value);
     }
 
     handleTagChange = (tag) => {
@@ -143,11 +132,6 @@ export default class Upload extends Component {
         const id = obj.target.id;
         let theGroup = null;
 
-        console.log(`name: ${theName}`);
-        console.log(`type: ${theType}`);
-        console.log(`data: ${theData}`);
-        console.log(`id: ${id}`);
-
         // use the id to find the group name
         for (let i = 0; i < groups.length; i += 1) {
             if (groups[i].id === id) {
@@ -155,8 +139,6 @@ export default class Upload extends Component {
                 break;
             }
         }
-
-        console.log(`group: ${theGroup}`);
 
         const object = {
             name: theName,
@@ -177,7 +159,6 @@ export default class Upload extends Component {
         setAllMetaData(array);
     }
 
-
     render() {
         const { groups, fieldVisible, tags, allItemID } = this.props;
 
@@ -187,14 +168,14 @@ export default class Upload extends Component {
                     <h2 className='upload-title'>Upload New File</h2>
                     <div>
                         <div className='upload-file-upload'>
-                            <ControlLabel>Choose A File*</ControlLabel>
+                            <ControlLabel>* Choose A File</ControlLabel>
                             <br />
                             <input type='file' accept='.pdf, .html' ref={(ref) => { this.fileUpload = ref; }} onChange={this.handleFileChange} />
                         </div>
                         <br />
                         <br />
                         <Col sm={12}>
-                            <ControlLabel>Categories*:</ControlLabel>
+                            <ControlLabel>* Categories:</ControlLabel>
                         </Col>
                         <div>
                             {groups.map(op =>
@@ -210,7 +191,7 @@ export default class Upload extends Component {
                         {fieldVisible ?
                             <div>
                                 <Col sm={12}>
-                                    <ControlLabel>Meta Data Fields*:</ControlLabel>
+                                    <ControlLabel>* Meta Data Fields:</ControlLabel>
                                 </Col>
                                 {allItemID.map(ID =>
                                     <div>
