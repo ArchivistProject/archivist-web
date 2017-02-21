@@ -48,19 +48,22 @@ export default class SummaryTab extends Component {
         saveDescription();
     }
 
-    renderMetadataRow(metadata, metadataIndex) {
-        const { editMode, activeItem } = this.props;
+    renderMetadataRows() {
+        const { editMode, activeItem, activeItemEditing } = this.props;
+        const itemToDisplay = editMode ? activeItemEditing : activeItem;
         // TODO: editMode && metadata.isEditable
-        const valueChanged = activeItem.metadata_fields[metadataIndex].data !== metadata.data;
-        return (
-            <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
-                <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
-                <td className='summary-tab-value'>
-                    {editMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
-                    : <div>{metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)}</div>}
-                </td>
-            </tr>
-        );
+        return itemToDisplay.metadata_fields.map((metadata, metadataIndex) => {
+            const valueChanged = editMode && activeItem.metadata_fields[metadataIndex].data !== metadata.data;
+            return (
+                <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
+                    <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
+                    <td className='summary-tab-value'>
+                        {editMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
+                        : <div>{metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)}</div>}
+                    </td>
+                </tr>
+            );
+        });
     }
 
     renderEditControls() {
@@ -81,16 +84,14 @@ export default class SummaryTab extends Component {
     }
 
     render() {
-        const { activeItem, activeItemEditing, tempDescription, editMode } = this.props;
+        const { activeItem, tempDescription } = this.props;
         return (
             <div className='summary-tab'>
                 <section className='summary-tab-metadata'>
                     <span className='summary-tab-category'>Metadata</span>
                     <table className='summary-tab-table'>
                         <tbody>
-                            {editMode ? activeItemEditing.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))
-                                : activeItem.metadata_fields.map((metadata, metadataIndex) => this.renderMetadataRow(metadata, metadataIndex))}
-
+                            {this.renderMetadataRows()}
                         </tbody>
                     </table>
                     { canEditMetadata ? this.renderEditControls() : null }
