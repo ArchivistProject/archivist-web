@@ -1,5 +1,8 @@
 import React, { PropTypes, Component } from 'react';
+import { bindActionCreators } from 'redux';
+import * as itemActionCreators from '~/src/state/item/item-action-creators';
 import TagsInput from 'react-tagsinput';
+import DescriptionBox from '~/src/components/description-box/description-box'
 import { formatDate } from '~/src/utils/utils';
 import { canEditMetadata } from '~/src/state/user/privileges';
 import '~/src/assets/style/react-tagsinput.scss';
@@ -84,7 +87,14 @@ export default class SummaryTab extends Component {
     }
 
     render() {
-        const { activeItem, tempDescription } = this.props;
+        const { activeItem, activeItemEditing, tempDescription, editMode, updateDescription, saveDescription, toggleEditMode } = this.props;
+        const descriptionProps = {
+            activeItem,
+            activeItemEditing,
+            updateDescription,
+            saveDescription,
+            editMode,
+            toggleEditMode};
         return (
             <div className='summary-tab'>
                 <section className='summary-tab-metadata'>
@@ -104,11 +114,7 @@ export default class SummaryTab extends Component {
                         inputProps={{ placeholder: '' }}
                     />
                 </section>
-                <section className='summary-tab-description'>
-                    <span className='summary-tab-category'>Description</span>
-                    <textarea className='summary-tab-description-input' value={activeItem.description} onChange={this.handleDescriptionUpdated} />
-                    <button disabled={activeItem.description === tempDescription} onClick={this.handleDescriptionSaved}>SAVE DESCRIPTION</button>
-                </section>
+                <DescriptionBox {...descriptionProps}/>
             </div>
         );
     }

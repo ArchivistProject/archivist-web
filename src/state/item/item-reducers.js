@@ -141,23 +141,26 @@ export default function (state = initialState, action) {
         }
 
         case itemActionTypes.DESCRIPTION_UPDATED: {
-            const { description, tempDescription } = action.data;
-            const { activeItem } = state;
+            const { description } = action.data;
+            const { activeItemEditing } = state;
             return {
                 ...state,
-                activeItem: {
-                    ...activeItem,
+                activeItemEditing: {
+                    ...activeItemEditing,
                     description,
                 },
-                tempDescription: tempDescription || state.tempDescription,
             };
         }
 
         case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
-            return {
-                ...state,
-                tempDescription: state.activeItem.description,
-            };
+          const { activeItem, activeItemEditing } = state;
+          return {
+              ...state,
+              activeItem: {
+                  ...activeItem,
+                  description: state.activeItemEditing.description,
+              },
+          };
         }
 
         case itemActionTypes.HEADER_CLICKED: { // TODO, if we add heading sorting

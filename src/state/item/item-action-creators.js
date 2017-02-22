@@ -92,7 +92,7 @@ export function saveMetadata() {
         itemApi.updateItemMetadata(activeItem, activeItemEditing)
             .then((success) => {
                 dispatch({ type: itemActionTypes.METADATA_SAVE_SUCCEEDED });
-                dispatch(fetchItems(currentPage));
+                dispatch(fetchItem(activeItem.id));
             })
             .catch(error => dispatch({ type: itemActionTypes.METADATA_SAVE_FAILED }));
     };
@@ -125,10 +125,11 @@ export function updateDescription(description) {
 
 export function saveDescription() {
     return (dispatch, getState) => {
-        const { item: { activeItem } } = getState();
-        itemApi.updateDescription(activeItem)
+        const { item: { activeItemEditing } } = getState();
+        itemApi.updateDescription(activeItemEditing)
             .then((response) => {
                 dispatch({ type: itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED });
+                dispatch(fetchItem(activeItemEditing.id));
             })
             .catch(error => dispatch({ type: itemActionTypes.DESCRIPTION_UPDATE_FAILED }));
     };
