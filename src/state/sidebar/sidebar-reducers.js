@@ -1,4 +1,5 @@
 import sidebarActionTypes from './sidebar-action-types';
+import itemActionTypes from '../item/item-action-types';
 import { SIDEBAR_TABS } from './sidebar-constants';
 
 const initialState = {
@@ -35,6 +36,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 descriptionEditMode: !state.descriptionEditMode,
+            };
+        }
+        case itemActionTypes.ITEM_FOCUSED: {
+            return {
+                ...state,
+                metadataEditMode: initialState.metadataEditMode,
+                descriptionEditMode: initialState.descriptionEditMode,
             };
         }
     }

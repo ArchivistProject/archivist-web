@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { canEditDescription } from '~/src/state/user/privileges';
 import marked from 'marked';
-// import './description-box.scss';
+import './description-box.scss';
 
 export default class DescriptionBox extends Component {
 
@@ -40,32 +40,31 @@ export default class DescriptionBox extends Component {
         if (descriptionEditMode) {
             const desc = activeItemEditing.description === undefined ? '' : activeItemEditing.description;
             console.log('EDIT DESC:', activeItemEditing.description);
-            return (<textarea className='summary-tab-description-input' value={desc} onChange={this.handleDescriptionUpdated} />);
+            return (<textarea className='description-box-input' value={desc} onChange={this.handleDescriptionUpdated} />);
         }
-        return (<div dangerouslySetInnerHTML={this.getMarkdownText()} />);
+        return (<div className='description-box-markdown' dangerouslySetInnerHTML={this.getMarkdownText()} />);
     }
 
     renderEditControls() {
         const { descriptionEditMode } = this.props;
         if (descriptionEditMode) {
             return (
-                <div className='summary-tab-metadata-controls'>
-                    <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(true)}>SAVE</button>
-                    <button className='summary-tab-cancel' onClick={() => this.handleEditModeToggled(false)}>CANCEL</button>
+                <div className='description-box-controls'>
+                    <button className='description-box-edit' onClick={() => this.handleEditModeToggled(true)}>SAVE</button>
+                    <button className='description-box-cancel' onClick={() => this.handleEditModeToggled(false)}>CANCEL</button>
                 </div>
             );
         }
         return (
-            <div className='summary-tab-metadata-controls'>
-                <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(false)}>EDIT DESCRIPTION</button>
+            <div className='description-box-controls'>
+                <button className='description-box-edit' onClick={() => this.handleEditModeToggled(false)}>EDIT DESCRIPTION</button>
             </div>
         );
     }
 
     render() {
         return (
-            <section className='summary-tab-description'>
-                <span className='summary-tab-category'>Description</span>
+            <section className='description-box'>
                 { this.renderDescriptionBox() }
                 { canEditDescription ? this.renderEditControls() : null }
             </section>

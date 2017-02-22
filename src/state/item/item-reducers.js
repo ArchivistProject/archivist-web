@@ -77,8 +77,14 @@ export default function (state = initialState, action) {
         }
         case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
             const { document } = action.data;
+            const { items, activeItemIndex } = state;
             return {
                 ...state,
+                items: [
+                    ...items.slice(0, activeItemIndex),
+                    document,
+                    ...items.slice(activeItemIndex + 1, items.length),
+                ],
                 activeItem: document,
                 activeItemEditing: document,
                 waitingForItems: false, // TODO: revisit
@@ -123,7 +129,8 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.METADATA_SAVE_SUCCEEDED: {
+        case itemActionTypes.METADATA_SAVE_SUCCEEDED:
+        case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
             return {
                 ...state,
             };
@@ -149,17 +156,6 @@ export default function (state = initialState, action) {
                 activeItemEditing: {
                     ...activeItemEditing,
                     description,
-                },
-            };
-        }
-
-        case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
-            const { activeItem, activeItemEditing } = state;
-            return {
-                ...state,
-                activeItem: {
-                    ...activeItem,
-                    description: state.activeItemEditing.description,
                 },
             };
         }
@@ -190,7 +186,8 @@ export default function (state = initialState, action) {
             };
         }
 
-        case sidebarActionTypes.EDIT_MODE_TOGGLED: {
+        case sidebarActionTypes.METADATA_EDIT_MODE_TOGGLED:
+        case sidebarActionTypes.DESCRIPTION_EDIT_MODE_TOGGLED: {
             return {
                 ...state,
                 activeItemEditing: state.activeItem,

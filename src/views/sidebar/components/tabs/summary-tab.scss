@@ -52,23 +52,6 @@ $summary-tab-spacing: 20px;
         font-weight: bold;
     }
 
-    &-description {
-        display: flex;
-        flex-direction: column;
-        &-input {
-            min-height: 60px;
-            margin-bottom: 2px;
-            border: 1px solid $gray;
-            resize: vertical;
-            outline: none;
-            font-size: $default-size;
-            &:focus {
-                border: 1px solid $blue;
-                color: $black;
-            }
-        }
-    }
-
     button {
         flex-grow: 1;
         border: 1px solid $gray;
