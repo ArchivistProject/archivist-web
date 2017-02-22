@@ -8,12 +8,26 @@
     }
 
     &, &-header-item, &-row-item {
-        border: 1px solid black;
         border-collapse: collapse;
         text-align: left;
+        padding-left: 5px;
+
+        font-family: $default-family;
+        font-size: $default-size;
     }
+
+    &-header-item {
+        color: $white;
+        background-color: $dark-blue;
+        font-weight: bold;
+    }
+
     &-row:nth-child(odd) {
         background-color: $light-gray;
+    }
+
+    &-row:hover {
+        background-color: $light-blue;
     }
 
     &-noresults {

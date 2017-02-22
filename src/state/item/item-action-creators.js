@@ -16,6 +16,20 @@ export function fetchItems(currentPage) {
     };
 }
 
+export function fetchItem(itemId) {
+    return (dispatch) => {
+        dispatch({
+            type: itemActionTypes.ITEM_REQUESTED,
+        });
+        itemApi.fetchItem(itemId)
+            .then(response => dispatch({
+                type: itemActionTypes.FETCH_ITEM_SUCCEEDED,
+                data: response,
+            }))
+            .catch(error => dispatch({ type: itemActionTypes.FETCH_ITEM_FAILED }));
+    };
+}
+
 export function fetchHeaders() {
     return (dispatch) => {
         itemApi.fetchHeaders()
@@ -36,13 +50,87 @@ export function itemFocused(itemIndex) {
                 type: itemActionTypes.ITEM_FOCUSED,
                 data: { itemIndex },
             });
+            const getTags = itemApi.getTags(itemId);
+            const getDescription = itemApi.getDescription(itemId);
+            Promise.all([getTags, getDescription])
+                .then((responses) => {
+                    const { document: { tags } } = responses[0];
+                    const { document: { description } } = responses[1];
+                    dispatch({
+                        type: itemActionTypes.TAGS_UPDATED,
+                        data: { tags },
+                    });
+                    dispatch({
+                        type: itemActionTypes.DESCRIPTION_UPDATED,
+                        data: { description, tempDescription: description },
+                    });
+                });
             if (!sidebar.visible) {
                 dispatch({
                     type: sidebarActionTypes.VISIBILITY_UPDATED,
                     data: { visible: true },
                 });
+            } else if (sidebar.editMode) {
+                dispatch({
+                    type: sidebarActionTypes.EDIT_MODE_TOGGLED,
+                });
             }
         }
+    };
+}
+
+export function updateMetadata(metadataIndex, value) {
+    return {
+        type: itemActionTypes.METADATA_UPDATED,
+        data: { metadataIndex, value },
+    };
+}
+
+export function saveMetadata() {
+    return (dispatch, getState) => {
+        const { item: { activeItem, activeItemEditing, meta: { currentPage } } } = getState();
+        itemApi.updateItemMetadata(activeItem, activeItemEditing)
+            .then((success) => {
+                dispatch({ type: itemActionTypes.METADATA_SAVE_SUCCEEDED });
+                dispatch(fetchItems(currentPage));
+            })
+            .catch(error => dispatch({ type: itemActionTypes.METADATA_SAVE_FAILED }));
+    };
+}
+
+export function updateTags(tags) {
+    return (dispatch, getState) => {
+        const tagSet = new Set(tags);
+        const tagArray = Array.from(tagSet.values());
+        dispatch({
+            type: itemActionTypes.TAGS_UPDATED,
+            data: { tags: tagArray },
+        });
+
+        const { item: { activeItem } } = getState();
+        itemApi.updateTags(activeItem, tags)
+            .then((response) => {
+                dispatch({ type: itemActionTypes.TAGS_UPDATE_SUCCEEDED });
+            })
+            .catch(error => dispatch({ type: itemActionTypes.TAGS_UPDATE_FAILED }));
+    };
+}
+
+export function updateDescription(description) {
+    return {
+        type: itemActionTypes.DESCRIPTION_UPDATED,
+        data: { description },
+    };
+}
+
+export function saveDescription() {
+    return (dispatch, getState) => {
+        const { item: { activeItem } } = getState();
+        itemApi.updateDescription(activeItem)
+            .then((response) => {
+                dispatch({ type: itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED });
+            })
+            .catch(error => dispatch({ type: itemActionTypes.DESCRIPTION_UPDATE_FAILED }));
     };
 }
 

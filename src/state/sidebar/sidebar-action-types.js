@@ -1,3 +1,6 @@
 export default {
     VISIBILITY_UPDATED: 'sidebar/VISIBILITY_UPDATED',
+    VISIBLE_TAB_UPDATED: 'sidebar/VISIBLE_TAB_UPDATED',
+
+    EDIT_MODE_TOGGLED: 'sidebar/EDIT_MODE_TOGGLED',
 };
