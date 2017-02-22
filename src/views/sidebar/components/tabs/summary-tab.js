@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import * as itemActionCreators from '~/src/state/item/item-action-creators';
 import TagsInput from 'react-tagsinput';
-import DescriptionBox from '~/src/components/description-box/description-box'
+import DescriptionBox from '~/src/components/description-box/description-box';
 import { formatDate } from '~/src/utils/utils';
 import { canEditMetadata } from '~/src/state/user/privileges';
 import '~/src/assets/style/react-tagsinput.scss';
@@ -78,14 +78,14 @@ export default class SummaryTab extends Component {
     }
 
     render() {
-        const { activeItem, activeItemEditing, tempDescription, descriptionEditMode, updateDescription, saveDescription, toggleDescriptionEditMode } = this.props;
+        const { activeItem, activeItemEditing, descriptionEditMode, updateDescription, saveDescription, toggleDescriptionEditMode } = this.props;
         const descriptionProps = {
             activeItem,
             activeItemEditing,
             updateDescription,
             saveDescription,
             toggleDescriptionEditMode,
-            descriptionEditMode};
+            descriptionEditMode };
         return (
             <div className='summary-tab'>
                 <section className='summary-tab-metadata'>
@@ -105,7 +105,7 @@ export default class SummaryTab extends Component {
                         inputProps={{ placeholder: '' }}
                     />
                 </section>
-                <DescriptionBox {...descriptionProps}/>
+                <DescriptionBox {...descriptionProps} />
             </div>
         );
     }
