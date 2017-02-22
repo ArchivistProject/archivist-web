@@ -14,13 +14,15 @@ export default class Sidebar extends Component {
         visibleTab: PropTypes.string,
         updateVisibility: PropTypes.func.isRequired,
         updateTabVisibility: PropTypes.func.isRequired,
-
         toggleEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
+        updateTags: PropTypes.func.isRequired,
+        updateDescription: PropTypes.func.isRequired,
+        saveDescription: PropTypes.func.isRequired,
         editMode: PropTypes.bool.isRequired,
+        tempDescription: PropTypes.string,
     };
-
 
     handleTabClicked = (tabName) => {
         const { updateTabVisibility, visibleTab } = this.props;
@@ -56,8 +58,19 @@ export default class Sidebar extends Component {
     }
 
     renderPanel() {
-        const { visibleTab, activeItem, activeItemEditing, toggleEditMode, updateMetadata, saveMetadata, editMode } = this.props;
-        const summaryTabProps = { activeItem, activeItemEditing, toggleEditMode, updateMetadata, saveMetadata, editMode };
+        const { visibleTab, activeItem, activeItemEditing, toggleEditMode, updateMetadata, saveMetadata, updateTags,
+            updateDescription, saveDescription, editMode, tempDescription } = this.props;
+        const summaryTabProps = {
+            activeItem,
+            activeItemEditing,
+            toggleEditMode,
+            updateMetadata,
+            saveMetadata,
+            updateTags,
+            updateDescription,
+            saveDescription,
+            editMode,
+            tempDescription };
         switch (visibleTab) {
             case SIDEBAR_TABS.SUMMARY:
                 return (<SummaryTab {...summaryTabProps} />);

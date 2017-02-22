@@ -5,6 +5,14 @@
     flex-direction: column;
     align-items: center;
 
+    &-disabled {
+        opacity: 0.5;
+        user-select: none;
+        * {
+            cursor: progress;
+        }
+    }
+
     &-wrapper {
         width: 100%;
         text-align: center;
@@ -23,7 +31,6 @@
         height: 25px;
         line-height: 25px;
     }
-
     .grid {
         border-bottom: 1px solid $dark-blue;
         overflow: scroll;

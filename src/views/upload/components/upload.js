@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
     Button, FormControl, Col, ControlLabel, Checkbox,
 } from 'react-bootstrap/lib/';
@@ -31,13 +31,13 @@ export default class Upload extends Component {
     };
 
     componentWillMount() {
-        const {fetchItemTypes} = this.props;
+        const { fetchItemTypes } = this.props;
         fetchItemTypes();
         this.resetInputFields();
     }
 
     resetInputFields = () => {
-        const {setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked} = this.props;
+        const { setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked } = this.props;
         setAllMetaData([]);
         setAllItemID([]);
         handleTagsChange([]);
@@ -50,7 +50,7 @@ export default class Upload extends Component {
     }
 
     handleSubmit = () => {
-        const {submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups} = this.props;
+        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups } = this.props;
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
             metaDataArray = allMetaDataValue.slice();
@@ -79,12 +79,12 @@ export default class Upload extends Component {
     }
 
     handleFileChange = () => {
-        const {updateUploadFile} = this.props;
+        const { updateUploadFile } = this.props;
         const file = this.fileUpload.files[0];
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const {groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible, setCheckBox} = this.props;
+        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible, setCheckBox } = this.props;
         const itemID = obj.target.id;
         const checked = obj.target.checked;
 
@@ -143,12 +143,12 @@ export default class Upload extends Component {
     }
 
     handleTagChange = (tag) => {
-        const {handleTagsChange} = this.props;
+        const { handleTagsChange } = this.props;
         handleTagsChange(tag);
     }
 
     handleMetaDataTextChange = (obj) => {
-        const {groups, allMetaDataValue, setAllMetaData} = this.props;
+        const { groups, allMetaDataValue, setAllMetaData } = this.props;
         const theData = obj.target.value;
         const theType = obj.target.getAttribute('data-type');
         const theName = obj.target.name;
@@ -181,11 +181,10 @@ export default class Upload extends Component {
         }
         array = array.concat(object);
         setAllMetaData(array);
-
     }
 
     render() {
-        const {groups, fieldVisible, tags, allItemID} = this.props;
+        const { groups, fieldVisible, tags, allItemID } = this.props;
 
         return (
             <div className='upload-content'>
@@ -195,9 +194,11 @@ export default class Upload extends Component {
                         <div className='upload-file-upload'>
                             <ControlLabel>* Choose A File</ControlLabel>
                             <br />
-                            <input type='file' accept='.pdf, .html' ref={(ref) => {
-                                this.fileUpload = ref;
-                            }} onChange={this.handleFileChange}/>
+                            <input
+                                type='file' accept='.pdf, .html' ref={(ref) => {
+                                    this.fileUpload = ref;
+                                }} onChange={this.handleFileChange}
+                            />
                         </div>
                         <br />
                         <br />
@@ -227,8 +228,10 @@ export default class Upload extends Component {
                                             <div>
                                                 <Col sm={3}>
                                                     <ControlLabel>{obj.name}</ControlLabel>
-                                                    <FormControl name={obj.name} id={ID} data-type={obj.type}
-                                                                 onBlur={this.handleMetaDataTextChange} type='text'/>
+                                                    <FormControl
+                                                        name={obj.name} id={ID} data-type={obj.type}
+                                                        onBlur={this.handleMetaDataTextChange} type='text'
+                                                    />
                                                 </Col>
                                             </div>
                                         )
@@ -244,7 +247,7 @@ export default class Upload extends Component {
                                 <br />
                                 <br />
                                 <ControlLabel>Tags:</ControlLabel>
-                                <TagsInput value={tags} onChange={this.handleTagChange}/>
+                                <TagsInput value={tags} onChange={this.handleTagChange} />
                             </Col>
                         </div>
 
