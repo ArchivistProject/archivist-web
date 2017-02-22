@@ -1,10 +1,15 @@
 @import '../../../../defaults';
 
+$summary-tab-spacing: 20px;
 .summary-tab {
+    display: flex;
+    flex-direction: column;
+    margin: 0 5px;
 
     &-table {
         width: 100%;
         border-collapse: collapse;
+        margin: 0 1px 2px 1px;
     }
 
     &-row {
@@ -14,14 +19,75 @@
         &:nth-child(odd) {
             background-color: $light-gray;
         }
+
+        input:focus {
+            outline: 1px solid $blue;
+        }
     }
     
     &-label {
         padding-left: 3px;
         font-weight: bold;
+        &.modified {
+            color: $blue;
+        }
     }
 
-    &-edit {
-        float: right;
+    &-metadata {
+        margin-bottom: $summary-tab-spacing;
+        &-controls {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    &-tags {
+        margin-bottom: $summary-tab-spacing;
+    }
+
+    &-category {
+        text-transform: uppercase;
+        font-size: $small-size;
+        font-family: $default-family;
+        font-weight: bold;
+    }
+
+    &-description {
+        display: flex;
+        flex-direction: column;
+        &-input {
+            min-height: 60px;
+            margin-bottom: 2px;
+            border: 1px solid $gray;
+            resize: vertical;
+            outline: none;
+            font-size: $default-size;
+            &:focus {
+                border: 1px solid $blue;
+                color: $black;
+            }
+        }
+    }
+
+    button {
+        flex-grow: 1;
+        border: 1px solid $gray;
+        background-color: $white;
+        color: $dark-gray;
+        text-transform: capitalize;
+        outline: none;
+        &:hover {
+            background-color: $light-blue;
+            color: $blue;
+        }
+        &:active {
+            background-color: $dark-blue;
+            color: $light-blue;
+        }
+        &:disabled {
+            background-color: $light-gray;
+            color: $gray;
+            cursor: not-allowed;
+        }
     }
 }
