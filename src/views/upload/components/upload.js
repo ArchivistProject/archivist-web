@@ -1,5 +1,6 @@
-import React, { PropTypes, Component } from 'react';
-import { Button, FormControl, Col, ControlLabel, Checkbox,
+import React, {PropTypes, Component} from 'react';
+import {
+    Button, FormControl, Col, ControlLabel, Checkbox,
 } from 'react-bootstrap/lib/';
 import TagsInput from 'react-tagsinput';
 import './upload.scss';
@@ -21,6 +22,8 @@ export default class Upload extends Component {
         setFieldVisible: PropTypes.func.isRequired,
         setFilePicked: PropTypes.func.isRequired,
         resetFile: PropTypes.func.isRequired,
+        setCheckBox: PropTypes.func.isRequired,
+        setAllCheckBoxes: PropTypes.func.isRequired,
 
         // holds all values from meta data text fields
         allMetaDataValue: PropTypes.arrayOf(Object),
@@ -28,21 +31,26 @@ export default class Upload extends Component {
     };
 
     componentWillMount() {
-        const { fetchItemTypes, setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked } = this.props;
+        const {fetchItemTypes} = this.props;
         fetchItemTypes();
-        const metaData = [];
-        const allItemID = [];
-        const allTags = [];
-        setAllMetaData(metaData);
-        setAllItemID(allItemID);
-        handleTagsChange(allTags);
+        this.resetInputFields();
+    }
+
+    resetInputFields = () => {
+        const {setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked} = this.props;
+        setAllMetaData([]);
+        setAllItemID([]);
+        handleTagsChange([]);
         setFieldVisible(false);
         setFilePicked(false);
         resetFile();
+        if (this.fileUpload) {
+            this.fileUpload.value = '';
+        }
     }
 
     handleSubmit = () => {
-        const { submitFile, tags, allMetaDataValue, filePicked } = this.props;
+        const {submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups} = this.props;
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
             metaDataArray = allMetaDataValue.slice();
@@ -59,21 +67,36 @@ export default class Upload extends Component {
             }
             submitFile(tags, allMetaDataValue);
             // reset the page after done uploading
-            this.componentWillMount();
+            this.resetInputFields();
+            const array = groups;
+            if (array) {
+                for (let i = 0; i < array.length; i += 1) {
+                    array[i].checkbox = false;
+                }
+                setAllCheckBoxes(array);
+            }
         }
     }
 
     handleFileChange = () => {
-        const { updateUploadFile } = this.props;
+        const {updateUploadFile} = this.props;
         const file = this.fileUpload.files[0];
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible } = this.props;
-        const itemID = obj.target.value;
+        const {groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible, setCheckBox} = this.props;
+        const itemID = obj.target.id;
         const checked = obj.target.checked;
 
         let array = allItemID.slice();
+        const theGroups = groups;
+        for (let i = 0; i < theGroups.length; i += 1) {
+            if (theGroups[i].id === itemID) {
+                theGroups[i].checkbox = checked;
+                break;
+            }
+        }
+        setCheckBox(theGroups);
 
         // if checked then add to array
         if (checked === true) {
@@ -120,18 +143,19 @@ export default class Upload extends Component {
     }
 
     handleTagChange = (tag) => {
-        const { handleTagsChange } = this.props;
+        const {handleTagsChange} = this.props;
         handleTagsChange(tag);
     }
 
     handleMetaDataTextChange = (obj) => {
-        const { groups, allMetaDataValue, setAllMetaData } = this.props;
+        const {groups, allMetaDataValue, setAllMetaData} = this.props;
         const theData = obj.target.value;
         const theType = obj.target.getAttribute('data-type');
         const theName = obj.target.name;
         const id = obj.target.id;
         let theGroup = null;
 
+        // only add what user type to the array if there's actually value and not just blank
         // use the id to find the group name
         for (let i = 0; i < groups.length; i += 1) {
             if (groups[i].id === id) {
@@ -157,10 +181,11 @@ export default class Upload extends Component {
         }
         array = array.concat(object);
         setAllMetaData(array);
+
     }
 
     render() {
-        const { groups, fieldVisible, tags, allItemID } = this.props;
+        const {groups, fieldVisible, tags, allItemID} = this.props;
 
         return (
             <div className='upload-content'>
@@ -170,7 +195,9 @@ export default class Upload extends Component {
                         <div className='upload-file-upload'>
                             <ControlLabel>* Choose A File</ControlLabel>
                             <br />
-                            <input type='file' accept='.pdf, .html' ref={(ref) => { this.fileUpload = ref; }} onChange={this.handleFileChange} />
+                            <input type='file' accept='.pdf, .html' ref={(ref) => {
+                                this.fileUpload = ref;
+                            }} onChange={this.handleFileChange}/>
                         </div>
                         <br />
                         <br />
@@ -178,12 +205,13 @@ export default class Upload extends Component {
                             <ControlLabel>* Categories:</ControlLabel>
                         </Col>
                         <div>
-                            {groups.map(op =>
+                            {groups.map(object =>
                                 <Col sm={2}>
                                     <Checkbox
-                                        value={op.id}
+                                        checked={object.checkbox}
+                                        id={object.id}
                                         onChange={this.handleOnItemSelect}
-                                    >{op.name}</Checkbox>
+                                    >{object.name}</Checkbox>
                                 </Col>
                             )}
                         </div>
@@ -199,11 +227,12 @@ export default class Upload extends Component {
                                             <div>
                                                 <Col sm={3}>
                                                     <ControlLabel>{obj.name}</ControlLabel>
-                                                    <FormControl name={obj.name} id={ID} data-type={obj.type} onBlur={this.handleMetaDataTextChange} type='text' />
+                                                    <FormControl name={obj.name} id={ID} data-type={obj.type}
+                                                                 onBlur={this.handleMetaDataTextChange} type='text'/>
                                                 </Col>
                                             </div>
-                                    )
-                                    }
+                                        )
+                                        }
                                     </div>
                                 )}
                             </div>
@@ -215,7 +244,7 @@ export default class Upload extends Component {
                                 <br />
                                 <br />
                                 <ControlLabel>Tags:</ControlLabel>
-                                <TagsInput value={tags} onChange={this.handleTagChange} />
+                                <TagsInput value={tags} onChange={this.handleTagChange}/>
                             </Col>
                         </div>
 

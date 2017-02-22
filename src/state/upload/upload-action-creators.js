@@ -18,10 +18,6 @@ export function submitFile(tagArray, metaData) {
 
 export function fetchItemTypes() {
     return (dispatch) => {
-        /**
-        dispatch({
-            type: itemActionTypes.ITEMS_REQUESTED,
-        });**/
         uploadApi.fetchItemTypes()
             .then(response => dispatch({
                 type: uploadActionTypes.FETCH_ITEMS_SUCCEEDED,
@@ -69,5 +65,19 @@ export function setFilePicked(val) {
 export function resetFile() {
     return {
         type: uploadActionTypes.RESET_FILE_LOAD,
+    };
+}
+
+export function setAllCheckBoxes(array) {
+    return {
+        type: uploadActionTypes.SET_ALL_CHECKBOX,
+        data: { array },
+    };
+}
+
+export function setCheckBox(val) {
+    return {
+        type: uploadActionTypes.SET_CHECKBOX,
+        data: { val },
     };
 }

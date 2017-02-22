@@ -38,7 +38,23 @@ export default function (state = initialState, action) {
             const { groups } = action.data;
             return {
                 ...state,
-                groups,
+                groups: groups.map((object) => { const obj = object; obj.checkbox = false; return obj; }),
+            };
+        }
+
+        case uploadActionTypes.SET_ALL_CHECKBOX: {
+            const { array } = action.data;
+            return {
+                ...state,
+                groups: array,
+            };
+        }
+
+        case uploadActionTypes.SET_CHECKBOX: {
+            const { val } = action.data;
+            return {
+                ...state,
+                groups: val,
             };
         }
 
