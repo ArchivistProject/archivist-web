@@ -4,7 +4,8 @@ import { SIDEBAR_TABS } from './sidebar-constants';
 const initialState = {
     visible: false,
     visibleTab: SIDEBAR_TABS.SUMMARY,
-    editMode: false,
+    metadataEditMode: false,
+    descriptionEditMode: false,
 };
 
 export default function (state = initialState, action) {
@@ -24,10 +25,16 @@ export default function (state = initialState, action) {
                 visibleTab: tabName,
             };
         }
-        case sidebarActionTypes.EDIT_MODE_TOGGLED: {
+        case sidebarActionTypes.METADATA_EDIT_MODE_TOGGLED: {
             return {
                 ...state,
-                editMode: !state.editMode,
+                metadataEditMode: !state.metadataEditMode,
+            };
+        }
+        case sidebarActionTypes.DESCRIPTION_EDIT_MODE_TOGGLED: {
+            return {
+                ...state,
+                descriptionEditMode: !state.descriptionEditMode,
             };
         }
     }

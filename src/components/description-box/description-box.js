@@ -10,22 +10,21 @@ export default class DescriptionBox extends Component {
         activeItemEditing: PropTypes.object.isRequired,
         updateDescription: PropTypes.func.isRequired,
         saveDescription: PropTypes.func.isRequired,
-        editMode: PropTypes.bool.isRequired,
-        toggleEditMode: PropTypes.func.isRequired,
+        toggleDescriptionEditMode: PropTypes.func.isRequired,
+        descriptionEditMode: PropTypes.bool.isRequired,
     };
 
     handleDescriptionUpdated = (e) => {
         const { updateDescription } = this.props;
-        console.log(e.target.value);
         updateDescription(e.target.value);
     }
 
     handleEditModeToggled = (save) => {
-        const { toggleEditMode, saveDescription } = this.props;
+        const { toggleDescriptionEditMode, saveDescription } = this.props;
         if (save) {
             saveDescription();
         }
-        toggleEditMode();
+        toggleDescriptionEditMode();
     }
 
     getMarkdownText() {
@@ -33,13 +32,12 @@ export default class DescriptionBox extends Component {
       console.log('NORM DESC: ' + activeItem.description);
       var desc = activeItem.description === undefined ? '' : activeItem.description;
       var rawMarkup = marked(desc, {sanitize: true});
-      console.log("RAW MARKUP: " + rawMarkup);
       return { __html: rawMarkup };
     }
 
     renderDescriptionBox() {
-      const { activeItemEditing, editMode} = this.props;
-      if (editMode) {
+      const { activeItemEditing, descriptionEditMode} = this.props;
+      if (descriptionEditMode) {
         console.log('EDIT DESC: ' + activeItemEditing.description);
         var desc = activeItemEditing.description === undefined ? '' : activeItemEditing.description;
         return (<textarea className='summary-tab-description-input' value={desc} onChange={this.handleDescriptionUpdated} />);
@@ -48,8 +46,8 @@ export default class DescriptionBox extends Component {
     }
 
     renderEditControls() {
-        const { editMode } = this.props;
-        if (editMode) {
+        const { descriptionEditMode } = this.props;
+        if (descriptionEditMode) {
             return (
                 <div className='summary-tab-metadata-controls'>
                     <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(true)}>SAVE</button>

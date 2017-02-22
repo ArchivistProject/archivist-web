@@ -81,6 +81,7 @@ export default function (state = initialState, action) {
                 ...state,
                 activeItem: document,
                 activeItemEditing: document,
+                waitingForItems: false, // TODO: revisit
             };
         }
 

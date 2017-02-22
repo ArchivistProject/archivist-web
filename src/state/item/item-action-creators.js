@@ -50,21 +50,7 @@ export function itemFocused(itemIndex) {
                 type: itemActionTypes.ITEM_FOCUSED,
                 data: { itemIndex },
             });
-            const getTags = itemApi.getTags(itemId);
-            const getDescription = itemApi.getDescription(itemId);
-            Promise.all([getTags, getDescription])
-                .then((responses) => {
-                    const { document: { tags } } = responses[0];
-                    const { document: { description } } = responses[1];
-                    dispatch({
-                        type: itemActionTypes.TAGS_UPDATED,
-                        data: { tags },
-                    });
-                    dispatch({
-                        type: itemActionTypes.DESCRIPTION_UPDATED,
-                        data: { description, tempDescription: description },
-                    });
-                });
+            dispatch(fetchItem(itemId));
             if (!sidebar.visible) {
                 dispatch({
                     type: sidebarActionTypes.VISIBILITY_UPDATED,
