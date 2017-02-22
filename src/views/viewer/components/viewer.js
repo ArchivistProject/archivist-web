@@ -28,11 +28,30 @@ export default class Viewer extends Component {
         if (!activeItem) {
             fetchItem(itemId);
         }
+        window.addEventListener('resize', this.throttle(() => this.forceUpdate(), 200));
     }
 
     shouldComponentUpdate() {
         return !!this.svg;
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.throttle(() => this.forceUpdate(), 200));
+    }
+
+    throttle = (callback, limit) => {
+        let wait = false;
+        return () => {
+            if (!wait) {
+                callback.call();
+                wait = true;
+                setTimeout(() => {
+                    wait = false;
+                }, limit);
+            }
+        };
+    }
+
 
     handleScaleClicked = (increment) => {
         const { updateScale } = this.props;
