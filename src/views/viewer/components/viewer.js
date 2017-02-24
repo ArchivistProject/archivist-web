@@ -107,7 +107,7 @@ export default class Viewer extends Component {
 
                 pageContainer.width = `${viewport.width}px`;
                 pageContainer.height = `${viewport.height}px`;
-                this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 330 : 21)}px`;
+                this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
 
                 // Render the SVG element and add it as a child to the page container
                 pdfPage.getOperatorList()

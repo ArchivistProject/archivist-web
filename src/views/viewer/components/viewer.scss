@@ -18,7 +18,7 @@ $toolbar-height: 30px;
 
     &-wrapper {
         width: 100%;
-        height: calc(100vh - #{$action-bar-height} - #{$toolbar-height});
+        height: calc(100vh - #{$action-bar-height});
         display: flex;
         flex-direction: row;
     }
