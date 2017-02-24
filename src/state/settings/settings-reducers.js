@@ -210,6 +210,13 @@ export default function (state = initialState, action) {
                 popupName: name,
             };
         }
+
+        case settingsActionTypes.POST_FIELD_SUCCEEDED: {
+            return {
+                ...state,
+                fieldName: '',
+            };
+        }
     }
     return state;
 }
