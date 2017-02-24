@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
 
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { documents: items, meta } = action.data;
-            const { activeItem, activeItemIndex, activeItemIndexCached, activeItemPage } = state;
+            const { activeItem, activeItemIndexCached, activeItemPage } = state;
             const { current_page: currentPage,
                     next_page: nextPage,
                     prev_page: prevPage,
@@ -51,7 +51,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 items,
-                activeItem: activeItem ? items[activeItemIndex] : null,
                 activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
                 waitingForItems: false,
                 fetchItemsFailed: false,
