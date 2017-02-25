@@ -24,7 +24,8 @@ export default class Upload extends Component {
         resetFile: PropTypes.func.isRequired,
         setCheckBox: PropTypes.func.isRequired,
         setAllCheckBoxes: PropTypes.func.isRequired,
-
+        setFileName: PropTypes.func.isRequired,
+        fileName: PropTypes.string,
         // holds all values from meta data text fields
         allMetaDataValue: PropTypes.arrayOf(Object),
         setAllMetaData: PropTypes.func.isRequired,
@@ -37,16 +38,14 @@ export default class Upload extends Component {
     }
 
     resetInputFields = () => {
-        const { setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked } = this.props;
+        const { setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked, setFileName } = this.props;
         setAllMetaData([]);
         setAllItemID([]);
         handleTagsChange([]);
         setFieldVisible(false);
         setFilePicked(false);
         resetFile();
-        if (this.fileUpload) {
-            this.fileUpload.value = '';
-        }
+        setFileName('Choose a file...');
     }
 
     handleSubmit = () => {
@@ -79,8 +78,9 @@ export default class Upload extends Component {
     }
 
     handleFileChange = () => {
-        const { updateUploadFile } = this.props;
+        const { updateUploadFile, setFileName } = this.props;
         const file = this.fileUpload.files[0];
+        setFileName(file.name);
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
@@ -184,77 +184,81 @@ export default class Upload extends Component {
     }
 
     render() {
-        const { groups, fieldVisible, tags, allItemID } = this.props;
+        const { groups, fieldVisible, tags, allItemID, fileName } = this.props;
 
         return (
-            <div className='upload-content'>
-                <div>
-                    <h2 className='upload-title'>Upload New File</h2>
+            <div>
+                <div className='content'>
+                    <h3 className='upload-title'>Upload New File</h3>
+                    <div className='box'>
+                        <input type='file' id='file-5' accept='.pdf, .html' className='inputfile inputfile-4' ref={(ref) => { this.fileUpload = ref; }} onChange={this.handleFileChange} />
+                        <label htmlFor='file-5'>
+                            <figure>
+                                <svg xmlns='http://www.w3.org/2000/svg' width='20' height='17' viewBox='0 0 20 17'>
+                                    <path
+                                        d='M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z'
+                                    />
+                                </svg>
+                            </figure>
+                            <span>{fileName}</span></label>
+                    </div>
+
+
+                    <br />
+                    <br />
+                    <Col sm={12}>
+                        <ControlLabel>* Categories:</ControlLabel>
+                    </Col>
                     <div>
-                        <div className='upload-file-upload'>
-                            <ControlLabel>* Choose A File</ControlLabel>
-                            <br />
-                            <input
-                                type='file' accept='.pdf, .html' ref={(ref) => {
-                                    this.fileUpload = ref;
-                                }} onChange={this.handleFileChange}
-                            />
-                        </div>
-                        <br />
-                        <br />
-                        <Col sm={12}>
-                            <ControlLabel>* Categories:</ControlLabel>
-                        </Col>
-                        <div>
-                            {groups.map(object =>
-                                <Col sm={2}>
-                                    <Checkbox
-                                        checked={object.checkbox}
-                                        id={object.id}
-                                        onChange={this.handleOnItemSelect}
-                                    >{object.name}</Checkbox>
-                                </Col>
-                            )}
-                        </div>
+                        {groups.map(object =>
+                            <Col sm={2}>
+                                <Checkbox
+                                    className='squaredFour'
+                                    checked={object.checkbox}
+                                    id={object.id}
+                                    onChange={this.handleOnItemSelect}
+                                >{object.name}</Checkbox>
+                            </Col>
+                        )}
+                    </div>
 
-                        {fieldVisible ?
-                            <div>
-                                <Col sm={12}>
-                                    <ControlLabel>* Meta Data Fields:</ControlLabel>
-                                </Col>
-                                {allItemID.map(ID =>
-                                    <div>
-                                        {groups.filter(x => x.id === ID)[0].fields.map(obj =>
-                                            <div>
-                                                <Col sm={3}>
-                                                    <ControlLabel>{obj.name}</ControlLabel>
-                                                    <FormControl
-                                                        name={obj.name} id={ID} data-type={obj.type}
-                                                        onBlur={this.handleMetaDataTextChange} type='text'
-                                                    />
-                                                </Col>
-                                            </div>
-                                        )
-                                        }
-                                    </div>
-                                )}
-                            </div>
-                            : null
-                        }
-
+                    {fieldVisible ?
                         <div>
                             <Col sm={12}>
-                                <br />
-                                <br />
-                                <ControlLabel>Tags:</ControlLabel>
-                                <TagsInput value={tags} onChange={this.handleTagChange} />
+                                <ControlLabel>* Meta Data Fields:</ControlLabel>
                             </Col>
+                            {allItemID.map(ID =>
+                                <div>
+                                    {groups.filter(x => x.id === ID)[0].fields.map(obj =>
+                                        <div>
+                                            <Col sm={3}>
+                                                <ControlLabel>{obj.name}</ControlLabel>
+                                                <FormControl
+                                                    name={obj.name} id={ID} data-type={obj.type}
+                                                    onBlur={this.handleMetaDataTextChange} type='text'
+                                                />
+                                            </Col>
+                                        </div>
+                                    )
+                                    }
+                                </div>
+                            )}
                         </div>
+                        : null
+                    }
 
+                    <div>
                         <Col sm={12}>
-                            <Button className='upload-submit-btn' onClick={this.handleSubmit}>Upload</Button>
+                            <br />
+                            <br />
+                            <ControlLabel>Tags:</ControlLabel>
+                            <TagsInput value={tags} onChange={this.handleTagChange} />
                         </Col>
                     </div>
+
+                    <Col sm={12}>
+                        <Button className='upload-submit-btn' onClick={this.handleSubmit}>Upload</Button>
+                    </Col>
                 </div>
             </div>
         );

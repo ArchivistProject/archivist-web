@@ -8,6 +8,7 @@ const initialState = {
     allItemID: [],
     allMetaDataValue: [],
     filePicked: false,
+    fileName: 'Choose a file...',
 };
 
 export default function (state = initialState, action) {
@@ -102,6 +103,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 file: null,
+            };
+        }
+
+        case uploadActionTypes.SET_FILE_NAME: {
+            const { val } = action.data;
+            return {
+                ...state,
+                fileName: val,
             };
         }
     }

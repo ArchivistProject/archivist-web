@@ -81,3 +81,10 @@ export function setCheckBox(val) {
         data: { val },
     };
 }
+
+export function setFileName(val) {
+    return {
+        type: uploadActionTypes.SET_FILE_NAME,
+        data: { val },
+    };
+}
