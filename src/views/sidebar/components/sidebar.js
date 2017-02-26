@@ -18,7 +18,7 @@ export default class Sidebar extends Component {
         toggleDescriptionEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
-        updateTags: PropTypes.func.isRequired,
+        saveTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
         saveDescription: PropTypes.func.isRequired,
         metadataEditMode: PropTypes.bool.isRequired,
@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
     }
 
     renderPanel() {
-        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata, saveMetadata, updateTags,
+        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata, saveMetadata, saveTags,
             updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription } = this.props;
         const summaryTabProps = {
             activeItem,
@@ -69,7 +69,7 @@ export default class Sidebar extends Component {
             toggleDescriptionEditMode,
             updateMetadata,
             saveMetadata,
-            updateTags,
+            saveTags,
             updateDescription,
             saveDescription,
             metadataEditMode,

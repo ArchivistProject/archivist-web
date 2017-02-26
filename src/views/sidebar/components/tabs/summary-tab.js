@@ -15,7 +15,7 @@ export default class SummaryTab extends Component {
         toggleDescriptionEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
-        updateTags: PropTypes.func.isRequired,
+        saveTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
         saveDescription: PropTypes.func.isRequired,
         metadataEditMode: PropTypes.bool.isRequired,
@@ -36,8 +36,8 @@ export default class SummaryTab extends Component {
     }
 
     handleTagsUpdated = (tags) => {
-        const { updateTags } = this.props;
-        updateTags(tags);
+        const { saveTags } = this.props;
+        saveTags(tags);
     }
 
     renderMetadataRows() {

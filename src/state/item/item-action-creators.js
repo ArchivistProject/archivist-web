@@ -80,7 +80,7 @@ export function saveMetadata() {
     };
 }
 
-export function updateTags(tags) {
+export function saveTags(tags) {
     return (dispatch, getState) => {
         const tagSet = new Set(tags);
         const tagArray = Array.from(tagSet.values());
