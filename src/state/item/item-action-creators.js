@@ -73,10 +73,10 @@ export function saveMetadata() {
         const { item: { activeItem, activeItemEditing, meta: { currentPage } } } = getState();
         itemApi.updateItemMetadata(activeItem, activeItemEditing)
             .then((success) => {
-                dispatch({ type: itemActionTypes.METADATA_SAVE_SUCCEEDED });
+                dispatch({ type: itemActionTypes.METADATA_UPDATE_SUCCEEDED });
                 dispatch(fetchItem(activeItem.id));
             })
-            .catch(error => dispatch({ type: itemActionTypes.METADATA_SAVE_FAILED }));
+            .catch(error => dispatch({ type: itemActionTypes.METADATA_UPDATE_FAILED }));
     };
 }
 

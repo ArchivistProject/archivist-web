@@ -129,7 +129,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.METADATA_SAVE_SUCCEEDED:
+        case itemActionTypes.METADATA_UPDATE_SUCCEEDED:
         case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
             return {
                 ...state,
