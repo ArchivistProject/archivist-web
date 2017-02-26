@@ -4,10 +4,11 @@ const initialState = {
     file: null,
     groups: [],
     fieldVisible: false,
-    activeItem: null,
-    title: '',
-    author: '',
     tags: [],
+    allItemID: [],
+    allMetaDataValue: [],
+    filePicked: false,
+    fileName: 'Choose a file...',
 };
 
 export default function (state = initialState, action) {
@@ -17,11 +18,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 file,
+                filePicked: true,
             };
         }
         case uploadActionTypes.FILE_UPLOAD_SUCCEEDED: {
             return {
                 ...state,
+                tags: [],
+                allMetaDataValue: [],
+                file: null,
             };
         }
         case uploadActionTypes.FILE_UPLOAD_FAILED: {
@@ -34,33 +39,31 @@ export default function (state = initialState, action) {
             const { groups } = action.data;
             return {
                 ...state,
-                groups,
-                activeItem: groups[0].id,
-                fieldVisible: true,
+                groups: groups.map((object) => { const obj = object; obj.checkbox = false; return obj; }),
             };
         }
 
-        case uploadActionTypes.FIELDS_RENDERED: {
+        case uploadActionTypes.SET_ALL_CHECKBOX: {
+            const { array } = action.data;
+            return {
+                ...state,
+                groups: array,
+            };
+        }
+
+        case uploadActionTypes.SET_CHECKBOX: {
+            const { val } = action.data;
+            return {
+                ...state,
+                groups: val,
+            };
+        }
+
+        case uploadActionTypes.SET_ITEM_ID: {
             const { itemID } = action.data;
             return {
                 ...state,
-                activeItem: itemID,
-            };
-        }
-
-        case uploadActionTypes.TITLE_CHANGED: {
-            const { name } = action.data;
-            return {
-                ...state,
-                title: name,
-            };
-        }
-
-        case uploadActionTypes.AUTHOR_CHANGED: {
-            const { name } = action.data;
-            return {
-                ...state,
-                author: name,
+                allItemID: itemID,
             };
         }
 
@@ -69,6 +72,45 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 tags: tag,
+            };
+        }
+
+        case uploadActionTypes.SET_ALL_METADATA: {
+            const { array } = action.data;
+            return {
+                ...state,
+                allMetaDataValue: array,
+            };
+        }
+
+        case uploadActionTypes.SET_FIELD_VISIBLE: {
+            const { val } = action.data;
+            return {
+                ...state,
+                fieldVisible: val,
+            };
+        }
+
+        case uploadActionTypes.SET_FILE_PICKED: {
+            const { val } = action.data;
+            return {
+                ...state,
+                filePicked: val,
+            };
+        }
+
+        case uploadActionTypes.RESET_FILE_LOAD: {
+            return {
+                ...state,
+                file: null,
+            };
+        }
+
+        case uploadActionTypes.SET_FILE_NAME: {
+            const { val } = action.data;
+            return {
+                ...state,
+                fileName: val,
             };
         }
     }

@@ -211,12 +211,6 @@ export default function (state = initialState, action) {
             };
         }
 
-        case settingsActionTypes.POST_FIELD_SUCCEEDED: {
-            return {
-                ...state,
-                fieldName: '',
-            };
-        }
     }
     return state;
 }

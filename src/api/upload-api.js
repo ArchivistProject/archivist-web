@@ -1,16 +1,34 @@
 import config from '~/config';
+import $ from 'jquery';
 
-export function uploadFile(file) {
-    return fetch('theurl', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            file,
-        }),
-    })
-        .then(response => response.json());
+export function uploadFile(file, tagArray, metaData) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+        const base64File = e.target.result;
+
+        const document = {
+            document: {
+                file: base64File,
+                tags: tagArray,
+                metadata_fields: metaData,
+            },
+        };
+
+        $.ajax({
+            url: `${config.backend}/public/documents`,
+            type: 'POST',
+            data: JSON.stringify(document),
+            success(response) {
+                alert('Successfully uploaded');
+            },
+            error() {
+                alert('Failed to upload, try again later');
+            },
+            contentType: 'application/json',
+            dataType: 'json',
+        });
+    };
 }
 
 export function fetchItemTypes() {

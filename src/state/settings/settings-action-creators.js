@@ -47,10 +47,7 @@ export function postItemType(name) {
 export function postFieldType(name, type, id) {
     return (dispatch) => {
         settingsApi.postFieldType(name, type, id)
-            .then((response) => {
-                dispatch({ type: settingsActionTypes.POST_FIELD_SUCCEEDED });
-                dispatch(fetchItemTypes());
-            })
+            .then(response => dispatch(fetchItemTypes()))
             .catch(error => dispatch({ type: settingsActionTypes.POST_FIELD_FAILED }));
     };
 }
