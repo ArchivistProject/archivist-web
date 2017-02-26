@@ -1,35 +1,26 @@
-.Settings {
-  color: #111; font-family: 'Segoe UI', sans-serif; font-size: 50px; font-weight: bold; letter-spacing: -1px; line-height: 1;
-  margin-left: 1cm;
-  margin-bottom: 1cm;
+.settings {
+  &-header {
+    color: #111;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 50px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-left: 1cm;
+    margin-bottom: 1cm;
+  }
+  .section {
+    margin-left: 1cm;
+    float: left;
+    width: 50%;
+  }
+  .aside {
+    float: right;
+    width: 30%;
+    margin: 0 1.5% 24px 1.5%;
+    .caption {
+      margin-top: 5%;
+      margin-left: 15%;
+    }
+  }
 }
-
-.header,
-section,
-aside,
-footer {
-  margin: 0 1.5% 24px 1.5%;
-}
-.section {
-  margin-left: 1cm;
-  float: left;
-  width: 50%;
-}
-.aside {
-  float: right;
-  width: 30%;
-}
-.footer {
-  clear: both;
-  margin-bottom: 0;
-}
-.caption {
-  margin-top: 5%;
-  margin-left: 15%;
-}
-
-textarea {
-  max-width: 400px;
-}
-
-.list-group {line-height:30px}

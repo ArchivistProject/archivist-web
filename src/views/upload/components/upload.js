@@ -187,7 +187,7 @@ export default class Upload extends Component {
         const { groups, fieldVisible, tags, allItemID, fileName } = this.props;
 
         return (
-            <div>
+            <div className='upload'>
                 <div className='content'>
                     <h3 className='upload-title'>Upload New File</h3>
                     <div className='box'>

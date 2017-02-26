@@ -19,7 +19,9 @@
         width: 50%;
         font-family: $default-family;
         font-size: $default-size;
+        border: none;
     }
+
     &-back, &-right-buttons {
         width: 250px;
         padding: 0 10px;
