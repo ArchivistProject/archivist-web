@@ -7,6 +7,12 @@ export function fetchItems(pageNumber) {
         .catch((error) => { throw new Error(error); });
 }
 
+export function fetchItem(itemId) {
+    return fetch(`${config.backend}/documents/${itemId}`)
+        .then(response => response.json())
+        .catch((error) => { throw new Error('Item fetch failed', error); });
+}
+
 export function updateItemMetadata(item, updatedItem) {
     const changedFields = updatedItem.metadata_fields.filter((field, i) => field.data !== item.metadata_fields[i].data);
     const calls = [];
