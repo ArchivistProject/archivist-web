@@ -136,13 +136,6 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.METADATA_UPDATE_SUCCEEDED:
-        case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
-            return {
-                ...state,
-            };
-        }
-
         case itemActionTypes.TAGS_UPDATED: {
             const { tags } = action.data;
             const { activeItem } = state;
@@ -164,6 +157,22 @@ export default function (state = initialState, action) {
                     ...activeItemEditing,
                     description,
                 },
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATE_SUCCEEDED:
+        case itemActionTypes.TAGS_UPDATE_SUCCEEDED:
+        case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
+            return {
+                ...state,
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATE_FAILED:
+        case itemActionTypes.TAGS_UPDATE_FAILED:
+        case itemActionTypes.DESCRIPTION_UPDATE_FAILED: {
+            return {
+                ...state,
             };
         }
 
