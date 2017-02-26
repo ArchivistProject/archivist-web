@@ -37,7 +37,7 @@ export function updateTags(item, tags) {
     const payload = { document: { tags, count: tags.length } };
     return $.ajax({
         type: 'PUT',
-        url: `${config.backend}/documents/${item.id}/tags`,
+        url: `${config.backend}/documents/${item.id}`,
         data: payload,
     });
 }
@@ -46,7 +46,7 @@ export function updateDescription(item) {
     const payload = { document: { description: item.description } };
     return $.ajax({
         type: 'PUT',
-        url: `${config.backend}/documents/${item.id}/description`,
+        url: `${config.backend}/documents/${item.id}`,
         data: payload,
     });
 }
