@@ -30,19 +30,25 @@ $toolbar-height: 30px;
         align-items: center;
         justify-content: space-between;
         background-color: $dark-gray;
-        color: $white;
+        color: $black;
 
         &-zoom {
             display: flex;
             flex-direction: row;
             .scale {
                 width: 20px;
+                color: $white;
             }
         }
-        .paginator button {
-            background-color: $white;
-            border-radius: 3px;
-            margin: 0 2px;
+        .paginator {
+            &-current {
+                color: $white;
+            }
+            button {
+                background-color: $white;
+                border-radius: 3px;
+                margin: 0 2px;
+            }
         }
     }
 
