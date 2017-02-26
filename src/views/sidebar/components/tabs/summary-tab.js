@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import TagsInput from 'react-tagsinput';
+import DescriptionBox from '~/src/components/description-box/description-box';
 import { formatDate } from '~/src/utils/utils';
 import { canEditMetadata } from '~/src/state/user/privileges';
 import '~/src/assets/style/react-tagsinput.scss';
@@ -10,22 +11,23 @@ export default class SummaryTab extends Component {
     static propTypes = {
         activeItem: PropTypes.object.isRequired,
         activeItemEditing: PropTypes.object.isRequired,
-        toggleEditMode: PropTypes.func.isRequired,
+        toggleMetadataEditMode: PropTypes.func.isRequired,
+        toggleDescriptionEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
-        updateTags: PropTypes.func.isRequired,
+        saveTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
         saveDescription: PropTypes.func.isRequired,
-        editMode: PropTypes.bool.isRequired,
-        tempDescription: PropTypes.string,
+        metadataEditMode: PropTypes.bool.isRequired,
+        descriptionEditMode: PropTypes.bool.isRequired,
     };
 
-    handleEditModeToggled = (save) => {
-        const { toggleEditMode, saveMetadata } = this.props;
+    handleMetadataEditModeToggled = (save) => {
+        const { toggleMetadataEditMode, saveMetadata } = this.props;
         if (save) {
             saveMetadata();
         }
-        toggleEditMode();
+        toggleMetadataEditMode();
     }
 
     handleMetadataEdited = (metadataIndex, e) => {
@@ -34,31 +36,21 @@ export default class SummaryTab extends Component {
     }
 
     handleTagsUpdated = (tags) => {
-        const { updateTags } = this.props;
-        updateTags(tags);
-    }
-
-    handleDescriptionUpdated = (e) => {
-        const { updateDescription } = this.props;
-        updateDescription(e.target.value);
-    }
-
-    handleDescriptionSaved = () => {
-        const { saveDescription } = this.props;
-        saveDescription();
+        const { saveTags } = this.props;
+        saveTags(tags);
     }
 
     renderMetadataRows() {
-        const { editMode, activeItem, activeItemEditing } = this.props;
-        const itemToDisplay = editMode ? activeItemEditing : activeItem;
+        const { metadataEditMode, activeItem, activeItemEditing } = this.props;
+        const itemToDisplay = metadataEditMode ? activeItemEditing : activeItem;
         // TODO: editMode && metadata.isEditable
         return itemToDisplay.metadata_fields.map((metadata, metadataIndex) => {
-            const valueChanged = editMode && activeItem.metadata_fields[metadataIndex].data !== metadata.data;
+            const valueChanged = metadataEditMode && activeItem.metadata_fields[metadataIndex].data !== metadata.data;
             return (
                 <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
                     <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
                     <td className='summary-tab-value'>
-                        {editMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
+                        {metadataEditMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
                         : <div>{metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)}</div>}
                     </td>
                 </tr>
@@ -67,24 +59,24 @@ export default class SummaryTab extends Component {
     }
 
     renderEditControls() {
-        const { editMode } = this.props;
-        if (editMode) {
+        const { metadataEditMode } = this.props;
+        if (metadataEditMode) {
             return (
                 <div className='summary-tab-metadata-controls'>
-                    <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(true)}>SAVE</button>
-                    <button className='summary-tab-cancel' onClick={() => this.handleEditModeToggled(false)}>CANCEL</button>
+                    <button className='summary-tab-edit' onClick={() => this.handleMetadataEditModeToggled(true)}>SAVE</button>
+                    <button className='summary-tab-cancel' onClick={() => this.handleMetadataEditModeToggled(false)}>CANCEL</button>
                 </div>
             );
         }
         return (
             <div className='summary-tab-metadata-controls'>
-                <button className='summary-tab-edit' onClick={() => this.handleEditModeToggled(false)}>EDIT METADATA</button>
+                <button className='summary-tab-edit' onClick={() => this.handleMetadataEditModeToggled(false)}>EDIT METADATA</button>
             </div>
         );
     }
 
     render() {
-        const { activeItem, tempDescription } = this.props;
+        const { activeItem } = this.props;
         return (
             <div className='summary-tab'>
                 <section className='summary-tab-metadata'>
@@ -104,11 +96,8 @@ export default class SummaryTab extends Component {
                         inputProps={{ placeholder: '' }}
                     />
                 </section>
-                <section className='summary-tab-description'>
-                    <span className='summary-tab-category'>Description</span>
-                    <textarea className='summary-tab-description-input' value={activeItem.description} onChange={this.handleDescriptionUpdated} />
-                    <button disabled={activeItem.description === tempDescription} onClick={this.handleDescriptionSaved}>SAVE DESCRIPTION</button>
-                </section>
+                <span className='summary-tab-category'>Description</span>
+                <DescriptionBox {...this.props} />
             </div>
         );
     }

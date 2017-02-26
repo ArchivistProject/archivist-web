@@ -14,13 +14,15 @@ export default class Sidebar extends Component {
         visibleTab: PropTypes.string,
         updateVisibility: PropTypes.func.isRequired,
         updateTabVisibility: PropTypes.func.isRequired,
-        toggleEditMode: PropTypes.func.isRequired,
+        toggleMetadataEditMode: PropTypes.func.isRequired,
+        toggleDescriptionEditMode: PropTypes.func.isRequired,
         updateMetadata: PropTypes.func.isRequired,
         saveMetadata: PropTypes.func.isRequired,
-        updateTags: PropTypes.func.isRequired,
+        saveTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
         saveDescription: PropTypes.func.isRequired,
-        editMode: PropTypes.bool.isRequired,
+        metadataEditMode: PropTypes.bool.isRequired,
+        descriptionEditMode: PropTypes.bool.isRequired,
         tempDescription: PropTypes.string,
     };
 
@@ -58,18 +60,20 @@ export default class Sidebar extends Component {
     }
 
     renderPanel() {
-        const { visibleTab, activeItem, activeItemEditing, toggleEditMode, updateMetadata, saveMetadata, updateTags,
-            updateDescription, saveDescription, editMode, tempDescription } = this.props;
+        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata, saveMetadata, saveTags,
+            updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription } = this.props;
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
-            toggleEditMode,
+            toggleMetadataEditMode,
+            toggleDescriptionEditMode,
             updateMetadata,
             saveMetadata,
-            updateTags,
+            saveTags,
             updateDescription,
             saveDescription,
-            editMode,
+            metadataEditMode,
+            descriptionEditMode,
             tempDescription };
         switch (visibleTab) {
             case SIDEBAR_TABS.SUMMARY:
