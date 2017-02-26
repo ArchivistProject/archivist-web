@@ -210,6 +210,7 @@ export default function (state = initialState, action) {
                 popupName: name,
             };
         }
+
     }
     return state;
 }
