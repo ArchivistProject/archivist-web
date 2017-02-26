@@ -93,6 +93,7 @@ export function saveTags(tags) {
         itemApi.updateTags(activeItem, tags)
             .then((response) => {
                 dispatch({ type: itemActionTypes.TAGS_UPDATE_SUCCEEDED });
+                // Updating the activeItem with TAGS_UPDATED, so no need to call fetchItem
             })
             .catch(error => dispatch({ type: itemActionTypes.TAGS_UPDATE_FAILED }));
     };

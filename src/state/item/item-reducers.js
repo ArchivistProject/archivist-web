@@ -137,6 +137,8 @@ export default function (state = initialState, action) {
         }
 
         case itemActionTypes.TAGS_UPDATED: {
+            /* Instead of updating an intermediate state like the other UPDATED actions,
+            we immediately update the end state here to make the UI more snappy when adding tags*/
             const { tags } = action.data;
             const { activeItem } = state;
             return {
