@@ -217,8 +217,9 @@ export default class Upload extends Component {
                                     checked={object.checkbox}
                                     id={object.id}
                                     onChange={this.handleOnItemSelect}
+
                                 />
-                                <label>{object.name}</label>
+                                <label htmlFor={object.id}>{object.name}</label>
                             </Col>
                         )}
                     </div>
