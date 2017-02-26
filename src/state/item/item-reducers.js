@@ -29,14 +29,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case itemActionTypes.ITEMS_REQUESTED:
-        case itemActionTypes.ITEM_REQUESTED: {
+        case itemActionTypes.ITEMS_REQUESTED: {
             return {
                 ...state,
                 waitingForItems: true,
             };
         }
-
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { documents: items, meta } = action.data;
             const { activeItem, activeItemIndex, activeItemIndexCached, activeItemPage } = state;
@@ -66,13 +64,18 @@ export default function (state = initialState, action) {
                 },
             };
         }
-
         case itemActionTypes.FETCH_ITEMS_FAILED: {
             console.log('error fetching items..');
             return {
                 ...state,
                 waitingForItems: false,
                 fetchItemsFailed: true,
+            };
+        }
+
+        case itemActionTypes.ITEM_REQUESTED: {
+            return {
+                ...state,
             };
         }
         case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
@@ -87,7 +90,11 @@ export default function (state = initialState, action) {
                 ],
                 activeItem: document,
                 activeItemEditing: document,
-                waitingForItems: false, // TODO: revisit
+            };
+        }
+        case itemActionTypes.FETCH_ITEM_FAILED: {
+            return {
+                ...state,
             };
         }
 
