@@ -33,18 +33,6 @@ export function updateItemMetadata(item, updatedItem) {
         .catch(() => false);
 }
 
-export function getTags(itemId) {
-    return fetch(`${config.backend}/documents/${itemId}/tags`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error('Error fetching tags', error); });
-}
-
-export function getDescription(itemId) {
-    return fetch(`${config.backend}/documents/${itemId}/description`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error('Error fetching description', error); });
-}
-
 export function updateTags(item, tags) {
     const payload = { document: { tags, count: tags.length } };
     return $.ajax({
