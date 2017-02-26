@@ -36,9 +36,3 @@ export function fetchItemTypes() {
         .then(response => response.json())
         .catch(response => console.log('error', response));
 }
-
-export function fetchItemTypes() {
-    return fetch(`${config.backend}/system/groups`)
-        .then(response => response.json())
-        .catch(response => console.log('error', response));
-}
