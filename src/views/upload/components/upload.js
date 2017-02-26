@@ -212,12 +212,13 @@ export default class Upload extends Component {
                     <div>
                         {groups.map(object =>
                             <Col sm={2}>
-                                <Checkbox
-                                    className='squaredFour'
+                                <input
+                                    type='checkbox'
                                     checked={object.checkbox}
                                     id={object.id}
                                     onChange={this.handleOnItemSelect}
-                                >{object.name}</Checkbox>
+                                />
+                                <label>{object.name}</label>
                             </Col>
                         )}
                     </div>
