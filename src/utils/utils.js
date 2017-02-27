@@ -43,6 +43,7 @@ export function handleError(error, dispatch) {
             break;
         }
         default: {
+            console.log('API error: ', error)
             dispatch({
                 type: 'Unknown error',
                 notification: {
@@ -50,7 +51,6 @@ export function handleError(error, dispatch) {
                     message: `An unknown error occured. ${error.statusText}`,
                     level: 'error',
                 },
-                redirect: '/login',
             });
         }
     }
