@@ -1,5 +1,4 @@
-import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 
 export function uploadFile(file, tagArray, metaData) {
     const reader = new FileReader();
@@ -32,7 +31,7 @@ export function uploadFile(file, tagArray, metaData) {
 }
 
 export function fetchItemTypes() {
-    return fetch(`${config.backend}/system/groups`)
+    return ajax('GET', 'system/groups')
         .then(response => response.json())
         .catch(response => console.log('error', response));
 }

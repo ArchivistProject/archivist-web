@@ -20,9 +20,10 @@ export function ajax(type, url, data) {
         data,
         headers: { Authorization: token },
     };
+    if (type === 'DELETE') { params.dataType = 'json'; }
     return $.ajax(params)
         .then(response => response)
-        .catch((error) => {
+        .catch(error => {
             throw error;
         });
 }

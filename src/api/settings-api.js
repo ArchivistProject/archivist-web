@@ -1,9 +1,8 @@
-import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 
 export function fetchItemTypes() {
-    return fetch(`${config.backend}/system/groups`)
-        .then(response => response.json())
+    return ajax('GET', 'system/groups')
+        .then(response => response)
         .catch((error) => { throw new Error(error); });
 }
 
@@ -15,7 +14,7 @@ export function postItemType(itemName) {
             fields: [],
         },
     };
-    return $.post(`${config.backend}/system/groups`, group)
+    return ajax('POST', 'system/groups', group)
         .then(response => response);
 }
 
@@ -26,28 +25,20 @@ export function postFieldType(name, type, id) {
             type,
         },
     };
-    return $.post(`${config.backend}/system/groups/${id}/field`, field)
+    return ajax('POST', `system/groups/${id}/field`, field)
         .then(response => response);
 }
 
 
 export function deleteField(groupID, fieldID) {
-    const finalUrl = `${config.backend}/system/groups/${groupID}/field/${fieldID}`;
-    return $.ajax({
-        type: 'DELETE',
-        url: finalUrl,
-        dataType: 'json',
-    }).then(response => response);
+    return ajax('DELETE', `system/groups/${groupID}/field/${fieldID}`)
+        .then(response => response);
 }
 
 
 export function deleteItem(groupID) {
-    const finalUrl = `${config.backend}/system/groups/${groupID}`;
-    return $.ajax({
-        type: 'DELETE',
-        url: finalUrl,
-        dataType: 'json',
-    }).then(response => response);
+  return ajax('DELETE', `system/groups/${groupID}`)
+      .then(response => response);
 }
 
 
@@ -58,13 +49,13 @@ export function postBackgroundColor(color) {
         },
     };
 
-    $.post(`${config.backend}/theURL`, backgroundColor);
+    ajax('POST', `${config.backend}/theURL`, backgroundColor);
 }
 
 // -------------------------Api token----------------------------------
 export function fetchAPIToken() {
-    return fetch(`${config.backend}/theURL`)
-        .then(response => response.json())
+    return ajax('GET', 'theURL')
+        .then(response => response)
         .catch((error) => { throw new Error(error); });
 }
 
@@ -72,7 +63,7 @@ export function fetchAPIToken() {
 // --------------------------Statistic--------------------
 
 export function fetchFileStorage() {
-    return fetch(`${config.backend}/statistics/documents`)
-        .then(response => response.json())
+    return ajax('GET', 'statistics/documents')
+        .then(response => response)
         .catch((error) => { throw new Error(error); });
 }
