@@ -46,7 +46,6 @@ export default function (state = initialState, action) {
                 loggedIn: false,
             };
         }
-
     }
     return state;
 }

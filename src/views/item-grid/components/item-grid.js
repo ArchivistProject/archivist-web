@@ -3,7 +3,7 @@ import moment from 'moment';
 import Grid from '~/src/components/grid/grid';
 import Paginator from '~/src/components/paginator/paginator';
 import { formatDate } from '~/src/utils/utils';
-import SadFace from '~/src/images/sadface.png';
+import SadFace from '~/src/assets/images/sadface.png';
 import './item-grid.scss';
 
 export default class ItemGrid extends Component {
@@ -17,6 +17,7 @@ export default class ItemGrid extends Component {
         activeItemId: PropTypes.string,
         activeItemIndex: PropTypes.number,
         waitingForItems: PropTypes.bool,
+        fetchItemsFailed: PropTypes.bool,
         meta: PropTypes.shape({
             currentPage: PropTypes.number,
             nextPage: PropTypes.number,
@@ -33,9 +34,17 @@ export default class ItemGrid extends Component {
     }
 
     render() {
-        const { items, headers, itemFocused, headerClicked, activeItemIndex, waitingForItems, fetchItems,
+        const { items, headers, itemFocused, headerClicked, activeItemIndex, waitingForItems, fetchItems, fetchItemsFailed,
             meta: { currentPage, nextPage, prevPage, totalPages, totalCount, pageSize } } = this.props;
         let rows = [];
+
+        if (fetchItemsFailed) {
+            return (
+                <div className='item-grid-wrapper'>
+                    <span className='item-grid-text'>Failed to retrieve items from server.</span>
+                </div>
+            );
+        }
 
         if (items) {
             rows = items.map((item, itemIndex) => {
@@ -53,28 +62,26 @@ export default class ItemGrid extends Component {
         const endIndex = ((startIndex + rows.length) - 1);
         return (
             <div className='item-grid-wrapper'>
-                { !waitingForItems ? (
-                    <div className='item-grid'>
-                        { rows.length ? (
-                            <Paginator
-                                currentPage={currentPage}
-                                nextPage={nextPage}
-                                prevPage={prevPage}
-                                totalPages={totalPages}
-                                onPageChange={fetchItems}
-                            />) : null }
-                        <Grid
-                            headers={headers}
-                            rows={rows}
-                            onRowClick={itemFocused}
-                            onHeaderClick={headerClicked}
-                            activeRowNum={activeItemIndex}
-                            noResultsText={'You don\'t have any files yet!'}
-                            noResultsImage={SadFace}
-                        />
-                        { rows.length ? <span>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
-                    </div>
-                ) : <span className='item-grid-loading'>Loading...</span> }
+                <div className={`item-grid ${waitingForItems ? 'item-grid-disabled' : ''}`}>
+                    { rows.length ? (
+                        <Paginator
+                            currentPage={currentPage}
+                            nextPage={nextPage}
+                            prevPage={prevPage}
+                            totalPages={totalPages}
+                            onPageChange={fetchItems}
+                        />) : null }
+                    <Grid
+                        headers={headers}
+                        rows={rows}
+                        onRowClick={itemFocused}
+                        onHeaderClick={headerClicked}
+                        activeRowNum={activeItemIndex}
+                        noResultsText={'You don\'t have any files yet!'}
+                        noResultsImage={SadFace}
+                    />
+                    { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
+                </div>
             </div>
         );
     }

@@ -1,4 +1,5 @@
-@import 'defaults';
+@import '../../defaults';
+@import 'icomoon';
 
 html, body {
     height: 100%;
@@ -9,6 +10,7 @@ html, body {
 
 button {
     cursor: pointer;
+    line-height: normal;
 }
 
 .notification {
@@ -17,4 +19,8 @@ button {
     &-dismiss {
         border-radius: 0 !important;
     }
+}
+
+input {
+    line-height: normal;
 }

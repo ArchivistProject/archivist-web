@@ -37,6 +37,7 @@ export default class ActionBar extends Component {
 
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible } = this.props;
+
         return (
             <div className='action-bar-wrapper'>
                 { !loggedIn ?
@@ -56,8 +57,8 @@ export default class ActionBar extends Component {
                             }
                         </div>
                         <div className='action-bar-right-buttons'>
-                            {uploadVisible ? <Link to='/upload' className='action-bar-upload'>Upload</Link> : null }
-                            {settingsVisible ? <Link to='/settings' className='action-bar-settings'>Settings</Link> : null }
+                            {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
+                            {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
                             {logoutVisible ? <button className='action-bar-logout' onClick={this.handleLogout}>Log Out</button> : null }
                         </div>
                     </div>

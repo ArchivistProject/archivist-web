@@ -1,4 +1,5 @@
 import itemActionTypes from './item-action-types';
+import sidebarActionTypes from '../sidebar/sidebar-action-types';
 
 const initialState = {
     items: null,
@@ -8,11 +9,13 @@ const initialState = {
         'Date Added',
     ],
     activeItem: null,
+    activeItemEditing: null,
     activeItemIndex: null,
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
     sortBy: null,
     waitingForItems: null,
+    fetchItemsFailed: false,
     meta: {
         currentPage: 1,
         nextPage: null,
@@ -21,6 +24,7 @@ const initialState = {
         totalCount: null,
         pageSize: 10,
     },
+    tempDescription: '',
 };
 
 export default function (state = initialState, action) {
@@ -31,10 +35,9 @@ export default function (state = initialState, action) {
                 waitingForItems: true,
             };
         }
-
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { documents: items, meta } = action.data;
-            const { activeItemPage, activeItemIndexCached } = state;
+            const { activeItem, activeItemIndexCached, activeItemPage } = state;
             const { current_page: currentPage,
                     next_page: nextPage,
                     prev_page: prevPage,
@@ -48,6 +51,7 @@ export default function (state = initialState, action) {
                 items,
                 activeItemIndex: activeItemPage === currentPage ? activeItemIndexCached : null,
                 waitingForItems: false,
+                fetchItemsFailed: false,
                 meta: {
                     ...state.meta,
                     currentPage,
@@ -57,6 +61,39 @@ export default function (state = initialState, action) {
                     totalCount,
                     // pageSize,
                 },
+            };
+        }
+        case itemActionTypes.FETCH_ITEMS_FAILED: {
+            console.log('error fetching items..');
+            return {
+                ...state,
+                waitingForItems: false,
+                fetchItemsFailed: true,
+            };
+        }
+
+        case itemActionTypes.ITEM_REQUESTED: {
+            return {
+                ...state,
+            };
+        }
+        case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
+            const { document } = action.data;
+            const { items, activeItemIndex } = state;
+            return {
+                ...state,
+                items: [
+                    ...items.slice(0, activeItemIndex),
+                    document,
+                    ...items.slice(activeItemIndex + 1, items.length),
+                ],
+                activeItem: document,
+                activeItemEditing: document,
+            };
+        }
+        case itemActionTypes.FETCH_ITEM_FAILED: {
+            return {
+                ...state,
             };
         }
 
@@ -74,9 +111,69 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 activeItem: state.items[itemIndex],
+                activeItemEditing: state.items[itemIndex],
                 activeItemIndex: itemIndex,
                 activeItemIndexCached: itemIndex,
                 activeItemPage: currentPage,
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATED: {
+            const { metadataIndex, value } = action.data;
+            const { metadata_fields, metadata_fields: { [metadataIndex]: metadataField } } = state.activeItemEditing;
+
+            return {
+                ...state,
+                activeItemEditing: {
+                    ...state.activeItemEditing,
+                    metadata_fields: [
+                        ...metadata_fields.slice(0, metadataIndex),
+                        { ...metadataField, data: value },
+                        ...metadata_fields.slice(metadataIndex + 1, metadata_fields.length),
+                    ],
+                },
+            };
+        }
+
+        case itemActionTypes.TAGS_UPDATED: {
+            /* Instead of updating an intermediate state like the other UPDATED actions,
+            we immediately update the end state here to make the UI more snappy when adding tags*/
+            const { tags } = action.data;
+            const { activeItem } = state;
+            return {
+                ...state,
+                activeItem: {
+                    ...activeItem,
+                    tags,
+                },
+            };
+        }
+
+        case itemActionTypes.DESCRIPTION_UPDATED: {
+            const { description } = action.data;
+            const { activeItemEditing } = state;
+            return {
+                ...state,
+                activeItemEditing: {
+                    ...activeItemEditing,
+                    description,
+                },
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATE_SUCCEEDED:
+        case itemActionTypes.TAGS_UPDATE_SUCCEEDED:
+        case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
+            return {
+                ...state,
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATE_FAILED:
+        case itemActionTypes.TAGS_UPDATE_FAILED:
+        case itemActionTypes.DESCRIPTION_UPDATE_FAILED: {
+            return {
+                ...state,
             };
         }
 
@@ -85,6 +182,32 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 sortby: header,
+            };
+        }
+
+        case sidebarActionTypes.VISIBILITY_UPDATED: {
+            const { visible } = action.data;
+
+            if (!visible) { // closing sidebar, unfocus item
+                return {
+                    ...state,
+                    activeItem: initialState.activeItem,
+                    activeItemIndex: initialState.activeItemIndex,
+                    activeItemIndexCached: initialState.activeItemIndexCached,
+                    activeItemPage: initialState.activeItemPage,
+                };
+            }
+
+            return { // opening sidebar, keep item focused
+                ...state,
+            };
+        }
+
+        case sidebarActionTypes.METADATA_EDIT_MODE_TOGGLED:
+        case sidebarActionTypes.DESCRIPTION_EDIT_MODE_TOGGLED: {
+            return {
+                ...state,
+                activeItemEditing: state.activeItem,
             };
         }
     }

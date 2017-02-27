@@ -1,8 +1,8 @@
 .home {
     height: 100%;
     width: 100%;
-    position: fixed;
     display: flex;
+    position: absolute;
     flex-direction: column;
 
     &-content {

@@ -54,3 +54,12 @@ export function handleError(error, dispatch) {
         }
     }
 }
+
+const invalidChars = ['\\', ';', '&']; // TODO
+export function sanitizeString(string) {
+    return string.split('').map(char => (invalidChars.indexOf(char) > -1 ? '' : char)).join('').trim();
+}
+
+export function isValidNumber(number) {
+    return !isNaN(parseFloat(number)) && isFinite(number);
+}
