@@ -31,7 +31,7 @@ export function deleteField(groupID, fieldID) {
 
 
 export function deleteItem(groupID) {
-  return ajax('DELETE', `system/groups/${groupID}`);
+    return ajax('DELETE', `system/groups/${groupID}`);
 }
 
 
@@ -41,12 +41,12 @@ export function postBackgroundColor(color) {
             name: color,
         },
     };
-    return ajax('POST', `${config.backend}/theURL`, backgroundColor);
+    return ajax('POST', 'theURL', backgroundColor); // TODO
 }
 
 // -------------------------Api token----------------------------------
 export function fetchAPIToken() {
-    return ajax('GET', 'theURL')
+    return ajax('GET', 'theURL'); // TODO
 }
 
 

@@ -16,7 +16,7 @@ export function uploadFile(file, tagArray, metaData) {
 
         ajax('POST', 'documents', doc)
             .then(response => alert('Successfully uploaded'))
-            .catch(error => alert('Failed to upload, try again later'))
+            .catch(error => alert('Failed to upload, try again later'));
     };
 }
 

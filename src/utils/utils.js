@@ -23,7 +23,7 @@ export function ajax(type, url, data) {
     if (type === 'POST') {
         params.data = JSON.stringify(data);
         params.dataType = 'json';
-        params.contentType = 'application/json'
+        params.contentType = 'application/json';
     } else if (type === 'DELETE') {
         params.dataType = 'json';
     }
@@ -45,7 +45,7 @@ export function handleError(error, dispatch) {
             break;
         }
         default: {
-            console.log('API error: ', error)
+            console.log('API error: ', error);
             dispatch({
                 type: 'Unknown error',
                 notification: {
