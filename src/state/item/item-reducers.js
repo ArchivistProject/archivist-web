@@ -13,6 +13,8 @@ const initialState = {
     activeItemIndex: null,
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
+    activeItemContent: null,
+    activeItemContentType: 'web', // TODO: figure out content type from response
     sortBy: null,
     waitingForItems: null,
     fetchItemsFailed: false,
@@ -82,7 +84,7 @@ export default function (state = initialState, action) {
             const { items, activeItemIndex } = state;
             return {
                 ...state,
-                items: state.item ? [
+                items: items ? [
                     ...items.slice(0, activeItemIndex),
                     document,
                     ...items.slice(activeItemIndex + 1, items.length),
@@ -94,6 +96,14 @@ export default function (state = initialState, action) {
         case itemActionTypes.FETCH_ITEM_FAILED: {
             return {
                 ...state,
+            };
+        }
+
+        case itemActionTypes.FETCH_CONTENT_SUCCEEDED: {
+            const { content } = action.data;
+            return {
+                ...state,
+                activeItemContent: content,
             };
         }
 

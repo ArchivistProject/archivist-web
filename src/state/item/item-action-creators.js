@@ -32,6 +32,20 @@ export function fetchItem(itemId) {
     };
 }
 
+export function fetchItemContent(itemId) {
+    return (dispatch) => {
+        dispatch({
+            type: itemActionTypes.ITEM_CONTENT_REQUESTED,
+        });
+        itemApi.fetchItemContent(itemId)
+            .then(response => dispatch({
+                type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
+                data: { content: response },
+            }))
+            .catch(error => dispatch({ type: itemActionTypes.FETHC_CONTENT_FAILED }));
+    };
+}
+
 export function fetchHeaders() {
     return (dispatch) => {
         itemApi.fetchHeaders()

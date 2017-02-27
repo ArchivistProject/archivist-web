@@ -8,8 +8,8 @@ $toolbar-height: 30px;
     flex-direction: column;
 
     &-container {
-        height: 100%;
-        overflow-x: scroll;
+        height: calc(100vh - #{$action-bar-height});
+        overflow: scroll;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -18,7 +18,6 @@ $toolbar-height: 30px;
 
     &-wrapper {
         width: 100%;
-        height: calc(100vh - #{$action-bar-height});
         display: flex;
         flex-direction: row;
     }
@@ -58,6 +57,12 @@ $toolbar-height: 30px;
         border-width: 0 1px 1px 1px;
         border-color: $black;
         background-color: $white;
+    }
+
+    .web-container {
+        border: none;
+        width: 100%;
+        height: 100%;
     }
 
     .sidebar {

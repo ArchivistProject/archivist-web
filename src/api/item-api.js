@@ -13,6 +13,13 @@ export function fetchItem(itemId) {
         .catch((error) => { throw new Error('Item fetch failed', error); });
 }
 
+export function fetchItemContent(itemId) {
+    return $.ajax({
+        type: 'GET',
+        url: `${config.backend}/documents/${itemId}/content`,
+    });
+}
+
 export function updateItemMetadata(item, updatedItem) {
     const changedFields = updatedItem.metadata_fields.filter((field, i) => field.data !== item.metadata_fields[i].data);
     const calls = [];
