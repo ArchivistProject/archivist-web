@@ -21,11 +21,7 @@ export function ajax(type, url, data) {
         headers: { Authorization: token },
     };
     if (type === 'DELETE') { params.dataType = 'json'; }
-    return $.ajax(params)
-        .then(response => response)
-        .catch(error => {
-            throw error;
-        });
+    return $.ajax(params);
 }
 
 export function handleError(error, dispatch) {

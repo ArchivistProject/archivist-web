@@ -31,7 +31,5 @@ export function uploadFile(file, tagArray, metaData) {
 }
 
 export function fetchItemTypes() {
-    return ajax('GET', 'system/groups')
-        .then(response => response.json())
-        .catch(response => console.log('error', response));
+    return ajax('GET', 'system/groups');
 }

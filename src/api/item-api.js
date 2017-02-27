@@ -1,15 +1,11 @@
 import { ajax } from '~/src/utils/utils';
 
 export function fetchItems(pageNumber) {
-    return ajax('GET', `documents?page=${pageNumber}`)
-        .then(response => response)
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', `documents?page=${pageNumber}`);
 }
 
 export function fetchItem(itemId) {
-    return ajax('GET', `documents/${itemId}`)
-        .then(response => response)
-        .catch((error) => { throw new Error('Item fetch failed', error); });
+    return ajax('GET', `documents/${itemId}`);
 }
 
 export function updateItemMetadata(item, updatedItem) {

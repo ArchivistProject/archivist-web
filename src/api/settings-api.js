@@ -1,9 +1,7 @@
 import { ajax } from '~/src/utils/utils';
 
 export function fetchItemTypes() {
-    return ajax('GET', 'system/groups')
-        .then(response => response)
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', 'system/groups');
 }
 
 
@@ -14,8 +12,7 @@ export function postItemType(itemName) {
             fields: [],
         },
     };
-    return ajax('POST', 'system/groups', group)
-        .then(response => response);
+    return ajax('POST', 'system/groups', group);
 }
 
 export function postFieldType(name, type, id) {
@@ -25,20 +22,17 @@ export function postFieldType(name, type, id) {
             type,
         },
     };
-    return ajax('POST', `system/groups/${id}/field`, field)
-        .then(response => response);
+    return ajax('POST', `system/groups/${id}/field`, field);
 }
 
 
 export function deleteField(groupID, fieldID) {
-    return ajax('DELETE', `system/groups/${groupID}/field/${fieldID}`)
-        .then(response => response);
+    return ajax('DELETE', `system/groups/${groupID}/field/${fieldID}`);
 }
 
 
 export function deleteItem(groupID) {
-  return ajax('DELETE', `system/groups/${groupID}`)
-      .then(response => response);
+  return ajax('DELETE', `system/groups/${groupID}`);
 }
 
 
@@ -55,15 +49,11 @@ export function postBackgroundColor(color) {
 // -------------------------Api token----------------------------------
 export function fetchAPIToken() {
     return ajax('GET', 'theURL')
-        .then(response => response)
-        .catch((error) => { throw new Error(error); });
 }
 
 
 // --------------------------Statistic--------------------
 
 export function fetchFileStorage() {
-    return ajax('GET', 'statistics/documents')
-        .then(response => response)
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', 'statistics/documents');
 }
