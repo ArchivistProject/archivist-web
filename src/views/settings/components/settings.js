@@ -164,8 +164,8 @@ export default class Settings extends Component {
 
     render() {
         return (
-            <div>
-                <h1 className='Settings'>SETTINGS</h1>
+            <div className='settings'>
+                <h1 className='settings-header'>SETTINGS</h1>
 
                 <div className='aside'>
                     <img

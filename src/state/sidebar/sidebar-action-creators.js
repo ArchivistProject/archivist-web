@@ -14,8 +14,14 @@ export function updateTabVisibility(tabName) {
     };
 }
 
-export function toggleEditMode() {
+export function toggleMetadataEditMode() {
     return {
-        type: sidebarActionTypes.EDIT_MODE_TOGGLED,
+        type: sidebarActionTypes.METADATA_EDIT_MODE_TOGGLED,
+    };
+}
+
+export function toggleDescriptionEditMode() {
+    return {
+        type: sidebarActionTypes.DESCRIPTION_EDIT_MODE_TOGGLED,
     };
 }

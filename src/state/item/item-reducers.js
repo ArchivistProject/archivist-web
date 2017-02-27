@@ -29,14 +29,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case itemActionTypes.ITEMS_REQUESTED:
-        case itemActionTypes.ITEM_REQUESTED: {
+        case itemActionTypes.ITEMS_REQUESTED: {
             return {
                 ...state,
                 waitingForItems: true,
             };
         }
-
         case itemActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { documents: items, meta } = action.data;
             const { activeItem, activeItemIndexCached, activeItemPage } = state;
@@ -65,7 +63,6 @@ export default function (state = initialState, action) {
                 },
             };
         }
-
         case itemActionTypes.FETCH_ITEMS_FAILED: {
             console.log('error fetching items..');
             return {
@@ -74,12 +71,29 @@ export default function (state = initialState, action) {
                 fetchItemsFailed: true,
             };
         }
-        case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
-            const { document } = action.data;
+
+        case itemActionTypes.ITEM_REQUESTED: {
             return {
                 ...state,
+            };
+        }
+        case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
+            const { document } = action.data;
+            const { items, activeItemIndex } = state;
+            return {
+                ...state,
+                items: [
+                    ...items.slice(0, activeItemIndex),
+                    document,
+                    ...items.slice(activeItemIndex + 1, items.length),
+                ],
                 activeItem: document,
                 activeItemEditing: document,
+            };
+        }
+        case itemActionTypes.FETCH_ITEM_FAILED: {
+            return {
+                ...state,
             };
         }
 
@@ -121,13 +135,9 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.METADATA_SAVE_SUCCEEDED: {
-            return {
-                ...state,
-            };
-        }
-
         case itemActionTypes.TAGS_UPDATED: {
+            /* Instead of updating an intermediate state like the other UPDATED actions,
+            we immediately update the end state here to make the UI more snappy when adding tags*/
             const { tags } = action.data;
             const { activeItem } = state;
             return {
@@ -140,22 +150,30 @@ export default function (state = initialState, action) {
         }
 
         case itemActionTypes.DESCRIPTION_UPDATED: {
-            const { description, tempDescription } = action.data;
-            const { activeItem } = state;
+            const { description } = action.data;
+            const { activeItemEditing } = state;
             return {
                 ...state,
-                activeItem: {
-                    ...activeItem,
+                activeItemEditing: {
+                    ...activeItemEditing,
                     description,
                 },
-                tempDescription: tempDescription || state.tempDescription,
             };
         }
 
+        case itemActionTypes.METADATA_UPDATE_SUCCEEDED:
+        case itemActionTypes.TAGS_UPDATE_SUCCEEDED:
         case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
             return {
                 ...state,
-                tempDescription: state.activeItem.description,
+            };
+        }
+
+        case itemActionTypes.METADATA_UPDATE_FAILED:
+        case itemActionTypes.TAGS_UPDATE_FAILED:
+        case itemActionTypes.DESCRIPTION_UPDATE_FAILED: {
+            return {
+                ...state,
             };
         }
 
@@ -185,7 +203,8 @@ export default function (state = initialState, action) {
             };
         }
 
-        case sidebarActionTypes.EDIT_MODE_TOGGLED: {
+        case sidebarActionTypes.METADATA_EDIT_MODE_TOGGLED:
+        case sidebarActionTypes.DESCRIPTION_EDIT_MODE_TOGGLED: {
             return {
                 ...state,
                 activeItemEditing: state.activeItem,

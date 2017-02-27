@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
-import { Button } from 'react-bootstrap/lib/';
 import './action-bar.scss';
 
 export default class ActionBar extends Component {
@@ -37,23 +36,23 @@ export default class ActionBar extends Component {
                 { !loggedIn ?
                     <div className='action-bar'>
                         <div className='action-bar-back'>
-                            { backVisible ? <Link to='/'><Button className='action-bar-back-button'>Back</Button></Link> : null }
+                            { backVisible ? <Link to='/'><button className='action-bar-back-button'>Back</button></Link> : null }
                         </div>
                         <div className='action-bar-search'>
                             { searchVisible ?
                                 (
                                     <div>
                                         <input type='search' className='action-bar-search-input' />
-                                        <Button className='action-bar-search-button'>Search</Button>
+                                        <button className='action-bar-search-button'>Search</button>
                                         <a href='#advanced'>Advanced</a>
                                     </div>
                                 ) : null
                             }
                         </div>
                         <div className='action-bar-right-buttons'>
-                            {uploadVisible ? <Link to='/upload'><Button className='action-bar-upload'>Upload</Button></Link> : null }
-                            {settingsVisible ? <Link to='/settings'> <Button className='action-bar-settings'>Settings</Button></Link> : null }
-                            <Button bsStyle='danger' className='action-bar-logout'>Log Out</Button>
+                            {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
+                            {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
+                            <button bsStyle='danger' className='action-bar-logout'>Log Out</button>
                         </div>
                     </div>
                 : null}

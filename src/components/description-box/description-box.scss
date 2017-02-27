@@ -1,0 +1,26 @@
+@import '../../defaults';
+
+.description-box {
+        display: flex;
+        flex-direction: column;
+        text-overflow: break-word;
+        &-input {
+            min-height: 60px;
+            margin-bottom: 2px;
+            border: 1px solid $gray;
+            resize: vertical;
+            outline: none;
+            font-size: $default-size;
+            &:focus {
+                border: 1px solid $blue;
+                color: $black;
+            }
+        }
+        &-markdown {
+            word-wrap: break-word;
+        }
+        &-controls {
+            display: flex;
+            flex-direction: row;
+        }
+    }
