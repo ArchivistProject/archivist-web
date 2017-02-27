@@ -20,7 +20,13 @@ export function ajax(type, url, data) {
         data,
         headers: { Authorization: token },
     };
-    if (type === 'DELETE') { params.dataType = 'json'; }
+    if (type === 'POST') {
+        params.data = JSON.stringify(data);
+        params.dataType = 'json';
+        params.contentType = 'application/json'
+    } else if (type === 'DELETE') {
+        params.dataType = 'json';
+    }
     return $.ajax(params);
 }
 

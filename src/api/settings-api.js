@@ -4,7 +4,6 @@ export function fetchItemTypes() {
     return ajax('GET', 'system/groups');
 }
 
-
 export function postItemType(itemName) {
     const group = {
         group: {
@@ -42,8 +41,7 @@ export function postBackgroundColor(color) {
             name: color,
         },
     };
-
-    ajax('POST', `${config.backend}/theURL`, backgroundColor);
+    return ajax('POST', `${config.backend}/theURL`, backgroundColor);
 }
 
 // -------------------------Api token----------------------------------

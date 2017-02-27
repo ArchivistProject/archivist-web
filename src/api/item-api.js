@@ -1,4 +1,5 @@
 import { ajax } from '~/src/utils/utils';
+import $ from 'jquery';
 
 export function fetchItems(pageNumber) {
     return ajax('GET', `documents?page=${pageNumber}`);

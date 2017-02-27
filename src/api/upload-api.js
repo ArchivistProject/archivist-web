@@ -6,7 +6,7 @@ export function uploadFile(file, tagArray, metaData) {
     reader.onload = (e) => {
         const base64File = e.target.result;
 
-        const document = {
+        const doc = {
             document: {
                 file: base64File,
                 tags: tagArray,
@@ -14,19 +14,9 @@ export function uploadFile(file, tagArray, metaData) {
             },
         };
 
-        $.ajax({
-            url: `${config.backend}/public/documents`,
-            type: 'POST',
-            data: JSON.stringify(document),
-            success(response) {
-                alert('Successfully uploaded');
-            },
-            error() {
-                alert('Failed to upload, try again later');
-            },
-            contentType: 'application/json',
-            dataType: 'json',
-        });
+        ajax('POST', 'documents', doc)
+            .then(response => alert('Successfully uploaded'))
+            .catch(error => alert('Failed to upload, try again later'))
     };
 }
 
