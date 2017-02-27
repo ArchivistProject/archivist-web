@@ -1,13 +1,10 @@
 @import '../../../defaults';
 
 .upload {
-  &-content {
-    margin-left: 3%;
-    margin-top: 1%;
-    margin-right: 30%;
-  }
   &-label {
-    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    font-size: 18px;
   }
   &-metadata-input, &-file-upload {
     margin-bottom: 10px;
@@ -24,12 +21,13 @@
     letter-spacing: -1px;
     line-height: 1;
     margin-bottom: 5%;
+    text-align: center;
   }
 
   .content {
-    width: 100%;
+    width: 70%;
     max-width: 800px;
-    text-align: center;
+    text-align: left;
     margin: 0 auto;
     padding: 0 0 3em 0;
   }
@@ -82,8 +80,6 @@
     /* 4px */
   }
 
-  /* style 4 */
-
   .inputfile-4 + label {
     color: #d3394c;
   }
@@ -114,6 +110,19 @@
     width: 100%;
     height: 100%;
     fill: #f1e5e6;
+  }
+
+  .box {
+    text-align: center;
+  }
+
+  .checkbox-label {
+    padding-left: 10px;
+    font-size: 14px;
+  }
+
+  .checkBox {
+    margin-top: 12px;
   }
 }
 
