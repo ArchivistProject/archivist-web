@@ -52,7 +52,7 @@ export default class ActionBar extends Component {
                         <div className='action-bar-right-buttons'>
                             {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
                             {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
-                            <button bsStyle='danger' className='action-bar-logout'>Log Out</button>
+                            <button className='action-bar-logout'>Log Out</button>
                         </div>
                     </div>
                 : null}

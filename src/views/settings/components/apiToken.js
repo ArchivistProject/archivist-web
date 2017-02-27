@@ -19,10 +19,12 @@ export default class APIToken extends Component {
         return (
             <div>
                 <FormControl
-                    componentClass='textarea' placeholder='no API available'
-                    readonly
-                >{token}</FormControl>
-                <br />
+                    componentClass='textarea'
+                    placeholder='no API available'
+                    readOnly
+                >
+                    {token}
+                </FormControl>
                 <Button bsStyle='info' onClick={this.refresh}>Refresh</Button>
             </div>
         );

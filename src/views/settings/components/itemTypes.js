@@ -10,7 +10,7 @@ export default class ItemTypes extends Component {
         groups: PropTypes.arrayOf(Object),
         itemName: PropTypes.string,
         currentItem: PropTypes.string,
-        fieldVisible: PropTypes.boolean,
+        fieldVisible: PropTypes.bool,
         fieldType: PropTypes.string,
         fieldName: PropTypes.string,
         popupName: PropTypes.string,
@@ -36,7 +36,6 @@ export default class ItemTypes extends Component {
     onFieldTypeDropDown = (e) => {
         const { setFieldType } = this.props;
         const type = e.target.value;
-        console.log(`Field Type Selected: ${type}`);
         setFieldType(type);
     };
 
@@ -44,7 +43,6 @@ export default class ItemTypes extends Component {
         const { groups, setActiveItem, setFieldVisible, setPopupName } = this.props;
 
         const itemID = item.target.value;
-        console.log(itemID);
         setActiveItem(itemID);
         setFieldVisible(true);
 
@@ -78,16 +76,11 @@ export default class ItemTypes extends Component {
 
     addField = () => {
         const { postFieldType, fieldType, fieldName, currentItem, fetchItemTypes } = this.props;
-        console.log(`Field type: ${fieldType}`);
-        console.log(`Field name: ${fieldName}`);
-        console.log(`Field id: ${currentItem}`);
 
         if (fieldName !== null && fieldName !== undefined && fieldType !== 'blank') {
             postFieldType(fieldName, fieldType, currentItem).then((response) => {
                 fetchItemTypes();
             });
-        } else {
-            console.log('Empty field name...');
         }
     };
 
@@ -98,18 +91,12 @@ export default class ItemTypes extends Component {
     };
     deleteCurrentField = (e) => {
         const { removeField, currentItem, fetchItemTypes } = this.props;
-
         const fieldID = e.target.id;
-
-        console.log(`Delete field ID: ${fieldID}`);
-        console.log(`delete item ID: ${currentItem}`);
 
         if (currentItem !== undefined && fieldID !== undefined && fieldID !== null) {
             removeField(currentItem, fieldID).then((response) => {
                 fetchItemTypes();
             });
-        } else {
-            console.log('empty field id...');
         }
     };
 
@@ -133,7 +120,6 @@ export default class ItemTypes extends Component {
                 <hr />
                 <h4>{popupName} Meta Data</h4>
                 <p>Select a field type, enter the field name, and click Add to create a new meta data field for this cateogry</p>
-                <br />
                 <Form horizontal>
                     <FormGroup>
                         <Col sm={3} componentClass={ControlLabel}>Field Type</Col>
@@ -177,9 +163,6 @@ export default class ItemTypes extends Component {
                             )}
                         </ul>
                     </Col>
-                    <br />
-                    <br />
-                    <br />
                     <Col sm={12}>
                         <Button bsStyle='danger' onClick={() => { if (confirm('Delete this category?')) { this.deleteItem(); } }}>Delete {popupName}</Button>
                     </Col>
@@ -212,11 +195,14 @@ export default class ItemTypes extends Component {
                         <Col sm={3} componentClass={ControlLabel}>All Categories</Col>
                         <Col sm={5}>
                             <ListGroup>
-                                {groups.map(op =>
+                                {groups.map((op, key) =>
                                     <ListGroupItem
                                         onClick={this.handleOnItemSelect}
                                         value={op.id}
-                                    >{op.name}</ListGroupItem>
+                                        key={key}
+                                    >
+                                        {op.name}
+                                    </ListGroupItem>
                                 )}
                             </ListGroup>
                         </Col>

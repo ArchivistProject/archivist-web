@@ -5,7 +5,7 @@ import { CirclePicker } from 'react-color';
 export default class BackgroundColor extends Component {
 
     static propTypes = {
-        showColorModal: PropTypes.boolean,
+        showColorModal: PropTypes.bool,
         colorPicked: PropTypes.string,
         background: PropTypes.string,
 
