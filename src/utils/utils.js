@@ -50,7 +50,7 @@ export function handleError(error, dispatch) {
                 type: 'Unknown error',
                 notification: {
                     title: 'Unknown error',
-                    message: `An unknown error occured. ${error.statusText}`,
+                    message: `An unknown error occured: ${error.statusText}`,
                     level: 'error',
                 },
             });
