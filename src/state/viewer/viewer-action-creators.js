@@ -23,3 +23,9 @@ export function updatePage(pageRequested) {
         data: { pageRequested },
     };
 }
+
+export function viewerClosed() {
+    return {
+        type: viewerActionTypes.VIEWER_CLOSED,
+    };
+}

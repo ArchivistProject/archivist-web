@@ -1,5 +1,6 @@
 import config from '~/config';
 import $ from 'jquery';
+import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 
 export function fetchItems(pageNumber) {
     return fetch(`${config.backend}/documents?page=${pageNumber}`)
@@ -14,9 +15,26 @@ export function fetchItem(itemId) {
 }
 
 export function fetchItemContent(itemId) {
-    return $.ajax({
-        type: 'GET',
-        url: `${config.backend}/documents/${itemId}/content`,
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${config.backend}/documents/${itemId}/content`, true);
+        xhr.onload = () => {
+            const contentType = xhr.getResponseHeader('Content-Type');
+            let { response } = xhr;
+            // if we have an html file, convert it to a string. otherwise, use an arraybuffer for a pdf
+            if (contentType === CONTENT_TYPES.WEB) {
+                response = String.fromCharCode.apply(null, new Uint8Array(response));
+            }
+            resolve({
+                content: response,
+                contentType: xhr.getResponseHeader('Content-Type'),
+            });
+        };
+        xhr.onerror = () => {
+            reject();
+        };
+        xhr.responseType = 'arraybuffer';
+        xhr.send();
     });
 }
 

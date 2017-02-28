@@ -3,15 +3,15 @@ import pdflib from 'pdfjs-dist';
 import worker from 'pdfjs-dist/build/pdf.worker';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
-import doc from '~/src/assets/multi.pdf';
+import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 import './viewer.scss';
 
 export default class Viewer extends Component {
 
     static propTypes = {
         activeItem: PropTypes.object,
-        activeItemContent: PropTypes.string,
-        activeItemContentType: PropTypes.oneOf(['web', 'pdf']),
+        activeItemContent: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        activeItemContentType: PropTypes.string,
         updateScale: PropTypes.func.isRequired,
         resetScale: PropTypes.func.isRequired,
         updatePage: PropTypes.func.isRequired,
@@ -24,6 +24,7 @@ export default class Viewer extends Component {
         numPages: PropTypes.number,
         sidebarVisible: PropTypes.bool.isRequired,
         params: PropTypes.object.isRequired,
+        viewerClosed: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -42,7 +43,7 @@ export default class Viewer extends Component {
 
     shouldComponentUpdate(nextProps) {
         const { activeItemContentType } = this.props;
-        if (activeItemContentType === 'pdf') {
+        if (activeItemContentType === CONTENT_TYPES.PDF) {
             return !!this.svg;
         }
         return true;
@@ -54,6 +55,8 @@ export default class Viewer extends Component {
     }
 
     componentWillUnmount() {
+        const { viewerClosed } = this.props;
+        viewerClosed();
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -84,7 +87,7 @@ export default class Viewer extends Component {
 
     renderToolbar() {
         const { scale, scaleMax, scaleMin, activeItemContentType, currentPage, numPages, updatePage } = this.props;
-        if (activeItemContentType === 'pdf') {
+        if (activeItemContentType === 'application/pdf') {
             return (
                 <div className='viewer-toolbar'>
                     <div className='viewer-toolbar-zoom'>
@@ -115,14 +118,18 @@ export default class Viewer extends Component {
     renderContent() {
         const { activeItemContent, activeItemContentType, scale, currentPage, sidebarVisible } = this.props;
         switch (activeItemContentType) {
-            case 'web': {
+            case CONTENT_TYPES.WEB: {
                 return <iframe className='web-container' srcDoc={activeItemContent} />;
             }
-            case 'pdf': {
+            case CONTENT_TYPES.PDF: {
+                // clear out the current page to replace it
                 if (this.viewer) {
-                    this.viewer.innerHTML = '';
+                    while (this.viewer.firstChild) {
+                        this.viewer.removeChild(this.viewer.firstChild);
+                    }
                 }
                 pdflib.PDFJS.workerSrc = worker;
+                const doc = { data: activeItemContent };
                 pdflib.PDFJS.getDocument(doc).then((pdf) => {
                     const pageContainer = document.createElement('div');
                     pageContainer.className += 'viewer-page';
@@ -148,6 +155,7 @@ export default class Viewer extends Component {
                                 });
                     });
                 });
+                return null;
             }
         }
         return null;

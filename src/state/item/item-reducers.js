@@ -1,5 +1,6 @@
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
+import viewerActionTypes from '../viewer/viewer-action-types';
 
 const initialState = {
     items: null,
@@ -14,7 +15,7 @@ const initialState = {
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
     activeItemContent: null,
-    activeItemContentType: 'web', // TODO: figure out content type from response
+    activeItemContentType: null,
     sortBy: null,
     waitingForItems: null,
     fetchItemsFailed: false,
@@ -100,10 +101,11 @@ export default function (state = initialState, action) {
         }
 
         case itemActionTypes.FETCH_CONTENT_SUCCEEDED: {
-            const { content } = action.data;
+            const { content, contentType } = action.data;
             return {
                 ...state,
                 activeItemContent: content,
+                activeItemContentType: contentType,
             };
         }
 
@@ -218,6 +220,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 activeItemEditing: state.activeItem,
+            };
+        }
+
+        case viewerActionTypes.VIEWER_CLOSED: {
+            return {
+                ...state,
+                activeItemContent: initialState.activeItemContent,
+                activeItemContentType: initialState.activeItemContentType,
             };
         }
     }

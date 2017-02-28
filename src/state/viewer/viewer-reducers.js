@@ -5,7 +5,7 @@ const initialState = {
     scaleMax: 3.0,
     scaleMin: 0.3,
     currentPage: 1,
-    numPages: 3, // TODO
+    numPages: 3, // TODO: set the number of pdf pages
 };
 
 export default function (state = initialState, action) {

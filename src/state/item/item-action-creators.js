@@ -38,11 +38,14 @@ export function fetchItemContent(itemId) {
             type: itemActionTypes.ITEM_CONTENT_REQUESTED,
         });
         itemApi.fetchItemContent(itemId)
-            .then(response => dispatch({
-                type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
-                data: { content: response },
-            }))
-            .catch(error => dispatch({ type: itemActionTypes.FETHC_CONTENT_FAILED }));
+            .then((response) => {
+                const { content, contentType } = response;
+                dispatch({
+                    type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
+                    data: { content, contentType },
+                });
+            })
+            .catch(error => dispatch({ type: itemActionTypes.FETCH_CONTENT_FAILED }));
     };
 }
 
