@@ -50,17 +50,6 @@ export function deleteItem(groupID) {
     }).then(response => response);
 }
 
-
-export function postBackgroundColor(color) {
-    const backgroundColor = {
-        color: {
-            name: color,
-        },
-    };
-
-    $.post(`${config.backend}/theURL`, backgroundColor);
-}
-
 // -------------------------Api token----------------------------------
 export function fetchAPIToken() {
     return fetch(`${config.backend}/theURL`)

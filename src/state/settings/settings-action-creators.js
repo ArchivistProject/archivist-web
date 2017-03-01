@@ -140,38 +140,6 @@ export function openDialog(val) {
     };
 }
 
-// ----------------------------Background color---------------------------------
-
-export function closeColorDialog(val) {
-    return {
-        type: settingsActionTypes.BACKGROUND_DIALOG_CLOSED,
-        data: { val },
-    };
-}
-
-export function openColorDialog(val) {
-    return {
-        type: settingsActionTypes.BACKGROUND_DIALOG_OPENED,
-        data: { val },
-    };
-}
-
-
-export function handleOnSelectColor(hexColor) {
-    return {
-        type: settingsActionTypes.BACKGROUND_COLOR_SELECTED,
-        data: { hexColor },
-    };
-}
-
-export function changeBackgroundColor(color) {
-    return {
-        type: settingsActionTypes.BACKGROUND_COLOR_CHANGED,
-        data: { color },
-    };
-}
-
-
 // ----------------------API Token---------------------------
 export function refreshAPI() {
     return (dispatch) => {
