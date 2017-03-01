@@ -82,7 +82,7 @@ export default class ItemTypes extends Component {
     addField = () => {
         const { postFieldType, fieldType, fieldName, currentItem, fetchItemTypes } = this.props;
 
-        if (fieldName !== null && fieldName !== undefined && fieldType !== 'blank') {
+        if (fieldName !== null && fieldName !== undefined && fieldType !== 'blank' && fieldName !== '') {
             postFieldType(fieldName, fieldType, currentItem).then((response) => {
                 fetchItemTypes();
             });
@@ -118,7 +118,7 @@ export default class ItemTypes extends Component {
     };
 
     generateFieldsContent = () => {
-        const { groups, currentItem, popupName, canEdit } = this.props;
+        const { groups, currentItem, popupName, canEdit, fieldName } = this.props;
 
         return (
             <div>
@@ -152,7 +152,7 @@ export default class ItemTypes extends Component {
                     {canEdit === true ?
                     <FormGroup>
                         <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
-                        <Col sm={2}>
+                        <Col sm={3}>
                             <FormControl
                                 componentClass='select' placeholder='select'
                                 onChange={this.onFieldTypeDropDown}
@@ -165,9 +165,9 @@ export default class ItemTypes extends Component {
 
                         <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
                         <Col sm={3}>
-                            <FormControl type='text' onChange={this.handleFieldNameChange} />
+                            <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
                         </Col>
-                        <Col sm={3}>
+                        <Col sm={2}>
                             <Button onClick={this.addField}>Add</Button>
                         </Col>
                     </FormGroup> : null }
