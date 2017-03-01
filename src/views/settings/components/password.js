@@ -5,7 +5,7 @@ import {
 export default class Password extends Component {
 
     static propTypes = {
-        showModal: PropTypes.boolean,
+        showModal: PropTypes.bool,
         newPassword: PropTypes.string,
         confirmPassword: PropTypes.string,
         newPasswordChange: PropTypes.func.isRequired,

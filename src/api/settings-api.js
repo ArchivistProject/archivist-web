@@ -37,12 +37,6 @@ export function deleteField(groupID, fieldID) {
         type: 'DELETE',
         url: finalUrl,
         dataType: 'json',
-        success(response) {
-            console.log('successfully deleted');
-        },
-        error() {
-            console.log('error');
-        },
     }).then(response => response);
 }
 
@@ -53,12 +47,6 @@ export function deleteItem(groupID) {
         type: 'DELETE',
         url: finalUrl,
         dataType: 'json',
-        success(response) {
-            console.log('successfully deleted');
-        },
-        error() {
-            console.log('error');
-        },
     }).then(response => response);
 }
 

@@ -14,11 +14,11 @@ export default class Upload extends Component {
         submitFile: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
         setAllItemID: PropTypes.func.isRequired,
-        fieldVisible: PropTypes.boolean,
+        fieldVisible: PropTypes.bool,
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
-        filePicked: PropTypes.boolean,
+        filePicked: PropTypes.bool,
         setFieldVisible: PropTypes.func.isRequired,
         setFilePicked: PropTypes.func.isRequired,
         resetFile: PropTypes.func.isRequired,
@@ -61,9 +61,6 @@ export default class Upload extends Component {
         } else if (metaDataArray.length <= 0) {
             alert('Please pick a category and enter some meta data for this file before uploading');
         } else {
-            for (let i = 0; i < metaDataArray.length; i += 1) {
-                console.log(metaDataArray[i].data);
-            }
             submitFile(tags, allMetaDataValue);
             // reset the page after done uploading
             this.resetInputFields();
@@ -202,23 +199,18 @@ export default class Upload extends Component {
                             </figure>
                             <span>{fileName}</span></label>
                     </div>
-
-
-                    <br />
-                    <br />
                     <Col sm={12}>
                         <ControlLabel className='upload-label'>CATEGORIES:</ControlLabel>
                     </Col>
                     <div>
-                        {groups.map(object =>
-                            <Col sm={2}>
+                        {groups.map((object, key) =>
+                            <Col sm={2} key={key}>
                                 <input
                                     className='checkBox'
                                     type='checkbox'
                                     checked={object.checkbox}
                                     id={object.id}
                                     onChange={this.handleOnItemSelect}
-
                                 />
                                 <label className='checkbox-label' htmlFor={object.id}>{object.name}</label>
                             </Col>
@@ -230,10 +222,10 @@ export default class Upload extends Component {
                             <Col sm={12}>
                                 <ControlLabel className='upload-label'>META DATA:</ControlLabel>
                             </Col>
-                            {allItemID.map(ID =>
-                                <div>
-                                    {groups.filter(x => x.id === ID)[0].fields.map(obj =>
-                                        <div>
+                            {allItemID.map((ID, idKey) =>
+                                <div key={idKey}>
+                                    {groups.filter(x => x.id === ID)[0].fields.map((obj, fieldKey) =>
+                                        <div key={fieldKey}>
                                             <Col sm={3}>
                                                 <ControlLabel>{obj.name}</ControlLabel>
                                                 <FormControl

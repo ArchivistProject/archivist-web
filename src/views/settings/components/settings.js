@@ -1,7 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import {
-     Panel,
-} from 'react-bootstrap/lib/';
+import { Panel } from 'react-bootstrap/lib/';
 import PasswordDialog from '~/src/views/settings/components/password';
 import ColorPickerDialog from '~/src/views/settings/components/backgroundColor';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
@@ -13,7 +11,7 @@ import './settings.scss';
 export default class Settings extends Component {
 
     static propTypes = {
-        showModal: PropTypes.boolean,
+        showModal: PropTypes.bool,
         newPassword: PropTypes.string,
         confirmPassword: PropTypes.string,
         newPasswordChange: PropTypes.func.isRequired,
@@ -21,8 +19,7 @@ export default class Settings extends Component {
         openDialog: PropTypes.func.isRequired,
         closeDialog: PropTypes.func.isRequired,
 
-
-        showColorModal: PropTypes.boolean,
+        showColorModal: PropTypes.bool,
         colorPicked: PropTypes.string,
         openColorDialog: PropTypes.func.isRequired,
         closeColorDialog: PropTypes.func.isRequired,
@@ -37,7 +34,6 @@ export default class Settings extends Component {
         fileCount: PropTypes.number,
         fetchFileStorage: PropTypes.func.isRequired,
 
-
         groups: PropTypes.arrayOf(Object),
         itemName: PropTypes.object,
         currentItem: PropTypes.string,
@@ -48,7 +44,7 @@ export default class Settings extends Component {
         postItemType: PropTypes.func.isRequired,
         setActiveItem: PropTypes.func.isRequired,
         setFieldVisible: PropTypes.func.isRequired,
-        fieldVisible: PropTypes.boolean,
+        fieldVisible: PropTypes.bool,
         setFieldName: PropTypes.func.isRequired,
         setFieldType: PropTypes.func.isRequired,
         setFieldID: PropTypes.func.isRequired,
@@ -60,7 +56,6 @@ export default class Settings extends Component {
         removeItem: PropTypes.func.isRequired,
         popupName: PropTypes.string,
         setPopupName: PropTypes.func.isRequired,
-
     };
 
     password() {
@@ -84,7 +79,6 @@ export default class Settings extends Component {
 
     background() {
         const { showColorModal, colorPicked, background, closeColorDialog, openColorDialog, handleOnSelectColor, changeBackgroundColor } = this.props;
-
         return (
             <div>
                 <Panel header='Background' bsStyle='info'>
@@ -107,10 +101,11 @@ export default class Settings extends Component {
         const { fetchFileStorage, storage, fileCount } = this.props;
         return (
             <div>
-                <Panel header='Statistic' bsStyle='info'>
+                <Panel header='Statistic'bsStyle='info'>
                     <Statistic
                         fetchFileStorage={fetchFileStorage}
-                        storage={storage} fileCount={fileCount}
+                        storage={storage}
+                        fileCount={fileCount}
                     />
                 </Panel>
             </div>
@@ -140,8 +135,12 @@ export default class Settings extends Component {
                 <Panel header='Item Category' bsStyle='info'>
                     <p>Add new categories for your file and manage meta data for each category. A category can be used when uploading a file.</p>
                     <ItemTypes
-                        groups={groups} postItemType={postItemType} itemName={itemName}
-                        currentItem={currentItem} handleItemNameChange={handleItemNameChange} fetchItemTypes={fetchItemTypes}
+                        groups={groups}
+                        postItemType={postItemType}
+                        itemName={itemName}
+                        currentItem={currentItem}
+                        handleItemNameChange={handleItemNameChange}
+                        fetchItemTypes={fetchItemTypes}
                         setActiveItem={setActiveItem}
                         setFieldVisible={setFieldVisible}
                         fieldVisible={fieldVisible}
@@ -169,10 +168,11 @@ export default class Settings extends Component {
 
                 <div className='aside'>
                     <img
-                        src={Logo} alt='Archivist Logo' width='200'
+                        src={Logo}
+                        alt='Archivist Logo'
+                        width='200'
                         height='164'
                     />
-
                     <p className='caption'>Version 1.0</p>
                 </div>
 
