@@ -31,8 +31,9 @@ export default class Viewer extends Component {
         const { activeItem, fetchItem, fetchItemContent, params: { itemId } } = this.props;
         if (!activeItem) {
             fetchItem(itemId);
+        } else {
+            fetchItemContent(activeItem);
         }
-        fetchItemContent(itemId);
         window.addEventListener('resize', this.handleResize);
     }
 
@@ -50,8 +51,11 @@ export default class Viewer extends Component {
     }
 
     componentDidUpdate() {
-        const { sidebarVisible } = this.props;
+        const { sidebarVisible, activeItem, fetchItemContent, activeItemContent } = this.props;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
+        if (!activeItemContent) {
+            fetchItemContent(activeItem);
+        }
     }
 
     componentWillUnmount() {

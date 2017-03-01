@@ -32,12 +32,12 @@ export function fetchItem(itemId) {
     };
 }
 
-export function fetchItemContent(itemId) {
+export function fetchItemContent(item) {
     return (dispatch) => {
         dispatch({
             type: itemActionTypes.ITEM_CONTENT_REQUESTED,
         });
-        itemApi.fetchItemContent(itemId)
+        itemApi.fetchItemContent(item)
             .then((response) => {
                 const { content, contentType } = response;
                 dispatch({

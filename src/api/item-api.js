@@ -14,26 +14,24 @@ export function fetchItem(itemId) {
         .catch((error) => { throw new Error('Item fetch failed', error); });
 }
 
-export function fetchItemContent(itemId) {
+export function fetchItemContent(item) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${config.backend}/documents/${itemId}/content`, true);
+        xhr.open('GET', `${config.backend}/documents/${item.id}/content`, true);
         xhr.onload = () => {
             const contentType = xhr.getResponseHeader('Content-Type');
-            let { response } = xhr;
-            // if we have an html file, convert it to a string. otherwise, use an arraybuffer for a pdf
-            if (contentType === CONTENT_TYPES.WEB) {
-                response = String.fromCharCode.apply(null, new Uint8Array(response));
-            }
+            const { response: content } = xhr;
             resolve({
-                content: response,
-                contentType: xhr.getResponseHeader('Content-Type'),
+                content,
+                contentType,
             });
         };
         xhr.onerror = () => {
             reject();
         };
-        xhr.responseType = 'arraybuffer';
+        if (item.content_type === CONTENT_TYPES.PDF) {
+            xhr.responseType = 'arraybuffer';
+        }
         xhr.send();
     });
 }
