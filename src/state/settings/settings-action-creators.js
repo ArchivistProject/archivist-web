@@ -109,6 +109,12 @@ export function setPopupName(name) {
     };
 }
 
+export function setCanEdit(val) {
+    return {
+        type: settingsActionTypes.SETTING_CAN_EDIT,
+        data: { val },
+    };
+}
 
 // ----------------------Password-------------------------------
 

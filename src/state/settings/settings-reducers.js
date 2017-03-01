@@ -28,6 +28,7 @@ const initialState = {
     fieldName: null,
     fieldID: 'blank',
     popupName: null,
+    canEdit: null,
 };
 
 export default function (state = initialState, action) {
@@ -208,6 +209,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 popupName: name,
+            };
+        }
+
+        case settingsActionTypes.SETTING_CAN_EDIT: {
+            const { val } = action.data;
+            return {
+                ...state,
+                canEdit: val,
             };
         }
 

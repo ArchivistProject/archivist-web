@@ -56,6 +56,8 @@ export default class Settings extends Component {
         removeItem: PropTypes.func.isRequired,
         popupName: PropTypes.string,
         setPopupName: PropTypes.func.isRequired,
+        setCanEdit: PropTypes.func.isRequired,
+        canEdit: PropTypes.bool,
     };
 
     password() {
@@ -129,7 +131,7 @@ export default class Settings extends Component {
     itemTypes() {
         const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
             setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
-            removeItem, popupName, setPopupName } = this.props;
+            removeItem, popupName, setPopupName, setCanEdit, canEdit } = this.props;
         return (
             <div>
                 <Panel header='Item Category' bsStyle='info'>
@@ -155,6 +157,8 @@ export default class Settings extends Component {
                         removeItem={removeItem}
                         popupName={popupName}
                         setPopupName={setPopupName}
+                        setCanEdit={setCanEdit}
+                        canEdit={canEdit}
                     />
                 </Panel>
             </div>
