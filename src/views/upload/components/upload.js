@@ -200,18 +200,19 @@ export default class Upload extends Component {
                             <span>{fileName}</span></label>
                     </div>
                     <Col sm={12}>
-                        <ControlLabel>* Categories:</ControlLabel>
+                        <ControlLabel className='upload-label'>CATEGORIES:</ControlLabel>
                     </Col>
                     <div>
                         {groups.map((object, key) =>
                             <Col sm={2} key={key}>
                                 <input
+                                    className='checkBox'
                                     type='checkbox'
                                     checked={object.checkbox}
                                     id={object.id}
                                     onChange={this.handleOnItemSelect}
                                 />
-                                <label htmlFor={object.id}>{object.name}</label>
+                                <label className='checkbox-label' htmlFor={object.id}>{object.name}</label>
                             </Col>
                         )}
                     </div>
@@ -219,7 +220,7 @@ export default class Upload extends Component {
                     {fieldVisible ?
                         <div>
                             <Col sm={12}>
-                                <ControlLabel>* Meta Data Fields:</ControlLabel>
+                                <ControlLabel className='upload-label'>META DATA:</ControlLabel>
                             </Col>
                             {allItemID.map((ID, idKey) =>
                                 <div key={idKey}>
@@ -243,7 +244,7 @@ export default class Upload extends Component {
 
                     <div>
                         <Col sm={12}>
-                            <ControlLabel>Tags:</ControlLabel>
+                            <ControlLabel className='upload-label'>TAGS:</ControlLabel>
                             <TagsInput value={tags} onChange={this.handleTagChange} />
                         </Col>
                     </div>
