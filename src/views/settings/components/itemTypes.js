@@ -125,7 +125,7 @@ export default class ItemTypes extends Component {
                 <hr />
                 <h4>{popupName} Meta Data</h4>
                 {canEdit === false ? <p>Default group cannot be edited</p> :
-                    <p>Select a field type, enter the field name, and click Add to create a new meta data field for this
+                <p>Select a field type, enter the field name, and click Add to create a new meta data field for this
                         category</p>
                 }
                 <Form horizontal>
@@ -138,11 +138,11 @@ export default class ItemTypes extends Component {
                                         {obj.name}
                                         {popupName !== 'Website' && popupName !== 'Generic' ?
                                             <span className='pull-right button-group'>
-                                            <button
-                                                id={obj.id} type='button' onClick={this.deleteCurrentField}
-                                                className='btn btn-danger'
-                                            ><span className='glyphicon glyphicon-remove' /></button>
-                                        </span> : null }
+                                                <button
+                                                    id={obj.id} type='button' onClick={this.deleteCurrentField}
+                                                    className='btn btn-danger'
+                                                ><span className='glyphicon glyphicon-remove' /></button>
+                                            </span> : null }
                                     </li>
                                 )}
                             </ul>
@@ -150,37 +150,39 @@ export default class ItemTypes extends Component {
                     </FormGroup>
 
                     {canEdit === true ?
-                    <FormGroup>
-                        <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
-                        <Col sm={3}>
-                            <FormControl
-                                componentClass='select' placeholder='select'
-                                onChange={this.onFieldTypeDropDown}
-                            >
-                                <option value='blank'>Select type...</option>
-                                <option value='string'>String</option>
-                                <option value='date'>Date</option>
-                            </FormControl>
-                        </Col>
+                        <FormGroup>
+                            <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
+                            <Col sm={3}>
+                                <FormControl
+                                    componentClass='select' placeholder='select'
+                                    onChange={this.onFieldTypeDropDown}
+                                >
+                                    <option value='blank'>Select type...</option>
+                                    <option value='string'>String</option>
+                                    <option value='date'>Date</option>
+                                </FormControl>
+                            </Col>
 
-                        <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
-                        <Col sm={3}>
-                            <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
-                        </Col>
-                        <Col sm={2}>
-                            <Button onClick={this.addField}>Add</Button>
-                        </Col>
-                    </FormGroup> : null }
+                            <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
+                            <Col sm={3}>
+                                <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
+                            </Col>
+                            <Col sm={2}>
+                                <Button onClick={this.addField}>Add</Button>
+                            </Col>
+                        </FormGroup> : null }
 
                     {canEdit === true ?
-                    <Col sm={12}>
-                        <br />
-                        <Button bsStyle='danger' onClick={() => {
-                            if (confirm('Delete this category?')) {
-                                this.deleteItem();
-                            }
-                        }}>Delete {popupName}</Button>
-                    </Col> : null }
+                        <Col sm={12}>
+                            <br />
+                            <Button
+                                bsStyle='danger' onClick={() => {
+                                    if (confirm('Delete this category?')) {
+                                        this.deleteItem();
+                                    }
+                                }}
+                            >Delete {popupName}</Button>
+                        </Col> : null }
                 </Form>
             </div>
 
