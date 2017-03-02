@@ -47,7 +47,10 @@ export function postItemType(name) {
 export function postFieldType(name, type, id) {
     return (dispatch) => {
         settingsApi.postFieldType(name, type, id)
-            .then(response => dispatch(fetchItemTypes()))
+            .then((response) => {
+                dispatch({ type: settingsActionTypes.POST_FIELD_SUCCEEDED });
+                dispatch(fetchItemTypes());
+            })
             .catch(error => dispatch({ type: settingsActionTypes.POST_FIELD_FAILED }));
     };
 }
@@ -109,6 +112,12 @@ export function setPopupName(name) {
     };
 }
 
+export function setCanEdit(val) {
+    return {
+        type: settingsActionTypes.SETTING_CAN_EDIT,
+        data: { val },
+    };
+}
 
 // ----------------------Password-------------------------------
 
