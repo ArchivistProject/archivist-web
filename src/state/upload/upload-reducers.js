@@ -38,6 +38,14 @@ export default function (state = initialState, action) {
 
         case uploadActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { groups } = action.data;
+            let ID = null;
+            for (let i = 0; i < groups.length; i += 1) {
+                if (groups[i].name === 'Generic') {
+                    ID = groups[i].id;
+                }
+            }
+            let array = [];
+            array = array.concat(ID);
             return {
                 ...state,
                 groups: groups.map((object) => {
@@ -47,6 +55,7 @@ export default function (state = initialState, action) {
                     }
                     return obj;
                 }),
+                allItemID: array,
             };
         }
 

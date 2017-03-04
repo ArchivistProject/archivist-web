@@ -6,7 +6,6 @@ export function uploadFile(file, tagArray, metaData, desc) {
     reader.readAsDataURL(file);
     reader.onload = (e) => {
         const base64File = e.target.result;
-
         const document = {
             document: {
                 file: base64File,
