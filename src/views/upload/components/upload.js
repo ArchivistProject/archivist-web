@@ -3,6 +3,7 @@ import {
     Button, FormControl, Col, ControlLabel, FormGroup, Form,
 } from 'react-bootstrap/lib/';
 import TagsInput from 'react-tagsinput';
+import moment from 'moment';
 import './upload.scss';
 
 
@@ -14,12 +15,10 @@ export default class Upload extends Component {
         submitFile: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
         setAllItemID: PropTypes.func.isRequired,
-        fieldVisible: PropTypes.bool,
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
         filePicked: PropTypes.bool,
-        setFieldVisible: PropTypes.func.isRequired,
         setFilePicked: PropTypes.func.isRequired,
         resetFile: PropTypes.func.isRequired,
         setCheckBox: PropTypes.func.isRequired,
@@ -54,18 +53,25 @@ export default class Upload extends Component {
 
     handleSubmit = () => {
         const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description } = this.props;
+        // get meta data array and add today's date to it since user can't modify it
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
             metaDataArray = allMetaDataValue.slice();
         } else {
             metaDataArray = [];
         }
+        const todayDate = moment().format('MM/DD/YYYY');
+        const object = {
+            name: 'Date Added',
+            type: 'date',
+            data: todayDate,
+            group: 'Generic',
+        };
+        metaDataArray = metaDataArray.concat(object);
         if (filePicked === false) {
             alert('Please click browse to select a file to upload');
-        } else if (metaDataArray.length <= 0) {
-            alert('Please pick a category and enter some meta data for this file before uploading');
         } else {
-            submitFile(tags, allMetaDataValue, description);
+            submitFile(tags, metaDataArray, description);
             // reset the page after done uploading
             this.resetInputFields();
             const array = groups;
@@ -85,7 +91,7 @@ export default class Upload extends Component {
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible, setCheckBox } = this.props;
+        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setCheckBox } = this.props;
         const itemID = obj.target.id;
         const checked = obj.target.checked;
 
@@ -104,7 +110,6 @@ export default class Upload extends Component {
             array = array.concat(itemID);
             // set the state to the new array
             setAllItemID(array);
-            setFieldVisible(true);
         } else {
             // if unchecked then remove from array
             let index;
@@ -119,9 +124,6 @@ export default class Upload extends Component {
             array.splice(index, 1);
             // set the state to the new array
             setAllItemID(array);
-            if (array.length <= 0) {
-                setFieldVisible(false);
-            }
             // look for the group name
             let name = null;
             const metaDataArray = allMetaDataValue.slice();
@@ -248,10 +250,16 @@ export default class Upload extends Component {
                                     <Form horizontal key={fieldKey} className='textBox'>
                                         <Col sm={5} componentClass={ControlLabel}>{obj.name}</Col>
                                         <Col sm={7}>
-                                            <FormControl
-                                                name={obj.name} id={ID} data-type={obj.type}
-                                                onBlur={this.handleMetaDataTextChange} type='text'
-                                            />
+                                            {obj.name === 'Date Added' ?
+                                                <FormControl
+                                                    type='text' value={moment().format('MM/DD/YYYY')}
+                                                    disabled
+                                                /> :
+                                                <FormControl
+                                                    name={obj.name} id={ID} data-type={obj.type}
+                                                    onBlur={this.handleMetaDataTextChange} type='text'
+                                                />
+                                                }
                                             <br />
                                         </Col>
                                     </Form>
