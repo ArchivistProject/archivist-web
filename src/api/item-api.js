@@ -1,6 +1,8 @@
 import { ajax } from '~/src/utils/utils';
+import config from '~/config';
 import $ from 'jquery';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
+import { APP_CONSTANTS } from '~/src/utils/app-constants';
 
 export function fetchItems(pageNumber) {
     return ajax('GET', `documents?page=${pageNumber}`);
@@ -28,6 +30,7 @@ export function fetchItemContent(item) {
         if (item.content_type === CONTENT_TYPES.PDF) {
             xhr.responseType = 'arraybuffer';
         }
+        xhr.setRequestHeader('Authorization', localStorage.getItem(APP_CONSTANTS.AUTH_TOKEN));
         xhr.send();
     });
 }
