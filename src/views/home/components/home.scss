@@ -1,5 +1,7 @@
+@import '../../../defaults';
+
 .home {
-    height: 100%;
+    height: calc(100% - #{$action-bar-height});
     width: 100%;
     display: flex;
     position: absolute;

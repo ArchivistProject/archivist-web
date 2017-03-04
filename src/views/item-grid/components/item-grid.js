@@ -66,8 +66,6 @@ export default class ItemGrid extends Component {
                     { rows.length ? (
                         <Paginator
                             currentPage={currentPage}
-                            nextPage={nextPage}
-                            prevPage={prevPage}
                             totalPages={totalPages}
                             onPageChange={fetchItems}
                         />) : null }

@@ -7,11 +7,6 @@ const initialState = {
     newPassword: '',
     confirmPassword: '',
 
-    // background color
-    showColorModal: false,
-    colorPicked: '',
-    background: '#fff',
-
     // api token
     apiToken: '',
 
@@ -28,6 +23,7 @@ const initialState = {
     fieldName: null,
     fieldID: 'blank',
     popupName: null,
+    canEdit: null,
 };
 
 export default function (state = initialState, action) {
@@ -120,39 +116,6 @@ export default function (state = initialState, action) {
             };
         }
 
-        case settingsActionTypes.BACKGROUND_COLOR_SELECTED: {
-            const { color } = action.data;
-            return {
-                ...state,
-                colorPicked: color,
-            };
-        }
-
-        case settingsActionTypes.BACKGROUND_COLOR_CHANGED: {
-            const { color } = action.data;
-            return {
-                ...state,
-                background: color,
-            };
-        }
-
-        case settingsActionTypes.BACKGROUND_DIALOG_CLOSED: {
-            const { val } = action.data;
-            return {
-                ...state,
-                showColorModal: val,
-            };
-        }
-
-        case settingsActionTypes.BACKGROUND_DIALOG_OPENED: {
-            const { val } = action.data;
-            return {
-                ...state,
-                showColorModal: val,
-            };
-        }
-
-
         case settingsActionTypes.FETCH_API_SUCCEEDED: {
             const { apiToken } = action.data;
             return {
@@ -208,6 +171,21 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 popupName: name,
+            };
+        }
+
+        case settingsActionTypes.SETTING_CAN_EDIT: {
+            const { val } = action.data;
+            return {
+                ...state,
+                canEdit: val,
+            };
+        }
+
+        case settingsActionTypes.POST_FIELD_SUCCEEDED: {
+            return {
+                ...state,
+                fieldName: '',
             };
         }
 

@@ -1,5 +1,6 @@
 import { ajax } from '~/src/utils/utils';
 import $ from 'jquery';
+import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 
 export function fetchItems(pageNumber) {
     return ajax('GET', `documents?page=${pageNumber}`);
@@ -7,6 +8,28 @@ export function fetchItems(pageNumber) {
 
 export function fetchItem(itemId) {
     return ajax('GET', `documents/${itemId}`);
+}
+
+export function fetchItemContent(item) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${config.backend}/documents/${item.id}/content`, true);
+        xhr.onload = () => {
+            const contentType = xhr.getResponseHeader('Content-Type');
+            const { response: content } = xhr;
+            resolve({
+                content,
+                contentType,
+            });
+        };
+        xhr.onerror = () => {
+            reject();
+        };
+        if (item.content_type === CONTENT_TYPES.PDF) {
+            xhr.responseType = 'arraybuffer';
+        }
+        xhr.send();
+    });
 }
 
 export function updateItemMetadata(item, updatedItem) {

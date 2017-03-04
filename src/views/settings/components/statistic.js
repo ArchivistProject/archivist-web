@@ -21,12 +21,12 @@ export default class Statistic extends Component {
 
             <div>
 
-                <Col sm={3} componentClass={ControlLabel}>Total Files Uploaded: </Col>
+                <Col sm={4} componentClass={ControlLabel}>Total Files Uploaded: </Col>
                 <Col sm={8}>
                     <p>{fileCount}</p>
                 </Col>
 
-                <Col sm={3} componentClass={ControlLabel}>Storage Size: </Col>
+                <Col sm={4} componentClass={ControlLabel}>Storage Size: </Col>
                 <Col sm={8}>
                     <p>{storage}</p>
                 </Col>

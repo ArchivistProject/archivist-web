@@ -8,6 +8,7 @@ import sidebar from './sidebar/sidebar-reducers';
 import upload from './upload/upload-reducers';
 import user from './user/user-reducers';
 import settings from './settings/settings-reducers';
+import viewer from './viewer/viewer-reducers';
 
 export default combineReducers({
     actionBar,
@@ -17,6 +18,7 @@ export default combineReducers({
     upload,
     user,
     settings,
+    viewer,
     routing: routerReducer,
     notifications,
 });

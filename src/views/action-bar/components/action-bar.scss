@@ -3,9 +3,9 @@
 .action-bar {
     &-wrapper {
         width: 100%;
-        height: 60px;
+        height: $action-bar-height;
         min-width: $app-min-width;
-        line-height: 60px;
+        line-height: $action-bar-height;
         text-align: center;
         background-color: #2b303b;
     }

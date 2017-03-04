@@ -34,16 +34,6 @@ export function deleteItem(groupID) {
     return ajax('DELETE', `system/groups/${groupID}`);
 }
 
-
-export function postBackgroundColor(color) {
-    const backgroundColor = {
-        color: {
-            name: color,
-        },
-    };
-    return ajax('POST', 'theURL', backgroundColor); // TODO
-}
-
 // -------------------------Api token----------------------------------
 export function fetchAPIToken() {
     return ajax('GET', 'theURL'); // TODO

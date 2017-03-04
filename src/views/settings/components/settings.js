@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Panel } from 'react-bootstrap/lib/';
 import PasswordDialog from '~/src/views/settings/components/password';
-import ColorPickerDialog from '~/src/views/settings/components/backgroundColor';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
 import Statistic from '~/src/views/settings/components/statistic';
 import ItemTypes from '~/src/views/settings/components/itemTypes';
@@ -19,14 +18,6 @@ export default class Settings extends Component {
         openDialog: PropTypes.func.isRequired,
         closeDialog: PropTypes.func.isRequired,
 
-        showColorModal: PropTypes.bool,
-        colorPicked: PropTypes.string,
-        openColorDialog: PropTypes.func.isRequired,
-        closeColorDialog: PropTypes.func.isRequired,
-        background: PropTypes.string,
-        handleOnSelectColor: PropTypes.func.isRequired,
-        changeBackgroundColor: PropTypes.func.isRequired,
-
         apiToken: PropTypes.string,
         refreshAPI: PropTypes.func.isRequired,
 
@@ -37,7 +28,6 @@ export default class Settings extends Component {
         groups: PropTypes.arrayOf(Object),
         itemName: PropTypes.object,
         currentItem: PropTypes.string,
-
         handleItemNameChange: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
         addItem: PropTypes.func.isRequired,
@@ -56,6 +46,8 @@ export default class Settings extends Component {
         removeItem: PropTypes.func.isRequired,
         popupName: PropTypes.string,
         setPopupName: PropTypes.func.isRequired,
+        setCanEdit: PropTypes.func.isRequired,
+        canEdit: PropTypes.bool,
     };
 
     password() {
@@ -71,26 +63,6 @@ export default class Settings extends Component {
                         confirmPasswordChange={confirmPasswordChange}
                         openDialog={openDialog}
                         closeDialog={closeDialog}
-                    />
-                </Panel>
-            </div>
-        );
-    }
-
-    background() {
-        const { showColorModal, colorPicked, background, closeColorDialog, openColorDialog, handleOnSelectColor, changeBackgroundColor } = this.props;
-        return (
-            <div>
-                <Panel header='Background' bsStyle='info'>
-                    <p>Change your background color</p>
-                    <ColorPickerDialog
-                        showColorModal={showColorModal}
-                        colorPicked={colorPicked}
-                        background={background}
-                        closeColorDialog={closeColorDialog}
-                        openColorDialog={openColorDialog}
-                        handleOnSelectColor={handleOnSelectColor}
-                        changeBackgroundColor={changeBackgroundColor}
                     />
                 </Panel>
             </div>
@@ -129,7 +101,7 @@ export default class Settings extends Component {
     itemTypes() {
         const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
             setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
-            removeItem, popupName, setPopupName } = this.props;
+            removeItem, popupName, setPopupName, setCanEdit, canEdit } = this.props;
         return (
             <div>
                 <Panel header='Item Category' bsStyle='info'>
@@ -155,6 +127,8 @@ export default class Settings extends Component {
                         removeItem={removeItem}
                         popupName={popupName}
                         setPopupName={setPopupName}
+                        setCanEdit={setCanEdit}
+                        canEdit={canEdit}
                     />
                 </Panel>
             </div>
@@ -179,7 +153,6 @@ export default class Settings extends Component {
                 <div className='section'>
                     {this.statistic()}
                     {this.itemTypes()}
-                    {this.background()}
                     {this.password()}
                     {this.apiToken()}
                 </div>

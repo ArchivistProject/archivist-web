@@ -47,7 +47,10 @@ export function postItemType(name) {
 export function postFieldType(name, type, id) {
     return (dispatch) => {
         settingsApi.postFieldType(name, type, id)
-            .then(response => dispatch(fetchItemTypes()))
+            .then((response) => {
+                dispatch({ type: settingsActionTypes.POST_FIELD_SUCCEEDED });
+                dispatch(fetchItemTypes());
+            })
             .catch(error => dispatch({ type: settingsActionTypes.POST_FIELD_FAILED }));
     };
 }
@@ -109,6 +112,12 @@ export function setPopupName(name) {
     };
 }
 
+export function setCanEdit(val) {
+    return {
+        type: settingsActionTypes.SETTING_CAN_EDIT,
+        data: { val },
+    };
+}
 
 // ----------------------Password-------------------------------
 
@@ -139,38 +148,6 @@ export function openDialog(val) {
         data: { val },
     };
 }
-
-// ----------------------------Background color---------------------------------
-
-export function closeColorDialog(val) {
-    return {
-        type: settingsActionTypes.BACKGROUND_DIALOG_CLOSED,
-        data: { val },
-    };
-}
-
-export function openColorDialog(val) {
-    return {
-        type: settingsActionTypes.BACKGROUND_DIALOG_OPENED,
-        data: { val },
-    };
-}
-
-
-export function handleOnSelectColor(hexColor) {
-    return {
-        type: settingsActionTypes.BACKGROUND_COLOR_SELECTED,
-        data: { hexColor },
-    };
-}
-
-export function changeBackgroundColor(color) {
-    return {
-        type: settingsActionTypes.BACKGROUND_COLOR_CHANGED,
-        data: { color },
-    };
-}
-
 
 // ----------------------API Token---------------------------
 export function refreshAPI() {

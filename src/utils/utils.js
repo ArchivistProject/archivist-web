@@ -58,6 +58,14 @@ export function handleError(error, dispatch) {
     }
 }
 
+export function getFormattedPathname(pathname) {
+    const formattedPathname = pathname.replace(/\/$/, '').split('/');
+    if (/items\/\d*[a-zA-Z][a-zA-Z0-9]*$/.test(pathname)) {
+        return 'viewer';
+    }
+    return formattedPathname.join('');
+}
+
 const invalidChars = ['\\', ';', '&']; // TODO
 export function sanitizeString(string) {
     return string.split('').map(char => (invalidChars.indexOf(char) > -1 ? '' : char)).join('').trim();
