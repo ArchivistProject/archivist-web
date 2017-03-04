@@ -24,6 +24,7 @@ export default class Sidebar extends Component {
         metadataEditMode: PropTypes.bool.isRequired,
         descriptionEditMode: PropTypes.bool.isRequired,
         tempDescription: PropTypes.string,
+        unfocusItem: PropTypes.bool,
     };
 
     handleTabClicked = (tabName) => {
@@ -33,9 +34,9 @@ export default class Sidebar extends Component {
         }
     }
 
-    handleSidebarClosed = () => {
-        const { updateVisibility } = this.props;
-        updateVisibility(false);
+    handleSidebarToggleClicked = () => {
+        const { updateVisibility, visible, unfocusItem = true } = this.props;
+        updateVisibility(!visible, unfocusItem);
     }
 
     renderTabs() {
@@ -54,7 +55,6 @@ export default class Sidebar extends Component {
                         </button>
                     )
                 )}
-                <button className='sidebar-close' onClick={this.handleSidebarClosed}><i className='icon-cross' /></button>
             </div>
         );
     }
@@ -75,23 +75,37 @@ export default class Sidebar extends Component {
             metadataEditMode,
             descriptionEditMode,
             tempDescription };
-        switch (visibleTab) {
-            case SIDEBAR_TABS.SUMMARY:
-                return (<SummaryTab {...summaryTabProps} />);
-            case SIDEBAR_TABS.SEARCH:
-                return (<MainSearchTab />);
-            default:
-                return null;
+        if (activeItem) {
+            switch (visibleTab) {
+                case SIDEBAR_TABS.SUMMARY:
+                    return (<SummaryTab {...summaryTabProps} />);
+                case SIDEBAR_TABS.SEARCH:
+                    return (<MainSearchTab />);
+                default:
+                    return null;
+            }
         }
+        return (
+            <div className='sidebar-no-item'>
+                <span>No item selected.</span>
+            </div>
+        );
     }
 
     render() {
         const { visible } = this.props;
-        return visible ? (
-            <div className='sidebar'>
-                {this.renderTabs()}
-                {this.renderPanel()}
+        return (
+            <div className='sidebar-wrapper'>
+                <div className={`sidebar-toggler ${visible ? 'opened' : null}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
+                    <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
+                </div>
+                {visible ? (
+                    <div className='sidebar'>
+                        {this.renderTabs()}
+                        {this.renderPanel()}
+                    </div>
+                ) : null}
             </div>
-        ) : null;
+        );
     }
 }

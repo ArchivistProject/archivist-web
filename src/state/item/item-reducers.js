@@ -1,5 +1,6 @@
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
+import viewerActionTypes from '../viewer/viewer-action-types';
 
 const initialState = {
     items: null,
@@ -13,6 +14,8 @@ const initialState = {
     activeItemIndex: null,
     activeItemIndexCached: null, // saves the index of active item on different page
     activeItemPage: null,
+    activeItemContent: null,
+    activeItemContentType: null,
     sortBy: null,
     waitingForItems: null,
     fetchItemsFailed: false,
@@ -82,11 +85,11 @@ export default function (state = initialState, action) {
             const { items, activeItemIndex } = state;
             return {
                 ...state,
-                items: [
+                items: items ? [
                     ...items.slice(0, activeItemIndex),
                     document,
                     ...items.slice(activeItemIndex + 1, items.length),
-                ],
+                ] : null,
                 activeItem: document,
                 activeItemEditing: document,
             };
@@ -94,6 +97,15 @@ export default function (state = initialState, action) {
         case itemActionTypes.FETCH_ITEM_FAILED: {
             return {
                 ...state,
+            };
+        }
+
+        case itemActionTypes.FETCH_CONTENT_SUCCEEDED: {
+            const { content, contentType } = action.data;
+            return {
+                ...state,
+                activeItemContent: content,
+                activeItemContentType: contentType,
             };
         }
 
@@ -186,12 +198,12 @@ export default function (state = initialState, action) {
         }
 
         case sidebarActionTypes.VISIBILITY_UPDATED: {
-            const { visible } = action.data;
-
-            if (!visible) { // closing sidebar, unfocus item
+            const { visible, unfocusItem } = action.data;
+            if (!visible && unfocusItem) { // closing sidebar from item grid, unfocus item
                 return {
                     ...state,
                     activeItem: initialState.activeItem,
+                    activeItemEditing: initialState.activeItemEditing,
                     activeItemIndex: initialState.activeItemIndex,
                     activeItemIndexCached: initialState.activeItemIndexCached,
                     activeItemPage: initialState.activeItemPage,
@@ -208,6 +220,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 activeItemEditing: state.activeItem,
+            };
+        }
+
+        case viewerActionTypes.VIEWER_CLOSED: {
+            return {
+                ...state,
+                activeItemContent: initialState.activeItemContent,
+                activeItemContentType: initialState.activeItemContentType,
             };
         }
     }

@@ -1,6 +1,8 @@
+import { push } from 'react-router-redux';
 import * as itemApi from '~/src/api/item-api';
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
+import viewerActionTypes from '../viewer/viewer-action-types';
 
 export function fetchItems(currentPage) {
     return (dispatch) => {
@@ -27,6 +29,23 @@ export function fetchItem(itemId) {
                 data: response,
             }))
             .catch(error => dispatch({ type: itemActionTypes.FETCH_ITEM_FAILED }));
+    };
+}
+
+export function fetchItemContent(item) {
+    return (dispatch) => {
+        dispatch({
+            type: itemActionTypes.ITEM_CONTENT_REQUESTED,
+        });
+        itemApi.fetchItemContent(item)
+            .then((response) => {
+                const { content, contentType } = response;
+                dispatch({
+                    type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
+                    data: { content, contentType },
+                });
+            })
+            .catch(error => dispatch({ type: itemActionTypes.FETCH_CONTENT_FAILED }));
     };
 }
 
@@ -57,6 +76,11 @@ export function itemFocused(itemIndex) {
                     data: { visible: true },
                 });
             }
+        } else {
+            dispatch({
+                type: viewerActionTypes.VIEWER_OPENED,
+            });
+            dispatch(push(`items/${itemId}`));
         }
     };
 }

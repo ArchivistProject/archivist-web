@@ -1,9 +1,9 @@
 import sidebarActionTypes from './sidebar-action-types';
 
-export function updateVisibility(visible) {
+export function updateVisibility(visible, unfocusItem) {
     return {
         type: sidebarActionTypes.VISIBILITY_UPDATED,
-        data: { visible },
+        data: { visible, unfocusItem },
     };
 }
 

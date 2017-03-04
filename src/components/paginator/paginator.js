@@ -5,8 +5,6 @@ export default class Paginator extends Component {
 
     static propTypes = {
         currentPage: PropTypes.number,
-        nextPage: PropTypes.number,
-        prevPage: PropTypes.number,
         totalPages: PropTypes.number,
         onPageChange: PropTypes.func.isRequired,
     };
@@ -19,7 +17,7 @@ export default class Paginator extends Component {
     }
 
     render() {
-        const { currentPage, nextPage, totalPages } = this.props;
+        const { currentPage, totalPages } = this.props;
 
         const noPrev = currentPage === 1;
 
@@ -41,15 +39,15 @@ export default class Paginator extends Component {
                 </button>
                 <span className='paginator-current'>{`Page ${currentPage} of ${totalPages}`}</span>
                 <button
-                    className={!nextPage ? 'paginator-disabled' : ''}
-                    disabled={!nextPage}
+                    className={currentPage === totalPages ? 'paginator-disabled' : ''}
+                    disabled={currentPage === totalPages}
                     onClick={() => this.handlePageChange(currentPage + 1)}
                 >
                     {'>'}
                 </button>
                 <button
-                    className={!nextPage ? 'paginator-disabled' : ''}
-                    disabled={!nextPage}
+                    className={currentPage === totalPages ? 'paginator-disabled' : ''}
+                    disabled={currentPage === totalPages}
                     onClick={() => this.handlePageChange(totalPages)}
                 >
                     {'>>'}

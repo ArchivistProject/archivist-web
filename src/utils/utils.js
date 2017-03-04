@@ -8,6 +8,13 @@ export function formatDateTime(dateString) {
     return moment(dateString).format('MM/DD/YYYY hh:mm:ss a Z');
 }
 
+export function getFormattedPathname(pathname) {
+    const formattedPathname = pathname.replace(/\/$/, '').split('/');
+    if (/items\/\d*[a-zA-Z][a-zA-Z0-9]*$/.test(pathname)) {
+        return 'viewer';
+    }
+    return formattedPathname.join('');
+}
 
 const invalidChars = ['\\', ';', '&']; // TODO
 export function sanitizeString(string) {
