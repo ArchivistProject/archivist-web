@@ -9,6 +9,7 @@ const initialState = {
     allMetaDataValue: [],
     filePicked: false,
     fileName: 'Choose a file...',
+    description: null,
 };
 
 export default function (state = initialState, action) {
@@ -39,7 +40,13 @@ export default function (state = initialState, action) {
             const { groups } = action.data;
             return {
                 ...state,
-                groups: groups.map((object) => { const obj = object; obj.checkbox = false; return obj; }),
+                groups: groups.map((object) => {
+                    const obj = object;
+                    if (object.name === 'Generic') { obj.checkbox = true; } else {
+                        obj.checkbox = false;
+                    }
+                    return obj;
+                }),
             };
         }
 
@@ -111,6 +118,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 fileName: val,
+            };
+        }
+
+        case uploadActionTypes.SET_DESCRIPTION: {
+            const { val } = action.data;
+            return {
+                ...state,
+                description: val,
             };
         }
     }

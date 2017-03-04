@@ -1,7 +1,7 @@
 import config from '~/config';
 import $ from 'jquery';
 
-export function uploadFile(file, tagArray, metaData) {
+export function uploadFile(file, tagArray, metaData, desc) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
@@ -10,6 +10,7 @@ export function uploadFile(file, tagArray, metaData) {
         const document = {
             document: {
                 file: base64File,
+                description: desc,
                 tags: tagArray,
                 metadata_fields: metaData,
             },
