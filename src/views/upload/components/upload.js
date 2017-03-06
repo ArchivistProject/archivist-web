@@ -39,16 +39,17 @@ export default class Upload extends Component {
     }
 
     resetInputFields = () => {
-        const { setAllItemID, allItemID, setAllMetaData, handleTagsChange, resetFile, setFilePicked, setFileName } = this.props;
+        const { setAllItemID, allItemID, setAllMetaData, handleTagsChange, resetFile, setFilePicked, setFileName, setDescription } = this.props;
         setAllMetaData([]);
         // keep Generic but remove others category ID
         const array = allItemID;
         array.splice(1);
-        setAllItemID(array);
+        setAllItemID([]);
         handleTagsChange([]);
         setFilePicked(false);
         resetFile();
         setFileName('Choose a file...');
+        setDescription('');
     }
 
     handleSubmit = () => {
@@ -280,7 +281,7 @@ export default class Upload extends Component {
                         <br />
                         <FormGroup controlId='formControlsTextarea'>
                             <ControlLabel>Description:</ControlLabel>
-                            <FormControl value={description} type='text' onBlur={this.handleDescriptionChange} componentClass='textarea' />
+                            <FormControl value={description} type='text' placeholder='Add a description' onChange={this.handleDescriptionChange} componentClass='textarea' />
                         </FormGroup>
                     </Col>
 
