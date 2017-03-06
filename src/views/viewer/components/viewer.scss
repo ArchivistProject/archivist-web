@@ -1,0 +1,73 @@
+@import '../../../defaults';
+
+$toolbar-height: 30px;
+
+.viewer {    
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    &-container {
+        height: calc(100vh - #{$action-bar-height});
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: $light-gray;
+    }
+
+    &-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    &-toolbar {
+        height: $toolbar-height;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $dark-gray;
+        color: $black;
+
+        &-zoom {
+            display: flex;
+            flex-direction: row;
+            .scale {
+                width: 20px;
+                color: $white;
+            }
+        }
+        .paginator {
+            &-current {
+                color: $white;
+            }
+            button {
+                background-color: $white;
+                border-radius: 3px;
+                margin: 0 2px;
+            }
+        }
+    }
+
+    &-page {
+        margin: 0 auto;
+        border-style: solid;
+        border-width: 0 1px 1px 1px;
+        border-color: $black;
+        background-color: $white;
+    }
+
+    .web-container {
+        border: none;
+        width: 100%;
+        height: 100%;
+        background-color: $white;
+    }
+
+    .sidebar {
+        width: 300px;
+        height: 100%;
+    }
+}

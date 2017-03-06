@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
+import { getFormattedPathname } from '~/src/utils/utils';
 import './action-bar.scss';
 
 export default class ActionBar extends Component {
@@ -16,15 +17,14 @@ export default class ActionBar extends Component {
 
     componentDidMount() {
         const { updateVisibilities, pathname } = this.props;
-        updateVisibilities(pathname);
+        updateVisibilities(getFormattedPathname(pathname));
     }
 
     componentWillReceiveProps(nextProps) {
         const { updateVisibilities, pathname } = this.props;
         const { pathname: newPathname } = nextProps;
-
         if (pathname !== newPathname) {
-            updateVisibilities(newPathname);
+            updateVisibilities(getFormattedPathname(newPathname));
         }
     }
 
