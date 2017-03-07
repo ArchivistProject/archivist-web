@@ -25,6 +25,14 @@ export default class Sidebar extends Component {
         descriptionEditMode: PropTypes.bool.isRequired,
         tempDescription: PropTypes.string,
         unfocusItem: PropTypes.bool,
+        fetchItemTypes: PropTypes.func.isRequired,
+        itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+        itemTypeSelected: PropTypes.func.isRequired,
+        metadataRows: PropTypes.arrayOf(PropTypes.object).isRequired,
+        metadataRowAdded: PropTypes.func.isRequired,
+        metadataRowFieldUpdated: PropTypes.func.isRequired,
+        metadataRowValueUpdated: PropTypes.func.isRequired,
+        metadataRowDeleted: PropTypes.func.isRequired,
     };
 
     handleTabClicked = (tabName) => {
@@ -60,8 +68,10 @@ export default class Sidebar extends Component {
     }
 
     renderPanel() {
-        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata, saveMetadata, saveTags,
-            updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription } = this.props;
+        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
+            saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription,
+            fetchItemTypes, itemTypes, itemTypeSelected, metadataRows, metadataRowAdded, metadataRowFieldUpdated,
+            metadataRowValueUpdated, metadataRowDeleted } = this.props;
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
@@ -75,12 +85,24 @@ export default class Sidebar extends Component {
             metadataEditMode,
             descriptionEditMode,
             tempDescription };
+
+        const searchTabProps = {
+            fetchItemTypes,
+            itemTypes,
+            itemTypeSelected,
+            metadataRows,
+            metadataRowAdded,
+            metadataRowFieldUpdated,
+            metadataRowValueUpdated,
+            metadataRowDeleted,
+        };
+
         if (activeItem) {
             switch (visibleTab) {
                 case SIDEBAR_TABS.SUMMARY:
                     return (<SummaryTab {...summaryTabProps} />);
                 case SIDEBAR_TABS.SEARCH:
-                    return (<MainSearchTab />);
+                    return (<MainSearchTab {...searchTabProps} />);
                 default:
                     return null;
             }
