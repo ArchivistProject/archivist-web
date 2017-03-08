@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, FormControl, FormGroup, Col, Form, ControlLabel,
-    ListGroup, ListGroupItem,
+    ListGroup, ListGroupItem, Label,
 } from 'react-bootstrap/lib/';
 import './settings.scss';
 
@@ -138,11 +138,13 @@ export default class ItemTypes extends Component {
                                         {obj.name}
                                         {popupName !== 'Website' && popupName !== 'Generic' ?
                                             <span className='pull-right button-group'>
-                                                <button
+                                                <Label className='type-label-padding'>{obj.type}</Label>
+                                                <Button
+                                                    bsSize='xsmall'
                                                     id={obj.id} type='button' onClick={this.deleteCurrentField}
                                                     className='btn btn-danger'
-                                                ><span className='glyphicon glyphicon-remove' /></button>
-                                            </span> : null }
+                                                ><span className='glyphicon glyphicon-remove' /></Button>
+                                            </span> : <Label className='type-label'>{obj.type}</Label> }
                                     </li>
                                 )}
                             </ul>
