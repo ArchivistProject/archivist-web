@@ -1,1 +1,23 @@
 @import '../../../../defaults';
+
+.search-tab {
+    &-group {
+        background-color: $light-gray;
+        &-toolbar {
+            width: 100%;
+            display: inline-flex;
+            justify-content: space-between;
+            background-color: $gray;
+        }
+    }
+    &-section {
+        a {
+            cursor: pointer;
+            text-decoration: none;
+            color: $blue;
+            &:hover {
+                color: $dark-blue;
+            }
+        }
+    }
+}

@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { formatDate } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
+import * as searchActionCreators from '~/src/state/search/search-action-creators';
 import SummaryTab from './tabs/summary-tab';
 import MainSearchTab from './tabs/main-search-tab';
 import './sidebar.scss';
@@ -27,12 +29,7 @@ export default class Sidebar extends Component {
         unfocusItem: PropTypes.bool,
         fetchItemTypes: PropTypes.func.isRequired,
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
-        itemTypeSelected: PropTypes.func.isRequired,
-        metadataRows: PropTypes.arrayOf(PropTypes.object).isRequired,
-        metadataRowAdded: PropTypes.func.isRequired,
-        metadataRowFieldUpdated: PropTypes.func.isRequired,
-        metadataRowValueUpdated: PropTypes.func.isRequired,
-        metadataRowDeleted: PropTypes.func.isRequired,
+        searchGroups: PropTypes.arrayOf(PropTypes.object),
     };
 
     handleTabClicked = (tabName) => {
@@ -70,8 +67,7 @@ export default class Sidebar extends Component {
     renderPanel() {
         const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
             saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription,
-            fetchItemTypes, itemTypes, itemTypeSelected, metadataRows, metadataRowAdded, metadataRowFieldUpdated,
-            metadataRowValueUpdated, metadataRowDeleted } = this.props;
+            fetchItemTypes, itemTypes, searchGroups, dispatch } = this.props;
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
@@ -89,12 +85,7 @@ export default class Sidebar extends Component {
         const searchTabProps = {
             fetchItemTypes,
             itemTypes,
-            itemTypeSelected,
-            metadataRows,
-            metadataRowAdded,
-            metadataRowFieldUpdated,
-            metadataRowValueUpdated,
-            metadataRowDeleted,
+            searchGroups,
         };
 
         if (activeItem) {
@@ -102,7 +93,8 @@ export default class Sidebar extends Component {
                 case SIDEBAR_TABS.SUMMARY:
                     return (<SummaryTab {...summaryTabProps} />);
                 case SIDEBAR_TABS.SEARCH:
-                    return (<MainSearchTab {...searchTabProps} />);
+
+                    return (<MainSearchTab {...searchTabProps} {...bindActionCreators(searchActionCreators, dispatch)} />);
                 default:
                     return null;
             }

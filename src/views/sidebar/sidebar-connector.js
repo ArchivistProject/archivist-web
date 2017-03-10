@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as sidebarActionCreators from '~/src/state/sidebar/sidebar-action-creators';
 import * as itemActionCreators from '~/src/state/item/item-action-creators';
-import * as searchActionCreators from '~/src/state/search/search-action-creators';
 import { fetchItemTypes } from '~/src/state/settings/settings-action-creators';
 import Sidebar from './components/sidebar';
 
@@ -15,7 +14,6 @@ class SidebarConnector extends Component {
                 {...this.props}
                 {...bindActionCreators(sidebarActionCreators, dispatch)}
                 {...bindActionCreators(itemActionCreators, dispatch)}
-                {...bindActionCreators(searchActionCreators, dispatch)}
                 {...bindActionCreators({ fetchItemTypes }, dispatch)}
             />
         );
