@@ -153,6 +153,11 @@ export default class ItemTypes extends Component {
 
                     {canEdit === true ?
                         <FormGroup>
+                            <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
+                            <Col sm={3}>
+                                <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
+                            </Col>
+
                             <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
                             <Col sm={3}>
                                 <FormControl
@@ -165,10 +170,6 @@ export default class ItemTypes extends Component {
                                 </FormControl>
                             </Col>
 
-                            <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
-                            <Col sm={3}>
-                                <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
-                            </Col>
                             <Col sm={2}>
                                 <Button onClick={this.addField}>Add</Button>
                             </Col>
