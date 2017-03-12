@@ -19,6 +19,7 @@ class ItemGridConnector extends Component {
 function mapStateToProps(state) {
     return {
         ...state.item,
+        queryPage: Number(state.routing.locationBeforeTransitions.query.page),
     };
 }
 

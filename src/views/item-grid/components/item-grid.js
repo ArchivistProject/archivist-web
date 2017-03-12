@@ -26,11 +26,20 @@ export default class ItemGrid extends Component {
             totalCount: PropTypes.number,
             pageSize: PropTypes.number,
         }),
+        queryPage: PropTypes.number,
     };
 
     componentWillMount() {
-        const { fetchItems, meta: { currentPage } } = this.props;
-        fetchItems(currentPage);
+        const { fetchItems, queryPage, meta: { currentPage } } = this.props;
+        const pageToFetch = currentPage || queryPage || 1;
+        fetchItems(pageToFetch);
+    }
+
+    componentDidUpdate() {
+        const { fetchItems, meta: { currentPage, totalPages } } = this.props;
+        if (currentPage && currentPage > totalPages) {
+            fetchItems(1);
+        }
     }
 
     render() {
