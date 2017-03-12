@@ -28,11 +28,17 @@ export function toggleGroupNot(groupIndex) {
     };
 }
 
-
 export function addItemTypeRow(groupIndex) {
     return {
         type: searchActionTypes.ITEM_TYPE_ROW_ADDED,
         data: { groupIndex },
+    };
+}
+
+export function deleteItemTypeRow(itemTypeIndex, groupIndex) {
+    return {
+        type: searchActionTypes.ITEM_TYPE_ROW_DELETED,
+        data: { itemTypeIndex, groupIndex },
     };
 }
 
@@ -43,29 +49,44 @@ export function selectItemType(itemType, itemTypeIndex, groupIndex) {
     };
 }
 
-export function addMetadataRow() {
+export function addMetadataRow(groupIndex) {
     return {
         type: searchActionTypes.METADATA_ROW_ADDED,
+        data: { groupIndex },
     };
 }
 
-export function updateMetadataField(rowIndex, field) {
+export function updateMetadataField(field, rowIndex, groupIndex) {
     return {
         type: searchActionTypes.METADATA_ROW_FIELD_UPDATED,
-        data: { rowIndex, field },
+        data: { field, rowIndex, groupIndex },
     };
 }
 
-export function updateMetadataValue(rowIndex, value) {
+export function updateMetadataValue(value, rowIndex, groupIndex) {
     return {
         type: searchActionTypes.METADATA_ROW_VALUE_UPDATED,
-        data: { rowIndex, value },
+        data: { value, rowIndex, groupIndex },
     };
 }
 
-export function deleteMetadataRow(rowIndex) {
+export function deleteMetadataRow(rowIndex, groupIndex) {
     return {
         type: searchActionTypes.METADATA_ROW_DELETED,
-        data: { rowIndex },
+        data: { rowIndex, groupIndex },
+    };
+}
+
+export function updateTags(tags, groupIndex) {
+    return {
+        type: searchActionTypes.TAGS_UPDATED,
+        data: { tags, groupIndex },
+    };
+}
+
+export function updateDescription(description, groupIndex) {
+    return {
+        type: searchActionTypes.DESCRIPTION_UPDATED,
+        data: { description, groupIndex },
     };
 }

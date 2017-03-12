@@ -1,5 +1,5 @@
 import searchActionTypes from './search-action-types';
-import { SEARCH_CONSTANTS } from './search-constants';
+import { SEARCH_CONSTANTS, SEARCH_DEFAULTS } from './search-constants';
 
 const initialState = {
     // searchGroups: [],
@@ -25,20 +25,6 @@ function updateGroupValue(groups, groupIndex, property, value) {
     ];
 }
 
-function getGroupsOfType(state, groupType) {
-    switch (groupType) {
-        case SEARCH_CONSTANTS.ITEM_TYPE:
-            return state.itemTypeGroups;
-        case SEARCH_CONSTANTS.METADATA:
-            return state.metadataGroups;
-        case SEARCH_CONSTANTS.TAG:
-            return state.tagGroups;
-        case SEARCH_CONSTANTS.DESCRIPTION:
-            return state.descriptionGroups;
-    }
-    return [];
-}
-
 function getDefaultGroupObject(groupType) {
     const genericGroup = {
         andOr: SEARCH_CONSTANTS.AND,
@@ -49,28 +35,28 @@ function getDefaultGroupObject(groupType) {
             return {
                 ...genericGroup,
                 groupType: SEARCH_CONSTANTS.ITEM_TYPE,
-                itemTypes: [],
+                itemTypes: [SEARCH_DEFAULTS.ITEM_TYPE],
             };
         case SEARCH_CONSTANTS.METADATA:
             return {
                 ...genericGroup,
                 groupType: SEARCH_CONSTANTS.METADATA,
-                metadataRows: [],
+                metadataRows: [SEARCH_DEFAULTS.METADATA],
             };
         case SEARCH_CONSTANTS.TAG:
             return {
                 ...genericGroup,
                 groupType: SEARCH_CONSTANTS.TAG,
-                tags: [],
+                tags: SEARCH_DEFAULTS.TAG,
             };
         case SEARCH_CONSTANTS.DESCRIPTION:
             return {
                 ...genericGroup,
                 groupType: SEARCH_CONSTANTS.DESCRIPTION,
-                description: '',
+                description: SEARCH_DEFAULTS.DESCRIPTION,
             };
     }
-    return {};
+    return genericGroup;
 }
 
 export default function (state = initialState, action) {
@@ -123,18 +109,32 @@ export default function (state = initialState, action) {
         case searchActionTypes.ITEM_TYPE_ROW_ADDED: {
             const { groupIndex } = action.data;
             const { searchGroups } = state;
-            const updatedItemTypes = searchGroups[groupIndex].itemTypes.slice(0);
-            updatedItemTypes.push('all');
+
             return {
                 ...state,
                 searchGroups: [
                     ...searchGroups.slice(0, groupIndex),
                     {
                         ...searchGroups[groupIndex],
-                        itemTypes: updatedItemTypes,
+                        itemTypes: [...searchGroups[groupIndex].itemTypes, SEARCH_DEFAULTS.ITEM_TYPE],
                     },
                     ...searchGroups.slice(groupIndex + 1, searchGroups.length),
                 ],
+            };
+        }
+
+        case searchActionTypes.ITEM_TYPE_ROW_DELETED: {
+            const { groupIndex, itemTypeIndex } = action.data;
+            const { searchGroups } = state;
+            const { itemTypes } = searchGroups[groupIndex];
+            const updatedItemTypes = [
+                ...itemTypes.slice(0, itemTypeIndex),
+                ...itemTypes.slice(itemTypeIndex + 1, itemTypes.length),
+            ];
+
+            return {
+                ...state,
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'itemTypes', updatedItemTypes),
             };
         }
 
@@ -147,69 +147,80 @@ export default function (state = initialState, action) {
                 itemType,
                 ...itemTypes.slice(itemTypeIndex + 1, itemTypes.length),
             ];
-            const updatedGroups = updateGroupValue(searchGroups, groupIndex, 'itemTypes', updatedItemTypes);
+
             return {
                 ...state,
-                searchGroups: updatedGroups,
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'itemTypes', updatedItemTypes),
             };
         }
 
         case searchActionTypes.METADATA_ROW_ADDED: {
-            const metadataRows = state.metadataRows.slice(0);
-            metadataRows.push({
-                field: {
-                    id: 1,
-                    name: null,
-                    type: null,
-                },
-                value: '',
-            });
+            const { groupIndex } = action.data;
+            const { searchGroups } = state;
             return {
                 ...state,
-                metadataRows,
+                searchGroups: [
+                    ...searchGroups.slice(0, groupIndex),
+                    {
+                        ...searchGroups[groupIndex],
+                        metadataRows: [...searchGroups[groupIndex].metadataRows, SEARCH_DEFAULTS.METADATA],
+                    },
+                    ...searchGroups.slice(groupIndex + 1, searchGroups.length),
+                ],
             };
         }
         case searchActionTypes.METADATA_ROW_FIELD_UPDATED: {
-            const { rowIndex, field } = action.data;
-            const { metadataRows } = state;
-            const { value } = metadataRows[rowIndex];
+            const { field, rowIndex, groupIndex } = action.data;
+            const { searchGroups } = state;
+            const { metadataRows } = searchGroups[groupIndex];
+            const updatedMetadataRows = updateGroupValue(metadataRows, rowIndex, 'field', field);
             return {
                 ...state,
-                metadataRows: [
-                    ...metadataRows.slice(0, rowIndex),
-                    {
-                        field,
-                        value,
-                    },
-                    ...metadataRows.slice(rowIndex + 1, metadataRows.length),
-                ],
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'metadataRows', updatedMetadataRows),
             };
         }
+
         case searchActionTypes.METADATA_ROW_VALUE_UPDATED: {
-            const { rowIndex, value } = action.data;
-            const { metadataRows } = state;
-            const { field } = metadataRows[rowIndex];
+            const { value, rowIndex, groupIndex } = action.data;
+            const { searchGroups } = state;
+            const { metadataRows } = searchGroups[groupIndex];
+            const updatedMetadataRows = updateGroupValue(metadataRows, rowIndex, 'value', value);
             return {
                 ...state,
-                metadataRows: [
-                    ...metadataRows.slice(0, rowIndex),
-                    {
-                        field,
-                        value,
-                    },
-                    ...metadataRows.slice(rowIndex + 1, metadataRows.length),
-                ],
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'metadataRows', updatedMetadataRows),
             };
         }
+
         case searchActionTypes.METADATA_ROW_DELETED: {
-            const { rowIndex } = action.data;
-            const { metadataRows } = state;
+            const { rowIndex, groupIndex } = action.data;
+            const { searchGroups } = state;
+            const { metadataRows } = searchGroups[groupIndex];
+            const updatedMetadataRows = [
+                ...metadataRows.slice(0, rowIndex),
+                ...metadataRows.slice(rowIndex + 1, metadataRows.length),
+            ];
+
             return {
                 ...state,
-                metadataRows: [
-                    ...metadataRows.slice(0, rowIndex),
-                    ...metadataRows.slice(rowIndex + 1, metadataRows.length),
-                ],
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'metadataRows', updatedMetadataRows),
+            };
+        }
+
+        case searchActionTypes.TAGS_UPDATED: {
+            const { tags, groupIndex } = action.data;
+            const { searchGroups } = state;
+            return {
+                ...state,
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'tags', tags),
+            };
+        }
+
+        case searchActionTypes.DESCRIPTION_UPDATED: {
+            const { description, groupIndex } = action.data;
+            const { searchGroups } = state;
+            return {
+                ...state,
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'description', description),
             };
         }
     }

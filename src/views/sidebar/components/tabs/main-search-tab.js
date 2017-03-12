@@ -1,7 +1,9 @@
 import React, { PropTypes, Component } from 'react';
+import TagsInput from 'react-tagsinput';
 import Select from '~/src/components/select/select';
 import Checkbox from '~/src/components/checkbox/checkbox';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
+import '~/src/assets/style/react-tagsinput.scss';
 import './main-search-tab.scss';
 
 export default class SummaryTab extends Component {
@@ -11,24 +13,22 @@ export default class SummaryTab extends Component {
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         searchGroups: PropTypes.arrayOf(PropTypes.object),
-        // itemTypeGroups: PropTypes.arrayOf(PropTypes.object),
-        // metadataGroups: PropTypes.arrayOf(PropTypes.object),
-        // tagGroups: PropTypes.arrayOf(PropTypes.object),
-        // descriptionGroups: PropTypes.arrayOf(PropTypes.object),
-
         addSearchGroup: PropTypes.func.isRequired,
         deleteSearchGroup: PropTypes.func.isRequired,
         toggleGroupAndOr: PropTypes.func.isRequired,
         toggleGroupNot: PropTypes.func.isRequired,
-        selectItemType: PropTypes.func.isRequired,
 
         addItemTypeRow: PropTypes.func.isRequired,
+        deleteItemTypeRow: PropTypes.func.isRequired,
+        selectItemType: PropTypes.func.isRequired,
+
         addMetadataRow: PropTypes.func.isRequired,
+        deleteMetadataRow: PropTypes.func.isRequired,
         updateMetadataField: PropTypes.func.isRequired,
         updateMetadataValue: PropTypes.func.isRequired,
-        deleteMetadataRow: PropTypes.func.isRequired,
-        // metadataRows: PropTypes.arrayOf(PropTypes.object).isRequired,
-        // selectedItemType: PropTypes.object,
+
+        updateTags: PropTypes.func.isRequired,
+        updateDescription: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -41,27 +41,28 @@ export default class SummaryTab extends Component {
         selectItemType(e.target.value, itemTypeIndex, groupIndex);
     }
 
-    handleMetadataRowAdded = () => {
+    handleMetadataRowAdded = (groupIndex) => {
         const { addMetadataRow } = this.props;
-        addMetadataRow();
+        console.log(groupIndex);
+        addMetadataRow(groupIndex);
     }
 
-    handleMetadataFieldUpdated = (e, rowIndex) => {
+    handleMetadataFieldUpdated = (e, rowIndex, groupIndex) => {
         const { updateMetadataField, itemTypes } = this.props;
         let metadataFields = itemTypes.map(itemType => itemType.fields);
         metadataFields = [].concat(...metadataFields);
         const metadataField = metadataFields.find(field => field.id === e.target.value);
-        updateMetadataField(rowIndex, metadataField);
+        updateMetadataField(metadataField, rowIndex, groupIndex);
     }
 
-    handleMetadataValueUpdated = (e, rowIndex) => {
+    handleMetadataValueUpdated = (e, rowIndex, groupIndex) => {
         const { updateMetadataValue } = this.props;
-        updateMetadataValue(rowIndex, e.target.value);
+        updateMetadataValue(e.target.value, rowIndex, groupIndex);
     }
 
-    handleMetadataRowDeleted = (rowIndex) => {
+    handleMetadataRowDeleted = (rowIndex, groupIndex) => {
         const { deleteMetadataRow } = this.props;
-        deleteMetadataRow(rowIndex);
+        deleteMetadataRow(rowIndex, groupIndex);
     }
 
     renderGroups() {
@@ -69,99 +70,110 @@ export default class SummaryTab extends Component {
         return (
             <div className='search-tab-groups'>
                 {searchGroups.map((group, groupIndex) => (
-                    <div className='search-tab-group' key={groupIndex}>
-                        <div className='search-tab-group-toolbar'>
-                            <Select
-                                value={group.andOr}
-                                onChange={() => toggleGroupAndOr(groupIndex)}
-                                options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
-                            />
-                            <Checkbox
-                                checked={group.not}
-                                onClick={() => toggleGroupNot(groupIndex)}
-                                label='not'
-                            />
-                            <button onClick={() => deleteSearchGroup(groupIndex)}><i className='icon-cross' /></button>
+                    <div className='search-tab-group-wrapper' key={groupIndex}>
+                        <div className='search-tab-group'>
+                            <div className='search-tab-group-toolbar'>
+                                <Select
+                                    value={group.andOr}
+                                    onChange={() => toggleGroupAndOr(groupIndex)}
+                                    options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
+                                />
+                                <header className='search-tab-header'>{group.groupType}</header>
+                                <Checkbox
+                                    checked={group.not}
+                                    onClick={() => toggleGroupNot(groupIndex)}
+                                    label='not'
+                                />
+                                <button onClick={() => deleteSearchGroup(groupIndex)}><i className='icon-cross' /></button>
+                            </div>
+                            {this.renderGroupComponents(group.groupType, groupIndex)}
                         </div>
-                        {this.renderGroupComponents(group.groupType, groupIndex)}
+                        {groupIndex < searchGroups.length - 1 ? <div className='search-tab-group-separator'>AND</div> : null}
                     </div>
                 ))}
             </div>
         );
     }
 
-    renderItemTypeGroup(groupIndex) {
-        const { searchGroups, addItemTypeRow } = this.props;
-        return (
-            <section className='search-tab-section'>
-                <header className='search-tab-header'>Item Types</header>
-                {searchGroups[groupIndex].itemTypes.map((itemType, itemTypeIndex) => this.renderItemTypeSelect(itemType, itemTypeIndex, groupIndex))}
-                <a onClick={() => addItemTypeRow(groupIndex)}>+ Add Item Type</a>
-            </section>
-        );
-        // {itemTypeGroups.map((itemTypeGroup, groupIndex) => this.renderItemTypeSelect(itemTypeGroup, groupIndex))}
-    }
-
     renderGroupComponents(groupType, groupIndex) {
         switch (groupType) {
             case SEARCH_CONSTANTS.ITEM_TYPE:
                 return this.renderItemTypeGroup(groupIndex);
-            // case SEARCH_CONSTANTS.METADATA:
-            //     return state.metadataGroups;
-            // case SEARCH_CONSTANTS.TAG:
-            //     return state.tagGroups;
-            // case SEARCH_CONSTANTS.DESCRIPTION:
-            //     return state.descriptionGroups;
+            case SEARCH_CONSTANTS.METADATA:
+                return this.renderMetadataGroup(groupIndex);
+            case SEARCH_CONSTANTS.TAG:
+                return this.renderTagGroup(groupIndex);
+            case SEARCH_CONSTANTS.DESCRIPTION:
+                return this.renderDescriptionGroup(groupIndex);
         }
         return null;
     }
 
+    renderItemTypeGroup(groupIndex) {
+        const { searchGroups, addItemTypeRow } = this.props;
+        return (
+            <section className='search-tab-section'>
+                {searchGroups[groupIndex].itemTypes.map((itemType, itemTypeIndex) => this.renderItemTypeSelect(itemType, itemTypeIndex, groupIndex))}
+                <a onClick={() => addItemTypeRow(groupIndex)}>+ Add Item Type</a>
+            </section>
+        );
+    }
+
     renderItemTypeSelect(itemType, itemTypeIndex, groupIndex) {
-        // const { searchGroups } = this.props;
-        const { itemTypes } = this.props;
-        // return <div key={itemTypeIndex}>{itemTypeIndex}</div>;
+        const { searchGroups, itemTypes, deleteItemTypeRow } = this.props;
         return (
             <section className='item-type-group' key={itemTypeIndex}>
                 <select className='search-tab-item-types' value={itemType} onChange={e => this.handleItemTypeChanged(e, itemTypeIndex, groupIndex)}>
                     <option value='all' default>All</option>
                     {itemTypes.map(type => <option value={type.id} key={type.id}>{type.name}</option>)}
                 </select>
+                {searchGroups[groupIndex].itemTypes.length > 1 ?
+                    <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross' /></button>
+                    : null}
             </section>
         );
     }
 
-    // renderMetadataSelect() {
-    //     const { itemTypes, metadataRows } = this.props;
-    //     return (
-    //         <section className='search-tab-section'>
-    //             <header className='search-tab-header'>Metadata</header>
-    //             {metadataRows.map((metadataRow, rowIndex) =>
-    //                 <div className='search-tab-metadata-row' key={rowIndex}>
-    //                     <select value={metadataRow.field.id} onChange={e => this.handleMetadataFieldUpdated(e, rowIndex)}>
-    //                         <option defaultValue>Select Field...</option>
-    //                         {itemTypes.map(itemType => itemType.fields.map(field => <option value={field.id}>{field.name}</option>))}
-    //                     </select>
-    //                     <input type='text' onChange={e => this.handleMetadataValueUpdated(e, rowIndex)} value={metadataRow.value} />
-    //                     <button onClick={() => this.handleMetadataRowDeleted(rowIndex)}><i className='icon-cross' /></button>
-    //                 </div>
-    //             )}
-    //             <span onClick={this.handleMetadataRowAdded}>+ New Row</span>
-    //         </section>
-    //     );
-    // }
-
-    renderTagSelect() {
+    renderMetadataGroup(groupIndex) {
+        const { searchGroups, itemTypes } = this.props;
+        const { metadataRows } = searchGroups[groupIndex];
         return (
             <section className='search-tab-section'>
-                <header className='search-tab-header'>Tags</header>
+                {metadataRows.map((metadataRow, rowIndex) =>
+                    <div className='search-tab-metadata-row' key={rowIndex}>
+                        <select value={metadataRow.field.id} onChange={e => this.handleMetadataFieldUpdated(e, rowIndex, groupIndex)}>
+                            <option defaultValue>Select Field...</option>
+                            {itemTypes.map(itemType => itemType.fields.map(field => <option value={field.id}>{field.name}</option>))}
+                        </select>
+                        <input type='text' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
+                        {searchGroups[groupIndex].metadataRows.length > 1 ?
+                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross' /></button>
+                            : null}
+                    </div>
+                )}
+                <a onClick={() => this.handleMetadataRowAdded(groupIndex)}>+ Add Metadata Field</a>
             </section>
         );
     }
 
-    renderDescriptionInput() {
+    renderTagGroup(groupIndex) {
+        const { searchGroups, updateTags } = this.props;
         return (
             <section className='search-tab-section'>
-                <header className='search-tab-header'>Description</header>
+                <TagsInput
+                    value={searchGroups[groupIndex].tags || []}
+                    onChange={tags => updateTags(tags, groupIndex)}
+                    inputProps={{ placeholder: '' }}
+                />
+            </section>
+        );
+    }
+
+    renderDescriptionGroup(groupIndex) {
+        const { searchGroups, updateDescription } = this.props;
+        return (
+            <section className='search-tab-section'>
+                <textarea value={searchGroups[groupIndex].description} onChange={e => updateDescription(e.target.value, groupIndex)} />
             </section>
         );
     }
@@ -171,10 +183,13 @@ export default class SummaryTab extends Component {
         return (
             <div className='search-tab'>
                 {this.renderGroups()}
-                <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>item type</button>
-                <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>metadata</button>
-                <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>tag</button>
-                <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>description</button>
+                <header className='search-tab-new-header'>Create New Search Group</header>
+                <div className='search-tab-new-group'>
+                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>Item Types</button>
+                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
+                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
+                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
+                </div>
             </div>
         );
     }
