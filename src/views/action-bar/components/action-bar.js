@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { getFormattedPathname } from '~/src/utils/utils';
+import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import './action-bar.scss';
 
 export default class ActionBar extends Component {
@@ -15,6 +16,8 @@ export default class ActionBar extends Component {
         logoutVisible: PropTypes.bool.isRequired,
         updateVisibilities: PropTypes.func.isRequired,
         pathname: PropTypes.string.isRequired,
+        updateVisibility: PropTypes.func.isRequired,
+        updateTabVisibility: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
@@ -35,6 +38,12 @@ export default class ActionBar extends Component {
         logout();
     }
 
+    handleAdvancedSearchClicked = () => {
+        const { updateVisibility, updateTabVisibility } = this.props;
+        updateVisibility(true);
+        updateTabVisibility(SIDEBAR_TABS.SEARCH);
+    }
+
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible } = this.props;
 
@@ -51,7 +60,7 @@ export default class ActionBar extends Component {
                                     <div>
                                         <input type='search' className='action-bar-search-input' />
                                         <button className='action-bar-search-button'>Search</button>
-                                        <a href='#advanced'>Advanced</a>
+                                        <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
                                     </div>
                                 ) : null
                             }

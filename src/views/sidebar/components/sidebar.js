@@ -88,22 +88,21 @@ export default class Sidebar extends Component {
             searchGroups,
         };
 
-        if (activeItem) {
-            switch (visibleTab) {
-                case SIDEBAR_TABS.SUMMARY:
+        switch (visibleTab) {
+            case SIDEBAR_TABS.SUMMARY:
+                if (activeItem) {
                     return (<SummaryTab {...summaryTabProps} />);
-                case SIDEBAR_TABS.SEARCH:
-
-                    return (<MainSearchTab {...searchTabProps} {...bindActionCreators(searchActionCreators, dispatch)} />);
-                default:
-                    return null;
-            }
+                }
+                return (
+                    <div className='sidebar-no-item'>
+                        <span>No item selected.</span>
+                    </div>
+                );
+            case SIDEBAR_TABS.SEARCH:
+                return (<MainSearchTab {...searchTabProps} {...bindActionCreators(searchActionCreators, dispatch)} />);
+            default:
+                return null;
         }
-        return (
-            <div className='sidebar-no-item'>
-                <span>No item selected.</span>
-            </div>
-        );
     }
 
     render() {
