@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { formatDate } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import * as searchActionCreators from '~/src/state/search/search-action-creators';
-import SummaryTab from './tabs/summary-tab';
-import MainSearchTab from './tabs/main-search-tab';
+import SummaryTab from './summary-tab/summary-tab';
+import MainSearchTab from './main-search-tab/main-search-tab';
 import './sidebar.scss';
 
 export default class Sidebar extends Component {
