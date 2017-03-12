@@ -42,6 +42,7 @@ export default function (state = initialState, action) {
             for (let i = 0; i < groups.length; i += 1) {
                 if (groups[i].name === 'Generic') {
                     ID = groups[i].id;
+                    break;
                 }
             }
             let array = [];
