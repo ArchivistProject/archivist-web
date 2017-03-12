@@ -4,7 +4,7 @@ import { SIDEBAR_TABS } from './sidebar-constants';
 
 const initialState = {
     visible: false,
-    visibleTab: SIDEBAR_TABS.SEARCH,
+    visibleTab: SIDEBAR_TABS.SUMMARY,
     metadataEditMode: false,
     descriptionEditMode: false,
 };

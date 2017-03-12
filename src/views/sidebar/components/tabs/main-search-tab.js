@@ -193,7 +193,4 @@ export default class SummaryTab extends Component {
             </div>
         );
     }
-    // {this.renderMetadataSelect()}
-    // {this.renderTagSelect()}
-    // {this.renderDescriptionInput()}
 }

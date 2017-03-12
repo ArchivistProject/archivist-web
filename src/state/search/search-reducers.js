@@ -2,16 +2,7 @@ import searchActionTypes from './search-action-types';
 import { SEARCH_CONSTANTS, SEARCH_DEFAULTS } from './search-constants';
 
 const initialState = {
-    // searchGroups: [],
     searchGroups: [],
-    // itemTypeGroups: [],
-    // metadataGroups: [],
-    // tagGroups: [],
-    // descriptionGroups: [],
-    // metadataRows: [],
-    // selectedTags: [],
-    // descriptionInput: '',
-    // selectedItemType: null,
 };
 
 function updateGroupValue(groups, groupIndex, property, value) {
@@ -98,7 +89,6 @@ export default function (state = initialState, action) {
 
         case searchActionTypes.GROUP_NOT_CHANGED: {
             const { groupIndex } = action.data;
-            // const groups = getGroupsOfType(state, groupType);
             const searchGroups = updateGroupValue(state.searchGroups, groupIndex, 'not', !state.searchGroups[groupIndex].not);
             return {
                 ...state,
@@ -169,6 +159,7 @@ export default function (state = initialState, action) {
                 ],
             };
         }
+
         case searchActionTypes.METADATA_ROW_FIELD_UPDATED: {
             const { field, rowIndex, groupIndex } = action.data;
             const { searchGroups } = state;
