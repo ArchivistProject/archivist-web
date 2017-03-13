@@ -19,7 +19,7 @@ export default class Settings extends Component {
         closeDialog: PropTypes.func.isRequired,
 
         apiToken: PropTypes.string,
-        refreshAPI: PropTypes.func.isRequired,
+        fetchAPIToken: PropTypes.func.isRequired,
 
         storage: PropTypes.number,
         fileCount: PropTypes.number,
@@ -85,13 +85,13 @@ export default class Settings extends Component {
     }
 
     apiToken() {
-        const { apiToken, refreshAPI } = this.props;
+        const { apiToken, fetchAPIToken } = this.props;
         return (
             <div>
                 <Panel header='API Token' bsStyle='info'>
                     <RefreshAPI
                         apiToken={apiToken}
-                        refreshAPI={refreshAPI}
+                        fetchAPIToken={fetchAPIToken}
                     />
                 </Panel>
             </div>

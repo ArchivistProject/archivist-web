@@ -5,25 +5,29 @@ import { Button, FormControl,
 export default class APIToken extends Component {
 
     static propTypes = {
-        token: PropTypes.string,
-        refreshAPI: PropTypes.func.isRequired,
+        apiToken: PropTypes.string,
+        fetchAPIToken: PropTypes.func.isRequired,
     };
 
     refresh = () => {
-        const { refreshAPI } = this.props;
-        refreshAPI();
+        const { fetchAPIToken } = this.props;
+        fetchAPIToken(true);
+    };
+
+    componentDidMount() {
+        const { fetchAPIToken } = this.props;
+        fetchAPIToken(false);
     };
 
     render() {
-        const { token } = this.props;
+        const { apiToken } = this.props;
         return (
             <div>
                 <FormControl
                     componentClass='textarea'
-                    placeholder='no API available'
                     readOnly
+                    value={apiToken}
                 >
-                    {token}
                 </FormControl>
                 <Button bsStyle='info' onClick={this.refresh}>Refresh</Button>
             </div>

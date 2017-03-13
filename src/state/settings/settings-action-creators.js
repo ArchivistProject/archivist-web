@@ -150,9 +150,9 @@ export function openDialog(val) {
 }
 
 // ----------------------API Token---------------------------
-export function refreshAPI() {
+export function fetchAPIToken(refresh) {
     return (dispatch) => {
-        settingsApi.fetchAPIToken()
+        settingsApi.fetchAPIToken(refresh)
             .then(response => dispatch({
                 type: settingsActionTypes.FETCH_API_SUCCEEDED,
                 data: response,

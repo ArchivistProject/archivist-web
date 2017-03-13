@@ -35,10 +35,10 @@ export function deleteItem(groupID) {
 }
 
 // -------------------------Api token----------------------------------
-export function fetchAPIToken() {
-    return ajax('GET', 'theURL'); // TODO
+export function fetchAPIToken(refresh) {
+    var url = 'system/settings/api_key' + (refresh ? '?refresh=true' : '');
+    return ajax('GET', url);
 }
-
 
 // --------------------------Statistic--------------------
 
