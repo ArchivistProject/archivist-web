@@ -49,8 +49,9 @@ export function updateItemMetadata(item, updatedItem) {
             type: 'PUT',
             url: `${config.backend}/metadata_fields/${field.id}`,
             data: payload,
-        }).promise);
+        }));
     });
+
     return $.when(...calls)
         .then(() => true)
         .catch(() => false);
