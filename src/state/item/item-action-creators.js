@@ -1,5 +1,8 @@
 import { push } from 'react-router-redux';
+import pdflib from 'pdfjs-dist';
+import worker from 'pdfjs-dist/build/pdf.worker';
 import * as itemApi from '~/src/api/item-api';
+import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
 import viewerActionTypes from '../viewer/viewer-action-types';
@@ -41,10 +44,23 @@ export function fetchItemContent(item) {
         itemApi.fetchItemContent(item)
             .then((response) => {
                 const { content, contentType } = response;
-                dispatch({
-                    type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
-                    data: { content, contentType },
-                });
+                switch (contentType) {
+                    case CONTENT_TYPES.PDF:
+                        pdflib.PDFJS.workerSrc = worker;
+                        pdflib.PDFJS.getDocument({ data: content }).then((pdf) => {
+                            dispatch({
+                                type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
+                                data: { content: pdf, contentType },
+                            });
+                        });
+                        break;
+                    case CONTENT_TYPES.WEB:
+                        dispatch({
+                            type: itemActionTypes.FETCH_CONTENT_SUCCEEDED,
+                            data: { content, contentType },
+                        });
+                        break;
+                }
             })
             .catch(error => dispatch({ type: itemActionTypes.FETCH_CONTENT_FAILED }));
     };
