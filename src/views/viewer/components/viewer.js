@@ -3,6 +3,7 @@ import pdflib from 'pdfjs-dist';
 import worker from 'pdfjs-dist/build/pdf.worker';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
+import Loader from '~/src/components/loader/loader';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 import './viewer.scss';
 
@@ -25,6 +26,7 @@ export default class Viewer extends Component {
         sidebarVisible: PropTypes.bool.isRequired,
         params: PropTypes.object.isRequired,
         viewerClosed: PropTypes.func.isRequired,
+        waitingForSingleItem: PropTypes.bool,
     };
 
     componentWillMount() {
@@ -166,10 +168,12 @@ export default class Viewer extends Component {
     }
 
     render() {
+        const { waitingForSingleItem } = this.props;
         return (
             <div className='viewer'>
                 <div className='viewer-wrapper'>
-                    <div>
+                    <div className='viewer-parent'>
+                        {waitingForSingleItem ? <Loader /> : null}
                         {this.renderToolbar()}
                         <div className='viewer-container' ref={(c) => { this.viewer = c; }}>
                             {this.renderContent()}
