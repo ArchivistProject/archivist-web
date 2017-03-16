@@ -15,17 +15,28 @@
     align-items: center;
     margin: 0 0px;
 
-    &-search, &-search-input {
-        width: 50%;
-        font-family: $default-family;
-        font-size: $default-size;
-        border: none;
+    .back-btn {
+        font-size: 14px;
     }
 
-    &-back, &-right-buttons {
-        width: 250px;
-        padding: 0 10px;
-        font-family: $default-family;
-        font-size: $default-size;
+    span.glyphicon-upload {
+        font-size: 1.9em;
+    }
+
+    span.glyphicon-cog {
+        font-size: 1.9em;
+    }
+
+    span.glyphicon-log-out {
+        font-size: 1.9em;
+        margin-right: 20px;
+    }
+
+    span.glyphicon-arrow-left {
+        font-size: 1.4em;
+    }
+
+    .brand-name {
+        margin-left: 25px;
     }
 }
