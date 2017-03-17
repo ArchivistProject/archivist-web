@@ -73,17 +73,21 @@ export default class SummaryTab extends Component {
                     <div className='search-tab-group-wrapper' key={groupIndex}>
                         <div className='search-tab-group'>
                             <div className='search-tab-group-toolbar'>
-                                <Select
-                                    value={group.andOr}
-                                    onChange={() => toggleGroupAndOr(groupIndex)}
-                                    options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
-                                />
+                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION ?
+                                    <Checkbox
+                                        checked={group.not}
+                                        onClick={() => toggleGroupNot(groupIndex)}
+                                        label='not'
+                                    />
+                                : null}
                                 <header className='search-tab-header'>{group.groupType}</header>
-                                <Checkbox
-                                    checked={group.not}
-                                    onClick={() => toggleGroupNot(groupIndex)}
-                                    label='not'
-                                />
+                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION ?
+                                    <Select
+                                        value={group.andOr}
+                                        onChange={() => toggleGroupAndOr(groupIndex)}
+                                        options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
+                                    />
+                                : null}
                                 <button onClick={() => deleteSearchGroup(groupIndex)}><i className='icon-cross' /></button>
                             </div>
                             {this.renderGroupComponents(group.groupType, groupIndex)}
@@ -121,6 +125,12 @@ export default class SummaryTab extends Component {
 
     renderItemTypeSelect(itemType, itemTypeIndex, groupIndex) {
         const { searchGroups, itemTypes, deleteItemTypeRow } = this.props;
+        const groupItemTypes = searchGroups[groupIndex].itemTypes;
+        console.log(groupItemTypes); // array of ids + 'all'
+        // const filtered = Object.keys(itemTypes).filter((type) => {
+        //     return groupItemTypes.indexOf(itemTypes[type].id) > -1;
+        // });
+        // console.log(filtered);
         return (
             <section className='item-type-group' key={itemTypeIndex}>
                 <select className='search-tab-item-types' value={itemType} onChange={e => this.handleItemTypeChanged(e, itemTypeIndex, groupIndex)}>
