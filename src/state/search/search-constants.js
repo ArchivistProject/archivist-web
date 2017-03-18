@@ -8,7 +8,7 @@ export const SEARCH_CONSTANTS = {
 };
 
 export const SEARCH_DEFAULTS = {
-    ITEM_TYPE: 'all',
+    ITEM_TYPE: 'All',
     METADATA: {
         field: {
             id: 1,

@@ -3,6 +3,7 @@ import TagsInput from 'react-tagsinput';
 import Select from '~/src/components/select/select';
 import Checkbox from '~/src/components/checkbox/checkbox';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
+import { getDifference } from '~/src/utils/utils'; 
 import '~/src/assets/style/react-tagsinput.scss';
 import './main-search-tab.scss';
 
@@ -43,7 +44,6 @@ export default class SummaryTab extends Component {
 
     handleMetadataRowAdded = (groupIndex) => {
         const { addMetadataRow } = this.props;
-        console.log(groupIndex);
         addMetadataRow(groupIndex);
     }
 
@@ -81,7 +81,7 @@ export default class SummaryTab extends Component {
                                     />
                                 : null}
                                 <header className='search-tab-header'>{group.groupType}</header>
-                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION ?
+                                {group.groupType === SEARCH_CONSTANTS.TAGS ?
                                     <Select
                                         value={group.andOr}
                                         onChange={() => toggleGroupAndOr(groupIndex)}
@@ -114,32 +114,44 @@ export default class SummaryTab extends Component {
     }
 
     renderItemTypeGroup(groupIndex) {
-        const { searchGroups, addItemTypeRow } = this.props;
+        const { searchGroups, addItemTypeRow, itemTypes } = this.props;
+        const numItemTypes = Object.keys(itemTypes).length;
+        const numItemTypesSelected = searchGroups[groupIndex].itemTypes.length;
+
+        const groupItemTypes = searchGroups[groupIndex].itemTypes;
+        const itemTypeNames = [...Object.keys(itemTypes).map(index => itemTypes[index].name), 'All'];
+        const filteredItemTypes = getDifference(itemTypeNames, groupItemTypes);
+
         return (
             <section className='search-tab-section'>
-                {searchGroups[groupIndex].itemTypes.map((itemType, itemTypeIndex) => this.renderItemTypeSelect(itemType, itemTypeIndex, groupIndex))}
-                <a onClick={() => addItemTypeRow(groupIndex)}>+ Add Item Type</a>
+                {searchGroups[groupIndex].itemTypes.map((itemType, itemTypeIndex) => this.renderItemTypeSelect(itemType, itemTypeIndex, groupIndex, [...filteredItemTypes, itemType]))}
+                {numItemTypesSelected <= numItemTypes ? <a onClick={() => addItemTypeRow(groupIndex, filteredItemTypes)}>+ Add Item Type</a> : null}
             </section>
         );
     }
 
-    renderItemTypeSelect(itemType, itemTypeIndex, groupIndex) {
-        const { searchGroups, itemTypes, deleteItemTypeRow } = this.props;
-        const groupItemTypes = searchGroups[groupIndex].itemTypes;
-        console.log(groupItemTypes); // array of ids + 'all'
-        // const filtered = Object.keys(itemTypes).filter((type) => {
-        //     return groupItemTypes.indexOf(itemTypes[type].id) > -1;
-        // });
-        // console.log(filtered);
+    renderItemTypeSelect(itemType, itemTypeIndex, groupIndex, filteredItemTypes) {
+        const { searchGroups, deleteItemTypeRow, toggleGroupAndOr } = this.props;
+        const group = searchGroups[groupIndex];
+        const isFirst = itemTypeIndex === 0;
+        const isLast = itemTypeIndex === group.itemTypes.length - 1;
+        const areMultipleSelected = group.itemTypes.length > 1;
+
         return (
-            <section className='item-type-group' key={itemTypeIndex}>
-                <select className='search-tab-item-types' value={itemType} onChange={e => this.handleItemTypeChanged(e, itemTypeIndex, groupIndex)}>
-                    <option value='all' default>All</option>
-                    {itemTypes.map(type => <option value={type.id} key={type.id}>{type.name}</option>)}
-                </select>
-                {searchGroups[groupIndex].itemTypes.length > 1 ?
-                    <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross' /></button>
-                    : null}
+            <section className='search-tab-item-type-group' key={itemTypeIndex}>
+                <div className='search-tab-item-type-wrapper'>
+                    <select className='search-tab-item-type' value={itemType} onChange={e => this.handleItemTypeChanged(e, itemTypeIndex, groupIndex)}>
+                        {filteredItemTypes.map(type => <option value={type} key={type}>{type}</option>)}
+                    </select>
+                    {isFirst && areMultipleSelected ? <Select
+                        className='search-tab-item-separator'
+                        value={group.andOr}
+                        onChange={() => toggleGroupAndOr(groupIndex)}
+                        options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
+                    /> : null}
+                    {!isLast && !isFirst ? <div className='search-tab-item-separator'>{group.andOr}</div> : null}
+                </div>
+                {areMultipleSelected ? <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross' /></button> : null}
             </section>
         );
     }

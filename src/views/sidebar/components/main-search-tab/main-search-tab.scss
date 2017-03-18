@@ -84,12 +84,36 @@
         }
     }
 
+    &-item-type {
+        flex-grow: 1;
+        margin: 2px 0;
+
+        &-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+    
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+    }
+
     &-metadata-row {
         display: flex;
         flex-direction: row;
 
         input {
             width: 100%;
+        }
+    }
+    
+    &-item {
+        &-separator {
+            margin: 0 auto;
+            font-size: $small-size;
         }
     }
 }

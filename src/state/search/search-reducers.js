@@ -97,7 +97,7 @@ export default function (state = initialState, action) {
         }
 
         case searchActionTypes.ITEM_TYPE_ROW_ADDED: {
-            const { groupIndex } = action.data;
+            const { groupIndex, value } = action.data;
             const { searchGroups } = state;
 
             return {
@@ -106,7 +106,7 @@ export default function (state = initialState, action) {
                     ...searchGroups.slice(0, groupIndex),
                     {
                         ...searchGroups[groupIndex],
-                        itemTypes: [...searchGroups[groupIndex].itemTypes, SEARCH_DEFAULTS.ITEM_TYPE],
+                        itemTypes: [...searchGroups[groupIndex].itemTypes, value],
                     },
                     ...searchGroups.slice(groupIndex + 1, searchGroups.length),
                 ],

@@ -4,6 +4,7 @@ import React, { PropTypes, Component } from 'react';
 export default class Select extends Component {
 
     static propTypes = {
+        className: PropTypes.string,
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
         options: PropTypes.array,
@@ -15,9 +16,9 @@ export default class Select extends Component {
     }
 
     render() {
-        const { value, options } = this.props;
+        const { className, value, options } = this.props;
         return (
-            <select className='and-or-select' value={value} onChange={this.handleValueChange}>
+            <select className={className} value={value} onChange={this.handleValueChange}>
                 {options.map((option, key) => <option value={option} key={key}>{option}</option>)}
             </select>
         );
