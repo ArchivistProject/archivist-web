@@ -161,6 +161,11 @@ export function refreshAPI() {
     };
 }
 
+// ----------------------Document List---------------------------
+export function saveDocumentListSettings() {
+  return () => {};
+}
+
 // -------------------statistic-------------------------------
 export function fetchFileStorage() {
     return (dispatch) => {
