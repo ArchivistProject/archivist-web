@@ -3,7 +3,7 @@ import TagsInput from 'react-tagsinput';
 import Select from '~/src/components/select/select';
 import Checkbox from '~/src/components/checkbox/checkbox';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
-import { getDifference } from '~/src/utils/utils'; 
+import { getDifference } from '~/src/utils/utils';
 import '~/src/assets/style/react-tagsinput.scss';
 import './main-search-tab.scss';
 
