@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, FormControl, FormGroup, Col, Form, ControlLabel,
-    ListGroup, ListGroupItem,
+    ListGroup, ListGroupItem, Label,
 } from 'react-bootstrap/lib/';
 import './settings.scss';
 
@@ -138,11 +138,13 @@ export default class ItemTypes extends Component {
                                         {obj.name}
                                         {popupName !== 'Website' && popupName !== 'Generic' ?
                                             <span className='pull-right button-group'>
-                                                <button
+                                                <Label className='type-label-padding'>{obj.type}</Label>
+                                                <Button
+                                                    bsSize='xsmall'
                                                     id={obj.id} type='button' onClick={this.deleteCurrentField}
                                                     className='btn btn-danger'
-                                                ><span className='glyphicon glyphicon-remove' /></button>
-                                            </span> : null }
+                                                ><span className='glyphicon glyphicon-remove' /></Button>
+                                            </span> : <Label className='type-label'>{obj.type}</Label> }
                                     </li>
                                 )}
                             </ul>
@@ -151,6 +153,11 @@ export default class ItemTypes extends Component {
 
                     {canEdit === true ?
                         <FormGroup>
+                            <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
+                            <Col sm={3}>
+                                <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
+                            </Col>
+
                             <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
                             <Col sm={3}>
                                 <FormControl
@@ -163,10 +170,6 @@ export default class ItemTypes extends Component {
                                 </FormControl>
                             </Col>
 
-                            <Col sm={2} componentClass={ControlLabel}>Field Name</Col>
-                            <Col sm={3}>
-                                <FormControl value={fieldName} type='text' onChange={this.handleFieldNameChange} />
-                            </Col>
                             <Col sm={2}>
                                 <Button onClick={this.addField}>Add</Button>
                             </Col>

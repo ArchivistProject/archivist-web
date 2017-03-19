@@ -44,8 +44,9 @@ export function updateItemMetadata(item, updatedItem) {
                 data: field.data,
             },
         };
-        calls.push(ajax('PUT', `metadata_fields/${field.id}`, payload).promise);
+        calls.push(ajax('PUT', `metadata_fields/${field.id}`, payload));
     });
+
     return $.when(...calls)
         .then(() => true)
         .catch(() => false);
