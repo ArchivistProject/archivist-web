@@ -7,6 +7,7 @@ import viewerActionTypes from '../viewer/viewer-action-types';
 
 export function fetchItems(currentPage) {
     return (dispatch) => {
+        dispatch(push(`?page=${currentPage}`));
         dispatch({
             type: itemActionTypes.ITEMS_REQUESTED,
         });
