@@ -38,25 +38,21 @@ export default function (state = initialState, action) {
 
         case uploadActionTypes.FETCH_ITEMS_SUCCEEDED: {
             const { groups } = action.data;
-            let ID = null;
-            for (let i = 0; i < groups.length; i += 1) {
-                if (groups[i].name === 'Generic') {
-                    ID = groups[i].id;
-                    break;
+            const checkedIds = new Set();
+            const filteredGroups = groups.map((object) => {
+                const obj = object;
+                if (obj.name === 'Generic') {
+                    obj.checkbox = true;
+                    checkedIds.add(obj.id);
+                } else {
+                    obj.checkbox = false;
                 }
-            }
-            let array = [];
-            array = array.concat(ID);
+                return obj;
+            });
             return {
                 ...state,
-                groups: groups.map((object) => {
-                    const obj = object;
-                    if (object.name === 'Generic') { obj.checkbox = true; } else {
-                        obj.checkbox = false;
-                    }
-                    return obj;
-                }),
-                allItemID: array,
+                groups: filteredGroups,
+                allItemID: Array.from(checkedIds),
             };
         }
 
