@@ -1,11 +1,11 @@
 import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
 
 export function search(searchGroups) {
-    const searchPayload = Object.keys(searchGroups).map(index => {
+    const searchPayload = Object.keys(searchGroups).map((index) => {
         const searchGroup = searchGroups[index];
-        switch(searchGroup.groupType) {
+        switch (searchGroup.groupType) {
             case (SEARCH_CONSTANTS.ITEM_TYPE): {
                 return {
                     groupType: searchGroup.groupType,
@@ -20,10 +20,13 @@ export function search(searchGroups) {
                     andOr: searchGroup.andOr,
                     not: searchGroup.not,
                     fields: searchGroup.metadataRows.map((metadataRow) => {
+                        const name = metadataRow.field.name;
+                        const type = metadataRow.itemType;
+                        const data = metadataRow.value;
                         return {
-                            name: metadataRow.field.name,
-                            type: metadataRow.itemType,
-                            data: metadataRow.value,
+                            name,
+                            type,
+                            data,
                         };
                     }),
                 };
@@ -43,11 +46,5 @@ export function search(searchGroups) {
     const payload = {
         search: searchPayload,
     };
-    return $.ajax({
-        url: `${config.backend}/documents/search`,
-        type: 'POST',
-        data: JSON.stringify(payload),
-        dataType: 'json',
-        contentType: 'application/json',
-    });
+    return ajax('POST', `${config.backend}/documents/search`, payload);
 }
