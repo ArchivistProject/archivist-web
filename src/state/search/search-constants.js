@@ -10,8 +10,9 @@ export const SEARCH_CONSTANTS = {
 export const SEARCH_DEFAULTS = {
     ITEM_TYPE: 'All',
     METADATA: {
+        itemType: undefined,
         field: {
-            id: 1,
+            id: undefined,
             name: null,
             type: null,
         },

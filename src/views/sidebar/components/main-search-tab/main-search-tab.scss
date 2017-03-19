@@ -56,7 +56,6 @@
         button {
             border: none;
             background-color: transparent;
-            margin: 2px;
 
             i {
                 font-size: $small-size;
@@ -101,12 +100,31 @@
         }
     }
 
-    &-metadata-row {
-        display: flex;
-        flex-direction: row;
+    &-metadata {
+        &-row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-top: 3px;
 
-        input {
-            width: 100%;
+            input {
+                width: 100%;
+                margin-bottom: 3px;
+            }
+        }
+        &-input {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        &-selects {
+            margin-bottom: 3px;
+
+            select {
+                width: 50%;
+            }
         }
     }
     

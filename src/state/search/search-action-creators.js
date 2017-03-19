@@ -29,7 +29,6 @@ export function toggleGroupNot(groupIndex) {
 }
 
 export function addItemTypeRow(groupIndex, filteredItemTypes) {
-    console.log(filteredItemTypes);
     const value = filteredItemTypes.length > 0 ? filteredItemTypes[0] : null;
     return {
         type: searchActionTypes.ITEM_TYPE_ROW_ADDED,
@@ -55,6 +54,13 @@ export function addMetadataRow(groupIndex) {
     return {
         type: searchActionTypes.METADATA_ROW_ADDED,
         data: { groupIndex },
+    };
+}
+
+export function updateMetadataItemType(itemType, rowIndex, groupIndex) {
+    return {
+        type: searchActionTypes.METADATA_ROW_ITEM_TYPE_UPDATED,
+        data: { itemType, rowIndex, groupIndex },
     };
 }
 

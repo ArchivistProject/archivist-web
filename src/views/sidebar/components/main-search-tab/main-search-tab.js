@@ -26,6 +26,7 @@ export default class SummaryTab extends Component {
         addMetadataRow: PropTypes.func.isRequired,
         deleteMetadataRow: PropTypes.func.isRequired,
         updateMetadataField: PropTypes.func.isRequired,
+        updateMetadataItemType: PropTypes.func.isRequired,
         updateMetadataValue: PropTypes.func.isRequired,
 
         updateTags: PropTypes.func.isRequired,
@@ -48,11 +49,22 @@ export default class SummaryTab extends Component {
     }
 
     handleMetadataFieldUpdated = (e, rowIndex, groupIndex) => {
+        if (e.target.value === 'Select Field') {
+            return;
+        }
         const { updateMetadataField, itemTypes } = this.props;
         let metadataFields = itemTypes.map(itemType => itemType.fields);
         metadataFields = [].concat(...metadataFields);
         const metadataField = metadataFields.find(field => field.id === e.target.value);
         updateMetadataField(metadataField, rowIndex, groupIndex);
+    }
+
+    handleMetadataItemTypeUpdated = (e, rowIndex, groupIndex) => {
+        if (e.target.value === 'Select Item Type') {
+            return;
+        }
+        const { updateMetadataItemType } = this.props;
+        updateMetadataItemType(e.target.value, rowIndex, groupIndex);
     }
 
     handleMetadataValueUpdated = (e, rowIndex, groupIndex) => {
@@ -81,7 +93,7 @@ export default class SummaryTab extends Component {
                                     />
                                 : null}
                                 <header className='search-tab-header'>{group.groupType}</header>
-                                {group.groupType === SEARCH_CONSTANTS.TAGS ?
+                                {group.groupType === SEARCH_CONSTANTS.TAG ?
                                     <Select
                                         value={group.andOr}
                                         onChange={() => toggleGroupAndOr(groupIndex)}
@@ -157,17 +169,38 @@ export default class SummaryTab extends Component {
     }
 
     renderMetadataGroup(groupIndex) {
-        const { searchGroups, itemTypes } = this.props;
+        const { searchGroups, itemTypes, toggleGroupAndOr } = this.props;
         const { metadataRows } = searchGroups[groupIndex];
+        const itemTypeNames = [...Object.keys(itemTypes).map(index => itemTypes[index].name)];
+        const itemTypeFields = {};
+        for (let i = 0; i < itemTypeNames.length; i += 1) {
+            itemTypeFields[itemTypeNames[i]] = itemTypes[i].fields;
+        }
+        console.log(itemTypeFields);
         return (
             <section className='search-tab-section'>
                 {metadataRows.map((metadataRow, rowIndex) =>
                     <div className='search-tab-metadata-row' key={rowIndex}>
-                        <select value={metadataRow.field.id} onChange={e => this.handleMetadataFieldUpdated(e, rowIndex, groupIndex)}>
-                            <option defaultValue>Select Field...</option>
-                            {itemTypes.map(itemType => itemType.fields.map(field => <option value={field.id}>{field.name}</option>))}
-                        </select>
-                        <input type='text' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
+                        <div className='search-tab-metadata-input'>
+                            <div className='search-tab-metadata-selects'>
+                                <select value={metadataRow.itemType} onChange={e => this.handleMetadataItemTypeUpdated(e, rowIndex, groupIndex)}>
+                                    <option defaultValue disabled={!!metadataRow.itemType}>Select Item Type</option>
+                                    {itemTypeNames.map(itemType => <option value={itemType} key={itemType}>{itemType}</option>)}
+                                </select>
+                                <select value={metadataRow.field.id} onChange={e => this.handleMetadataFieldUpdated(e, rowIndex, groupIndex)}>
+                                    <option defaultValue disabled={!!metadataRow.field.id}>Select Field</option>
+                                    {itemTypeFields[metadataRow.itemType] ? itemTypeFields[metadataRow.itemType].map(field => <option value={field.id} key={field.id}>{field.name}</option>) : null}
+                                </select>
+                            </div>
+                            <input type='text' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
+                            {rowIndex === 0 && metadataRows.length > 1 ? <Select
+                                className='search-tab-item-separator'
+                                value={searchGroups[groupIndex].andOr}
+                                onChange={() => toggleGroupAndOr(groupIndex)}
+                                options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
+                            /> : null}
+                            {rowIndex !== 0 && rowIndex !== metadataRows.length - 1 ? <div className='search-tab-item-separator'>{searchGroups[groupIndex].andOr}</div> : null}
+                        </div>
                         {searchGroups[groupIndex].metadataRows.length > 1 ?
                             <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross' /></button>
                             : null}

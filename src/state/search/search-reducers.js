@@ -171,6 +171,17 @@ export default function (state = initialState, action) {
             };
         }
 
+        case searchActionTypes.METADATA_ROW_ITEM_TYPE_UPDATED: {
+            const { itemType, rowIndex, groupIndex } = action.data;
+            const { searchGroups } = state;
+            const { metadataRows } = searchGroups[groupIndex];
+            const updatedMetadataRows = updateGroupValue(metadataRows, rowIndex, 'itemType', itemType);
+            return {
+                ...state,
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'metadataRows', updatedMetadataRows),
+            };
+        }
+
         case searchActionTypes.METADATA_ROW_VALUE_UPDATED: {
             const { value, rowIndex, groupIndex } = action.data;
             const { searchGroups } = state;
