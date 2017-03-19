@@ -17,7 +17,7 @@ export default class DescriptionBox extends Component {
     getMarkdownText() {
         const { activeItem } = this.props;
         const desc = activeItem.description === undefined ? '' : activeItem.description;
-        const rawMarkup = marked(desc, { gfm: true, sanatize: true, breaks: true });
+        const rawMarkup = marked(desc, { gfm: true, sanitize: true, breaks: true });
         console.log('NORM DESC:', activeItem.description);
         return { __html: rawMarkup };
     }
