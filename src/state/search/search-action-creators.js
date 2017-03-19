@@ -1,4 +1,6 @@
+import * as searchApi from '~/src/api/search-api';
 import searchActionTypes from './search-action-types';
+import itemActionTypes from '../item/item-action-types';
 
 export function addSearchGroup(groupType) {
     return {
@@ -96,5 +98,24 @@ export function updateDescription(description, groupIndex) {
     return {
         type: searchActionTypes.DESCRIPTION_UPDATED,
         data: { description, groupIndex },
+    };
+}
+
+export function submitSearch() {
+    return (dispatch, getState) => {
+        const state = getState();
+        const { search: { searchGroups } } = state;
+        dispatch({ type: searchActionTypes.SEARCH_SUBMITTED });
+        searchApi.search(searchGroups)
+            .then((response) => {
+                dispatch({ type: searchActionTypes.SEARCH_SUCCESSFUL });
+                dispatch({
+                    type: itemActionTypes.FETCH_ITEMS_SUCCEEDED,
+                    data: response,
+                });
+            })
+            .catch(error => console.warn(error));
+        // SEARCH_SUCCESSFUL
+        // SEARCH_FAILED
     };
 }

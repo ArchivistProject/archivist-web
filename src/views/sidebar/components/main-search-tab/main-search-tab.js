@@ -31,6 +31,8 @@ export default class SummaryTab extends Component {
 
         updateTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
+
+        submitSearch: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -234,9 +236,10 @@ export default class SummaryTab extends Component {
     }
 
     render() {
-        const { addSearchGroup } = this.props;
+        const { addSearchGroup, submitSearch } = this.props;
         return (
             <div className='search-tab'>
+                <button onClick={submitSearch}>Search</button>
                 {this.renderGroups()}
                 <header className='search-tab-new-header'>Create New Search Group</header>
                 <div className='search-tab-new-group'>
