@@ -1,10 +1,13 @@
-import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 
 export function login(username, password) {
-    const payload = {
+    const data = {
         email: username,
         password,
     };
-    $.post(`${config.backend}/authentication/login`, payload);
+    return ajax('POST', 'authentication/login', data);
+}
+
+export function checkAuth() {
+    return ajax('GET', 'authentication/status');
 }

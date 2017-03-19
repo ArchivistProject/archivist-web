@@ -1,8 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import {
-    Button, FormControl, Col, ControlLabel, Checkbox,
+    Button, FormControl, Col, ControlLabel, FormGroup, Form,
 } from 'react-bootstrap/lib/';
 import TagsInput from 'react-tagsinput';
+import moment from 'moment';
 import './upload.scss';
 
 
@@ -14,21 +15,21 @@ export default class Upload extends Component {
         submitFile: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
         setAllItemID: PropTypes.func.isRequired,
-        fieldVisible: PropTypes.bool,
         tags: PropTypes.arrayOf(String),
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
         filePicked: PropTypes.bool,
-        setFieldVisible: PropTypes.func.isRequired,
         setFilePicked: PropTypes.func.isRequired,
         resetFile: PropTypes.func.isRequired,
         setCheckBox: PropTypes.func.isRequired,
         setAllCheckBoxes: PropTypes.func.isRequired,
         setFileName: PropTypes.func.isRequired,
         fileName: PropTypes.string,
+        description: PropTypes.string,
         // holds all values from meta data text fields
         allMetaDataValue: PropTypes.arrayOf(Object),
         setAllMetaData: PropTypes.func.isRequired,
+        setDescription: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -38,30 +39,40 @@ export default class Upload extends Component {
     }
 
     resetInputFields = () => {
-        const { setAllItemID, setAllMetaData, setFieldVisible, handleTagsChange, resetFile, setFilePicked, setFileName } = this.props;
+        const { setAllItemID, allItemID, setAllMetaData, handleTagsChange, resetFile, setFilePicked, setFileName, setDescription } = this.props;
         setAllMetaData([]);
+        // keep Generic but remove others category ID
+        const array = allItemID;
+        array.splice(1);
         setAllItemID([]);
         handleTagsChange([]);
-        setFieldVisible(false);
         setFilePicked(false);
         resetFile();
         setFileName('Choose a file...');
+        setDescription('');
     }
 
     handleSubmit = () => {
-        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups } = this.props;
+        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description } = this.props;
+        // get meta data array and add today's date to it since user can't modify it
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
             metaDataArray = allMetaDataValue.slice();
         } else {
             metaDataArray = [];
         }
+        const todayDate = moment().format('MM/DD/YYYY');
+        const object = {
+            name: 'Date Added',
+            type: 'date',
+            data: todayDate,
+            group: 'Generic',
+        };
+        metaDataArray = metaDataArray.concat(object);
         if (filePicked === false) {
             alert('Please click browse to select a file to upload');
-        } else if (metaDataArray.length <= 0) {
-            alert('Please pick a category and enter some meta data for this file before uploading');
         } else {
-            submitFile(tags, allMetaDataValue);
+            submitFile(tags, metaDataArray, description);
             // reset the page after done uploading
             this.resetInputFields();
             const array = groups;
@@ -81,7 +92,7 @@ export default class Upload extends Component {
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setFieldVisible, setCheckBox } = this.props;
+        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setCheckBox } = this.props;
         const itemID = obj.target.id;
         const checked = obj.target.checked;
 
@@ -100,7 +111,6 @@ export default class Upload extends Component {
             array = array.concat(itemID);
             // set the state to the new array
             setAllItemID(array);
-            setFieldVisible(true);
         } else {
             // if unchecked then remove from array
             let index;
@@ -115,9 +125,6 @@ export default class Upload extends Component {
             array.splice(index, 1);
             // set the state to the new array
             setAllItemID(array);
-            if (array.length <= 0) {
-                setFieldVisible(false);
-            }
             // look for the group name
             let name = null;
             const metaDataArray = allMetaDataValue.slice();
@@ -180,9 +187,15 @@ export default class Upload extends Component {
         setAllMetaData(array);
     }
 
-    render() {
-        const { groups, fieldVisible, tags, allItemID, fileName } = this.props;
+    handleDescriptionChange = (obj) => {
+        const { setDescription } = this.props;
+        const value = obj.target.value;
+        console.log(value);
+        setDescription(value);
+    }
 
+    render() {
+        const { groups, tags, allItemID, fileName, description } = this.props;
         return (
             <div className='upload'>
                 <div className='content'>
@@ -200,54 +213,77 @@ export default class Upload extends Component {
                             <span>{fileName}</span></label>
                     </div>
                     <Col sm={12}>
-                        <ControlLabel className='upload-label'>CATEGORIES:</ControlLabel>
+                        <ControlLabel className='upload-label'>Categories:</ControlLabel>
+                    </Col>
+                    <Col sm={2}>
+                        <input id='generic' type='checkbox' disabled checked='true' className='checkBox' />
+                        <label className='checkbox-label' htmlFor='generic'>Generic</label>
                     </Col>
                     <div>
                         {groups.map((object, key) =>
-                            <Col sm={2} key={key}>
-                                <input
-                                    className='checkBox'
-                                    type='checkbox'
-                                    checked={object.checkbox}
-                                    id={object.id}
-                                    onChange={this.handleOnItemSelect}
-                                />
-                                <label className='checkbox-label' htmlFor={object.id}>{object.name}</label>
-                            </Col>
+                            <div>
+                                {object.name !== 'Generic' ?
+                                    <Col sm={2} key={key}>
+                                        <input
+                                            className='checkBox'
+                                            type='checkbox'
+                                            checked={object.checkbox}
+                                            id={object.id}
+                                            onChange={this.handleOnItemSelect}
+                                        />
+                                        <label className='checkbox-label' htmlFor={object.id}>{object.name}</label>
+                                    </Col>
+                                : null}
+                            </div>
                         )}
                     </div>
 
-                    {fieldVisible ?
-                        <div>
-                            <Col sm={12}>
-                                <ControlLabel className='upload-label'>META DATA:</ControlLabel>
-                            </Col>
-                            {allItemID.map((ID, idKey) =>
-                                <div key={idKey}>
-                                    {groups.filter(x => x.id === ID)[0].fields.map((obj, fieldKey) =>
-                                        <div key={fieldKey}>
-                                            <Col sm={3}>
-                                                <ControlLabel>{obj.name}</ControlLabel>
+                    <div>
+                        <Col sm={12}>
+                            <ControlLabel className='upload-label'>Meta Data:</ControlLabel>
+                        </Col>
+                        {allItemID.map((ID, idKey) =>
+                            <div key={idKey}>
+                                <Col sm={12}>
+                                    <ControlLabel className='metaDataLabel'>{groups.filter(x => x.id === ID)[0].name}</ControlLabel>
+                                </Col>
+                                {groups.filter(x => x.id === ID)[0].fields.map((obj, fieldKey) =>
+                                    <Form horizontal key={fieldKey} className='textBox'>
+                                        <Col sm={5} componentClass={ControlLabel}>{obj.name}</Col>
+                                        <Col sm={7}>
+                                            {obj.name === 'Date Added' ?
+                                                <FormControl
+                                                    type='text' value={moment().format('MM/DD/YYYY')}
+                                                    disabled
+                                                /> :
                                                 <FormControl
                                                     name={obj.name} id={ID} data-type={obj.type}
                                                     onBlur={this.handleMetaDataTextChange} type='text'
                                                 />
-                                            </Col>
-                                        </div>
+                                                }
+                                            <br />
+                                        </Col>
+                                    </Form>
                                     )
                                     }
-                                </div>
+                            </div>
                             )}
-                        </div>
-                        : null
-                    }
+                    </div>
+
 
                     <div>
                         <Col sm={12}>
-                            <ControlLabel className='upload-label'>TAGS:</ControlLabel>
+                            <ControlLabel className='upload-label'>Tags:</ControlLabel>
                             <TagsInput value={tags} onChange={this.handleTagChange} />
                         </Col>
                     </div>
+                    <Col sm={12}>
+                        <br />
+                        <FormGroup controlId='formControlsTextarea'>
+                            <ControlLabel>Description:</ControlLabel>
+                            <FormControl value={description} type='text' placeholder='Add a description' onChange={this.handleDescriptionChange} componentClass='textarea' />
+                        </FormGroup>
+                    </Col>
 
                     <Col sm={12}>
                         <Button className='upload-submit-btn' onClick={this.handleSubmit}>Upload</Button>
