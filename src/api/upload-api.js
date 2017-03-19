@@ -1,5 +1,4 @@
-import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 
 export function uploadFile(file, tagArray, metaData) {
     const reader = new FileReader();
@@ -7,7 +6,7 @@ export function uploadFile(file, tagArray, metaData) {
     reader.onload = (e) => {
         const base64File = e.target.result;
 
-        const document = {
+        const doc = {
             document: {
                 file: base64File,
                 tags: tagArray,
@@ -15,24 +14,12 @@ export function uploadFile(file, tagArray, metaData) {
             },
         };
 
-        $.ajax({
-            url: `${config.backend}/public/documents`,
-            type: 'POST',
-            data: JSON.stringify(document),
-            success(response) {
-                alert('Successfully uploaded');
-            },
-            error() {
-                alert('Failed to upload, try again later');
-            },
-            contentType: 'application/json',
-            dataType: 'json',
-        });
+        ajax('POST', 'documents', doc)
+            .then(response => alert('Successfully uploaded'))
+            .catch(error => alert('Failed to upload, try again later'));
     };
 }
 
 export function fetchItemTypes() {
-    return fetch(`${config.backend}/system/groups`)
-        .then(response => response.json())
-        .catch(response => console.log('error', response));
+    return ajax('GET', 'system/groups');
 }
