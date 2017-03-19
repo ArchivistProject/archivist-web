@@ -1,14 +1,14 @@
 import { ajax } from '~/src/utils/utils';
 
-export function uploadFile(file, tagArray, metaData) {
+export function uploadFile(file, tagArray, metaData, desc) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
         const base64File = e.target.result;
-
         const doc = {
             document: {
                 file: base64File,
+                description: desc,
                 tags: tagArray,
                 metadata_fields: metaData,
             },
