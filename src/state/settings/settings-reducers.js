@@ -134,6 +134,24 @@ export default function (state = initialState, action) {
             };
         }
 
+        case settingsActionTypes.FETCH_DOCUMENT_LIST_SETTING_SUCCEEDED: {
+          const { docs_per_page, _id } = action.data;
+
+          return {
+            ...state,
+            documentsPerPage: docs_per_page,
+            documentListSettingID: _id.$oid,
+          }
+        }
+
+      case settingsActionTypes.DOCS_PER_PAGE_CHANGE: {
+        const { docs_per_page } = action.data;
+        return {
+          ...state,
+          docsPerPage: docs_per_page,
+        };
+      }
+
         case settingsActionTypes.POST_ITEM_FAILED: {
             return {
                 ...state,

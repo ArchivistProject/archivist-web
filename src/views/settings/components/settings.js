@@ -23,7 +23,10 @@ export default class Settings extends Component {
         refreshAPI: PropTypes.func.isRequired,
 
         documentsPerPage: PropTypes.number,
+        documentListSettingID: PropTypes.string,
         saveDocumentListSettings: PropTypes.func.isRequired,
+        fetchDocumentListSettings: PropTypes.func.isRequired,
+        handleDocsPerPageChange: PropTypes.func.isRequired,
 
         storage: PropTypes.number,
         fileCount: PropTypes.number,
@@ -103,13 +106,14 @@ export default class Settings extends Component {
     }
 
     documentList() {
-      const { documentsPerPage, saveDocumentListSettings } = this.props;
+      const { documentsPerPage, saveDocumentListSettings, fetchDocumentListSettings } = this.props;
       return (
         <div>
           <Panel header='Document List Preferences' bsStyle='info'>
             <DocumentList
               documentsPerPage={documentsPerPage}
               saveDocumentListSettings={saveDocumentListSettings}
+              fetchDocumentListSettings={fetchDocumentListSettings}
             />
           </Panel>
         </div>

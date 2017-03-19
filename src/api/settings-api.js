@@ -58,6 +58,21 @@ export function fetchAPIToken() {
 }
 
 
+// --------------------------Document List--------------------
+export function postDocumentListSettings(id, documentsPerPage){
+  const documentListSettings = {
+      'docs_per_page': documentsPerPage,
+  };
+  return $.post(`${config.backend}/system/settings/${id}/`, documentListSettings)
+    .then(response => response);
+}
+
+export function fetchDocumentListSettings() {
+  return fetch(`${config.backend}/system/settings`)
+    .then(response => response.json())
+    .catch((error) => { throw new Error(error); });
+}
+
 // --------------------------Statistic--------------------
 
 export function fetchFileStorage() {
