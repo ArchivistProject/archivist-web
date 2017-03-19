@@ -173,7 +173,7 @@ export default class Viewer extends Component {
             <div className='viewer'>
                 <div className='viewer-wrapper'>
                     <div className='viewer-parent'>
-                        {waitingForSingleItem ? <Loader /> : null}
+                        <Loader visible={waitingForSingleItem} />
                         {this.renderToolbar()}
                         <div className='viewer-container' ref={(c) => { this.viewer = c; }}>
                             {this.renderContent()}

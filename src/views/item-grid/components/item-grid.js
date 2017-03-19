@@ -72,7 +72,7 @@ export default class ItemGrid extends Component {
         const endIndex = ((startIndex + rows.length) - 1);
         return (
             <div className='item-grid-wrapper'>
-                {waitingForItems ? <Loader /> : null}
+                <Loader visible={waitingForItems} />
                 <div className='item-grid'>
                     { rows.length ? (
                         <Paginator

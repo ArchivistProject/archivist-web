@@ -98,7 +98,7 @@ export default class Sidebar extends Component {
         const { visible, waitingForSingleItem } = this.props;
         return (
             <div className='sidebar-wrapper'>
-                {waitingForSingleItem ? <Loader /> : null}
+                <Loader visible={waitingForSingleItem} />
                 <div className={`sidebar-toggler ${visible ? 'opened' : null}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
                     <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
                 </div>
