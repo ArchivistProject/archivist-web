@@ -1,5 +1,7 @@
 import * as uploadApi from '~/src/api/upload-api';
+import { handleError } from '~/src/utils/utils';
 import uploadActionTypes from './upload-action-types';
+
 
 export function updateUploadFile(file) {
     return {

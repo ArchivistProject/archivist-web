@@ -20,7 +20,7 @@ const initialState = {
     waitingForItems: null,
     fetchItemsFailed: false,
     meta: {
-        currentPage: 1,
+        currentPage: null,
         nextPage: null,
         prevPage: null,
         totalPages: null,

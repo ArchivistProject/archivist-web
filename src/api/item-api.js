@@ -1,17 +1,15 @@
+import { ajax } from '~/src/utils/utils';
 import config from '~/config';
 import $ from 'jquery';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
+import { APP_CONSTANTS } from '~/src/utils/app-constants';
 
 export function fetchItems(pageNumber) {
-    return fetch(`${config.backend}/documents?page=${pageNumber}`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', `documents?page=${pageNumber}`);
 }
 
 export function fetchItem(itemId) {
-    return fetch(`${config.backend}/documents/${itemId}`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error('Item fetch failed', error); });
+    return ajax('GET', `documents/${itemId}`);
 }
 
 export function fetchItemContent(item) {
@@ -32,6 +30,7 @@ export function fetchItemContent(item) {
         if (item.content_type === CONTENT_TYPES.PDF) {
             xhr.responseType = 'arraybuffer';
         }
+        xhr.setRequestHeader('Authorization', localStorage.getItem(APP_CONSTANTS.AUTH_TOKEN));
         xhr.send();
     });
 }
@@ -45,12 +44,9 @@ export function updateItemMetadata(item, updatedItem) {
                 data: field.data,
             },
         };
-        calls.push($.ajax({
-            type: 'PUT',
-            url: `${config.backend}/metadata_fields/${field.id}`,
-            data: payload,
-        }).promise);
+        calls.push(ajax('PUT', `metadata_fields/${field.id}`, payload));
     });
+
     return $.when(...calls)
         .then(() => true)
         .catch(() => false);
@@ -58,18 +54,10 @@ export function updateItemMetadata(item, updatedItem) {
 
 export function updateTags(item, tags) {
     const payload = { document: { tags, count: tags.length } };
-    return $.ajax({
-        type: 'PUT',
-        url: `${config.backend}/documents/${item.id}`,
-        data: payload,
-    });
+    return ajax('PUT', `documents/${item.id}`, payload);
 }
 
 export function updateDescription(item) {
     const payload = { document: { description: item.description } };
-    return $.ajax({
-        type: 'PUT',
-        url: `${config.backend}/documents/${item.id}`,
-        data: payload,
-    });
+    return ajax('PUT', `documents/${item.id}`, payload);
 }
