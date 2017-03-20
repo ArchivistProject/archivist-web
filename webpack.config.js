@@ -39,7 +39,7 @@ module.exports = {
             loader: 'file-loader?name=[name].[ext]',
         },
         {
-            test: /images\/.*\.(?:png)$/i,
+            test: /images\/.*\.(?:png|gif)$/i,
             loader: 'file-loader?name=images/[name].[ext]',
         },
         {

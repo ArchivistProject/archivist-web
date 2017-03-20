@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { formatDate } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
+import Loader from '~/src/components/loader/loader';
 import SummaryTab from './tabs/summary-tab';
 import MainSearchTab from './tabs/main-search-tab';
 import './sidebar.scss';
@@ -23,6 +24,7 @@ export default class Sidebar extends Component {
         saveDescription: PropTypes.func.isRequired,
         metadataEditMode: PropTypes.bool.isRequired,
         descriptionEditMode: PropTypes.bool.isRequired,
+        waitingForSingleItem: PropTypes.bool,
         tempDescription: PropTypes.string,
         unfocusItem: PropTypes.bool,
     };
@@ -93,9 +95,10 @@ export default class Sidebar extends Component {
     }
 
     render() {
-        const { visible } = this.props;
+        const { visible, waitingForSingleItem } = this.props;
         return (
             <div className='sidebar-wrapper'>
+                <Loader visible={waitingForSingleItem} />
                 <div className={`sidebar-toggler ${visible ? 'opened' : null}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
                     <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
                 </div>
