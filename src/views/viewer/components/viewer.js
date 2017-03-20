@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import pdflib from 'pdfjs-dist';
-import worker from 'pdfjs-dist/build/pdf.worker';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
@@ -134,32 +133,28 @@ export default class Viewer extends Component {
                         this.viewer.removeChild(this.viewer.firstChild);
                     }
                 }
-                pdflib.PDFJS.workerSrc = worker;
-                const doc = { data: activeItemContent };
-                pdflib.PDFJS.getDocument(doc).then((pdf) => {
-                    const pageContainer = document.createElement('div');
-                    pageContainer.className += 'viewer-page';
-                    this.viewer.appendChild(pageContainer);
-                    pdf.getPage(currentPage).then((pdfPage) => {
-                        // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
-                        const reduceScale = sidebarVisible ? 0.65 : 0.95;
-                        const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
+                const pageContainer = document.createElement('div');
+                pageContainer.className += 'viewer-page';
+                this.viewer.appendChild(pageContainer);
+                activeItemContent.getPage(currentPage).then((pdfPage) => {
+                    // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
+                    const reduceScale = sidebarVisible ? 0.65 : 0.95;
+                    const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
 
-                        pageContainer.width = `${viewport.width}px`;
-                        pageContainer.height = `${viewport.height}px`;
-                        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
+                    pageContainer.width = `${viewport.width}px`;
+                    pageContainer.height = `${viewport.height}px`;
+                    this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
 
-                        // Render the SVG element and add it as a child to the page container
-                        pdfPage.getOperatorList()
-                            .then((opList) => {
-                                const svgGfx = new pdflib.PDFJS.SVGGraphics(pdfPage.commonObjs, pdfPage.objs);
-                                return svgGfx.getSVG(opList, viewport);
-                            })
-                                .then((svg) => {
-                                    this.svg = svg;
-                                    pageContainer.appendChild(svg);
-                                });
-                    });
+                    // Render the SVG element and add it as a child to the page container
+                    pdfPage.getOperatorList()
+                        .then((opList) => {
+                            const svgGfx = new pdflib.PDFJS.SVGGraphics(pdfPage.commonObjs, pdfPage.objs);
+                            return svgGfx.getSVG(opList, viewport);
+                        })
+                            .then((svg) => {
+                                this.svg = svg;
+                                pageContainer.appendChild(svg);
+                            });
                 });
                 return null;
             }
