@@ -19,6 +19,7 @@ const initialState = {
     activeItemContentType: null,
     sortBy: null,
     waitingForItems: null,
+    waitingForSingleItem: null,
     fetchItemsFailed: false,
     meta: {
         currentPage: null,
@@ -79,6 +80,7 @@ export default function (state = initialState, action) {
         case itemActionTypes.ITEM_REQUESTED: {
             return {
                 ...state,
+                waitingForSingleItem: true,
             };
         }
         case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
@@ -93,11 +95,20 @@ export default function (state = initialState, action) {
                 ] : null,
                 activeItem: document,
                 activeItemEditing: document,
+                waitingForSingleItem: false,
             };
         }
         case itemActionTypes.FETCH_ITEM_FAILED: {
             return {
                 ...state,
+                waitingForSingleItem: false,
+            };
+        }
+
+        case itemActionTypes.FETCH_CONTENT_REQUESTED: {
+            return {
+                ...state,
+                waitingForSingleItem: true,
             };
         }
 
@@ -107,6 +118,14 @@ export default function (state = initialState, action) {
                 ...state,
                 activeItemContent: content,
                 activeItemContentType: contentType,
+                waitingForSingleItem: false,
+            };
+        }
+
+        case itemActionTypes.FETCH_CONTENT_FAILED: {
+            return {
+                ...state,
+                waitingForSingleItem: false,
             };
         }
 
@@ -179,6 +198,7 @@ export default function (state = initialState, action) {
         case itemActionTypes.DESCRIPTION_UPDATE_SUCCEEDED: {
             return {
                 ...state,
+                waitingForSingleItem: false,
             };
         }
 
@@ -187,6 +207,7 @@ export default function (state = initialState, action) {
         case itemActionTypes.DESCRIPTION_UPDATE_FAILED: {
             return {
                 ...state,
+                waitingForSingleItem: false,
             };
         }
 

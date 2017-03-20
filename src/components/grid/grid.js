@@ -12,6 +12,7 @@ export default class Grid extends Component {
         sortBy: PropTypes.object,
         noResultsText: PropTypes.string,
         noResultsImage: PropTypes.string,
+        waitingForItems: PropTypes.bool,
     };
 
     handleHeaderClick = (header) => {
@@ -56,13 +57,13 @@ export default class Grid extends Component {
     }
 
     renderNoResults() {
-        const { noResultsText, noResultsImage } = this.props;
-        return (
+        const { noResultsText, noResultsImage, waitingForItems } = this.props;
+        return !waitingForItems ? (
             <div className='grid-noresults'>
                 {noResultsImage ? <img src={noResultsImage} alt='noresults' /> : null }
                 <span>{noResultsText || 'No results'}</span>
             </div>
-        );
+        ) : null;
     }
 
     render() {
