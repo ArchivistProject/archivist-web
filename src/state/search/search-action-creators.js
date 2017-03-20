@@ -1,6 +1,9 @@
+import { push } from 'react-router-redux';
 import * as searchApi from '~/src/api/search-api';
+import { handleError } from '~/src/utils/utils';
 import searchActionTypes from './search-action-types';
 import itemActionTypes from '../item/item-action-types';
+import { fetchItems } from '../item/item-action-creators';
 
 export function addSearchGroup(groupType) {
     return {
@@ -109,13 +112,28 @@ export function submitSearch() {
         searchApi.search(searchGroups)
             .then((response) => {
                 dispatch({ type: searchActionTypes.SEARCH_SUCCESSFUL });
+                dispatch(push('?page=1'));
                 dispatch({
                     type: itemActionTypes.FETCH_ITEMS_SUCCEEDED,
                     data: response,
                 });
             })
-            .catch(error => console.warn(error));
-        // SEARCH_SUCCESSFUL
-        // SEARCH_FAILED
+            .catch((error) => {
+                dispatch({ type: searchActionTypes.SEARCH_FAILED });
+                handleError(error, dispatch);
+            });
+    };
+}
+
+export function reset() {
+    return (dispatch) => {
+        dispatch({
+            type: searchActionTypes.SEARCH_RESET,
+            notification: {
+                title: 'Search reset',
+                level: 'info',
+            },
+        });
+        dispatch(fetchItems(1));
     };
 }

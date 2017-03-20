@@ -20,4 +20,6 @@ export default {
     SEARCH_SUBMITTED: 'search/SEARCH_SUBMITTED',
     SEARCH_SUCCESSFUL: 'search/SEARCH_SUCCESSFUL',
     SEARCH_FAILED: 'search/SEARCH_FAILED',
+
+    SEARCH_RESET: 'search/SEARCH_RESET',
 };

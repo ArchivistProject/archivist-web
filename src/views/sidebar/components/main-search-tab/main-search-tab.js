@@ -33,6 +33,7 @@ export default class SummaryTab extends Component {
         updateDescription: PropTypes.func.isRequired,
 
         submitSearch: PropTypes.func.isRequired,
+        reset: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -133,13 +134,13 @@ export default class SummaryTab extends Component {
         const numItemTypesSelected = searchGroups[groupIndex].itemTypes.length;
 
         const groupItemTypes = searchGroups[groupIndex].itemTypes;
-        const itemTypeNames = [...Object.keys(itemTypes).map(index => itemTypes[index].name), 'All'];
+        const itemTypeNames = [...Object.keys(itemTypes).map(index => itemTypes[index].name)];
         const filteredItemTypes = getDifference(itemTypeNames, groupItemTypes);
 
         return (
             <section className='search-tab-section'>
                 {searchGroups[groupIndex].itemTypes.map((itemType, itemTypeIndex) => this.renderItemTypeSelect(itemType, itemTypeIndex, groupIndex, [...filteredItemTypes, itemType]))}
-                {numItemTypesSelected <= numItemTypes ? <a onClick={() => addItemTypeRow(groupIndex, filteredItemTypes)}>+ Add Item Type</a> : null}
+                {numItemTypesSelected <= numItemTypes - 1 ? <a onClick={() => addItemTypeRow(groupIndex, filteredItemTypes)}>+ Add Item Type</a> : null}
             </section>
         );
     }
@@ -178,7 +179,10 @@ export default class SummaryTab extends Component {
         for (let i = 0; i < itemTypeNames.length; i += 1) {
             itemTypeFields[itemTypeNames[i]] = itemTypes[i].fields;
         }
-        console.log(itemTypeFields);
+        const allFields = itemTypes.map(itemType => itemType.fields.map(field => field));
+        itemTypeFields.Any = [].concat(...allFields);
+        itemTypeNames.unshift('Any');
+
         return (
             <section className='search-tab-section'>
                 {metadataRows.map((metadataRow, rowIndex) =>
@@ -236,10 +240,13 @@ export default class SummaryTab extends Component {
     }
 
     render() {
-        const { addSearchGroup, submitSearch } = this.props;
+        const { addSearchGroup, submitSearch, reset } = this.props;
         return (
             <div className='search-tab'>
-                <button onClick={submitSearch}>Search</button>
+                <div className='search-tab-buttons'>
+                    <button className='search-button' onClick={submitSearch}>Search</button>
+                    <button className='reset-button' onClick={reset}>Reset</button>
+                </div>
                 {this.renderGroups()}
                 <header className='search-tab-new-header'>Create New Search Group</header>
                 <div className='search-tab-new-group'>

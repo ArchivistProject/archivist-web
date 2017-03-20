@@ -18,6 +18,7 @@ export default class ActionBar extends Component {
         pathname: PropTypes.string.isRequired,
         updateVisibility: PropTypes.func.isRequired,
         updateTabVisibility: PropTypes.func.isRequired,
+        submitSearch: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
@@ -45,7 +46,7 @@ export default class ActionBar extends Component {
     }
 
     render() {
-        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch } = this.props;
 
         return (
             <div className='action-bar-wrapper'>
@@ -59,7 +60,7 @@ export default class ActionBar extends Component {
                                 (
                                     <div>
                                         <input type='search' className='action-bar-search-input' />
-                                        <button className='action-bar-search-button'>Search</button>
+                                        <button className='action-bar-search-button' onClick={submitSearch}>Search</button>
                                         <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
                                     </div>
                                 ) : null

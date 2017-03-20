@@ -8,7 +8,7 @@ export const SEARCH_CONSTANTS = {
 };
 
 export const SEARCH_DEFAULTS = {
-    ITEM_TYPE: 'All',
+    ITEM_TYPE: 'Select Item Type',
     METADATA: {
         itemType: undefined,
         field: {

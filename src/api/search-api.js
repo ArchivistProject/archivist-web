@@ -8,7 +8,7 @@ export function search(searchGroups) {
         switch (searchGroup.groupType) {
             case (SEARCH_CONSTANTS.ITEM_TYPE): {
                 return {
-                    groupType: searchGroup.groupType,
+                    groupType: 'ItemTypes',
                     andOr: searchGroup.andOr,
                     not: searchGroup.not,
                     item_types: searchGroup.itemTypes,
@@ -21,11 +21,13 @@ export function search(searchGroups) {
                     not: searchGroup.not,
                     fields: searchGroup.metadataRows.map((metadataRow) => {
                         const name = metadataRow.field.name;
-                        const type = metadataRow.itemType;
+                        const type = metadataRow.field.type;
+                        const group = metadataRow.itemType;
                         const data = metadataRow.value;
                         return {
                             name,
                             type,
+                            group,
                             data,
                         };
                     }),
@@ -42,9 +44,10 @@ export function search(searchGroups) {
                 };
             }
         }
+        return null;
     });
     const payload = {
         search: searchPayload,
     };
-    return ajax('POST', `${config.backend}/documents/search`, payload);
+    return ajax('POST', 'documents/search', payload);
 }
