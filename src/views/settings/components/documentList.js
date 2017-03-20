@@ -5,10 +5,11 @@ import { Button, FormControl, ControlLabel, Col
 export default class DocumentList extends Component {
 
   static propTypes = {
-    documentListSettingID: PropTypes.string,
     documentsPerPage: PropTypes.number,
+    documentListSettingID: PropTypes.string,
     saveDocumentListSettings: PropTypes.func.isRequired,
     fetchDocumentListSettings: PropTypes.func.isRequired,
+    handleDocsPerPageChange: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -16,10 +17,10 @@ export default class DocumentList extends Component {
     fetchDocumentListSettings();
   };
 
-  handleDocsPerPageChange = (e) => {
+  handleDocsPerPageInputChange = (e) => {
     const { handleDocsPerPageChange } = this.props;
-    const docsPerPage = e.target.value;
-    handleDocsPerPageChange(docsPerPage);
+    const documentsPerPage = e.target.value;
+    handleDocsPerPageChange(documentsPerPage);
   };
 
   saveSettings = () => {
@@ -38,9 +39,9 @@ export default class DocumentList extends Component {
 
         <Col className='mb-1' md={4}>
           <FormControl
-            type='text'
-            value={documentsPerPage}
-            onChange={this.handleDocsPerPageChange}
+            type='number'
+            value={documentsPerPage || 10}
+            onChange={this.handleDocsPerPageInputChange}
           >
 
           </FormControl>

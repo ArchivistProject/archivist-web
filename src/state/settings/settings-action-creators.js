@@ -184,10 +184,10 @@ export function fetchDocumentListSettings() {
   };
 }
 
-export function handleDocsPerPageChange(docsPerPage) {
+export function handleDocsPerPageChange(documentsPerPage) {
   return {
     type: settingsActionTypes.DOCS_PER_PAGE_CHANGE,
-    data: { docsPerPage },
+    data: { documentsPerPage },
   };
 }
 

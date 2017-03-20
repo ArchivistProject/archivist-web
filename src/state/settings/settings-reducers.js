@@ -145,10 +145,10 @@ export default function (state = initialState, action) {
         }
 
       case settingsActionTypes.DOCS_PER_PAGE_CHANGE: {
-        const { docs_per_page } = action.data;
+        const { documentsPerPage } = action.data;
         return {
           ...state,
-          docsPerPage: docs_per_page,
+          documentsPerPage: parseInt(documentsPerPage),
         };
       }
 

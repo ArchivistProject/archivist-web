@@ -106,14 +106,16 @@ export default class Settings extends Component {
     }
 
     documentList() {
-      const { documentsPerPage, saveDocumentListSettings, fetchDocumentListSettings } = this.props;
+      const { documentsPerPage, documentListSettingID, saveDocumentListSettings, fetchDocumentListSettings, handleDocsPerPageChange } = this.props;
       return (
         <div>
           <Panel header='Document List Preferences' bsStyle='info'>
             <DocumentList
               documentsPerPage={documentsPerPage}
+              documentListSettingID={documentListSettingID}
               saveDocumentListSettings={saveDocumentListSettings}
               fetchDocumentListSettings={fetchDocumentListSettings}
+              handleDocsPerPageChange={handleDocsPerPageChange}
             />
           </Panel>
         </div>
