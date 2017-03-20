@@ -12,6 +12,14 @@ export default class Login extends Component {
         passwordField: PropTypes.string.isRequired,
     };
 
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
     handleUsernameChanged = (e) => {
         const { usernameChanged } = this.props;
         usernameChanged(e.target.value);
@@ -27,6 +35,11 @@ export default class Login extends Component {
         login(usernameField, passwordField);
     }
 
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.handleLoginClicked();
+        }
+    }
 
     render() {
         const { usernameField, passwordField } = this.props;

@@ -5,6 +5,7 @@ const initialState = {
     uploadVisible: false,
     searchVisible: false,
     settingsVisible: false,
+    logoutVisible: false,
 };
 
 export default function (state = initialState, action) {

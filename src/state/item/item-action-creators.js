@@ -3,6 +3,7 @@ import pdflib from 'pdfjs-dist';
 import worker from 'pdfjs-dist/build/pdf.worker';
 import * as itemApi from '~/src/api/item-api';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
+import { handleError } from '~/src/utils/utils';
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
 import viewerActionTypes from '../viewer/viewer-action-types';
@@ -18,7 +19,10 @@ export function fetchItems(currentPage) {
                 type: itemActionTypes.FETCH_ITEMS_SUCCEEDED,
                 data: response,
             }))
-            .catch(error => dispatch({ type: itemActionTypes.FETCH_ITEMS_FAILED }));
+            .catch((error) => {
+                dispatch({ type: itemActionTypes.FETCH_ITEMS_FAILED });
+                handleError(error, dispatch);
+            });
     };
 }
 
@@ -73,7 +77,10 @@ export function fetchHeaders() {
                 type: itemActionTypes.FETCH_HEADERS_SUCCEEDED,
                 data: response,
             }))
-            .catch(error => dispatch({ type: itemActionTypes.FETCH_HEADERS_FAILED }));
+            .catch((error) => {
+                dispatch({ type: itemActionTypes.FETCH_HEADERS_FAILED });
+                handleError(error, dispatch);
+            });
     };
 }
 
