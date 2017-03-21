@@ -54,11 +54,12 @@ $summary-tab-spacing: 20px;
     }
 
     &-value {
-        div {
+        .url-data {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         a {
             cursor: pointer;
             text-decoration: none;

@@ -60,7 +60,7 @@ export default class SummaryTab extends Component {
 
     renderMetadataRow(metadata) {
         if (metadata.type === 'url') {
-            return (<div title={metadata.data}><a href={metadata.data}>{metadata.data}</a></div>);
+            return (<div className='url-data' title={metadata.data}><a href={metadata.data}>{metadata.data}</a></div>);
         }
         return (<div title={metadata.data}>{metadata.type === 'date' ? formatDate(metadata.data) : metadata.data}</div>);
     }
