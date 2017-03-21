@@ -1,5 +1,7 @@
 import * as uploadApi from '~/src/api/upload-api';
+import { handleError } from '~/src/utils/utils';
 import uploadActionTypes from './upload-action-types';
+
 
 export function updateUploadFile(file) {
     return {
@@ -8,11 +10,11 @@ export function updateUploadFile(file) {
     };
 }
 
-export function submitFile(tagArray, metaData) {
+export function submitFile(tagArray, metaData, desc) {
     return (dispatch, getState) => {
         const state = getState();
         const { file } = state.upload;
-        uploadApi.uploadFile(file, tagArray, metaData);
+        uploadApi.uploadFile(file, tagArray, metaData, desc);
     };
 }
 
@@ -85,6 +87,13 @@ export function setCheckBox(val) {
 export function setFileName(val) {
     return {
         type: uploadActionTypes.SET_FILE_NAME,
+        data: { val },
+    };
+}
+
+export function setDescription(val) {
+    return {
+        type: uploadActionTypes.SET_DESCRIPTION,
         data: { val },
     };
 }

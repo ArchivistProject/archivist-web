@@ -1,3 +1,5 @@
+import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
+import itemActionTypes from '../item/item-action-types';
 import viewerActionTypes from './viewer-action-types';
 
 const initialState = {
@@ -39,6 +41,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 currentPage: pageRequested,
+            };
+        }
+
+        case itemActionTypes.FETCH_CONTENT_SUCCEEDED: {
+            const { content, contentType } = action.data;
+            return {
+                ...state,
+                numPages: contentType === CONTENT_TYPES.PDF ? content.numPages : null,
             };
         }
     }

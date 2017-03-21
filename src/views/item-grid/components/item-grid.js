@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import moment from 'moment';
 import Grid from '~/src/components/grid/grid';
 import Paginator from '~/src/components/paginator/paginator';
+import Loader from '~/src/components/loader/loader';
 import { formatDate } from '~/src/utils/utils';
 import SadFace from '~/src/assets/images/sadface.png';
 import './item-grid.scss';
@@ -71,7 +72,8 @@ export default class ItemGrid extends Component {
         const endIndex = ((startIndex + rows.length) - 1);
         return (
             <div className='item-grid-wrapper'>
-                <div className={`item-grid ${waitingForItems ? 'item-grid-disabled' : ''}`}>
+                <Loader visible={waitingForItems} />
+                <div className='item-grid'>
                     { rows.length ? (
                         <Paginator
                             currentPage={currentPage}
@@ -86,6 +88,7 @@ export default class ItemGrid extends Component {
                         activeRowNum={activeItemIndex}
                         noResultsText={'You don\'t have any files yet!'}
                         noResultsImage={SadFace}
+                        waitingForItems={waitingForItems}
                     />
                     { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
                 </div>

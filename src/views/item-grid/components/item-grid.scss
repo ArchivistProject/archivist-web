@@ -5,17 +5,10 @@
     flex-direction: column;
     align-items: center;
 
-    &-disabled {
-        opacity: 0.5;
-        user-select: none;
-        * {
-            cursor: progress;
-        }
-    }
-
     &-wrapper {
         width: 100%;
         text-align: center;
+        position: relative;
     }
 
     &-count {

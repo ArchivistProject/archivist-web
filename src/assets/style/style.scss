@@ -6,12 +6,19 @@ html, body {
     margin: 0;
     padding: 0;
     min-width: $app-min-width;
-    overflow-y: scroll;
 }
 
 button {
     cursor: pointer;
     line-height: normal;
+}
+
+.notification {
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    &-dismiss {
+        border-radius: 0 !important;
+    }
 }
 
 input {

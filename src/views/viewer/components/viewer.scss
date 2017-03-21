@@ -16,6 +16,10 @@ $toolbar-height: 30px;
         background-color: $light-gray;
     }
 
+    &-parent {
+        position: relative;
+    }
+
     &-wrapper {
         width: 100%;
         display: flex;

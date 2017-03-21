@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, Redirect, IndexRedirect, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
-import { App, Home, Login, Upload, Settings, Viewer } from './views';
+import { App, Auth, Home, Login, Upload, Settings, Viewer } from './views';
 import './assets/style/style.scss';
 
 
@@ -19,13 +19,15 @@ ReactDOM.render(
         <Router history={history}>
             <Route path='/' component={App}>
                 <IndexRedirect to='items' />
-                <Route path='items'>
-                    <IndexRoute component={Home} />
-                    <Route path=':itemId' component={Viewer} />
-                </Route>
                 <Route path='login' component={Login} />
-                <Route path='settings' component={Settings} />
-                <Route path='upload' component={Upload} />
+                <Route component={Auth}>
+                    <Route path='items'>
+                        <IndexRoute component={Home} />
+                        <Route path=':itemId' component={Viewer} />
+                    </Route>
+                    <Route path='settings' component={Settings} />
+                    <Route path='upload' component={Upload} />
+                </Route>
                 <Redirect from='*' to='items' />
             </Route>
         </Router>

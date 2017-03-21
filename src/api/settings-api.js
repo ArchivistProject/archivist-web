@@ -1,12 +1,8 @@
-import config from '~/config';
-import $ from 'jquery';
+import { ajax } from '~/src/utils/utils';
 
 export function fetchItemTypes() {
-    return fetch(`${config.backend}/system/groups`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', 'system/groups');
 }
-
 
 export function postItemType(itemName) {
     const group = {
@@ -15,8 +11,7 @@ export function postItemType(itemName) {
             fields: [],
         },
     };
-    return $.post(`${config.backend}/system/groups`, group)
-        .then(response => response);
+    return ajax('POST', 'system/groups', group);
 }
 
 export function postFieldType(name, type, id) {
@@ -26,42 +21,39 @@ export function postFieldType(name, type, id) {
             type,
         },
     };
-    return $.post(`${config.backend}/system/groups/${id}/field`, field)
-        .then(response => response);
+    return ajax('POST', `system/groups/${id}/field`, field);
 }
 
 
 export function deleteField(groupID, fieldID) {
-    const finalUrl = `${config.backend}/system/groups/${groupID}/field/${fieldID}`;
-    return $.ajax({
-        type: 'DELETE',
-        url: finalUrl,
-        dataType: 'json',
-    }).then(response => response);
+    return ajax('DELETE', `system/groups/${groupID}/field/${fieldID}`);
 }
 
 
 export function deleteItem(groupID) {
-    const finalUrl = `${config.backend}/system/groups/${groupID}`;
-    return $.ajax({
-        type: 'DELETE',
-        url: finalUrl,
-        dataType: 'json',
-    }).then(response => response);
+    return ajax('DELETE', `system/groups/${groupID}`);
 }
 
 // -------------------------Api token----------------------------------
 export function fetchAPIToken() {
-    return fetch(`${config.backend}/theURL`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', 'theURL'); // TODO
 }
 
+
+// --------------------------Document List--------------------
+export function postDocumentListSettings(id, documentsPerPage) {
+    const documentListSettings = {
+        docs_per_page: documentsPerPage,
+    };
+    return ajax('PUT', `system/settings/${id}/`, documentListSettings);
+}
+
+export function fetchDocumentListSettings() {
+    return ajax('GET', 'system/settings/');
+}
 
 // --------------------------Statistic--------------------
 
 export function fetchFileStorage() {
-    return fetch(`${config.backend}/statistics/documents`)
-        .then(response => response.json())
-        .catch((error) => { throw new Error(error); });
+    return ajax('GET', 'statistics/documents');
 }
