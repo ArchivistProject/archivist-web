@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { Panel } from 'react-bootstrap/lib/';
 import PasswordDialog from '~/src/views/settings/components/password';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
+import DocumentList from '~/src/views/settings/components/documentList';
 import Statistic from '~/src/views/settings/components/statistic';
 import ItemTypes from '~/src/views/settings/components/itemTypes';
 import Logo from '~/src/assets/images/logo.png';
@@ -20,6 +21,12 @@ export default class Settings extends Component {
 
         apiToken: PropTypes.string,
         refreshAPI: PropTypes.func.isRequired,
+
+        documentsPerPage: PropTypes.number,
+        documentListSettingID: PropTypes.string,
+        saveDocumentListSettings: PropTypes.func.isRequired,
+        fetchDocumentListSettings: PropTypes.func.isRequired,
+        handleDocsPerPageChange: PropTypes.func.isRequired,
 
         storage: PropTypes.number,
         fileCount: PropTypes.number,
@@ -98,6 +105,23 @@ export default class Settings extends Component {
         );
     }
 
+    documentList() {
+        const { documentsPerPage, documentListSettingID, saveDocumentListSettings, fetchDocumentListSettings, handleDocsPerPageChange } = this.props;
+        return (
+            <div>
+                <Panel header='Document List Preferences' bsStyle='info'>
+                    <DocumentList
+                        documentsPerPage={documentsPerPage}
+                        documentListSettingID={documentListSettingID}
+                        saveDocumentListSettings={saveDocumentListSettings}
+                        fetchDocumentListSettings={fetchDocumentListSettings}
+                        handleDocsPerPageChange={handleDocsPerPageChange}
+                    />
+                </Panel>
+            </div>
+        );
+    }
+
     itemTypes() {
         const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, fetchItemTypes, setActiveItem,
             setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
@@ -155,6 +179,7 @@ export default class Settings extends Component {
                     {this.itemTypes()}
                     {this.password()}
                     {this.apiToken()}
+                    {this.documentList()}
                 </div>
             </div>
         );
