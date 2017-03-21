@@ -163,32 +163,34 @@ export function refreshAPI() {
 
 // ----------------------Document List---------------------------
 export function saveDocumentListSettings(documentListSettingID, documentsPerPage) {
-  return (dispatch) => {
-    settingsApi.postDocumentListSettings(documentListSettingID, documentsPerPage)
-      .then(response => dispatch({
-        type: settingsActionTypes.POST_DOCUMENT_LIST_SETTING_SUCCEEDED,
-        data: response,
-      }))
-      .catch((error) => { throw new Error('Saving Document List Settings Failed', error); });
-  };
+    return (dispatch) => {
+        settingsApi.postDocumentListSettings(documentListSettingID, documentsPerPage)
+            .then(response => dispatch({
+                type: settingsActionTypes.POST_DOCUMENT_LIST_SETTING_SUCCEEDED,
+                data: response,
+            }))
+            .catch((error) => {
+                throw new Error('Saving Document List Settings Failed', error);
+            });
+    };
 }
 
 export function fetchDocumentListSettings() {
-  return (dispatch) => {
-    settingsApi.fetchDocumentListSettings()
-      .then(response => dispatch({
-        type: settingsActionTypes.FETCH_DOCUMENT_LIST_SETTING_SUCCEEDED,
-        data: response,
-      }))
-      .catch((error) => { throw new Error('Fetch Document List Settings failed', error); });
-  };
+    return (dispatch) => {
+        settingsApi.fetchDocumentListSettings()
+        .then(response => dispatch({
+            type: settingsActionTypes.FETCH_DOCUMENT_LIST_SETTING_SUCCEEDED,
+            data: response,
+        }))
+        .catch((error) => { throw new Error('Fetch Document List Settings failed', error); });
+    };
 }
 
 export function handleDocsPerPageChange(documentsPerPage) {
-  return {
-    type: settingsActionTypes.DOCS_PER_PAGE_CHANGE,
-    data: { documentsPerPage },
-  };
+    return {
+        type: settingsActionTypes.DOCS_PER_PAGE_CHANGE,
+        data: { documentsPerPage },
+    };
 }
 
 // -------------------statistic-------------------------------
