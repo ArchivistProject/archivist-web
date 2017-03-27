@@ -73,13 +73,13 @@ export default class ItemGrid extends Component {
         return (
             <div className='item-grid-wrapper'>
                 <Loader visible={waitingForItems} />
+                { rows.length ? (
+                    <Paginator
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={fetchItems}
+                    />) : null }
                 <div className='item-grid'>
-                    { rows.length ? (
-                        <Paginator
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={fetchItems}
-                        />) : null }
                     <Grid
                         headers={headers}
                         rows={rows}
@@ -90,8 +90,8 @@ export default class ItemGrid extends Component {
                         noResultsImage={SadFace}
                         waitingForItems={waitingForItems}
                     />
-                    { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
                 </div>
+                { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
             </div>
         );
     }
