@@ -1,9 +1,10 @@
 @import '../../../defaults';
 
 .home {
-    height: calc(100vh - #{$action-bar-height} - #{$paginator-height});
+    height: 100%;
+    height: calc(100vh - #{$action-bar-height});
     display: flex;
-    margin: 0 10px 10px 10px;
+    margin-left: $gutter;
     flex-direction: column;
 
     &-content {

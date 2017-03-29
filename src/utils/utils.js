@@ -74,3 +74,14 @@ export function sanitizeString(string) {
 export function isValidNumber(number) {
     return !isNaN(parseFloat(number)) && isFinite(number);
 }
+
+export function throttle(callback, limit) {
+    let wait = false;
+    return () => {
+        if (!wait) {
+            callback.call();
+            wait = true;
+            setTimeout(() => { wait = false; }, limit);
+        }
+    };
+}

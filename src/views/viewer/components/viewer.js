@@ -4,6 +4,7 @@ import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
+import { throttle } from '~/src/utils/utils';
 import './viewer.scss';
 
 export default class Viewer extends Component {
@@ -65,19 +66,8 @@ export default class Viewer extends Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    throttle = (callback, limit) => {
-        let wait = false;
-        return () => {
-            if (!wait) {
-                callback.call();
-                wait = true;
-                setTimeout(() => { wait = false; }, limit);
-            }
-        };
-    }
-
     handleResize = () => {
-        this.throttle(() => this.forceUpdate(), 100).call();
+        throttle(() => this.forceUpdate(), 100).call();
     }
 
     handleScaleClicked = (increment) => {

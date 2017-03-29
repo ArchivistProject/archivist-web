@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { formatDate } from '~/src/utils/utils';
+import { formatDate, throttle } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import Loader from '~/src/components/loader/loader';
 import SummaryTab from './tabs/summary-tab';
@@ -28,6 +28,10 @@ export default class Sidebar extends Component {
         tempDescription: PropTypes.string,
         unfocusItem: PropTypes.bool,
     };
+
+    handleResize = () => {
+        console.log('test');
+    }
 
     handleTabClicked = (tabName) => {
         const { updateTabVisibility, visibleTab } = this.props;
@@ -99,8 +103,10 @@ export default class Sidebar extends Component {
         return (
             <div className='sidebar-wrapper'>
                 <Loader visible={waitingForSingleItem} />
-                <div className={`sidebar-toggler ${visible ? 'opened' : null}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
-                    <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
+                <div onMouseDown={this.handleResize} className={`sidebar-toggler ${visible ? 'opened' : 'closed'}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
+                    <div className={`sidebar-toggler-button ${visible ? 'opened' : 'closed'}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
+                        <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
+                    </div>
                 </div>
                 {visible ? (
                     <div className='sidebar'>
