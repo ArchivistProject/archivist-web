@@ -29,8 +29,48 @@ export default class Sidebar extends Component {
         unfocusItem: PropTypes.bool,
     };
 
-    handleResize = () => {
-        console.log('test');
+    constructor(props) {
+        super(props);
+        console.log('here');
+        this.state = {
+            width: 300,
+            minWidth: 200,
+            newWidth: null,
+            mouseStart: null,
+        };
+    }
+
+    handleStartResize = (e) => {
+        console.log(this.state);
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+            mouseStart: e.clientX,
+        });
+        window.addEventListener('mousemove', this.handleResize);
+        window.addEventListener('mouseup', this.handleEndResize);
+    }
+
+    handleResize = (e) => {
+        const { width, minWidth, mouseStart } = this.state;
+        const mouseDistance = e.clientX - mouseStart;
+        const newWidth = width - mouseDistance;
+        if (newWidth >= minWidth && newWidth < window.innerWidth) {
+            console.log(newWidth);
+            this.sidebar.style.width = `${newWidth}px`;
+            this.setState({
+                newWidth,
+            });
+        }
+    }
+
+    handleEndResize = () => {
+        const { newWidth } = this.state;
+        this.setState({
+            width: newWidth,
+        });
+        window.removeEventListener('mousemove', this.handleResize);
+        window.removeEventListener('mouseup', this.handleEndResize);
     }
 
     handleTabClicked = (tabName) => {
@@ -103,13 +143,22 @@ export default class Sidebar extends Component {
         return (
             <div className='sidebar-wrapper'>
                 <Loader visible={waitingForSingleItem} />
-                <div onMouseDown={this.handleResize} className={`sidebar-toggler ${visible ? 'opened' : 'closed'}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
-                    <div className={`sidebar-toggler-button ${visible ? 'opened' : 'closed'}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
+                <div
+                    onMouseDown={this.handleStartResize}
+                    onMouseUp={this.handleEndResize}
+                    className={`sidebar-toggler ${visible ? 'opened' : 'closed'}`}
+                    title='Resize sidebar'
+                >
+                    <div
+                        className={`sidebar-toggler-button ${visible ? 'opened' : 'closed'}`}
+                        onClick={this.handleSidebarToggleClicked}
+                        title='Toggle sidebar'
+                    >
                         <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
                     </div>
                 </div>
                 {visible ? (
-                    <div className='sidebar'>
+                    <div className='sidebar' ref={(sidebar) => { this.sidebar = sidebar; }}>
                         {this.renderTabs()}
                         {this.renderPanel()}
                     </div>
