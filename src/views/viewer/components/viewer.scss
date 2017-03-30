@@ -9,7 +9,7 @@ $toolbar-height: 30px;
 
     &-container {
         height: calc(100vh - #{$action-bar-height});
-        overflow: scroll;
+        overflow: auto;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -63,11 +63,23 @@ $toolbar-height: 30px;
         background-color: $white;
     }
 
+    .web-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+
     .web-container {
         border: none;
         width: 100%;
-        height: 100%;
+        height: 99%;
         background-color: $white;
+        overflow: auto;
+
+        &-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
     }
 
     .sidebar {

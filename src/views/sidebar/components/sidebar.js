@@ -27,50 +27,59 @@ export default class Sidebar extends Component {
         waitingForSingleItem: PropTypes.bool,
         tempDescription: PropTypes.string,
         unfocusItem: PropTypes.bool,
+        setSidebarWidth: PropTypes.func.isRequired,
+        toggleSidebarDrag: PropTypes.func.isRequired,
+        width: PropTypes.number.isRequired,
     };
 
     constructor(props) {
         super(props);
-        console.log('here');
+        const { width } = this.props;
         this.state = {
-            width: 300,
+            width,
+            startWidth: width,
             minWidth: 200,
+            maxWidth: 800,
             newWidth: null,
             mouseStart: null,
         };
     }
 
     handleStartResize = (e) => {
-        console.log(this.state);
+        const { toggleSidebarDrag } = this.props;
         e.preventDefault();
         e.stopPropagation();
         this.setState({
             mouseStart: e.clientX,
+            isResizing: true,
         });
+        toggleSidebarDrag();
         window.addEventListener('mousemove', this.handleResize);
         window.addEventListener('mouseup', this.handleEndResize);
     }
 
     handleResize = (e) => {
-        const { width, minWidth, mouseStart } = this.state;
+        const { startWidth, minWidth, maxWidth, mouseStart } = this.state;
+        const { setSidebarWidth } = this.props;
         const mouseDistance = e.clientX - mouseStart;
-        const newWidth = width - mouseDistance;
-        if (newWidth >= minWidth && newWidth < window.innerWidth) {
-            console.log(newWidth);
-            this.sidebar.style.width = `${newWidth}px`;
-            this.setState({
-                newWidth,
-            });
+        const newWidth = startWidth - mouseDistance;
+        if (newWidth >= minWidth && newWidth < maxWidth) {
+            setSidebarWidth(newWidth);
         }
     }
 
     handleEndResize = () => {
-        const { newWidth } = this.state;
-        this.setState({
-            width: newWidth,
-        });
-        window.removeEventListener('mousemove', this.handleResize);
-        window.removeEventListener('mouseup', this.handleEndResize);
+        const { toggleSidebarDrag, width } = this.props;
+        const { isResizing } = this.state;
+        if (isResizing) {
+            this.setState({
+                isResizing: false,
+                startWidth: width,
+            });
+            toggleSidebarDrag();
+            window.removeEventListener('mousemove', this.handleResize);
+            window.removeEventListener('mouseup', this.handleEndResize);
+        }
     }
 
     handleTabClicked = (tabName) => {
@@ -139,7 +148,7 @@ export default class Sidebar extends Component {
     }
 
     render() {
-        const { visible, waitingForSingleItem } = this.props;
+        const { visible, waitingForSingleItem, width } = this.props;
         return (
             <div className='sidebar-wrapper'>
                 <Loader visible={waitingForSingleItem} />
@@ -153,12 +162,13 @@ export default class Sidebar extends Component {
                         className={`sidebar-toggler-button ${visible ? 'opened' : 'closed'}`}
                         onClick={this.handleSidebarToggleClicked}
                         title='Toggle sidebar'
+                        onMouseDown={e => e.stopPropagation()}
                     >
                         <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
                     </div>
                 </div>
                 {visible ? (
-                    <div className='sidebar' ref={(sidebar) => { this.sidebar = sidebar; }}>
+                    <div className='sidebar' ref={(sidebar) => { this.sidebar = sidebar; }} style={{ width }}>
                         {this.renderTabs()}
                         {this.renderPanel()}
                     </div>

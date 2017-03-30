@@ -25,3 +25,16 @@ export function toggleDescriptionEditMode() {
         type: sidebarActionTypes.DESCRIPTION_EDIT_MODE_TOGGLED,
     };
 }
+
+export function toggleSidebarDrag() {
+    return {
+        type: sidebarActionTypes.SIDEBAR_DRAG_TOGGLED,
+    };
+}
+
+export function setSidebarWidth(width) {
+    return {
+        type: sidebarActionTypes.SIDEBAR_WIDTH_SET,
+        data: { width },
+    };
+}
