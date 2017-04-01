@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { formatDate, throttle } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import Loader from '~/src/components/loader/loader';
 import SummaryTab from './tabs/summary-tab';
@@ -48,7 +47,6 @@ export default class Sidebar extends Component {
     handleStartResize = (e) => {
         const { toggleSidebarDrag } = this.props;
         e.preventDefault();
-        e.stopPropagation();
         this.setState({
             mouseStart: e.clientX,
             isResizing: true,
@@ -115,8 +113,9 @@ export default class Sidebar extends Component {
     }
 
     renderPanel() {
-        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata, saveMetadata, saveTags,
-            updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription } = this.props;
+        const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
+            saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode,
+            tempDescription } = this.props;
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
