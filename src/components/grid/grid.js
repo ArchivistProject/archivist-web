@@ -30,10 +30,12 @@ export default class Grid extends Component {
 
     renderHeaders() {
         const { headers } = this.props;
-        return headers.map((header, key) =>
-            (
-                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>{header}</th>
-            )
+        return (
+            <tr className='grid-header'>
+                <th className='grid-header-item' onClick={() => { this.handleHeaderClick(headers[0]); w3.sortHTML('#file-list', '#item', 'td:nth-child(1)'); }}>{headers[0]}</th>
+                <th className='grid-header-item' onClick={() => { this.handleHeaderClick(headers[1]); w3.sortHTML('#file-list', '#item', 'td:nth-child(2)'); }}>{headers[1]}</th>
+                <th className='grid-header-item' onClick={() => { this.handleHeaderClick(headers[2]); w3.sortHTML('#file-list', '#item', 'td:nth-child(3)'); }}>{headers[2]}</th>
+            </tr>
         );
     }
 
@@ -45,7 +47,7 @@ export default class Grid extends Component {
                 rowClasses.push('grid-row-active');
             }
             return (
-                <tr className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
+                <tr id='item' className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
                     {
                         headers.map((header, columnNum) =>
                             <td className='grid-row-item' key={columnNum}>{row[header] ? row[header] : null}</td>
@@ -71,11 +73,9 @@ export default class Grid extends Component {
         return (
             <div className='grid-wrapper'>
                 {rows && rows.length > 0 ? (
-                    <table className='grid'>
+                    <table id='file-list' className='grid'>
                         <thead>
-                            <tr className='grid-header'>
-                                {this.renderHeaders()}
-                            </tr>
+                            {this.renderHeaders()}
                         </thead>
                         <tbody className='grid-body'>{this.renderRows()}</tbody>
                     </table>
