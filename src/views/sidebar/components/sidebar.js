@@ -38,10 +38,30 @@ export default class Sidebar extends Component {
             width,
             startWidth: width,
             minWidth: 200,
-            maxWidth: 800,
+            maxWidth: window.innerWidth - 300,
             newWidth: null,
             mouseStart: null,
         };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleWindowResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleWindowResize);
+    }
+
+    handleWindowResize = () => {
+        const { width, setSidebarWidth } = this.props;
+        const newMaxWidth = window.innerWidth - 300;
+        this.setState({
+            maxWidth: newMaxWidth,
+            startWidth: width > newMaxWidth ? newMaxWidth : width,
+        });
+        if (width > newMaxWidth) {
+            setSidebarWidth(newMaxWidth);
+        }
     }
 
     handleStartResize = (e) => {
