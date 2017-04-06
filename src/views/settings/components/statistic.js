@@ -14,9 +14,23 @@ export default class Statistic extends Component {
         fetchFileStorage();
     }
 
+    getHumanReadableStorage() {
+      const storageInBytes = this.props.storage;
+
+      const storageInMB = (storageInBytes / 1000000); // 1 million bytes in a MB
+
+      if (storageInMB > 500) { // More than 500 MB, lets show storage in GB then
+        return `${storageInMB / 1000} GB`; // 1000 MB in GB
+      }
+
+      return `${storageInMB} MB`;
+    }
 
     render() {
-        const { storage, fileCount } = this.props;
+        let { fileCount } = this.props;
+
+        const humanReadableStorage = this.getHumanReadableStorage();
+
         return (
 
             <div>
@@ -28,7 +42,7 @@ export default class Statistic extends Component {
 
                 <Col sm={4} componentClass={ControlLabel}>Storage Size: </Col>
                 <Col sm={8}>
-                    <p>{storage}</p>
+                    <p>{humanReadableStorage}</p>
                 </Col>
             </div>
 
