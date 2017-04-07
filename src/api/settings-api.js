@@ -40,6 +40,18 @@ export function fetchAPIToken() {
 }
 
 
+// --------------------------Document List--------------------
+export function postDocumentListSettings(id, documentsPerPage) {
+    const documentListSettings = {
+        docs_per_page: documentsPerPage,
+    };
+    return ajax('PUT', `system/settings/${id}/`, documentListSettings);
+}
+
+export function fetchDocumentListSettings() {
+    return ajax('GET', 'system/settings/');
+}
+
 // --------------------------Statistic--------------------
 
 export function fetchFileStorage() {
