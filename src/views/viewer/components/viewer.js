@@ -1,5 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import pdflib from 'pdfjs-dist';
+import rangy from 'rangy';
+import rangyHighlight from 'rangy/lib/rangy-highlighter';
+import rangyClassApplier from 'rangy/lib/rangy-classapplier';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
@@ -122,7 +125,7 @@ export default class Viewer extends Component {
                 return (
                     <div className='web-wrapper'>
                         {sidebarIsDragging ? <div className='web-container-overlay' /> : null}
-                        <iframe className='web-container' srcDoc={activeItemContent} />
+                        <iframe className='web-container' srcDoc={activeItemContent} onClick={() => { rangyHighlight.highlightSelection('test'); }}/>
                     </div>
                 );
             }
