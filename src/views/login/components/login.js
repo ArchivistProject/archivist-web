@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import Logo from '~/src/assets/images/logo.png';
 import './login.scss';
 
 export default class Login extends Component {
@@ -45,9 +46,17 @@ export default class Login extends Component {
         const { usernameField, passwordField } = this.props;
         return (
             <div className='login'>
-                <input className='login-username' value={usernameField} onChange={this.handleUsernameChanged} />
-                <input type='password' className='login-password' value={passwordField} onChange={this.handlePasswordChanged} />
-                <button className='login-submit' onClick={this.handleLoginClicked}>Log In</button>
+                <div className='left-half'>
+                    <label>Username</label>
+                    <input className='login-username' value={usernameField} onChange={this.handleUsernameChanged} />
+                    <label>Password</label>
+                    <input type='password' className='login-password' value={passwordField} onChange={this.handlePasswordChanged} />
+                    <button className='login-submit' onClick={this.handleLoginClicked}>LOGIN</button>
+                </div>
+                <div className='right-half'>
+                    <img className='logo' src={Logo} alt='logo' width='200' height='164' align='center' />
+                </div>
+                <div className='footer' />
             </div>
         );
     }
