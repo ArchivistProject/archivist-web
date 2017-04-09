@@ -113,3 +113,8 @@ export function getScrollbarWidth() {
 
     return (w1 - w2);
 }
+
+export function getDifference(array1, array2) {
+    const array2Set = new Set(array2);
+    return array1.filter(x => !array2Set.has(x));
+}

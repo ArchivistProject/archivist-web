@@ -94,6 +94,13 @@ export default class ItemTypes extends Component {
         const name = e.target.value;
         handleItemNameChange(name);
     };
+
+    handleDeleteCategory = () => {
+        if (confirm('Delete this category?')) {
+            this.deleteItem();
+        }
+    }
+
     deleteCurrentField = (e) => {
         const { removeField, currentItem, fetchItemTypes } = this.props;
         const fieldID = e.target.id;
@@ -178,13 +185,7 @@ export default class ItemTypes extends Component {
                     {canEdit === true ?
                         <Col sm={12}>
                             <br />
-                            <Button
-                                bsStyle='danger' onClick={() => {
-                                    if (confirm('Delete this category?')) {
-                                        this.deleteItem();
-                                    }
-                                }}
-                            >Delete {popupName}</Button>
+                            <Button bsStyle='danger' onClick={this.handleDeleteCategory}>Delete {popupName}</Button>
                         </Col> : null }
                 </Form>
             </div>

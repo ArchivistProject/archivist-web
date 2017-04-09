@@ -10,7 +10,8 @@
     &-content {
         display: flex;
         flex-direction: row;
-        height: 100%;
+        min-height: $home-min-height;
+        height: auto;
         width: 100%;
     }
 }

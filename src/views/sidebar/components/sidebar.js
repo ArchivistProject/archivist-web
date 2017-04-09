@@ -1,8 +1,11 @@
 import React, { PropTypes, Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { formatDate } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import Loader from '~/src/components/loader/loader';
-import SummaryTab from './tabs/summary-tab';
-import MainSearchTab from './tabs/main-search-tab';
+import * as searchActionCreators from '~/src/state/search/search-action-creators';
+import SummaryTab from './summary-tab/summary-tab';
+import MainSearchTab from './main-search-tab/main-search-tab';
 import './sidebar.scss';
 
 export default class Sidebar extends Component {
@@ -29,6 +32,9 @@ export default class Sidebar extends Component {
         setSidebarWidth: PropTypes.func.isRequired,
         toggleSidebarDrag: PropTypes.func.isRequired,
         width: PropTypes.number.isRequired,
+        fetchItemTypes: PropTypes.func.isRequired,
+        itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+        searchGroups: PropTypes.arrayOf(PropTypes.object),
     };
 
     constructor(props) {
@@ -134,8 +140,9 @@ export default class Sidebar extends Component {
 
     renderPanel() {
         const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
-            saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode,
-            tempDescription } = this.props;
+            saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription,
+            fetchItemTypes, itemTypes, searchGroups, dispatch } = this.props;
+
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
@@ -149,21 +156,28 @@ export default class Sidebar extends Component {
             metadataEditMode,
             descriptionEditMode,
             tempDescription };
-        if (activeItem) {
-            switch (visibleTab) {
-                case SIDEBAR_TABS.SUMMARY:
+
+        const searchTabProps = {
+            fetchItemTypes,
+            itemTypes,
+            searchGroups,
+        };
+
+        switch (visibleTab) {
+            case SIDEBAR_TABS.SUMMARY:
+                if (activeItem) {
                     return (<SummaryTab {...summaryTabProps} />);
-                case SIDEBAR_TABS.SEARCH:
-                    return (<MainSearchTab />);
-                default:
-                    return null;
-            }
+                }
+                return (
+                    <div className='sidebar-no-item'>
+                        <span>No item selected.</span>
+                    </div>
+                );
+            case SIDEBAR_TABS.SEARCH:
+                return (<MainSearchTab {...searchTabProps} {...bindActionCreators(searchActionCreators, dispatch)} />);
+            default:
+                return null;
         }
-        return (
-            <div className='sidebar-no-item'>
-                <span>No item selected.</span>
-            </div>
-        );
     }
 
     render() {
