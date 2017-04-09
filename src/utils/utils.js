@@ -74,3 +74,8 @@ export function sanitizeString(string) {
 export function isValidNumber(number) {
     return !isNaN(parseFloat(number)) && isFinite(number);
 }
+
+export function getDifference(array1, array2) {
+    const array2Set = new Set(array2);
+    return array1.filter(x => !array2Set.has(x));
+}

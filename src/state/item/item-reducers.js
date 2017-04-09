@@ -1,6 +1,7 @@
 import itemActionTypes from './item-action-types';
 import sidebarActionTypes from '../sidebar/sidebar-action-types';
 import viewerActionTypes from '../viewer/viewer-action-types';
+import searchActionTypes from '../search/search-action-types';
 
 const initialState = {
     items: null,
@@ -249,6 +250,21 @@ export default function (state = initialState, action) {
                 ...state,
                 activeItemContent: initialState.activeItemContent,
                 activeItemContentType: initialState.activeItemContentType,
+            };
+        }
+
+        case searchActionTypes.SEARCH_SUBMITTED: {
+            return {
+                ...state,
+                waitingForItems: true,
+            };
+        }
+
+        case searchActionTypes.SEARCH_SUCCESSFUL:
+        case searchActionTypes.SEARCH_FAILED: {
+            return {
+                ...state,
+                waitingForItems: false,
             };
         }
     }
