@@ -47,14 +47,17 @@ export default class Login extends Component {
         return (
             <div className='login'>
                 <div className='left-half'>
-                    <label>Username</label>
-                    <input className='login-username' value={usernameField} onChange={this.handleUsernameChanged} />
-                    <label>Password</label>
-                    <input type='password' className='login-password' value={passwordField} onChange={this.handlePasswordChanged} />
-                    <button className='login-submit' onClick={this.handleLoginClicked}>LOGIN</button>
+                    <div className='login-inner-left'>
+                        <h2 className='login-welcome'>Welcome to Archivist</h2>
+                        <p className='login-label'>Username</p>
+                        <input className='login-textbox' value={usernameField} onChange={this.handleUsernameChanged} />
+                        <p className='login-label'>Password</p>
+                        <input type='password' className='login-textbox' value={passwordField} onChange={this.handlePasswordChanged} />
+                        <button className='login-submit' onClick={this.handleLoginClicked}>LOGIN</button>
+                    </div>
                 </div>
                 <div className='right-half'>
-                    <img className='logo' src={Logo} alt='logo' width='200' height='164' align='center' />
+                    <img className='logo' src={Logo} alt='logo' width='385' height='537' />
                 </div>
                 <div className='footer' />
             </div>
