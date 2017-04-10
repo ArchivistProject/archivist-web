@@ -57,7 +57,7 @@ export default class Login extends Component {
                     </div>
                 </div>
                 <div className='right-half'>
-                    <img className='logo' src={Logo} alt='logo' width='385' height='537' />
+                    <img className='logo' src={Logo} alt='logo' />
                 </div>
                 <div className='footer' />
             </div>
