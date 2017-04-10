@@ -6,6 +6,7 @@ import rangyClassApplier from 'rangy/lib/rangy-classapplier';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
+import Annotation from '~/src/components/annotation/annotation';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 import { throttle, getScrollbarWidth } from '~/src/utils/utils';
 import './viewer.scss';
@@ -37,6 +38,16 @@ export default class Viewer extends Component {
         waitingForSingleItem: PropTypes.bool,
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            webContentLoaded: false,
+            itemLoadListenerExists: false,
+            itemClickListenerExists: false,
+            annotationX: null,
+            annotationY: null,
+        };
+    }
     componentWillMount() {
         const { activeItem, fetchItem, fetchItemContent, params: { itemId } } = this.props;
         if (!activeItem) {
@@ -62,16 +73,37 @@ export default class Viewer extends Component {
 
     componentDidUpdate() {
         const { sidebarVisible, sidebarWidth, activeItem, fetchItemContent, activeItemContent } = this.props;
+        const { itemLoadListenerExists, itemEventListenerExists, webContentLoaded } = this.state;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
         if (!activeItemContent) {
             fetchItemContent(activeItem);
+            return;
+        }
+        if (this.webContainer) {
+            if (!itemLoadListenerExists) {
+                this.webContainer.addEventListener('load', () => this.setState({ webContentLoaded: true }));
+                this.setState({ itemLoadListenerExists: true });
+            }
+            if (webContentLoaded && !itemEventListenerExists) {
+                this.webContainer.contentDocument.addEventListener('click', e => this.handleClick(e));
+                this.setState({ itemEventListenerExists: true });
+            }
         }
     }
 
     componentWillUnmount() {
         const { viewerClosed } = this.props;
+        const { itemLoadListenerExists, itemEventListenerExists } = this.state;
         viewerClosed();
         window.removeEventListener('resize', this.handleResize);
+        if (this.webContainer) {
+            if (itemLoadListenerExists) {
+                this.webContainer.removeEventListener('load', () => this.setState({ webContentLoaded: true }));
+            }
+            if (itemEventListenerExists) {
+                this.webContainer.contentDocument.removeEventListener('click', e => this.handleClick(e));
+            }
+        }
     }
 
     handleResize = () => {
@@ -86,6 +118,20 @@ export default class Viewer extends Component {
     handleResetClicked = () => {
         const { resetScale } = this.props;
         resetScale();
+    }
+
+    handleClick = (e) => {
+        this.setState({
+            annotationX: e.x,
+            annotationY: e.y,
+        });
+        console.log(rangy.getSelection(this.webContainer));
+    }
+
+    handleContentLoaded = () => {
+        this.setState({
+            webContentLoaded: true,
+        });
     }
 
     renderToolbar() {
@@ -125,7 +171,12 @@ export default class Viewer extends Component {
                 return (
                     <div className='web-wrapper'>
                         {sidebarIsDragging ? <div className='web-container-overlay' /> : null}
-                        <iframe className='web-container' srcDoc={activeItemContent} onClick={() => { rangyHighlight.highlightSelection('test'); }}/>
+                        <iframe 
+                            className='web-container'
+                            ref={(ref) => { this.webContainer = ref; }}
+                            srcDoc={activeItemContent}
+                            onClick={() => { rangyHighlight.highlightSelection('test'); }}
+                        />
                     </div>
                 );
             }
@@ -167,6 +218,7 @@ export default class Viewer extends Component {
 
     render() {
         const { waitingForSingleItem } = this.props;
+        const { annotationX, annotationY } = this.state;
         return (
             <div className='viewer'>
                 <div className='viewer-wrapper'>
@@ -174,6 +226,7 @@ export default class Viewer extends Component {
                         <Loader visible={waitingForSingleItem} />
                         {this.renderToolbar()}
                         <div className='viewer-container' ref={(c) => { this.viewer = c; }}>
+                            <Annotation x={annotationX} y={annotationY} />
                             {this.renderContent()}
                         </div>
                     </div>
