@@ -7,7 +7,7 @@ import './action-bar.scss';
 export default class ActionBar extends Component {
 
     static propTypes = {
-        loggedIn: PropTypes.bool,
+        loggedIn: PropTypes.bool.isRequired,
         logout: PropTypes.func.isRequired,
         backVisible: PropTypes.bool.isRequired,
         uploadVisible: PropTypes.bool.isRequired,
@@ -48,32 +48,30 @@ export default class ActionBar extends Component {
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch } = this.props;
 
-        return (
+        return loggedIn ? (
             <div className='action-bar-wrapper'>
-                { !loggedIn ?
-                    <div className='action-bar'>
-                        <div className='action-bar-back'>
-                            { backVisible ? <Link to='/'><button className='action-bar-back-button'>Back</button></Link> : null }
-                        </div>
-                        <div className='action-bar-search'>
-                            { searchVisible ?
-                                (
-                                    <div>
-                                        <input type='search' className='action-bar-search-input' />
-                                        <button className='action-bar-search-button' onClick={submitSearch}>Search</button>
-                                        <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
-                                    </div>
-                                ) : null
-                            }
-                        </div>
-                        <div className='action-bar-right-buttons'>
-                            {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
-                            {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
-                            {logoutVisible ? <button className='action-bar-logout' onClick={this.handleLogout}>Log Out</button> : null }
-                        </div>
+                <div className='action-bar'>
+                    <div className='action-bar-back'>
+                        { backVisible ? <Link to='/'><button className='action-bar-back-button'>Back</button></Link> : null }
                     </div>
-                : null}
+                    <div className='action-bar-search'>
+                        { searchVisible ?
+                            (
+                                <div>
+                                    <input type='search' className='action-bar-search-input' />
+                                    <button className='action-bar-search-button' onClick={submitSearch}>Search</button>
+                                    <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div className='action-bar-right-buttons'>
+                        {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
+                        {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
+                        {logoutVisible ? <button className='action-bar-logout' onClick={this.handleLogout}>Log Out</button> : null }
+                    </div>
+                </div>
             </div>
-        );
+        ) : null;
     }
 }

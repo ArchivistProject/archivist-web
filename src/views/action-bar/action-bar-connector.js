@@ -26,6 +26,7 @@ function mapStateToProps(state) {
     return {
         ...state.actionBar,
         pathname: state.routing.locationBeforeTransitions.pathname,
+        loggedIn: state.user.loggedIn,
     };
 }
 
