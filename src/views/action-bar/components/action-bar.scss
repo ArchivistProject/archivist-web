@@ -7,8 +7,8 @@
         min-width: $app-min-width;
         line-height: $action-bar-height;
         text-align: center;
-        background-color: #252A2F;
     }
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -29,12 +29,22 @@
         font-size: $default-size;
     }
 
+    span.glyphicon-upload {
+        font-size: 1.9em;
+    }
+
+    span.glyphicon-cog {
+        font-size: 1.9em;
+    }
+
+    span.glyphicon-log-out {
+        font-size: 1.9em;
+        margin-right: 20px;
+    }
+
     a {
-        color: $blue;
+        color: $white;
         cursor: pointer;
         text-decoration: none;
-        &:hover {
-            color: $dark-blue;
-        }
     }
 }

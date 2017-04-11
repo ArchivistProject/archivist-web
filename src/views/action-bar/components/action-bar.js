@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { getFormattedPathname } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import './action-bar.scss';
@@ -47,28 +47,59 @@ export default class ActionBar extends Component {
 
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch } = this.props;
-
+        const inlineStyle = { display: 'inline' };
+        const width = { width: '1%' };
+        const table = { display: 'table' };
         return loggedIn ? (
-            <div className='action-bar-wrapper'>
+            <div className='action-bar-wrapper navbar navbar-inverse'>
                 <div className='action-bar'>
-                    <div className='action-bar-back'>
-                        { backVisible ? <Link to='/'><button className='action-bar-back-button'>Back</button></Link> : null }
+                    <div className='navbar-header'>
+                        <button
+                            type='button' className='navbar-toggle' data-toggle='collapse'
+                            data-target='.navbar-collapse'
+                        />
+                        <a className='navbar-brand brand-name' href='/'>Archivist</a>
+                        {backVisible ?
+                            <a className='navbar-brand back-btn' onClick={browserHistory.goBack}>
+                                <span className='glyphicon glyphicon-arrow-left' title='Go back' />
+                            </a> : null }
                     </div>
-                    <div className='action-bar-search'>
+
+                    <div className='navbar-collapse collapse' id='searchbar'>
+                        <ul className='nav navbar-nav navbar-right'>
+                            {searchVisible ?
+                                <li><a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a></li> : null }
+
+                            {uploadVisible ?
+                                <li><a href='/upload'>
+                                    <span className='glyphicon glyphicon-upload' title='Upload a file' />
+                                </a></li> : null }
+
+                            {settingsVisible ?
+                                <li><a href='/settings'>
+                                    <span className='glyphicon glyphicon-cog' title='Settings' />
+                                </a></li> : null }
+
+                            {logoutVisible ?
+                                <li><a onClick={this.handleLogout}>
+                                    <span className='glyphicon glyphicon-log-out' title='Logout' />
+                                </a></li> : null }
+                        </ul>
                         { searchVisible ?
-                            (
-                                <div>
-                                    <input type='search' className='action-bar-search-input' />
-                                    <button className='action-bar-search-button' onClick={submitSearch}>Search</button>
-                                    <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
+                            <form className='navbar-form'>
+                                <div className='form-group' style={inlineStyle}>
+                                    <div className='input-group' style={table}>
+                                        <span className='input-group-addon' style={width}><span
+                                            className='glyphicon glyphicon-search'
+                                        /></span>
+                                        <input
+                                            className='form-control' name='search' placeholder='Search Here'
+                                            autoComplete='off' autoFocus='autofocus' type='text'
+                                        />
+                                    </div>
                                 </div>
-                            ) : null
-                        }
-                    </div>
-                    <div className='action-bar-right-buttons'>
-                        {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
-                        {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
-                        {logoutVisible ? <button className='action-bar-logout' onClick={this.handleLogout}>Log Out</button> : null }
+                            </form>
+                            : null }
                     </div>
                 </div>
             </div>
