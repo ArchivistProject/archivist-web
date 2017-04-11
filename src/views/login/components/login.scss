@@ -70,7 +70,15 @@
 
   .logo {
     position: absolute;
-    bottom: 28px;
+    bottom: 30px;
+    max-width: 100%;
+    height: auto;
+    width: auto\9;
+  }
+
+  .light-bulbs {
+    position: absolute;
+    top: 0px;
     max-width: 100%;
     height: auto;
     width: auto\9;

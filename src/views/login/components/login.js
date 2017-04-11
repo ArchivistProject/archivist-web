@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import Logo from '~/src/assets/images/logo.png';
+import Lightbulbs from '~/src/assets/images/lightbulbs.png';
 import './login.scss';
 
 export default class Login extends Component {
@@ -57,7 +58,8 @@ export default class Login extends Component {
                     </div>
                 </div>
                 <div className='right-half'>
-                    <img className='logo' src={Logo} alt='logo' />
+                    <img className='light-bulbs' src={Lightbulbs} alt='light bulbs' />
+                    <img className='logo' src={Logo} alt='logo' width='350' height='350' />
                 </div>
                 <div className='footer' />
             </div>
