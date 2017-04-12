@@ -24,6 +24,16 @@ export function updatePage(pageRequested) {
     };
 }
 
+export function addHighlight(highlighter, highlightId, text, note) {
+    return (dispatch) => {
+        console.log('api call', highlighter.serialize());
+        dispatch({
+            type: viewerActionTypes.HIGHLIGHT_ADDED,
+            data: { highlightId, text, note },
+        });
+    };
+}
+
 export function viewerClosed() {
     return {
         type: viewerActionTypes.VIEWER_CLOSED,

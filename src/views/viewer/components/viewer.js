@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import pdflib from 'pdfjs-dist';
 import rangy from 'rangy';
+import shortid from 'shortid';
 import rangyHighlight from 'rangy/lib/rangy-highlighter';
 import rangyClassApplier from 'rangy/lib/rangy-classapplier';
 import { Sidebar } from '~/src/views';
@@ -13,6 +14,7 @@ import './viewer.scss';
 
 const gutter = 15 / 3; // width of sidebar resizer
 const scrollbarWidth = getScrollbarWidth();
+const noteCssPath = '/assets/css/notes.css'; // path for note css, used for inserting into iframe
 
 export default class Viewer extends Component {
 
@@ -23,6 +25,8 @@ export default class Viewer extends Component {
         updateScale: PropTypes.func.isRequired,
         resetScale: PropTypes.func.isRequired,
         updatePage: PropTypes.func.isRequired,
+        addHighlight: PropTypes.func.isRequired,
+        // deleteHighlight: PropTypes.func.isRequired,
         fetchItem: PropTypes.func.isRequired,
         fetchItemContent: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
@@ -36,6 +40,7 @@ export default class Viewer extends Component {
         params: PropTypes.object.isRequired,
         viewerClosed: PropTypes.func.isRequired,
         waitingForSingleItem: PropTypes.bool,
+        highlights: PropTypes.array,
     };
 
     constructor(props) {
@@ -44,8 +49,12 @@ export default class Viewer extends Component {
             webContentLoaded: false,
             itemLoadListenerExists: false,
             itemClickListenerExists: false,
-            annotationX: null,
-            annotationY: null,
+            annotationVisible: false,
+            highlightedText: '',
+            selectionRect: null,
+            selectedHighlightsRects: [],
+            highlightId: '',
+            selectedHighlights: [],
         };
     }
     componentWillMount() {
@@ -56,53 +65,81 @@ export default class Viewer extends Component {
             fetchItemContent(activeItem);
         }
         window.addEventListener('resize', this.handleResize);
+        rangy.init();
     }
 
     componentDidMount() {
+<<<<<<< HEAD
         const { sidebarVisible, sidebarWidth } = this.props;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
+        document.addEventListener('click ', e => this.handleClick(e));
+=======
+        const { sidebarVisible } = this.props;
+        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
+        document.addEventListener('click ', this.handleClick);
+>>>>>>> 4325708... ARC-168_notes: highlight wip
     }
 
     shouldComponentUpdate(nextProps) {
-        const { activeItemContentType } = this.props;
-        if (activeItemContentType === CONTENT_TYPES.PDF) {
-            return !!this.svg;
+        const { activeItemContentType, currentPage, scale } = this.props;
+        if (activeItemContentType === CONTENT_TYPES.PDF && currentPage === nextProps.currentPage && scale === nextProps.scale) {
+            return false;
         }
         return true;
     }
 
     componentDidUpdate() {
-        const { sidebarVisible, sidebarWidth, activeItem, fetchItemContent, activeItemContent } = this.props;
+        const { activeItemContentType, sidebarVisible, sidebarWidth, activeItem, fetchItemContent, activeItemContent } = this.props;
         const { itemLoadListenerExists, itemEventListenerExists, webContentLoaded } = this.state;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
         if (!activeItemContent) {
             fetchItemContent(activeItem);
             return;
         }
-        if (this.webContainer) {
-            if (!itemLoadListenerExists) {
-                this.webContainer.addEventListener('load', () => this.setState({ webContentLoaded: true }));
-                this.setState({ itemLoadListenerExists: true });
-            }
-            if (webContentLoaded && !itemEventListenerExists) {
-                this.webContainer.contentDocument.addEventListener('click', e => this.handleClick(e));
-                this.setState({ itemEventListenerExists: true });
-            }
+
+        switch (activeItemContentType) {
+            case CONTENT_TYPES.WEB:
+                if (this.webContainer) {
+                    if (!itemLoadListenerExists) {
+                        this.webContainer.addEventListener('load', this.handleContentLoaded);
+                        this.setState({ itemLoadListenerExists: true });
+                    }
+                    if (webContentLoaded && !itemEventListenerExists) {
+                        this.webContainer.contentDocument.addEventListener('click', this.handleClick);
+                        this.setState({ itemEventListenerExists: true });
+                    }
+                }
+                break;
+
+            case CONTENT_TYPES.PDF:
+                if (!itemEventListenerExists) {
+                    this.setState({ itemEventListenerExists: true });
+                    document.addEventListener('click', this.handleClick);
+                }
+                break;
         }
     }
 
     componentWillUnmount() {
-        const { viewerClosed } = this.props;
+        const { activeItemContentType, viewerClosed } = this.props;
         const { itemLoadListenerExists, itemEventListenerExists } = this.state;
         viewerClosed();
         window.removeEventListener('resize', this.handleResize);
-        if (this.webContainer) {
-            if (itemLoadListenerExists) {
-                this.webContainer.removeEventListener('load', () => this.setState({ webContentLoaded: true }));
-            }
-            if (itemEventListenerExists) {
-                this.webContainer.contentDocument.removeEventListener('click', e => this.handleClick(e));
-            }
+        switch (activeItemContentType) {
+            case CONTENT_TYPES.WEB:
+                if (this.webContainer) {
+                    if (itemLoadListenerExists) {
+                        this.webContainer.removeEventListener('load', this.handleContentLoaded);
+                    }
+                    if (itemEventListenerExists) {
+                        this.webContainer.contentDocument.removeEventListener('click', this.handleClick);
+                    }
+                }
+                break;
+
+            case CONTENT_TYPES.PDF:
+                document.removeEventListener('click', this.handleClick);
+                break;
         }
     }
 
@@ -121,14 +158,122 @@ export default class Viewer extends Component {
     }
 
     handleClick = (e) => {
-        this.setState({
-            annotationX: e.x,
-            annotationY: e.y,
+        const { activeItemContentType } = this.props;
+        console.log(document.activeElement);
+        // Reset selected highlights
+        // this.setState({
+        //     selectedHighlights: [],
+        //     selectedHighlightsRects: [],
+        // });
+
+        let selection;
+        switch (activeItemContentType) {
+            case CONTENT_TYPES.WEB:
+                selection = this.webContainer.contentWindow.getSelection();
+                break;
+            default:
+                selection = window.getSelection();
+                break;
+        }
+        if (selection.toString() !== '') {
+            const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
+            this.setState({
+                annotationVisible: true,
+                highlightedText: selection.toString(),
+                selectionRect,
+            });
+        } else {
+            console.log('nothing selected');
+            if (!this.state.selectedHighlights.length) {
+                this.setState({
+                    annotationVisible: false,
+                    selectionRect: null,
+                });
+            }
+        }
+    }
+
+    createHighlighter = () => {
+        this.highlighter = rangy.createHighlighter(this.webContainer.contentDocument);
+        // this.highlighter.addClassApplier(rangy.createClassApplier('archivist-highlight', {
+        //     ignoreWhiteSpace: true,
+        //     tagNames: ['*'],
+        //     onElementCreate: this.onHighlightCreate,
+        // }));
+    }
+
+    handleHighlightAdded = () => {
+        const { addHighlight } = this.props;
+        const note = 'test'; // placeholder
+        const highlightId = shortid.generate();
+        this.highlighter.addClassApplier(rangy.createClassApplier(`archivist-highlight-${highlightId}`, {
+            ignoreWhiteSpace: true,
+            tagNames: ['*'],
+            onElementCreate: this.onHighlightCreate,
+        }));
+        this.setState({ highlightId }, () => {
+            this.highlighter.highlightSelection(`archivist-highlight-${highlightId}`, { exclusive: false });
+            addHighlight(this.highlighter, highlightId, this.state.highlightedText, note);
         });
-        console.log(rangy.getSelection(this.webContainer));
+
+        this.setState({
+            annotationVisible: false,
+            annotationX: null,
+            annotationY: null,
+        });
+    }
+
+    handleHighlightEdited = () => {
+        const { selectedHighlights, selectedHighlightsRects } = this.state;
+        console.log(`edit ${selectedHighlights} ${selectedHighlightsRects}`);
+    }
+
+    handleCancel = () => {
+        this.setState({
+            annotationVisible: false,
+            highlightedText: '',
+            selectionRect: null,
+            selectedHighlightsRects: [],
+            highlightId: '',
+            selectedHighlights: [],
+        });
+    }
+
+    handleHighlightDeleted = () => {
+        this.highlighter.unhighlightSelection();
+    }
+
+    handleHighlightSelected = (element, highlightId) => {
+        const { highlights } = this.props;
+        if (!this.state.editMode) {
+            this.setState({
+                editMode: true,
+                selectedHighlights: [],
+                selectedHighlightsRects: [],
+            });
+        }
+        const newHighlight = highlights.find(highlight => highlight.highlightId === highlightId);
+        const updatedSelectedHighlights = [...this.state.selectedHighlights, newHighlight];
+        // highlights.filter(highlight => this.state.selectedHighlights.indexOf(highlight.highlightId) > -1);
+        this.setState({
+            annotationVisible: true,
+            selectedHighlights: updatedSelectedHighlights,
+            selectedHighlightsRects: [...this.state.selectedHighlightsRects, element.getBoundingClientRect()],
+        });
+    }
+
+    onHighlightCreate = (element, classApplier) => {
+        const { highlightId } = this.state;
+        element.onclick = () => this.handleHighlightSelected(element, highlightId);
     }
 
     handleContentLoaded = () => {
+        const cssLink = document.createElement('link');
+        cssLink.href = noteCssPath;
+        cssLink.rel = 'stylesheet';
+        cssLink.type = 'text/css';
+        this.webContainer.contentDocument.body.appendChild(cssLink);
+        this.createHighlighter();
         this.setState({
             webContentLoaded: true,
         });
@@ -136,7 +281,7 @@ export default class Viewer extends Component {
 
     renderToolbar() {
         const { scale, scaleMax, scaleMin, activeItemContentType, currentPage, numPages, updatePage } = this.props;
-        if (activeItemContentType === 'application/pdf') {
+        if (activeItemContentType === CONTENT_TYPES.PDF) {
             return (
                 <div className='viewer-toolbar'>
                     <div className='viewer-toolbar-zoom'>
@@ -187,29 +332,43 @@ export default class Viewer extends Component {
                         this.viewer.removeChild(this.viewer.firstChild);
                     }
                 }
-                const pageContainer = document.createElement('div');
-                pageContainer.className += 'viewer-page';
-                this.viewer.appendChild(pageContainer);
                 activeItemContent.getPage(currentPage).then((pdfPage) => {
                     // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
                     const reduceScale = sidebarVisible ? (window.innerWidth - sidebarWidth) / window.innerWidth : 1;
                     const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
-
-                    pageContainer.width = `${viewport.width}px`;
-                    pageContainer.height = `${viewport.height}px`;
                     this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
 
-                    // Render the SVG element and add it as a child to the page container
-                    pdfPage.getOperatorList()
-                        .then((opList) => {
-                            const svgGfx = new pdflib.PDFJS.SVGGraphics(pdfPage.commonObjs, pdfPage.objs);
-                            return svgGfx.getSVG(opList, viewport);
-                        })
-                            .then((svg) => {
-                                this.svg = svg;
-                                pageContainer.appendChild(svg);
-                            });
+                    const canvasWrapper = document.createElement('div');
+                    const canvas = document.createElement('canvas');
+                    const textLayerDiv = document.createElement('div');
+                    textLayerDiv.className = 'textLayer';
+
+                    canvasWrapper.appendChild(canvas);
+                    this.viewer.appendChild(canvasWrapper);
+                    this.viewer.appendChild(textLayerDiv);
+
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+
+                    const context = {
+                        canvasContext: canvas.getContext('2d'),
+                        viewport,
+                    };
+
+                    pdfPage.render(context);
+                    pdfPage.getTextContent().then((textContent) => {
+                        pdflib.renderTextLayer({
+                            textContent,
+                            container: textLayerDiv,
+                            viewport,
+                        });
+                    });
                 });
+                if (!this.highlighter) {
+                    this.createHighlighter();
+                }
                 return null;
             }
         }
@@ -218,7 +377,7 @@ export default class Viewer extends Component {
 
     render() {
         const { waitingForSingleItem } = this.props;
-        const { annotationX, annotationY } = this.state;
+        const { annotationVisible, highlightedText, selectionRect, selectedHighlightsRects, selectedHighlights } = this.state;
         return (
             <div className='viewer'>
                 <div className='viewer-wrapper'>
@@ -226,7 +385,17 @@ export default class Viewer extends Component {
                         <Loader visible={waitingForSingleItem} />
                         {this.renderToolbar()}
                         <div className='viewer-container' ref={(c) => { this.viewer = c; }}>
-                            <Annotation x={annotationX} y={annotationY} />
+                            {annotationVisible ?
+                                <Annotation
+                                    highlightedText={highlightedText}
+                                    selectionRect={selectionRect}
+                                    selectedHighlightsRects={selectedHighlightsRects}
+                                    addHighlight={this.handleHighlightAdded}
+                                    editHighlight={this.handleHighlightEdited}
+                                    deleteHighlight={this.handleHighlightDeleted}
+                                    cancel={this.handleCancel}
+                                    selectedHighlights={selectedHighlights}
+                                /> : null}
                             {this.renderContent()}
                         </div>
                     </div>

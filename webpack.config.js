@@ -32,7 +32,7 @@ module.exports = {
         },
         {
             test: /\.css$/,
-            loader: 'style-loader',
+            loader: 'style-loader!css-loader',
         },
         {
             test: /\.(pdf|htm|html)$/,

@@ -1,6 +1,23 @@
+@import '../../defaults';
+
 .annotation {
-    width: 100px;
+    width: 200px;
     height: 100px;
     position: absolute;
-    background-color: grey;
+    background-color: white;
+    border: 1px solid $dark-gray;
+
+    &-toolbar {
+        display: flex;
+        justify-content: space-between;
+        background-color: $light-gray;
+        padding: 5px;
+
+        &-button {
+            border: none;
+            background-color: white;
+            color: $dark-gray;
+            border-radius: 5px;
+        }
+    }
 }
