@@ -49,12 +49,12 @@ export default class Login extends Component {
             <div className='login'>
                 <div className='left-half'>
                     <div className='login-inner-left'>
-                        <h2 className='login-welcome'>Welcome to Archivist</h2>
+                        <h1 className='login-welcome'>Welcome to Archivist</h1>
                         <p className='login-label'>Username</p>
-                        <input className='login-textbox' value={usernameField} onChange={this.handleUsernameChanged} />
+                        <input type='text' value={usernameField} onChange={this.handleUsernameChanged} />
                         <p className='login-label'>Password</p>
-                        <input type='password' className='login-textbox' value={passwordField} onChange={this.handlePasswordChanged} />
-                        <button className='login-submit' onClick={this.handleLoginClicked}>LOGIN</button>
+                        <input type='password' value={passwordField} onChange={this.handlePasswordChanged} />
+                        <button type='submit' onClick={this.handleLoginClicked}>LOGIN</button>
                     </div>
                 </div>
                 <div className='right-half'>

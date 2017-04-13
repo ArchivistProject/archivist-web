@@ -94,7 +94,7 @@ export default class ActionBar extends Component {
                                         /></span>
                                         <input
                                             className='form-control' name='search' placeholder='Search Here'
-                                            autoComplete='off' autoFocus='autofocus' type='text'
+                                            autoComplete='off' autoFocus='autofocus'
                                         />
                                     </div>
                                 </div>

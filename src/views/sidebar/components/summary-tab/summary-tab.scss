@@ -22,7 +22,7 @@ $summary-tab-spacing: 20px;
         }
 
         input:focus {
-            outline: 1px solid $blue;
+            outline: 1px solid $secondary-color;
         }
     }
     
@@ -30,7 +30,7 @@ $summary-tab-spacing: 20px;
         padding-left: 3px;
         font-weight: bold;
         &.modified {
-            color: $blue;
+            color: $secondary-color;
         }
     }
 
@@ -74,12 +74,12 @@ $summary-tab-spacing: 20px;
         text-transform: capitalize;
         outline: none;
         &:hover {
-            background-color: $light-blue;
-            color: $blue;
+            background-color: $light-secondary-color;
+            color: $secondary-color;
         }
         &:active {
-            background-color: $dark-blue;
-            color: $light-blue;
+            background-color: $secondary-color;
+            color: $primary-color;
         }
         &:disabled {
             background-color: $light-gray;

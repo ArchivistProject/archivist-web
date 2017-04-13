@@ -17,17 +17,17 @@
     }
 
     &-header-item {
-        color: $white;
-        background-color: $dark-blue;
+        color: $primary-color;
+        background-color: $secondary-color;
         font-weight: bold;
     }
 
     &-row:nth-child(odd) {
-        background-color: $light-gray;
+        background-color: $row-alternate-color;
     }
 
     &-row:hover {
-        background-color: $light-blue;
+        background-color: $light-secondary-color;
     }
 
     &-noresults {

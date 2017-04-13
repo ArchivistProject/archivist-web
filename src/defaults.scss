@@ -9,15 +9,66 @@ $red: #fc544b;
 $green: #79ff4c;
 $yellow: #ffff4c;
 
-$light-blue: #E1F5FE;
-$blue: #40C4FF;
-$dark-blue: #0277BD;
+//$light-blue: #E1F5FE;
+//$blue: #40C4FF;
+//$dark-blue: #0277BD;
 
 $app-min-width: 640px;
 
-$default-family: Verdana, sans-serif;
+$default-family: 'Open Sans', sans-serif;
 $default-size: 13px;
 $small-size: 11px;
 $smaller-size: 10px;
 
 $action-bar-height: 60px;
+
+
+$button-primary-color: #9B59B6;
+$button-font-color: #FFF;
+
+$bg-primary-color: #252A2F;
+
+$primary-color: #FFF;
+$secondary-color: #9B59B6;
+$light-secondary-color: #FFF2FF;
+$dark-secondary-color: #82409D;
+$tertiary-color: #252A2F;
+
+$row-alternate-color: #EAEAEA;
+
+//default for styles
+
+button[type='submit'] {
+  margin-top: 30px;
+  color: $button-font-color;
+  font-size: 1em;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: $button-primary-color;
+  padding: 13px 40px;
+  border: none;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  display: block;
+}
+
+input[type='text'], input[type='password'] {
+  background: white;
+  border: 1px double #DDD;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #333;
+  color: #666;
+  outline: none;
+  height:25px;
+  width: 275px;
+}
+
+input:focus {
+  border-color: $light-secondary-color;
+  box-shadow:0 0 10px $light-secondary-color;
+}

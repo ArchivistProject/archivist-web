@@ -15,13 +15,13 @@
 
             &.search-button {
                 flex-grow: 3;
-                background-color: $blue;
+                background-color: $secondary-color;
                 color: $white;
-                border-bottom: 2px solid $dark-blue;
+                border-bottom: 2px solid $secondary-color;
 
                 &:hover {
-                    background-color: $dark-blue;
-                    border-bottom: 2px solid darken($dark-blue, 10%);
+                    background-color: $secondary-color;
+                    border-bottom: 2px solid darken($secondary-color, 10%);
                 }
             }
 
@@ -125,10 +125,10 @@
         a {
             cursor: pointer;
             text-decoration: none;
-            color: $blue;
+            color: $secondary-color;
 
             &:hover {
-                color: $dark-blue;
+                color: $dark-secondary-color;
             }
         }
     }

@@ -12,8 +12,8 @@
             outline: none;
             font-size: $default-size;
             &:focus {
-                border: 1px solid $blue;
-                color: $black;
+                border: 1px solid $secondary-color;
+                color: $tertiary-color;
             }
         }
         &-markdown {

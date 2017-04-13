@@ -1,6 +1,10 @@
 @import '../../../defaults';
 
 .action-bar {
+    .form-control {
+        border-color: $secondary-color;
+    }
+
     &-wrapper {
         width: 100%;
         height: $action-bar-height;

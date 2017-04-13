@@ -24,15 +24,15 @@
         line-height: 25px;
     }
     .grid {
-        border-bottom: 1px solid $dark-blue;
+        border-bottom: 1px solid $dark-secondary-color;
         overflow: scroll;
         &-row {
             height: 30px;
             cursor: pointer;
 
             &-active {
-                background-color: $blue !important;
-                color: $white;
+                background-color: $secondary-color !important;
+                color: $primary-color;
             }
         }
     }
