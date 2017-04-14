@@ -1,7 +1,7 @@
 @import '../../../defaults';
 
 .login {
-  color: $primary-color;
+  color: #FFF;
 
   &-welcome {
     color: #fff;
@@ -16,7 +16,7 @@
     padding-top: 15px;
     color: #FFF;
     font-size: 20px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: $default-family;
   }
 
   &-inner-left {
@@ -27,14 +27,14 @@
 
   .left-half {
     background-color: $bg-primary-color;
-    width: 70%;
+    width: 60%;
     position: absolute;
     left: 0px;
     height: 100%;
   }
   .right-half {
     background-color: $bg-primary-color;
-    width: 30%;
+    width: 40%;
     position: absolute;
     right: 0px;
     height: 100%;
@@ -46,6 +46,7 @@
     max-width: 100%;
     height: auto;
     width: auto\9;
+    margin-left: 15%;
   }
 
   .light-bulbs {
@@ -63,5 +64,12 @@
     height:50px;
     width:100%;
     background-color: $secondary-color;
+  }
+
+  &-submit {
+    text-align: center;
+    display: block;
+    margin-top: 25px;
+    width: 100%;
   }
 }

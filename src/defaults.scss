@@ -15,7 +15,7 @@ $yellow: #ffff4c;
 
 $app-min-width: 640px;
 
-$default-family: 'Open Sans', sans-serif;
+$default-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 $default-size: 13px;
 $small-size: 11px;
 $smaller-size: 10px;
@@ -27,6 +27,7 @@ $button-primary-color: #9B59B6;
 $button-font-color: #FFF;
 
 $bg-primary-color: #252A2F;
+$bg-secondary-color: #FFF;
 
 $primary-color: #FFF;
 $secondary-color: #9B59B6;
@@ -36,10 +37,10 @@ $tertiary-color: #252A2F;
 
 $row-alternate-color: #EAEAEA;
 
+
 //default for styles
 
 button[type='submit'] {
-  margin-top: 30px;
   color: $button-font-color;
   font-size: 1em;
   -webkit-transition: all 0.3s;
@@ -52,23 +53,29 @@ button[type='submit'] {
   background: $button-primary-color;
   padding: 13px 40px;
   border: none;
-  font-family: 'Open Sans', sans-serif;
+  font-family: $default-family;
   font-weight: 600;
-  display: block;
 }
 
-input[type='text'], input[type='password'] {
-  background: white;
-  border: 1px double #DDD;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #333;
-  color: #666;
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="time"],
+input[type="url"],
+input[type="password"],
+select
+{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   outline: none;
-  height:25px;
-  width: 275px;
-}
-
-input:focus {
-  border-color: $light-secondary-color;
-  box-shadow:0 0 10px $light-secondary-color;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: 16px $default-family;
+  height: 45px;
 }

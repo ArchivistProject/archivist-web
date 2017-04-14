@@ -50,11 +50,9 @@ export default class Login extends Component {
                 <div className='left-half'>
                     <div className='login-inner-left'>
                         <h1 className='login-welcome'>Welcome to Archivist</h1>
-                        <p className='login-label'>Username</p>
-                        <input type='text' value={usernameField} onChange={this.handleUsernameChanged} />
-                        <p className='login-label'>Password</p>
-                        <input type='password' value={passwordField} onChange={this.handlePasswordChanged} />
-                        <button type='submit' onClick={this.handleLoginClicked}>LOGIN</button>
+                        <input type='email' value={usernameField} onChange={this.handleUsernameChanged} placeholder='Username' />
+                        <input type='password' value={passwordField} onChange={this.handlePasswordChanged} placeholder='Password' />
+                        <button className='login-submit' type='submit' onClick={this.handleLoginClicked}>LOGIN</button>
                     </div>
                 </div>
                 <div className='right-half'>
