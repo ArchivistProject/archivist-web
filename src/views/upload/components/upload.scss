@@ -1,7 +1,7 @@
 @import '../../../defaults';
 
 .upload {
-  color: $tertiary-color;
+  color: $default-font-color;
 
   &-submit {
     text-align: center;
@@ -9,14 +9,14 @@
   }
 
   .left-half {
-    background-color: $bg-secondary-color;
+    background-color: $bg-primary-color;
     width: 40%;
     position: absolute;
     left: 0px;
     height: 100%;
   }
   .right-half {
-    background-color: $bg-secondary-color;
+    background-color: $bg-primary-color;
     width: 60%;
     position: absolute;
     right: 0px;
@@ -38,7 +38,6 @@
     font-family: $default-family;
     color: $secondary-color;
     font-weight: bold;
-    font-style: oblique;
   }
 
   fieldset {
@@ -73,7 +72,7 @@
     height: 25px;
     display: block;
     background: white;
-    border: 1px solid $tertiary-color;
+    border: 1px solid $default-font-color;
   }
 
   input[type=checkbox] + label::after {
@@ -119,12 +118,12 @@
   }
 
   .title {
-    color: $tertiary-color;
-    font-size: 2em;
+    color: $default-font-color;
+    font-size: 3em;
     font-weight: bold;
     padding-bottom: 10px;
     font-family: $default-family;
-    padding-left: 14%;
+    padding-left: 10%;
   }
 
   .inputfile {
@@ -138,7 +137,7 @@
 
   .inputfile + label {
     max-width: 80%;
-    font-size: 2.00rem;
+    font-size: 14px;
     /* 20px */
     font-weight: 700;
     text-overflow: ellipsis;
@@ -183,12 +182,12 @@
   .inputfile-4:focus + label,
   .inputfile-4.has-focus + label,
   .inputfile-4 + label:hover {
-    color: $dark-secondary-color;
+    color: $darker-primary-color;
   }
 
   .inputfile-4 + label figure {
-    width: 100px;
-    height: 100px;
+    width: 170px;
+    height: 170px;
     border-radius: 50%;
     background-color: $secondary-color;
     display: block;
@@ -199,7 +198,7 @@
   .inputfile-4:focus + label figure,
   .inputfile-4.has-focus + label figure,
   .inputfile-4 + label:hover figure {
-    background-color: $dark-secondary-color;
+    background-color: $darker-primary-color;
   }
 
   .inputfile-4 + label svg {
@@ -237,5 +236,12 @@
     margin-bottom: 10px;
     font: 16px $default-family;
     height: 45px;
+  }
+
+  .container {
+    border-radius: 25px;
+    background: $bg-primary-color;
+    padding: 15px 15px 15px 15px;
+    width: 95%;
   }
 }

@@ -1,18 +1,3 @@
-//default colors
-$white: #fff;
-$light-gray: #eee;
-$gray: #ddd;
-$dark-gray: #555;
-$black: #000;
-
-$red: #fc544b;
-$green: #79ff4c;
-$yellow: #ffff4c;
-
-//$light-blue: #E1F5FE;
-//$blue: #40C4FF;
-//$dark-blue: #0277BD;
-
 $app-min-width: 640px;
 
 $default-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -22,24 +7,27 @@ $smaller-size: 10px;
 
 $action-bar-height: 60px;
 
-
-$button-primary-color: #9B59B6;
+// all buttons color
 $button-font-color: #FFF;
 
-$bg-primary-color: #252A2F;
-$bg-secondary-color: #FFF;
+//login page background color
+$login-bg-color: #252A2F;
 
-$primary-color: #FFF;
-$secondary-color: #9B59B6;
+//font color
+$default-font-color: #252A2F;
+
+// background color
+$bg-primary-color: #FFF;
+
+//other colors
+$primary-color: #9B59B6;
+$darker-primary-color: #82409D;
+$light-primary-color: #CE8CE9;
+$secondary-color: #EAEAEA;
 $light-secondary-color: #FFF2FF;
-$dark-secondary-color: #82409D;
-$tertiary-color: #252A2F;
-
-$row-alternate-color: #EAEAEA;
 
 
 //default for styles
-
 button[type='submit'] {
   color: $button-font-color;
   font-size: 1em;
@@ -50,7 +38,7 @@ button[type='submit'] {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
-  background: $button-primary-color;
+  background: $primary-color;
   padding: 13px 40px;
   border: none;
   font-family: $default-family;

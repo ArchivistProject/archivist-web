@@ -3,8 +3,8 @@
 .sidebar {
     height: calc(100vh -  #{$action-bar-height});
     width: 300px;
-    background-color: $primary-color;
-    border-left: 1px solid $dark-secondary-color;
+    background-color: $light-secondary-color;
+    border-left: 1px solid $secondary-color;
     overflow: scroll;
 
     &-wrapper {
@@ -16,7 +16,7 @@
     &-tabs {
         display: flex;
         height: 25px;
-        border-color: $dark-secondary-color;
+        border-color: $primary-color;
         border-style: solid;
         border-width: 0 0 1px;
 
@@ -24,7 +24,7 @@
             flex-grow: 1;
             outline: none;
             border: none;
-            background-color: $white;
+            background-color: $bg-primary-color;
             
             font-family: $default-family;
             font-size: $smaller-size;
@@ -32,7 +32,7 @@
             &:disabled {
                 cursor: default;
                 background-color: $secondary-color;
-                color: $white;
+                color: $bg-primary-color;
             }
 
             &:enabled:hover {
@@ -49,38 +49,38 @@
     &-close {
         width: 30px;
         font-size: $smaller-size;
-        background-color: $white;
-        color: $red;
-        border-color: $dark-secondary-color;
+        background-color: $bg-primary-color;
+        color: red;
+        border-color: $secondary-color;
         border-style: solid;
         border-width: 0;
 
         &:hover {
-            background-color: $red;
-            color: $white;
+            background-color: red;
+            color: $bg-primary-color;
         }
     }
     &-toggler {
         height: 100%;
-        border-left: 1px solid $dark-secondary-color;
+        border-left: 1px solid $secondary-color;
         width: 20px;
         z-index: 1;
         cursor: pointer;
-        background-color: $white;
+        background-color: $bg-primary-color;
         &:hover {
-            background-color: $light-gray;
+            background-color: $light-secondary-color;
         }
         &.opened {
-            background-color: $light-gray;
+            background-color: $light-secondary-color;
             &:hover {
-                background-color: lighten($dark-gray, 50%);
+                background-color: lighten($secondary-color, 50%);
             }
         }
         i {
             position: relative;
             top: 50%;
             margin: 0 2px;
-            color: $dark-gray;
+            color: $secondary-color;
         }
     }
 }

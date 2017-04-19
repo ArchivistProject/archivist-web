@@ -20,11 +20,11 @@
     }
 
     &-disabled {
-        color: $light-gray;
+        color: $light-secondary-color;
         cursor: not-allowed;
 
         &:hover {
-            color: $light-gray;
+            color: $light-secondary-color;
         }
     }
 }

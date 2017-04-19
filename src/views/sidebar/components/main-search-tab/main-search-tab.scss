@@ -15,25 +15,25 @@
 
             &.search-button {
                 flex-grow: 3;
-                background-color: $secondary-color;
-                color: $white;
+                background-color: $primary-color;
+                color: $button-font-color;
                 border-bottom: 2px solid $secondary-color;
 
                 &:hover {
-                    background-color: $secondary-color;
-                    border-bottom: 2px solid darken($secondary-color, 10%);
+                    background-color: $darker-primary-color;
+                    border-bottom: 2px solid darken($primary-color, 10%);
                 }
             }
 
             &.reset-button {
                 flex-grow: 1;
-                color: $dark-gray;
-                background-color: $light-gray;
-                border-bottom: 2px solid $gray;
+                color: $button-font-color;
+                background-color: $primary-color;
+                border-bottom: 2px solid $light-secondary-color;
 
                 &:hover {
-                    background-color: $gray;
-                    border-bottom: 2px solid darken($gray, 10%);
+                    background-color: $darker-primary-color;
+                    border-bottom: 2px solid darken($darker-primary-color, 10%);
                 }
             }
         }
@@ -52,13 +52,13 @@
             justify-content: space-around;
 
             button {
-                border: 1px solid $gray;
-                background-color: $white;
+                border: 1px solid $secondary-color;
+                background-color: $primary-color;
                 outline: none;
 
                 &:hover {
-                    border: 1px solid darken($light-gray, 20%);
-                    background-color: $light-gray;
+                    border: 1px solid darken($primary-color, 20%);
+                    background-color: $primary-color;
                 }
             }
         }
@@ -70,10 +70,10 @@
 
     &-group {
         width: 100%;
-        background-color: $light-gray;
+        background-color: $secondary-color;
         padding-bottom: 5px;
         border-radius: 5px;
-        border-bottom: 2px solid $gray;
+        border-bottom: 2px solid $secondary-color;
 
         &-wrapper {
             display: flex;
@@ -86,9 +86,9 @@
             display: inline-flex;
             justify-content: space-between;
             align-items: flex-start;
-            background-color: $gray;
+            background-color: $secondary-color;
             border-radius: 5px 5px 0 0;
-            border-bottom: 2px solid darken($gray, 10%);
+            border-bottom: 2px solid darken($secondary-color, 10%);
 
             > * {
                 margin: 3px;
@@ -128,7 +128,7 @@
             color: $secondary-color;
 
             &:hover {
-                color: $dark-secondary-color;
+                color: $secondary-color;
             }
         }
     }
