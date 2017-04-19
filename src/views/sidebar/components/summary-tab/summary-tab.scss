@@ -18,7 +18,7 @@ $summary-tab-spacing: 20px;
         line-height: 23px;
 
         &:nth-child(odd) {
-            background-color: $light-secondary-color;
+            background-color: $light-primary-color;
         }
 
         input:focus {
@@ -74,7 +74,7 @@ $summary-tab-spacing: 20px;
         text-transform: capitalize;
         outline: none;
         &:hover {
-            background-color: $light-secondary-color;
+            background-color: $light-primary-color;
             color: $secondary-color;
         }
         &:active {
@@ -82,7 +82,7 @@ $summary-tab-spacing: 20px;
             color: $primary-color;
         }
         &:disabled {
-            background-color: $light-secondary-color;
+            background-color: $light-primary-color;
             color: $secondary-color;
             cursor: not-allowed;
         }

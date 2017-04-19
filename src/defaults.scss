@@ -19,12 +19,13 @@ $default-font-color: #252A2F;
 // background color
 $bg-primary-color: #FFF;
 
+
 //other colors
 $primary-color: #9B59B6;
 $darker-primary-color: #82409D;
-$light-primary-color: #CE8CE9;
+$light-primary-color: #FFF2FF;
 $secondary-color: #EAEAEA;
-$light-secondary-color: #FFF2FF;
+$darker-secondary-color: #8c8b8b;
 
 
 //default for styles
@@ -66,4 +67,22 @@ select
   margin-bottom: 10px;
   font: 16px $default-family;
   height: 45px;
+}
+
+hr {
+  border-top: 1px solid #8c8b8b;
+  text-align: center;
+}
+hr:after {
+  content: '§';
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  padding: 0 10px;
+  background: #f0f0f0;
+  color: #8c8b8b;
+  font-size: 18px;
+  -webkit-transform: rotate(60deg);
+  -moz-transform: rotate(60deg);
+  transform: rotate(60deg);
 }

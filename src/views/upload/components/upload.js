@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, { PropTypes, Component } from 'react';
 import TagsInput from 'react-tagsinput';
 import moment from 'moment';
 import './upload.scss';
@@ -30,13 +30,13 @@ export default class Upload extends Component {
     };
 
     componentWillMount() {
-        const {fetchItemTypes} = this.props;
+        const { fetchItemTypes } = this.props;
         fetchItemTypes();
         this.resetInputFields();
     }
 
     resetInputFields = () => {
-        const {setAllItemID, allItemID, setAllMetaData, handleTagsChange, resetFile, setFilePicked, setFileName, setDescription} = this.props;
+        const { setAllItemID, allItemID, setAllMetaData, handleTagsChange, resetFile, setFilePicked, setFileName, setDescription } = this.props;
         setAllMetaData([]);
         // keep Generic but remove others category ID
         const array = allItemID;
@@ -50,7 +50,7 @@ export default class Upload extends Component {
     }
 
     handleSubmit = () => {
-        const {submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description} = this.props;
+        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description } = this.props;
         // get meta data array and add today's date to it since user can't modify it
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
@@ -83,13 +83,13 @@ export default class Upload extends Component {
     }
 
     handleFileChange = () => {
-        const {updateUploadFile, setFileName} = this.props;
+        const { updateUploadFile, setFileName } = this.props;
         const file = this.fileUpload.files[0];
         setFileName(file.name);
         updateUploadFile(file);
     }
     handleOnItemSelect = (obj) => {
-        const {groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setCheckBox} = this.props;
+        const { groups, allItemID, setAllItemID, setAllMetaData, allMetaDataValue, setCheckBox } = this.props;
         const itemID = obj.target.id;
         const checked = obj.target.checked;
 
@@ -144,12 +144,12 @@ export default class Upload extends Component {
     }
 
     handleTagChange = (tag) => {
-        const {handleTagsChange} = this.props;
+        const { handleTagsChange } = this.props;
         handleTagsChange(tag);
     }
 
     handleMetaDataTextChange = (obj) => {
-        const {groups, allMetaDataValue, setAllMetaData} = this.props;
+        const { groups, allMetaDataValue, setAllMetaData } = this.props;
         const theData = obj.target.value;
         const theType = obj.target.getAttribute('data-type');
         const theName = obj.target.name;
@@ -185,23 +185,25 @@ export default class Upload extends Component {
     }
 
     handleDescriptionChange = (obj) => {
-        const {setDescription} = this.props;
+        const { setDescription } = this.props;
         const value = obj.target.value;
         console.log(value);
         setDescription(value);
     }
 
     render() {
-        const {groups, tags, allItemID, fileName, description} = this.props;
+        const { groups, tags, allItemID, fileName, description } = this.props;
         return (
             <div className='upload'>
                 <p className='title'>Upload New File</p>
                 <div className='left-half'>
                     <div className='upload-file-content'>
-                        <input type='file' id='file-5' accept='.pdf, .html' className='inputfile inputfile-4'
-                               ref={(ref) => {
-                                   this.fileUpload = ref;
-                               }} onChange={this.handleFileChange}/>
+                        <input
+                            type='file' id='file-5' accept='.pdf, .html' className='inputfile inputfile-4'
+                            ref={(ref) => {
+                                this.fileUpload = ref;
+                            }} onChange={this.handleFileChange}
+                        />
                         <label htmlFor='file-5'>
                             <figure>
                                 <svg xmlns='http://www.w3.org/2000/svg' width='20' height='17' viewBox='0 0 20 17'>
@@ -220,8 +222,8 @@ export default class Upload extends Component {
                 <div className='right-half'>
                     <div className='container'>
                         <h4>Information about the file can be entered below:</h4>
-                        <p>Categories:</p>
-                        <input id='generic' type='checkbox' value='generic' disabled checked='true'/>
+                        <p className='upload-label'>Categories:</p>
+                        <input id='generic' type='checkbox' value='generic' disabled checked='true' />
                         <label htmlFor='generic'>Generic *</label>
                         {groups.map((object, key) =>
                             <div>
@@ -238,8 +240,8 @@ export default class Upload extends Component {
                                     : null}
                             </div>,
                         )}
-
-                        <p>Meta Data:</p>
+                        <br />
+                        <p className='upload-label'>Meta Data:</p>
                         {allItemID.map((ID, idKey) =>
                             <div key={idKey}>
                                 <p className='metadata-group'>{groups.filter(x => x.id === ID)[0].name}</p>
@@ -256,18 +258,19 @@ export default class Upload extends Component {
                                                 placeholder={obj.name}
                                             />
                                         }
-                                    </div>
+                                    </div>,
                                 )
                                 }
-                            </div>
+                            </div>,
                         )}
-                        <p>Description:</p>
+                        <p className='upload-label'>Description:</p>
                         <textarea
                             value={description} type='text' placeholder='Add a description'
                             onBlur={this.handleDescriptionChange}
                         />
-                        <p>Tags:</p>
+                        <p className='upload-label'>Tags:</p>
                         <TagsInput value={tags} onChange={this.handleTagChange} />
+                        <br />
                     </div>
                 </div>
             </div>

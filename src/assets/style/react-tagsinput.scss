@@ -13,10 +13,10 @@
 }
 
 .react-tagsinput-tag {
-  background-color: $light-secondary-color;
+  background-color: $secondary-color;
   border-radius: 2px;
-  border: 1px solid $secondary-color;
-  color: $secondary-color;
+  border: 1px solid $darker-secondary-color;
+  color: $default-font-color;
   display: inline-block;
   font-family: sans-serif;
   font-size: 13px;

@@ -9,7 +9,7 @@
     }
 
     button {
-        margin: 0 px;
+        margin: 0px;
         border: none;
         outline: none;
         background-color : transparent;
@@ -20,11 +20,11 @@
     }
 
     &-disabled {
-        color: $light-secondary-color;
+        color: $secondary-color;
         cursor: not-allowed;
 
         &:hover {
-            color: $light-secondary-color;
+            color: $secondary-color;
         }
     }
 }

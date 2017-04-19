@@ -3,7 +3,7 @@
 .sidebar {
     height: calc(100vh -  #{$action-bar-height});
     width: 300px;
-    background-color: $light-secondary-color;
+    background-color: $light-primary-color;
     border-left: 1px solid $secondary-color;
     overflow: scroll;
 
@@ -68,10 +68,10 @@
         cursor: pointer;
         background-color: $bg-primary-color;
         &:hover {
-            background-color: $light-secondary-color;
+            background-color: $light-primary-color;
         }
         &.opened {
-            background-color: $light-secondary-color;
+            background-color: $light-primary-color;
             &:hover {
                 background-color: lighten($secondary-color, 50%);
             }
