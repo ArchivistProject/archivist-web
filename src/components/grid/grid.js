@@ -45,10 +45,10 @@ export default class Grid extends Component {
                 rowClasses.push('grid-row-active');
             }
             return (
-                <tr className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
+                <tr key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
                     {
                         headers.map((header, columnNum) =>
-                            <td className='grid-row-item' key={columnNum}>{row[header] ? row[header] : null}</td>
+                            <td key={columnNum}>{row[header] ? row[header] : null}</td>
                         )
                     }
                 </tr>
@@ -69,15 +69,15 @@ export default class Grid extends Component {
     render() {
         const { rows } = this.props;
         return (
-            <div className='grid-wrapper'>
+            <div className='table-responsive-vertical shadow-z-1'>
                 {rows && rows.length > 0 ? (
-                    <table className='grid'>
+                    <table className='table table-hover table-striped table-mc-purple'>
                         <thead>
-                            <tr className='grid-header'>
+                            <tr>
                                 {this.renderHeaders()}
                             </tr>
                         </thead>
-                        <tbody className='grid-body'>{this.renderRows()}</tbody>
+                        <tbody>{this.renderRows()}</tbody>
                     </table>
                 ) : this.renderNoResults()}
             </div>
