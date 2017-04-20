@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Panel } from 'react-bootstrap/lib/';
 import PasswordDialog from '~/src/views/settings/components/password';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
 import DocumentList from '~/src/views/settings/components/documentList';
@@ -61,7 +60,7 @@ export default class Settings extends Component {
         const { showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog } = this.props;
         return (
             <div>
-                <Panel header='Password' bsStyle='info'>
+                <div>
                     <PasswordDialog
                         showModal={showModal}
                         newPassword={newPassword}
@@ -71,7 +70,7 @@ export default class Settings extends Component {
                         openDialog={openDialog}
                         closeDialog={closeDialog}
                     />
-                </Panel>
+                </div>
             </div>
         );
     }
@@ -80,13 +79,13 @@ export default class Settings extends Component {
         const { fetchFileStorage, storage, fileCount } = this.props;
         return (
             <div>
-                <Panel header='Statistic'bsStyle='info'>
+                <div>
                     <Statistic
                         fetchFileStorage={fetchFileStorage}
                         storage={storage}
                         fileCount={fileCount}
                     />
-                </Panel>
+                </div>
             </div>
         );
     }
@@ -95,12 +94,12 @@ export default class Settings extends Component {
         const { apiToken, refreshAPI } = this.props;
         return (
             <div>
-                <Panel header='API Token' bsStyle='info'>
+                <div>
                     <RefreshAPI
                         apiToken={apiToken}
                         refreshAPI={refreshAPI}
                     />
-                </Panel>
+                </div>
             </div>
         );
     }
@@ -109,7 +108,7 @@ export default class Settings extends Component {
         const { documentsPerPage, documentListSettingID, saveDocumentListSettings, fetchDocumentListSettings, handleDocsPerPageChange } = this.props;
         return (
             <div>
-                <Panel header='Document List Preferences' bsStyle='info'>
+                <div>
                     <DocumentList
                         documentsPerPage={documentsPerPage}
                         documentListSettingID={documentListSettingID}
@@ -117,7 +116,7 @@ export default class Settings extends Component {
                         fetchDocumentListSettings={fetchDocumentListSettings}
                         handleDocsPerPageChange={handleDocsPerPageChange}
                     />
-                </Panel>
+                </div>
             </div>
         );
     }
@@ -128,7 +127,7 @@ export default class Settings extends Component {
             removeItem, popupName, setPopupName, setCanEdit, canEdit } = this.props;
         return (
             <div>
-                <Panel header='Item Category' bsStyle='info'>
+                <div>
                     <p>Add new categories for your file and manage meta data for each category. A category can be used when uploading a file.</p>
                     <ItemTypes
                         groups={groups}
@@ -154,7 +153,7 @@ export default class Settings extends Component {
                         setCanEdit={setCanEdit}
                         canEdit={canEdit}
                     />
-                </Panel>
+                </div>
             </div>
         );
     }

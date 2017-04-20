@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Col, ControlLabel } from 'react-bootstrap/lib/';
 
 export default class Statistic extends Component {
 
@@ -34,16 +33,10 @@ export default class Statistic extends Component {
         return (
 
             <div>
-
-                <Col sm={4} componentClass={ControlLabel}>Total Files Uploaded: </Col>
-                <Col sm={8}>
-                    <p>{fileCount}</p>
-                </Col>
-
-                <Col sm={4} componentClass={ControlLabel}>Storage Size: </Col>
-                <Col sm={8}>
-                    <p>{humanReadableStorage}</p>
-                </Col>
+                <p>Total Files Uploaded: </p>
+                <p>{fileCount}</p>
+                <p>Storage Size: </p>
+                <p>{humanReadableStorage}</p>
             </div>
 
         );

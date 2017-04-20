@@ -1,6 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import {
-    Modal, Button, FormControl, FormGroup, Col, Form, ControlLabel } from 'react-bootstrap/lib/';
 
 export default class Password extends Component {
 
@@ -55,59 +53,23 @@ export default class Password extends Component {
         return (
             <div>
                 <p>Change your account password</p>
-                <Button
-                    bsStyle='info'
-                    onClick={this.open}
-                >
-                    Change Password
-                </Button>
-                <Modal show={showModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Change Your Password</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form horizontal>
-                            <FormGroup controlId='formBasicText'>
-                                <Col componentClass={ControlLabel} sm={3}>
-                                    Old Password
-                                </Col>
-                                <Col sm={7}>
-                                    <FormControl type='password' />
-                                </Col>
-                            </FormGroup>
+                <button onClick={this.open}>Change Password</button>
+                <p>Change Your Password</p>
+                <p>Old Password</p>
+                <input type='password' />
+                <p>New Password</p>
+                <input
+                    type='password' value={newPassword}
+                    onChange={this.handleNewPasswordChange}
+                />
 
-                            <FormGroup controlId='formHorizontalPassword'>
-                                <Col componentClass={ControlLabel} sm={3}>
-                                    New Password
-                                </Col>
-                                <Col sm={7}>
-                                    <FormControl
-                                        type='password' value={newPassword}
-                                        onChange={this.handleNewPasswordChange}
-                                    />
-                                    <FormControl.Feedback />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup controlId='formHorizontalPassword'>
-                                <Col componentClass={ControlLabel} sm={3}>
-                                    Retype Password
-                                </Col>
-                                <Col sm={7}>
-                                    <FormControl
-                                        type='password' value={confirmPassword}
-                                        onChange={this.handleConfirmPassChange}
-                                    />
-                                    <FormControl.Feedback />
-                                </Col>
-                            </FormGroup>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button bsStyle='success' onClick={this.close}>Save</Button>
-                        <Button bsStyle='warning' onClick={this.close}>Cancel</Button>
-                    </Modal.Footer>
-                </Modal>
+                <p>Retype Password</p>
+                <input
+                    type='password' value={confirmPassword}
+                    onChange={this.handleConfirmPassChange}
+                />
+                <button onClick={this.close}>Save</button>
+                <button onClick={this.close}>Cancel</button>
             </div>
         );
     }
