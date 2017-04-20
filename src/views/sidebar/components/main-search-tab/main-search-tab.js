@@ -190,7 +190,7 @@ export default class SummaryTab extends Component {
                         <div className='search-tab-metadata-input'>
                             <div className='search-tab-metadata-selects'>
                                 <select value={metadataRow.itemType} onChange={e => this.handleMetadataItemTypeUpdated(e, rowIndex, groupIndex)}>
-                                    <option defaultValue disabled={!!metadataRow.itemType}>Select Item Type</option>
+                                    <option defaultValue disabled={!!metadataRow.itemType}>Select Category</option>
                                     {itemTypeNames.map(itemType => <option value={itemType} key={itemType}>{itemType}</option>)}
                                 </select>
                                 <select value={metadataRow.field.id} onChange={e => this.handleMetadataFieldUpdated(e, rowIndex, groupIndex)}>
@@ -243,17 +243,18 @@ export default class SummaryTab extends Component {
         const { addSearchGroup, submitSearch, reset } = this.props;
         return (
             <div className='search-tab'>
-                <div className='search-tab-buttons'>
-                    <button className='search-button' onClick={submitSearch}>Search</button>
-                    <button className='reset-button' onClick={reset}>Reset</button>
-                </div>
+                <header className='search-tab-label'>Create your searches for files below:</header>
                 {this.renderGroups()}
-                <header className='search-tab-new-header'>Create New Search Group</header>
+                <p>Find files with...</p>
                 <div className='search-tab-new-group'>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>Item Types</button>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>Category</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
+                </div>
+                <div className='search-tab-search-reset'>
+                    <button type='sidebar' onClick={submitSearch}>Search</button>
+                    <button type='sidebar' onClick={reset}>Reset</button>
                 </div>
             </div>
         );

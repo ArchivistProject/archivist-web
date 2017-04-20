@@ -1,9 +1,9 @@
 @import '../../../defaults';
 
 .sidebar {
-    height: calc(100vh -  #{$action-bar-height});
+    height: 99%;
     width: 300px;
-    background-color: $light-primary-color;
+    background-color: $bg-primary-color;
     border-left: 1px solid $secondary-color;
     overflow: scroll;
 
@@ -16,23 +16,23 @@
     &-tabs {
         display: flex;
         height: 25px;
-        border-color: $primary-color;
+        border-color: $darker-secondary-color;
         border-style: solid;
         border-width: 0 0 1px;
 
-        &-item {
+        &-item { //the tabs
             flex-grow: 1;
             outline: none;
             border: none;
             background-color: $bg-primary-color;
             
             font-family: $default-family;
-            font-size: $smaller-size;
+            font-size: 12px;
 
             &:disabled {
                 cursor: default;
                 background-color: $secondary-color;
-                color: $bg-primary-color;
+                color: $primary-color;
             }
 
             &:enabled:hover {
@@ -68,19 +68,19 @@
         cursor: pointer;
         background-color: $bg-primary-color;
         &:hover {
-            background-color: $light-primary-color;
+            background-color: $secondary-color;
         }
         &.opened {
-            background-color: $light-primary-color;
+            background-color: $bg-primary-color;
             &:hover {
-                background-color: lighten($secondary-color, 50%);
+                background-color: $secondary-color;
             }
         }
         i {
             position: relative;
             top: 50%;
             margin: 0 2px;
-            color: $secondary-color;
+            color: $primary-color; //color of the arrow
         }
     }
 }

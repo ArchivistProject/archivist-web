@@ -2,89 +2,67 @@
 
 $summary-tab-spacing: 20px;
 .summary-tab {
-    display: flex;
-    flex-direction: column;
-    margin: 0 5px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px;
 
-    &-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0 1px 2px 1px;
-        table-layout: fixed;
+  &-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 1px 2px 1px;
+    table-layout: fixed;
+  }
+
+  &-row {
+    height: 23px;
+    line-height: 23px;
+
+    &:nth-child(odd) {
+      background-color: $secondary-color;
     }
 
-    &-row {
-        height: 23px;
-        line-height: 23px;
-
-        &:nth-child(odd) {
-            background-color: $light-primary-color;
-        }
-
-        input:focus {
-            outline: 1px solid $secondary-color;
-        }
+    input:focus {
+      outline: 1px solid $secondary-color;
     }
-    
-    &-label {
-        padding-left: 3px;
-        font-weight: bold;
-        &.modified {
-            color: $secondary-color;
-        }
+  }
+
+  &-label {
+    padding-left: 3px;
+    font-weight: bold;
+    &.modified {
+      color: $secondary-color;
     }
+  }
 
-    &-metadata {
-        margin-bottom: $summary-tab-spacing;
-        &-controls {
-            display: flex;
-            flex-direction: row;
-        }
+  &-metadata {
+    margin-bottom: $summary-tab-spacing;
+    &-controls {
+      display: flex;
+      flex-direction: row;
     }
+  }
 
-    &-tags {
-        margin-bottom: $summary-tab-spacing;
-    }
+  &-tags {
+    margin-bottom: $summary-tab-spacing;
+  }
 
-    &-category {
-        text-transform: uppercase;
-        font-size: $small-size;
-        font-family: $default-family;
-        font-weight: bold;
-    }
+  &-category {
+    text-transform: uppercase;
+    font-size: $small-size;
+    font-family: $default-family;
+    font-weight: bold;
+  }
 
-    &-value {
-        .url-data {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        a {
-            cursor: pointer;
-            text-decoration: none;
-        }
+  &-value {
+    .url-data {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    button {
-        flex-grow: 1;
-        border: 1px solid $primary-color;
-        background-color: $primary-color;
-        color: $button-font-color;
-        text-transform: capitalize;
-        outline: none;
-        &:hover {
-            background-color: $light-primary-color;
-            color: $secondary-color;
-        }
-        &:active {
-            background-color: $secondary-color;
-            color: $primary-color;
-        }
-        &:disabled {
-            background-color: $light-primary-color;
-            color: $secondary-color;
-            cursor: not-allowed;
-        }
+    a {
+      cursor: pointer;
+      text-decoration: none;
     }
+  }
 }

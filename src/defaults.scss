@@ -46,6 +46,25 @@ button[type='submit'] {
   font-weight: 600;
 }
 
+button[type='sidebar'] {
+    color: $button-font-color;
+    font-size: 12px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    background: $primary-color;
+    padding: 8px 14px;
+    border: none;
+    font-family: $default-family;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-right: 10px;
+}
+
 input[type="datetime"],
 input[type="email"],
 input[type="number"],

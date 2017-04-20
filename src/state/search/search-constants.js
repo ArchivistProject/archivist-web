@@ -1,14 +1,14 @@
 export const SEARCH_CONSTANTS = {
     AND: 'and',
     OR: 'or',
-    ITEM_TYPE: 'Item Types',
+    ITEM_TYPE: 'Category',
     METADATA: 'Metadata',
     TAG: 'Tags',
     DESCRIPTION: 'Description',
 };
 
 export const SEARCH_DEFAULTS = {
-    ITEM_TYPE: 'Select Item Type',
+    ITEM_TYPE: 'Select Category',
     METADATA: {
         itemType: undefined,
         field: {
