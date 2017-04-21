@@ -50,14 +50,14 @@ export default class DescriptionBox extends Component {
         if (descriptionEditMode) {
             return (
                 <div className='description-box-controls'>
-                    <button type='sidebar' onClick={() => this.handleEditModeToggled(true)}>Save</button>
-                    <button type='sidebar' onClick={() => this.handleEditModeToggled(false)}>Cancel</button>
+                    <button type='small' onClick={() => this.handleEditModeToggled(true)}>Save</button>
+                    <button type='small' onClick={() => this.handleEditModeToggled(false)}>Cancel</button>
                 </div>
             );
         }
         return (
             <div className='description-box-controls'>
-                <button type='sidebar' onClick={() => this.handleEditModeToggled(false)}>Edit Description</button>
+                <button type='small' onClick={() => this.handleEditModeToggled(false)}>Edit Description</button>
             </div>
         );
     }

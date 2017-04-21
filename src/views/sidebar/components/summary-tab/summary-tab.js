@@ -70,14 +70,14 @@ export default class SummaryTab extends Component {
         if (metadataEditMode) {
             return (
                 <div className='summary-tab-metadata-controls'>
-                    <button type='sidebar' onClick={() => this.handleMetadataEditModeToggled(true)}>Save</button>
-                    <button type='sidebar' onClick={() => this.handleMetadataEditModeToggled(false)}>Cancel</button>
+                    <button type='small' onClick={() => this.handleMetadataEditModeToggled(true)}>Save</button>
+                    <button type='small' onClick={() => this.handleMetadataEditModeToggled(false)}>Cancel</button>
                 </div>
             );
         }
         return (
             <div className='summary-tab-metadata-controls'>
-                <button type='sidebar' onClick={() => this.handleMetadataEditModeToggled(false)}>Edit Metadata</button>
+                <button type='small' onClick={() => this.handleMetadataEditModeToggled(false)}>Edit Metadata</button>
             </div>
         );
     }

@@ -253,8 +253,8 @@ export default class SummaryTab extends Component {
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
                 </div>
                 <div className='search-tab-search-reset'>
-                    <button type='sidebar' onClick={submitSearch}>Search</button>
-                    <button type='sidebar' onClick={reset}>Reset</button>
+                    <button type='small' onClick={submitSearch}>Search</button>
+                    <button type='small' onClick={reset}>Reset</button>
                 </div>
             </div>
         );

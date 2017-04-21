@@ -60,18 +60,17 @@ export default class Settings extends Component {
         const { showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog } = this.props;
         return (
             <div>
-                <div>
-                    <PasswordDialog
-                        showModal={showModal}
-                        newPassword={newPassword}
-                        confirmPassword={confirmPassword}
-                        newPasswordChange={newPasswordChange}
-                        confirmPasswordChange={confirmPasswordChange}
-                        openDialog={openDialog}
-                        closeDialog={closeDialog}
-                    />
-                </div>
+                <PasswordDialog
+                    showModal={showModal}
+                    newPassword={newPassword}
+                    confirmPassword={confirmPassword}
+                    newPasswordChange={newPasswordChange}
+                    confirmPasswordChange={confirmPasswordChange}
+                    openDialog={openDialog}
+                    closeDialog={closeDialog}
+                />
             </div>
+
         );
     }
 
@@ -79,13 +78,11 @@ export default class Settings extends Component {
         const { fetchFileStorage, storage, fileCount } = this.props;
         return (
             <div>
-                <div>
-                    <Statistic
-                        fetchFileStorage={fetchFileStorage}
-                        storage={storage}
-                        fileCount={fileCount}
-                    />
-                </div>
+                <Statistic
+                    fetchFileStorage={fetchFileStorage}
+                    storage={storage}
+                    fileCount={fileCount}
+                />
             </div>
         );
     }
@@ -94,29 +91,27 @@ export default class Settings extends Component {
         const { apiToken, refreshAPI } = this.props;
         return (
             <div>
-                <div>
-                    <RefreshAPI
-                        apiToken={apiToken}
-                        refreshAPI={refreshAPI}
-                    />
-                </div>
+                <RefreshAPI
+                    apiToken={apiToken}
+                    refreshAPI={refreshAPI}
+                />
             </div>
+
         );
     }
 
     documentList() {
         const { documentsPerPage, documentListSettingID, saveDocumentListSettings, fetchDocumentListSettings, handleDocsPerPageChange } = this.props;
         return (
+
             <div>
-                <div>
-                    <DocumentList
-                        documentsPerPage={documentsPerPage}
-                        documentListSettingID={documentListSettingID}
-                        saveDocumentListSettings={saveDocumentListSettings}
-                        fetchDocumentListSettings={fetchDocumentListSettings}
-                        handleDocsPerPageChange={handleDocsPerPageChange}
-                    />
-                </div>
+                <DocumentList
+                    documentsPerPage={documentsPerPage}
+                    documentListSettingID={documentListSettingID}
+                    saveDocumentListSettings={saveDocumentListSettings}
+                    fetchDocumentListSettings={fetchDocumentListSettings}
+                    handleDocsPerPageChange={handleDocsPerPageChange}
+                />
             </div>
         );
     }
@@ -128,6 +123,7 @@ export default class Settings extends Component {
         return (
             <div>
                 <div>
+                    <p className='settings-label'>File Category</p>
                     <p>Add new categories for your file and manage meta data for each category. A category can be used when uploading a file.</p>
                     <ItemTypes
                         groups={groups}
@@ -161,24 +157,33 @@ export default class Settings extends Component {
     render() {
         return (
             <div className='settings'>
-                <h1 className='settings-header'>SETTINGS</h1>
+                <p className='settings-title'>Settings</p>
 
-                <div className='aside'>
-                    <img
-                        src={Logo}
-                        alt='Archivist Logo'
-                        width='200'
-                        height='164'
-                    />
-                    <p className='caption'>Version 1.0</p>
+                <div className='left-half'>
+                    <div className='settings-logo'>
+                        <img
+                            src={Logo}
+                            alt='Archivist Logo'
+                            width='200'
+                            height='164'
+                        />
+                        <p className='settings-version'>Version 1.0</p>
+                        <p className='settings-version'> &copy; 2017 Archivist</p>
+                    </div>
                 </div>
 
-                <div className='section'>
-                    {this.statistic()}
-                    {this.itemTypes()}
-                    {this.password()}
-                    {this.apiToken()}
-                    {this.documentList()}
+                <div className='right-half'>
+                    <div className='container'>
+                        <h4>Manage and view your preferences below:</h4>
+                        {this.statistic()}
+                        <hr />
+                        {this.itemTypes()}
+                        {this.password()}
+                        <hr />
+                        {this.apiToken()}
+                        <hr />
+                        {this.documentList()}
+                    </div>
                 </div>
             </div>
         );

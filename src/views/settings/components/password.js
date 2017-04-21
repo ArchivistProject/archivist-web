@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Button } from 'react-bootstrap/lib/';
 
 export default class Password extends Component {
 
@@ -52,24 +53,31 @@ export default class Password extends Component {
         const { showModal, newPassword, confirmPassword } = this.props;
         return (
             <div>
+                <hr />
+                <p className='settings-label'>Password</p>
                 <p>Change your account password</p>
-                <button onClick={this.open}>Change Password</button>
-                <p>Change Your Password</p>
-                <p>Old Password</p>
-                <input type='password' />
-                <p>New Password</p>
-                <input
-                    type='password' value={newPassword}
-                    onChange={this.handleNewPasswordChange}
-                />
-
-                <p>Retype Password</p>
-                <input
-                    type='password' value={confirmPassword}
-                    onChange={this.handleConfirmPassChange}
-                />
-                <button onClick={this.close}>Save</button>
-                <button onClick={this.close}>Cancel</button>
+                {!showModal ? <Button onClick={this.open}>Change Password</Button> : null }
+                {showModal ?
+                    <div>
+                        <input className='text-input-password' placeholder='Enter old password' type='password' />
+                        <input
+                            className='text-input-password'
+                            placeholder='Enter new password'
+                            type='password' value={newPassword}
+                            onChange={this.handleNewPasswordChange}
+                        />
+                        <input
+                            className='text-input-password'
+                            placeholder='Retype new password'
+                            type='password' value={confirmPassword}
+                            onChange={this.handleConfirmPassChange}
+                        />
+                        <div className='settings-left-margin'>
+                            <Button onClick={this.close}>Save</Button>
+                            <Button onClick={this.close}>Cancel</Button>
+                        </div>
+                    </div>
+                : null}
             </div>
         );
     }

@@ -99,11 +99,6 @@
     height: 80px;
   }
 
-  textarea:focus {
-    outline: 1px solid $secondary-color;
-  }
-
-
   .metadata-fields {
     margin-left: 10%;
   }
@@ -226,7 +221,7 @@
     width: 50%; //the only different here from the default.css text box is the width
     padding: 7px;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #FFF;
     background: transparent;
     margin-bottom: 10px;
     font: 16px $default-family;

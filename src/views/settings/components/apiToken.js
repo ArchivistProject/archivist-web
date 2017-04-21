@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Button } from 'react-bootstrap/lib/';
 
 export default class APIToken extends Component {
 
@@ -16,13 +17,16 @@ export default class APIToken extends Component {
         const { token } = this.props;
         return (
             <div>
+                <p className='settings-label'>API Token</p>
                 <textarea
                     placeholder='no API available'
                     readOnly
                 >
                     {token}
                 </textarea>
-                <button type='submit' onClick={this.refresh}>Refresh</button>
+                <div>
+                    <Button onClick={this.refresh}>Refresh</Button>
+                </div>
             </div>
         );
     }

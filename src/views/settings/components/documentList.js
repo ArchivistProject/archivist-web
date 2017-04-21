@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Button } from 'react-bootstrap/lib/';
 
 export default class DocumentList extends Component {
 
@@ -30,18 +31,16 @@ export default class DocumentList extends Component {
         const { documentsPerPage } = this.props;
         return (
             <div>
-                <p>
-                  Documents Per Page:
-                </p>
-
-                <p className='mb-1'>
-                    <input
-                        type='number'
-                        value={documentsPerPage || 10}
-                        onChange={this.handleDocsPerPageInputChange}
-                    />
-                </p>
-                <button onClick={this.saveSettings}>Save</button>
+                <p className='settings-label'>File List:</p>
+                <p>Number of files to display:</p>
+                <input
+                    type='number'
+                    value={documentsPerPage || 10}
+                    onChange={this.handleDocsPerPageInputChange}
+                />
+                <div className='settings-margin-bottom'>
+                    <Button onClick={this.saveSettings}>Save</Button>
+                </div>
             </div>
         );
     }

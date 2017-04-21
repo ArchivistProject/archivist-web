@@ -1,4 +1,7 @@
 import React, { PropTypes, Component } from 'react';
+import { Button, FormControl, FormGroup, Col, Form, ControlLabel,
+    ListGroup, ListGroupItem, Label,
+} from 'react-bootstrap/lib/';
 import './settings.scss';
 
 export default class ItemTypes extends Component {
@@ -126,57 +129,63 @@ export default class ItemTypes extends Component {
 
         return (
             <div>
-                <hr />
-                <h4>{popupName} Meta Data</h4>
-                {canEdit === false ? <p>Default group cannot be edited</p> :
-                <p>Select a field type, enter the field name, and click Add to create a new meta data field for this
-                        category</p>
-                }
-                <div>
-                    <p>All Fields</p>
-                    <div>
-                        <ul className='list-group'>
-                            {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
-                                <li className='list-group-item clearfix'>
-                                    {obj.name}
-                                    {popupName !== 'Website' && popupName !== 'Generic' ?
-                                        <span className='pull-right button-group'>
-                                            <p className='type-label-padding'>{obj.type}</p>
-                                            <button
-                                                id={obj.id} type='button' onClick={this.deleteCurrentField}
-                                                className='btn btn-danger'
-                                            ><span className='glyphicon glyphicon-remove' /></button>
-                                        </span> : <p className='type-label'>{obj.type}</p> }
-                                </li>,
-                                )}
-                        </ul>
-                    </div>
+                <div className='meta-data-container'>
+                    <p className='meta-label'>{popupName} Meta Data:</p>
+                    {canEdit === false ? <p>Default group cannot be edited</p> : <p>Add a new meta data field to this category below</p>
+                    }
                 </div>
+                <Form horizontal>
+                    <FormGroup>
+                        <Col sm={3} componentClass={ControlLabel}>All Fields:</Col>
+                        <Col sm={5}>
+                            <ul className='list-group'>
+                                {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
+                                    <li className='list-group-item clearfix'>
+                                        {obj.name}
+                                        {popupName !== 'Website' && popupName !== 'Generic' ?
+                                            <span className='pull-right button-group'>
+                                                <Label className='type-label-padding'>{obj.type}</Label>
+                                                <Button
+                                                    bsSize='xsmall'
+                                                    id={obj.id} type='button' onClick={this.deleteCurrentField}
+                                                    className='btn'
+                                                ><span className='glyphicon glyphicon-remove' /></Button>
+                                            </span> : <Label className='type-label'>{obj.type}</Label> }
+                                    </li>
+                                )}
+                            </ul>
+                        </Col>
+                    </FormGroup>
 
-                {canEdit === true ?
-                    <div>
-                        <p>Field Name</p>
-                        <input value={fieldName} type='text' onChange={this.handleFieldNameChange} />
-                        <p>Field Type</p>
-                        <div>
-                            <input
-                                type='select'
-                                placeholder='select'
-                                onChange={this.onFieldTypeDropDown}
-                            >
-                                <option value='blank'>Select type...</option>
-                                <option value='string'>String</option>
-                                <option value='date'>Date</option>
-                            </input>
-                        </div>
-                        <button onClick={this.addField}>Add</button>
-                    </div> : null }
+                    {canEdit === true ?
+                        <FormGroup>
+                            <Col sm={5}>
+                                <input className='text-input-field-name' placeholder='Enter field name' value={fieldName} type='text' onChange={this.handleFieldNameChange} />
+                            </Col>
 
-                {canEdit === true ?
-                    <div>
-                        <br />
-                        <button onClick={this.handleDeleteCategory}>Delete {popupName}</button>
-                    </div> : null }
+                            <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
+                            <Col sm={3}>
+                                <FormControl
+                                    componentClass='select' placeholder='select'
+                                    onChange={this.onFieldTypeDropDown}
+                                >
+                                    <option value='blank'>Select type...</option>
+                                    <option value='string'>String</option>
+                                    <option value='date'>Date</option>
+                                </FormControl>
+                            </Col>
+
+                            <Col sm={2}>
+                                <Button onClick={this.addField}>Add</Button>
+                            </Col>
+                        </FormGroup> : null }
+
+                    {canEdit === true ?
+                        <div className='meta-data-container'>
+                            <br />
+                            <Button onClick={this.handleDeleteCategory}>Delete {popupName}</Button>
+                        </div> : null }
+                </Form>
             </div>
 
         );
@@ -187,30 +196,37 @@ export default class ItemTypes extends Component {
         const { fieldVisible, groups, itemName } = this.props;
         return (
             <div>
-                <p>All Categories</p>
-                <div>
-                    <ul>
-                        {groups.map((op, key) =>
-                            <li
-                                onClick={this.handleOnItemSelect}
-                                value={op.id}
-                                key={key}
-                            >
-                                {op.name}
-                            </li>,
-                        )}
-                    </ul>
-                </div>
+                <Form horizontal>
+                    <FormGroup controlId='formControlsSelect'>
+                        <Col sm={3} componentClass={ControlLabel}>All Categories:</Col>
+                        <Col sm={5}>
+                            <ListGroup>
+                                {groups.map((op, key) =>
+                                    <ListGroupItem
+                                        onClick={this.handleOnItemSelect}
+                                        value={op.id}
+                                        key={key}
+                                    >
+                                        {op.name}
+                                    </ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </Col>
+                    </FormGroup>
 
-                <div>
-                    <p>Category Name</p>
-                    <input value={itemName} type='text' onChange={this.handleItemNameChange} />
-                    <button onClick={() => this.addItem()}>Add</button>
-                </div>
+                    <FormGroup controlId='formHorizontalEmail'>
+                        <Col sm={8}>
+                            <input className='text-input-category' placeholder='Enter category name' value={itemName} type='text' onChange={this.handleItemNameChange} />
+                        </Col>
+                        <Col sm={4}>
+                            <Button onClick={() => this.addItem()}>Add</Button>
+                        </Col>
+                    </FormGroup>
 
-                <div>
-                    {fieldVisible ? this.generateFieldsContent() : null}
-                </div>
+                    <div>
+                        {fieldVisible ? this.generateFieldsContent() : null}
+                    </div>
+                </Form>
             </div>
         );
     }

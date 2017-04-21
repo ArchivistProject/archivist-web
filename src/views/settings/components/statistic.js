@@ -33,10 +33,9 @@ export default class Statistic extends Component {
         return (
 
             <div>
-                <p>Total Files Uploaded: </p>
-                <p>{fileCount}</p>
-                <p>Storage Size: </p>
-                <p>{humanReadableStorage}</p>
+                <p className='settings-label'>Statistic:</p>
+                <p>{fileCount} files uploaded</p>
+                <p>{humanReadableStorage} of files size</p>
             </div>
 
         );
