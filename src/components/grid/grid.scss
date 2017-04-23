@@ -215,6 +215,7 @@
 .table-hover.table-mc-purple > tbody > tr:hover > td,
 .table-hover.table-mc-purple > tbody > tr:hover > th {
     background-color: $light-primary-color;
+    cursor: pointer;
 }
 @media screen and (max-width: 767px) {
     .table-responsive-vertical .table-striped.table-mc-purple > tbody > tr > td,
