@@ -41,7 +41,7 @@ export default class Upload extends Component {
         // keep Generic but remove others category ID
         const array = allItemID;
         array.splice(1);
-        setAllItemID([]);
+        setAllItemID(array);
         handleTagsChange([]);
         setFilePicked(false);
         resetFile();
