@@ -103,7 +103,7 @@ export default class SummaryTab extends Component {
                                         options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
                                     />
                                 : null}
-                                <button onClick={() => deleteSearchGroup(groupIndex)}><i className='icon-cross' /></button>
+                                <button type='delete' onClick={() => deleteSearchGroup(groupIndex)}>x</button>
                             </div>
                             {this.renderGroupComponents(group.groupType, groupIndex)}
                         </div>
@@ -166,7 +166,7 @@ export default class SummaryTab extends Component {
                     /> : null}
                     {!isLast && !isFirst ? <div className='search-tab-item-separator'>{group.andOr}</div> : null}
                 </div>
-                {areMultipleSelected ? <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross' /></button> : null}
+                {areMultipleSelected ? <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross button-cross' /></button> : null}
             </section>
         );
     }
@@ -208,7 +208,7 @@ export default class SummaryTab extends Component {
                             {rowIndex !== 0 && rowIndex !== metadataRows.length - 1 ? <div className='search-tab-item-separator'>{searchGroups[groupIndex].andOr}</div> : null}
                         </div>
                         {searchGroups[groupIndex].metadataRows.length > 1 ?
-                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross' /></button>
+                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross button-cross' /></button>
                             : null}
                     </div>
                 )}

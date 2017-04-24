@@ -3,6 +3,7 @@
 .search-tab {
     display: flex;
     flex-direction: column;
+    font-family: $default-family;
 
     &-new {
         &-header {
@@ -71,16 +72,6 @@
 
     &-section {
         padding: 10px 5px;
-
-        a {
-            cursor: pointer;
-            text-decoration: none;
-            color: $secondary-color;
-
-            &:hover {
-                color: $secondary-color;
-            }
-        }
     }
 
     &-item-type {
@@ -123,7 +114,7 @@
             margin-bottom: 3px;
 
             select {
-                width: 50%;
+                width: 100%;
             }
         }
     }
@@ -148,6 +139,7 @@
     &-search-reset {
         padding-top: 30px;
         text-align: center;
+        padding-bottom: 30px;
     }
 
     &-btn {
@@ -165,5 +157,13 @@
         border: none;
         font-family: $default-family;
         margin-right: 5px;
+    }
+
+    .button-cross {
+        font-size: 8px;
+
+        &:hover {
+            background: $darker-secondary-color;
+        }
     }
 }
