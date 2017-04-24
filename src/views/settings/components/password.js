@@ -53,7 +53,6 @@ export default class Password extends Component {
         const { showModal, newPassword, confirmPassword } = this.props;
         return (
             <div>
-                <hr />
                 <p className='settings-label'>Password</p>
                 <p>Change your account password</p>
                 {!showModal ? <Button onClick={this.open}>Change Password</Button> : null }
@@ -78,6 +77,8 @@ export default class Password extends Component {
                         </div>
                     </div>
                 : null}
+                <br />
+                <br />
             </div>
         );
     }

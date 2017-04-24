@@ -27,6 +27,7 @@ export default class APIToken extends Component {
                 <div>
                     <Button onClick={this.refresh}>Refresh</Button>
                 </div>
+                <br />
             </div>
         );
     }

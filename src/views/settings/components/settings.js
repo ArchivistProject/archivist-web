@@ -173,15 +173,20 @@ export default class Settings extends Component {
                 </div>
 
                 <div className='right-half'>
+                    <h4>Manage and view your preferences below:</h4>
                     <div className='container'>
-                        <h4>Manage and view your preferences below:</h4>
                         {this.statistic()}
-                        <hr />
+                    </div>
+                    <div className='container'>
                         {this.itemTypes()}
+                    </div>
+                    <div className='container'>
                         {this.password()}
-                        <hr />
+                    </div>
+                    <div className='container'>
                         {this.apiToken()}
-                        <hr />
+                    </div>
+                    <div className='container'>
                         {this.documentList()}
                     </div>
                 </div>

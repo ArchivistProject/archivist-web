@@ -32,15 +32,15 @@ export default class DocumentList extends Component {
         return (
             <div>
                 <p className='settings-label'>File List:</p>
-                <p>Number of files to display:</p>
+                <p>Number of files to display on main page:</p>
                 <input
                     type='number'
                     value={documentsPerPage || 10}
                     onChange={this.handleDocsPerPageInputChange}
                 />
-                <div className='settings-margin-bottom'>
-                    <Button onClick={this.saveSettings}>Save</Button>
-                </div>
+                <Button onClick={this.saveSettings}>Save</Button>
+                <br />
+                <br />
             </div>
         );
     }
