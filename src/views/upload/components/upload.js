@@ -220,8 +220,8 @@ export default class Upload extends Component {
 
                 </div>
                 <div className='right-half'>
+                    <h4>Information about the file can be entered below:</h4>
                     <div className='container'>
-                        <h4>Information about the file can be entered below:</h4>
                         <p className='upload-label'>Categories:</p>
                         <input id='generic' type='checkbox' value='generic' disabled checked='true' />
                         <label htmlFor='generic'>Generic *</label>
@@ -266,7 +266,7 @@ export default class Upload extends Component {
                         <p className='upload-label'>Description:</p>
                         <textarea
                             value={description} type='text' placeholder='Add a description'
-                            onBlur={this.handleDescriptionChange}
+                            onChange={this.handleDescriptionChange}
                         />
                         <p className='upload-label'>Tags:</p>
                         <TagsInput value={tags} onChange={this.handleTagChange} />
