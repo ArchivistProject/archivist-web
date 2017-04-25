@@ -52,7 +52,7 @@ function getDefaultGroupObject(groupType) {
                 ...genericGroup,
                 groupType: SEARCH_CONSTANTS.FULLTEXT,
                 terms: SEARCH_DEFAULTS.DESCRIPTION,
-            }
+            };
     }
     return genericGroup;
 }
@@ -66,7 +66,7 @@ export default function (state = initialState, action) {
             const hasFullText = groupType === SEARCH_CONSTANTS.FULLTEXT ? true : state.hasFullText;
             return {
                 ...state,
-                hasFullText: hasFullText,
+                hasFullText,
                 searchGroups: [
                     ...state.searchGroups,
                     newGroup,
@@ -80,7 +80,7 @@ export default function (state = initialState, action) {
             const hasFullText = searchGroups[groupIndex].groupType === SEARCH_CONSTANTS.FULLTEXT ? false : state.hasFullText;
             return {
                 ...state,
-                hasFullText: hasFullText,
+                hasFullText,
                 searchGroups: [
                     ...searchGroups.slice(0, groupIndex),
                     ...searchGroups.slice(groupIndex + 1, searchGroups.length),

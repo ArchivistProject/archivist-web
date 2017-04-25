@@ -91,7 +91,7 @@ export default class SummaryTab extends Component {
                         <div className='search-tab-group'>
                             <div className='search-tab-group-toolbar'>
                                 {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION &&
-                                 group.groupType !== SEARCH_CONSTANTS.FULLTEXT ?
+                                group.groupType !== SEARCH_CONSTANTS.FULLTEXT ?
                                     <Checkbox
                                         checked={group.not}
                                         onClick={() => toggleGroupNot(groupIndex)}
