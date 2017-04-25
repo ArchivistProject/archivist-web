@@ -13,6 +13,7 @@ export default class SummaryTab extends Component {
         fetchItemTypes: PropTypes.func.isRequired,
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 
+        hasFullText: PropTypes.bool.isRequired,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
         addSearchGroup: PropTypes.func.isRequired,
         deleteSearchGroup: PropTypes.func.isRequired,
@@ -31,6 +32,7 @@ export default class SummaryTab extends Component {
 
         updateTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
+        updateFullText: PropTypes.func.isRequired,
 
         submitSearch: PropTypes.func.isRequired,
         reset: PropTypes.func.isRequired,
@@ -88,7 +90,8 @@ export default class SummaryTab extends Component {
                     <div className='search-tab-group-wrapper' key={groupIndex}>
                         <div className='search-tab-group'>
                             <div className='search-tab-group-toolbar'>
-                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION ?
+                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION &&
+                                 group.groupType !== SEARCH_CONSTANTS.FULLTEXT ?
                                     <Checkbox
                                         checked={group.not}
                                         onClick={() => toggleGroupNot(groupIndex)}
@@ -124,6 +127,8 @@ export default class SummaryTab extends Component {
                 return this.renderTagGroup(groupIndex);
             case SEARCH_CONSTANTS.DESCRIPTION:
                 return this.renderDescriptionGroup(groupIndex);
+            case SEARCH_CONSTANTS.FULLTEXT:
+                return this.renderFullTextGroup(groupIndex);
         }
         return null;
     }
@@ -239,8 +244,17 @@ export default class SummaryTab extends Component {
         );
     }
 
+    renderFullTextGroup(groupIndex) {
+        const { searchGroups, updateFullText } = this.props;
+        return (
+            <section className='search-tab-section'>
+                <textarea value={searchGroups[groupIndex].terms} onChange={e => updateFullText(e.target.value, groupIndex)} />
+            </section>
+        );
+    }
+
     render() {
-        const { addSearchGroup, submitSearch, reset } = this.props;
+        const { addSearchGroup, submitSearch, reset, hasFullText } = this.props;
         return (
             <div className='search-tab'>
                 <div className='search-tab-buttons'>
@@ -254,6 +268,7 @@ export default class SummaryTab extends Component {
                     <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
                     <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
                     <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
+                    <button disabled={hasFullText} onClick={() => addSearchGroup(SEARCH_CONSTANTS.FULLTEXT)}>FullText</button>
                 </div>
             </div>
         );
