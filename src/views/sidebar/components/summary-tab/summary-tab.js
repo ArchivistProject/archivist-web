@@ -51,11 +51,18 @@ export default class SummaryTab extends Component {
                     <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
                     <td className='summary-tab-value'>
                         {metadataEditMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
-                        : <div>{metadata.type !== 'date' ? metadata.data : formatDate(metadata.data)}</div>}
+                        : this.renderMetadataRow(metadata)}
                     </td>
                 </tr>
             );
         });
+    }
+
+    renderMetadataRow(metadata) {
+        if (metadata.type === 'url') {
+            return (<div className='url-data' title={metadata.data}><a href={metadata.data}>{metadata.data}</a></div>);
+        }
+        return (<div title={metadata.data}>{metadata.type === 'date' ? formatDate(metadata.data) : metadata.data}</div>);
     }
 
     renderEditControls() {

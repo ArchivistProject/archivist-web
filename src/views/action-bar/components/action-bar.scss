@@ -28,4 +28,13 @@
         font-family: $default-family;
         font-size: $default-size;
     }
+
+    a {
+        color: $blue;
+        cursor: pointer;
+        text-decoration: none;
+        &:hover {
+            color: $dark-blue;
+        }
+    }
 }

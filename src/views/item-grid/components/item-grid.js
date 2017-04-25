@@ -86,7 +86,7 @@ export default class ItemGrid extends Component {
                         onRowClick={itemFocused}
                         onHeaderClick={headerClicked}
                         activeRowNum={activeItemIndex}
-                        noResultsText={'You don\'t have any files yet!'}
+                        noResultsText={'No results'}
                         noResultsImage={SadFace}
                         waitingForItems={waitingForItems}
                     />

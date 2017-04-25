@@ -1,10 +1,11 @@
 @import '../../../defaults';
 
 .sidebar {
-    height: 100%;
+    height: calc(100vh -  #{$action-bar-height});
     width: 300px;
     background-color: $white;
     border-left: 1px solid $dark-blue;
+    overflow: scroll;
 
     &-wrapper {
         display: flex;

@@ -9,6 +9,7 @@ import upload from './upload/upload-reducers';
 import user from './user/user-reducers';
 import settings from './settings/settings-reducers';
 import viewer from './viewer/viewer-reducers';
+import search from './search/search-reducers';
 
 export default combineReducers({
     actionBar,
@@ -19,6 +20,7 @@ export default combineReducers({
     user,
     settings,
     viewer,
+    search,
     routing: routerReducer,
     notifications,
 });
