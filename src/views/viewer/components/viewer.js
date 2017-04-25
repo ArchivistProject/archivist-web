@@ -159,7 +159,7 @@ export default class Viewer extends Component {
 
     handleClick = (e) => {
         const { activeItemContentType } = this.props;
-        console.log(document.activeElement);
+
         // Reset selected highlights
         // this.setState({
         //     selectedHighlights: [],
@@ -202,9 +202,8 @@ export default class Viewer extends Component {
         // }));
     }
 
-    handleHighlightAdded = () => {
+    handleHighlightAdded = (note) => {
         const { addHighlight } = this.props;
-        const note = 'test'; // placeholder
         const highlightId = shortid.generate();
         this.highlighter.addClassApplier(rangy.createClassApplier(`archivist-highlight-${highlightId}`, {
             ignoreWhiteSpace: true,
@@ -212,7 +211,7 @@ export default class Viewer extends Component {
             onElementCreate: this.onHighlightCreate,
         }));
         this.setState({ highlightId }, () => {
-            this.highlighter.highlightSelection(`archivist-highlight-${highlightId}`, { exclusive: false });
+            this.highlighter.highlightSelection(`archivist-highlight-${highlightId}`, { exclusive: true });
             addHighlight(this.highlighter, highlightId, this.state.highlightedText, note);
         });
 
@@ -241,6 +240,7 @@ export default class Viewer extends Component {
 
     handleHighlightDeleted = () => {
         this.highlighter.unhighlightSelection();
+        this.handleCancel();
     }
 
     handleHighlightSelected = (element, highlightId) => {
@@ -254,7 +254,7 @@ export default class Viewer extends Component {
         }
         const newHighlight = highlights.find(highlight => highlight.highlightId === highlightId);
         const updatedSelectedHighlights = [...this.state.selectedHighlights, newHighlight];
-        // highlights.filter(highlight => this.state.selectedHighlights.indexOf(highlight.highlightId) > -1);
+
         this.setState({
             annotationVisible: true,
             selectedHighlights: updatedSelectedHighlights,
