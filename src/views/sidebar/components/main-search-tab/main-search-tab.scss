@@ -161,9 +161,9 @@
 
     .button-cross {
         font-size: 8px;
+    }
 
-        &:hover {
-            background: $darker-secondary-color;
-        }
+    select {
+        width: 45%;
     }
 }

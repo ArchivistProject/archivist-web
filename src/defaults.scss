@@ -1,6 +1,6 @@
 $app-min-width: 640px;
 
-$default-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+$default-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $default-size: 13px;
 $small-size: 11px;
 $smaller-size: 10px;
@@ -19,14 +19,12 @@ $default-font-color: #252A2F;
 // background color
 $bg-primary-color: #FFF;
 
-
 //other colors
 $primary-color: #9B59B6;
 $darker-primary-color: #82409D;
 $light-primary-color: #e1bee7;
 $secondary-color: #EAEAEA;
 $darker-secondary-color: #8c8b8b;
-
 
 //default for styles
 button[type='submit'] {
@@ -51,22 +49,22 @@ button[type='submit'] {
 }
 
 button[type='small'] {
-    color: $button-font-color;
-    font-size: 12px;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -o-border-radius: 5px;
-    background: $primary-color;
-    padding: 8px 14px;
-    border: none;
-    font-family: $default-family;
-    font-weight: 600;
-    margin-top: 8px;
-    margin-right: 10px;
+  color: $button-font-color;
+  font-size: 12px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: $primary-color;
+  padding: 8px 14px;
+  border: none;
+  font-family: $default-family;
+  font-weight: 600;
+  margin-top: 8px;
+  margin-right: 10px;
 
   &:hover {
     background-color: $darker-primary-color;
@@ -98,9 +96,8 @@ input[type="datetime"],
 input[type="email"],
 input[type="time"],
 input[type="url"],
-input[type="password"],
-select
-{
+input[type="password"]
+input[type="text"]{
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -132,13 +129,21 @@ input[type="number"] {
   height: 45px;
 }
 
-hr {
-  height: 6px;
-  background: url(http://ibrahimjabbari.com/english/images/hr-11.png) repeat-x 0 0;
-  border: 0;
-  margin-top: 35px;
+select {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: inline;
+  width: 45%;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  background: #FFF;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  font: 12px $default-family;
+  height: 30px;
 }
-
 
 textarea:focus {
   outline: 1px solid $secondary-color;
