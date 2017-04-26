@@ -14,6 +14,7 @@
 
         font-family: $default-family;
         font-size: $default-size;
+        cursor: pointer;
     }
 
     &-header-item {
@@ -91,6 +92,10 @@
     vertical-align: bottom;
     border-bottom: 2px solid rgba(0, 0, 0, 0.12);
     background-color: #FFF;
+
+    &:hover {
+        color: $darker-primary-color;
+    }
 }
 .table > caption + thead > tr:first-child > th,
 .table > colgroup + thead > tr:first-child > th,
@@ -230,6 +235,6 @@
         background-color: #fff;
     }
     .table-responsive-vertical .table-hover.table-mc-purple > tbody > tr > td:hover {
-        background-color: $light-primary-color;
+        background-color: $primary-color;
     }
 }

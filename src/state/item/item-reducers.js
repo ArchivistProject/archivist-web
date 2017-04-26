@@ -30,6 +30,7 @@ const initialState = {
         pageSize: 10,
     },
     tempDescription: '',
+    sortOrder: 'descending',
 };
 
 export default function (state = initialState, action) {
@@ -129,7 +130,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.FETCH_HEADERS_SUCCEEDED: { // TODO, if we fetch headers
+        case itemActionTypes.FETCH_HEADERS_SUCCEEDED: {
             const { headers } = action.data;
             return {
                 ...state,
@@ -211,7 +212,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case itemActionTypes.HEADER_CLICKED: { // TODO, if we add heading sorting
+        case itemActionTypes.HEADER_CLICKED: {
             const { header } = action.data;
             return {
                 ...state,
@@ -265,6 +266,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 waitingForItems: false,
+            };
+        }
+
+        case itemActionTypes.SORT_ORDER_CHANGED: {
+            const { sort } = action.data;
+            return {
+                ...state,
+                sortOrder: sort,
             };
         }
     }
