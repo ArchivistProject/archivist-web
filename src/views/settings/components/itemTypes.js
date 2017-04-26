@@ -184,6 +184,8 @@ export default class ItemTypes extends Component {
                         <div className='meta-data-container'>
                             <br />
                             <Button onClick={this.handleDeleteCategory}>Delete {popupName}</Button>
+                            <br />
+                            <br />
                         </div> : null }
                 </Form>
             </div>

@@ -164,8 +164,8 @@ export default class Settings extends Component {
                         <img
                             src={Logo}
                             alt='Archivist Logo'
-                            width='200'
-                            height='164'
+                            width='250'
+                            height='250'
                         />
                         <p className='settings-version'>Version 1.0</p>
                         <p className='settings-version'> &copy; 2017 Archivist</p>
