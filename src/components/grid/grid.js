@@ -83,16 +83,18 @@ export default class Grid extends Component {
     render() {
         const { rows } = this.props;
         return (
-            <div className='table-responsive-vertical shadow-z-1'>
+            <div>
                 {rows && rows.length > 0 ? (
-                    <table className='table table-hover table-striped table-mc-purple'>
-                        <thead>
-                            <tr>
-                                {this.renderHeaders()}
-                            </tr>
-                        </thead>
-                        <tbody>{this.renderRows()}</tbody>
-                    </table>
+                    <div className='table-responsive-vertical shadow-z-1'>
+                        <table className='table table-hover table-striped table-mc-purple'>
+                            <thead>
+                                <tr>
+                                    {this.renderHeaders()}
+                                </tr>
+                            </thead>
+                            <tbody>{this.renderRows()}</tbody>
+                        </table>
+                    </div>
                 ) : this.renderNoResults()}
             </div>
         );

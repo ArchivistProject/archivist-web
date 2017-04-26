@@ -51,7 +51,7 @@ export default class ActionBar extends Component {
         const width = { width: '1%' };
         const table = { display: 'table' };
         return loggedIn ? (
-            <div className='action-bar-wrapper navbar navbar-inverse'>
+            <div className='action-bar-wrapper navbar navbar-inverse navbar-static-top'>
                 <div className='action-bar'>
                     <div className='navbar-header'>
                         <button
@@ -89,13 +89,13 @@ export default class ActionBar extends Component {
                             <form className='navbar-form'>
                                 <div className='form-group' style={inlineStyle}>
                                     <div className='input-group' style={table}>
-                                        <span className='input-group-addon' style={width}><span
-                                            className='glyphicon glyphicon-search'
-                                        /></span>
                                         <input
                                             className='form-control' name='search' placeholder='Search Here'
                                             autoComplete='off' autoFocus='autofocus'
                                         />
+                                        <span className='input-group-addon' style={width}><span
+                                            className='glyphicon glyphicon-search'
+                                        /></span>
                                     </div>
                                 </div>
                             </form>
