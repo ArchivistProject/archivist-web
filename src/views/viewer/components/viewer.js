@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import pdflib from 'pdfjs-dist';
+import $ from 'jquery';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
@@ -49,6 +50,21 @@ export default class Viewer extends Component {
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
     }
 
+    addURLIntercept = () => {
+      var s = document.getElementsByClassName('web-container');
+      if (!s || s.length == 0) { return; }
+      var d = s[0].contentWindow.document;
+      if (!d) { return; }
+      var p = $('a', d);
+      $('a', d).each((pos, e) => {
+          e.addEventListener('click', e => {
+            console.log(e);
+            e.preventDefault();
+
+          });
+      });
+    }
+
     shouldComponentUpdate(nextProps) {
         const { activeItemContentType } = this.props;
         if (activeItemContentType === CONTENT_TYPES.PDF) {
@@ -63,6 +79,14 @@ export default class Viewer extends Component {
         if (!activeItemContent) {
             fetchItemContent(activeItem);
         }
+        var s = document.getElementsByClassName('web-container')
+        if (!s || s.length == 0) { return; }
+        var self = this;
+        s[0].addEventListener('load', e => {
+          console.log(e);
+          console.log('heree!');
+          self.addURLIntercept();
+        });
     }
 
     componentWillUnmount() {
