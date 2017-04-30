@@ -69,15 +69,9 @@ export default class Viewer extends Component {
     }
 
     componentDidMount() {
-<<<<<<< HEAD
         const { sidebarVisible, sidebarWidth } = this.props;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
         document.addEventListener('click ', e => this.handleClick(e));
-=======
-        const { sidebarVisible } = this.props;
-        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
-        document.addEventListener('click ', this.handleClick);
->>>>>>> 4325708... ARC-168_notes: highlight wip
     }
 
     shouldComponentUpdate(nextProps) {
@@ -316,7 +310,7 @@ export default class Viewer extends Component {
                 return (
                     <div className='web-wrapper'>
                         {sidebarIsDragging ? <div className='web-container-overlay' /> : null}
-                        <iframe 
+                        <iframe
                             className='web-container'
                             ref={(ref) => { this.webContainer = ref; }}
                             srcDoc={activeItemContent}
