@@ -34,6 +34,16 @@ export function addHighlight(highlighter, highlightId, text, note) {
     };
 }
 
+export function editHighlight(highlight, note) {
+    return (dispatch) => {
+        console.log('api call');
+        dispatch({
+            type: viewerActionTypes.HIGHLIGHT_EDITED,
+            data: { highlight, note },
+        });
+    };
+}
+
 export function viewerClosed() {
     return {
         type: viewerActionTypes.VIEWER_CLOSED,

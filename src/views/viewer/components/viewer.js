@@ -26,6 +26,7 @@ export default class Viewer extends Component {
         resetScale: PropTypes.func.isRequired,
         updatePage: PropTypes.func.isRequired,
         addHighlight: PropTypes.func.isRequired,
+        editHighlight: PropTypes.func.isRequired,
         // deleteHighlight: PropTypes.func.isRequired,
         fetchItem: PropTypes.func.isRequired,
         fetchItemContent: PropTypes.func.isRequired,
@@ -52,9 +53,11 @@ export default class Viewer extends Component {
             annotationVisible: false,
             highlightedText: '',
             selectionRect: null,
-            selectedHighlightsRects: [],
+            selectedHighlightRect: null,
             highlightId: '',
-            selectedHighlights: [],
+            selectedHighlight: null,
+            wasHighlightJustSelected: false,
+            selection: null,
         };
     }
     componentWillMount() {
@@ -170,20 +173,25 @@ export default class Viewer extends Component {
                 break;
         }
         if (selection.toString() !== '') {
+            console.log(1);
             const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
             this.setState({
                 annotationVisible: true,
                 highlightedText: selection.toString(),
                 selectionRect,
+                selectedHighlight: null,
+                selectedHighlightRect: null,
+                selection,
             });
         } else {
-            console.log('nothing selected');
-            if (!this.state.selectedHighlights.length) {
-                this.setState({
-                    annotationVisible: false,
-                    selectionRect: null,
-                });
-            }
+            console.log(2);
+            this.setState({
+                annotationVisible: false,
+                selectionRect: null,
+                selectedHighlight: null,
+                selectedHighlightRect: null,
+                selection: null,
+            });
         }
     }
 
@@ -198,6 +206,7 @@ export default class Viewer extends Component {
 
     handleHighlightAdded = (note) => {
         const { addHighlight } = this.props;
+        const { selection } = this.state;
         const highlightId = shortid.generate();
         this.highlighter.addClassApplier(rangy.createClassApplier(`archivist-highlight-${highlightId}`, {
             ignoreWhiteSpace: true,
@@ -205,20 +214,26 @@ export default class Viewer extends Component {
             onElementCreate: this.onHighlightCreate,
         }));
         this.setState({ highlightId }, () => {
-            this.highlighter.highlightSelection(`archivist-highlight-${highlightId}`, { exclusive: true });
+            this.highlighter.highlightSelection(`archivist-highlight-${highlightId}`);
             addHighlight(this.highlighter, highlightId, this.state.highlightedText, note);
+            if (selection) {
+                selection.empty();
+            }
         });
 
         this.setState({
             annotationVisible: false,
             annotationX: null,
             annotationY: null,
+            selection: null,
+            selectionRect: null,
         });
     }
 
-    handleHighlightEdited = () => {
-        const { selectedHighlights, selectedHighlightsRects } = this.state;
-        console.log(`edit ${selectedHighlights} ${selectedHighlightsRects}`);
+    handleHighlightEdited = (newNote) => {
+        const { editHighlight } = this.props;
+        const { selectedHighlight } = this.state;
+        editHighlight(selectedHighlight, newNote);
     }
 
     handleCancel = () => {
@@ -226,9 +241,9 @@ export default class Viewer extends Component {
             annotationVisible: false,
             highlightedText: '',
             selectionRect: null,
-            selectedHighlightsRects: [],
+            selectedHighlightRect: null,
             highlightId: '',
-            selectedHighlights: [],
+            selectedHighlight: null,
         });
     }
 
@@ -237,28 +252,30 @@ export default class Viewer extends Component {
         this.handleCancel();
     }
 
-    handleHighlightSelected = (element, highlightId) => {
+    handleHighlightSelected = (e, element, highlightId) => {
+        e.stopPropagation();
         const { highlights } = this.props;
         if (!this.state.editMode) {
             this.setState({
                 editMode: true,
-                selectedHighlights: [],
-                selectedHighlightsRects: [],
+                selectedHighlight: null,
+                selectedHighlightRect: null,
             });
         }
         const newHighlight = highlights.find(highlight => highlight.highlightId === highlightId);
-        const updatedSelectedHighlights = [...this.state.selectedHighlights, newHighlight];
-
+        console.log(newHighlight);
+        console.log(highlightId);
         this.setState({
             annotationVisible: true,
-            selectedHighlights: updatedSelectedHighlights,
-            selectedHighlightsRects: [...this.state.selectedHighlightsRects, element.getBoundingClientRect()],
+            selectedHighlight: newHighlight,
+            selectedHighlightRect: element.getBoundingClientRect(),
+            // wasHighlightJustSelected: true,
         });
     }
 
     onHighlightCreate = (element, classApplier) => {
         const { highlightId } = this.state;
-        element.onclick = () => this.handleHighlightSelected(element, highlightId);
+        element.onclick = e => this.handleHighlightSelected(e, element, highlightId);
     }
 
     handleContentLoaded = () => {
@@ -371,7 +388,7 @@ export default class Viewer extends Component {
 
     render() {
         const { waitingForSingleItem } = this.props;
-        const { annotationVisible, highlightedText, selectionRect, selectedHighlightsRects, selectedHighlights } = this.state;
+        const { annotationVisible, highlightedText, selectionRect, selectedHighlightRect, selectedHighlight } = this.state;
         return (
             <div className='viewer'>
                 <div className='viewer-wrapper'>
@@ -383,12 +400,12 @@ export default class Viewer extends Component {
                                 <Annotation
                                     highlightedText={highlightedText}
                                     selectionRect={selectionRect}
-                                    selectedHighlightsRects={selectedHighlightsRects}
+                                    selectedHighlightRect={selectedHighlightRect}
                                     addHighlight={this.handleHighlightAdded}
                                     editHighlight={this.handleHighlightEdited}
                                     deleteHighlight={this.handleHighlightDeleted}
                                     cancel={this.handleCancel}
-                                    selectedHighlights={selectedHighlights}
+                                    selectedHighlight={selectedHighlight}
                                 /> : null}
                             {this.renderContent()}
                         </div>
