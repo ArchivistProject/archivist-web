@@ -203,7 +203,7 @@ export default class SummaryTab extends Component {
                                     {itemTypeFields[metadataRow.itemType] ? itemTypeFields[metadataRow.itemType].map(field => <option value={field.id} key={field.id}>{field.name}</option>) : null}
                                 </select>
                             </div>
-                            <input type='text' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
+                            <input type='search-input' placeholder='Enter search value...' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
                             {rowIndex === 0 && metadataRows.length > 1 ? <Select
                                 className='search-tab-item-separator'
                                 value={searchGroups[groupIndex].andOr}
