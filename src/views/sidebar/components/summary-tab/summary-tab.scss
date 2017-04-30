@@ -66,6 +66,10 @@ $summary-tab-spacing: 20px;
         }
     }
 
+    &-input {
+        width: 100%;
+    }
+
     button {
         flex-grow: 1;
         border: 1px solid $gray;

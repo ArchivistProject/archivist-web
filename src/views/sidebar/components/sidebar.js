@@ -29,10 +29,82 @@ export default class Sidebar extends Component {
         waitingForSingleItem: PropTypes.bool,
         tempDescription: PropTypes.string,
         unfocusItem: PropTypes.bool,
+        setSidebarWidth: PropTypes.func.isRequired,
+        toggleSidebarDrag: PropTypes.func.isRequired,
+        width: PropTypes.number.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
     };
+
+    constructor(props) {
+        super(props);
+        const { width } = this.props;
+        this.state = {
+            width,
+            startWidth: width,
+            minWidth: 200,
+            maxWidth: window.innerWidth - 300,
+            newWidth: null,
+            mouseStart: null,
+        };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleWindowResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleWindowResize);
+    }
+
+    handleWindowResize = () => {
+        const { width, setSidebarWidth } = this.props;
+        const newMaxWidth = window.innerWidth - 300;
+        this.setState({
+            maxWidth: newMaxWidth,
+            startWidth: width > newMaxWidth ? newMaxWidth : width,
+        });
+        if (width > newMaxWidth) {
+            setSidebarWidth(newMaxWidth);
+        }
+    }
+
+    handleStartResize = (e) => {
+        const { toggleSidebarDrag } = this.props;
+        e.preventDefault();
+        this.setState({
+            mouseStart: e.clientX,
+            isResizing: true,
+        });
+        toggleSidebarDrag();
+        window.addEventListener('mousemove', this.handleResize);
+        window.addEventListener('mouseup', this.handleEndResize);
+    }
+
+    handleResize = (e) => {
+        const { startWidth, minWidth, maxWidth, mouseStart } = this.state;
+        const { setSidebarWidth } = this.props;
+        const mouseDistance = e.clientX - mouseStart;
+        const newWidth = startWidth - mouseDistance;
+        if (newWidth >= minWidth && newWidth < maxWidth) {
+            setSidebarWidth(newWidth);
+        }
+    }
+
+    handleEndResize = () => {
+        const { toggleSidebarDrag, width } = this.props;
+        const { isResizing } = this.state;
+        if (isResizing) {
+            this.setState({
+                isResizing: false,
+                startWidth: width,
+            });
+            toggleSidebarDrag();
+            window.removeEventListener('mousemove', this.handleResize);
+            window.removeEventListener('mouseup', this.handleEndResize);
+        }
+    }
 
     handleTabClicked = (tabName) => {
         const { updateTabVisibility, visibleTab } = this.props;
@@ -70,6 +142,7 @@ export default class Sidebar extends Component {
         const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
             saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription,
             fetchItemTypes, itemTypes, searchGroups, dispatch } = this.props;
+
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
@@ -108,15 +181,27 @@ export default class Sidebar extends Component {
     }
 
     render() {
-        const { visible, waitingForSingleItem } = this.props;
+        const { visible, waitingForSingleItem, width } = this.props;
         return (
             <div className='sidebar-wrapper'>
                 <Loader visible={waitingForSingleItem} />
-                <div className={`sidebar-toggler ${visible ? 'opened' : null}`} onClick={this.handleSidebarToggleClicked} title='Toggle sidebar'>
-                    <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
+                <div
+                    onMouseDown={this.handleStartResize}
+                    onMouseUp={this.handleEndResize}
+                    className={`sidebar-toggler ${visible ? 'opened' : 'closed'}`}
+                    title='Resize sidebar'
+                >
+                    <div
+                        className={`sidebar-toggler-button ${visible ? 'opened' : 'closed'}`}
+                        onClick={this.handleSidebarToggleClicked}
+                        title='Toggle sidebar'
+                        onMouseDown={e => e.stopPropagation()}
+                    >
+                        <i className={visible ? 'icon-arrow-right2' : 'icon-arrow-left2'} />
+                    </div>
                 </div>
                 {visible ? (
-                    <div className='sidebar'>
+                    <div className='sidebar' ref={(sidebar) => { this.sidebar = sidebar; }} style={{ width }}>
                         {this.renderTabs()}
                         {this.renderPanel()}
                     </div>
