@@ -21,7 +21,7 @@ export default class ItemTypes extends Component {
         fetchItemTypes: PropTypes.func.isRequired,
 
         fetchMetadataTypes: PropTypes.func.isRequired,
-        metadata_types: PropTypes.arrayOf(String),
+        metadataTypes: PropTypes.arrayOf(String),
 
         postItemType: PropTypes.func.isRequired,
         postFieldType: PropTypes.func.isRequired,
@@ -131,7 +131,7 @@ export default class ItemTypes extends Component {
     };
 
     generateFieldsContent = () => {
-        const { groups, currentItem, popupName, canEdit, fieldName, metadata_types } = this.props;
+        const { groups, currentItem, popupName, canEdit, fieldName, metadataTypes } = this.props;
 
         return (
             <div>
@@ -178,8 +178,8 @@ export default class ItemTypes extends Component {
                                     onChange={this.onFieldTypeDropDown}
                                 >
                                     <option value='blank'>Select type...</option>
-                                    {metadata_types.map(type =>
-                                      <option value={type}>{type}</option>
+                                    {metadataTypes.map(type =>
+                                        <option value={type}>{type}</option>
                                     )}
                                 </FormControl>
                             </Col>

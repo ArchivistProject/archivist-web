@@ -16,7 +16,7 @@ const initialState = {
 
     // Item Types
     groups: [],
-    metadata_types: [],
+    metadataTypes: [],
     itemName: null,
     currentItem: 'blank',
     fieldVisible: false,
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
 
             return {
                 ...state,
-                metadata_types: types,
+                metadataTypes: types,
             };
         }
 

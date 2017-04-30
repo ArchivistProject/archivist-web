@@ -38,7 +38,7 @@ export default class Settings extends Component {
         handleItemNameChange: PropTypes.func.isRequired,
 
         fetchMetadataTypes: PropTypes.func.isRequired,
-        metadata_types: PropTypes.arrayOf(String),
+        metadataTypes: PropTypes.arrayOf(String),
 
         fetchItemTypes: PropTypes.func.isRequired,
         addItem: PropTypes.func.isRequired,
@@ -127,7 +127,7 @@ export default class Settings extends Component {
     }
 
     itemTypes() {
-        const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, metadata_types, fetchMetadataTypes, fetchItemTypes, setActiveItem,
+        const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, metadataTypes, fetchMetadataTypes, fetchItemTypes, setActiveItem,
             setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
             removeItem, popupName, setPopupName, setCanEdit, canEdit } = this.props;
         return (
@@ -141,7 +141,7 @@ export default class Settings extends Component {
                         currentItem={currentItem}
                         handleItemNameChange={handleItemNameChange}
                         fetchMetadataTypes={fetchMetadataTypes}
-                        metadata_types={metadata_types}
+                        metadataTypes={metadataTypes}
                         fetchItemTypes={fetchItemTypes}
                         setActiveItem={setActiveItem}
                         setFieldVisible={setFieldVisible}
