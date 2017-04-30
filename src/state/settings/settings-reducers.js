@@ -38,12 +38,12 @@ export default function (state = initialState, action) {
         }
 
         case settingsActionTypes.FETCH_METADATATYPE_SUCCEEDED: {
-          const { types } = action.data;
+            const { types } = action.data;
 
-          return {
-            ...state,
-            metadata_types: types,
-          };
+            return {
+                ...state,
+                metadata_types: types,
+            };
         }
 
         case settingsActionTypes.ITEM_NAME_CHANGED: {
