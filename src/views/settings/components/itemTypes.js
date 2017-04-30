@@ -19,6 +19,10 @@ export default class ItemTypes extends Component {
         setActiveItem: PropTypes.func.isRequired,
         handleItemNameChange: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
+
+        fetchMetadataTypes: PropTypes.func.isRequired,
+        metadata_types: PropTypes.arrayOf(String),
+
         postItemType: PropTypes.func.isRequired,
         postFieldType: PropTypes.func.isRequired,
         setFieldVisible: PropTypes.func.isRequired,
@@ -31,8 +35,9 @@ export default class ItemTypes extends Component {
     };
 
     componentWillMount() {
-        const { fetchItemTypes } = this.props;
+        const { fetchItemTypes, fetchMetadataTypes } = this.props;
         fetchItemTypes();
+        fetchMetadataTypes();
     }
 
     onFieldTypeDropDown = (e) => {
@@ -61,6 +66,7 @@ export default class ItemTypes extends Component {
         setPopupName(name);
         setCanEdit(canEdit);
     };
+
     addItem = () => {
         const { postItemType, itemName, fetchItemTypes } = this.props;
 
@@ -125,7 +131,7 @@ export default class ItemTypes extends Component {
     };
 
     generateFieldsContent = () => {
-        const { groups, currentItem, popupName, canEdit, fieldName } = this.props;
+        const { groups, currentItem, popupName, canEdit, fieldName, metadata_types } = this.props;
 
         return (
             <div>
@@ -172,8 +178,9 @@ export default class ItemTypes extends Component {
                                     onChange={this.onFieldTypeDropDown}
                                 >
                                     <option value='blank'>Select type...</option>
-                                    <option value='string'>String</option>
-                                    <option value='date'>Date</option>
+                                    {metadata_types.map(type =>
+                                      <option value={type}>{type}</option>
+                                    )}
                                 </FormControl>
                             </Col>
 

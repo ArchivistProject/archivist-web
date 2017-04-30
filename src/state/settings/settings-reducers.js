@@ -16,6 +16,7 @@ const initialState = {
 
     // Item Types
     groups: [],
+    metadata_types: [],
     itemName: null,
     currentItem: 'blank',
     fieldVisible: false,
@@ -34,6 +35,15 @@ export default function (state = initialState, action) {
                 ...state,
                 groups,
             };
+        }
+
+        case settingsActionTypes.FETCH_METADATATYPE_SUCCEEDED: {
+          const { types } = action.data;
+
+          return {
+            ...state,
+            metadata_types: types,
+          };
         }
 
         case settingsActionTypes.ITEM_NAME_CHANGED: {
