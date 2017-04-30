@@ -6,6 +6,7 @@ import Loader from '~/src/components/loader/loader';
 import * as searchActionCreators from '~/src/state/search/search-action-creators';
 import SummaryTab from './summary-tab/summary-tab';
 import MainSearchTab from './main-search-tab/main-search-tab';
+import NotesTab from './notes-tab/notes-tab';
 import './sidebar.scss';
 
 export default class Sidebar extends Component {
@@ -37,6 +38,7 @@ export default class Sidebar extends Component {
         hasFullText: PropTypes.bool,
         globalAndOr: PropTypes.string,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
+        isViewerActive: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -121,11 +123,14 @@ export default class Sidebar extends Component {
     }
 
     renderTabs() {
-        const { visibleTab } = this.props;
+        const { visibleTab, isViewerActive } = this.props;
         return (
             <div className='sidebar-tabs'>
-                { Object.keys(SIDEBAR_TABS).map((tab, key) =>
-                    (
+                { Object.keys(SIDEBAR_TABS).map((tab, key) => {
+                    if (!isViewerActive && SIDEBAR_TABS[tab] === SIDEBAR_TABS.NOTES) {
+                        return null;
+                    }
+                    return (
                         <button
                             key={key}
                             onClick={() => this.handleTabClicked(SIDEBAR_TABS[tab])}
@@ -134,8 +139,8 @@ export default class Sidebar extends Component {
                         >
                             {SIDEBAR_TABS[tab].toUpperCase()}
                         </button>
-                    )
-                )}
+                    );
+                })}
             </div>
         );
     }
@@ -178,6 +183,8 @@ export default class Sidebar extends Component {
                 );
             case SIDEBAR_TABS.SEARCH:
                 return (<MainSearchTab {...searchTabProps} {...bindActionCreators(searchActionCreators, dispatch)} />);
+            case SIDEBAR_TABS.NOTES:
+                return (<NotesTab />);
             default:
                 return null;
         }

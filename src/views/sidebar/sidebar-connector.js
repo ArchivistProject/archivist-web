@@ -26,6 +26,7 @@ function mapStateToProps(state) {
         ...state.item,
         ...state.search,
         itemTypes: state.settings.groups,
+        isViewerActive: !!state.item.activeItemContent,
     };
 }
 
