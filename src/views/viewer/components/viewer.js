@@ -35,6 +35,15 @@ export default class Viewer extends Component {
         waitingForSingleItem: PropTypes.bool,
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            urlIntercepted: null,
+            urlInterceptedX: null,
+            urlInterceptedX: null,
+        };
+    }
+
     componentWillMount() {
         const { activeItem, fetchItem, fetchItemContent, params: { itemId } } = this.props;
         if (!activeItem) {
@@ -51,16 +60,24 @@ export default class Viewer extends Component {
     }
 
     addURLIntercept = () => {
+      // TODO: what happens when doc page has iframes in it?
       var s = document.getElementsByClassName('web-container');
       if (!s || s.length == 0) { return; }
       var d = s[0].contentWindow.document;
       if (!d) { return; }
-      var p = $('a', d);
-      $('a', d).each((pos, e) => {
-          e.addEventListener('click', e => {
-            console.log(e);
+      var self = this;
+      d.addEventListener('click', e => {
+          self.clearUrlPopup(false);
+      });
+      $('a', d).each((pos, a) => {
+          a.addEventListener('click', e => {
             e.preventDefault();
-
+            e.stopPropagation();
+            self.setState({
+                urlIntercepted: a.href,
+                urlInterceptedX: e.x,
+                urlInterceptedY: e.y,
+            })
           });
       });
     }
@@ -83,8 +100,6 @@ export default class Viewer extends Component {
         if (!s || s.length == 0) { return; }
         var self = this;
         s[0].addEventListener('load', e => {
-          console.log(e);
-          console.log('heree!');
           self.addURLIntercept();
         });
     }
@@ -186,8 +201,39 @@ export default class Viewer extends Component {
         return null;
     }
 
+    renderUrlPopup() {
+      const { urlIntercepted, urlInterceptedX, urlInterceptedY } = this.state;
+      const style = {
+          top: urlInterceptedY,
+          left: urlInterceptedX,
+      };
+      return (<div className='urlpopup' style={style} onClick={e => e.stopPropagation()}>
+          Are you sure you want to visit:
+          <div>{urlIntercepted}</div>
+          <div>
+              <button onClick={() => this.clearUrlPopup(true)}>Yes</button>
+              <button onClick={() => this.clearUrlPopup(false)}>No</button>
+          </div>
+      </div>);
+    }
+
+    clearUrlPopup(visit) {
+        const { urlIntercepted } = this.state;
+        this.setState({urlIntercepted: null});
+        if (visit) {
+            var win = window.open(urlIntercepted, '_blank');
+            if (win) {
+                win.focus();
+            } else {
+                // TODO: Update to message system
+                alert('Please allow popups for this website');
+            }
+        }
+    }
+
     render() {
         const { waitingForSingleItem } = this.props;
+        const { urlIntercepted } = this.state;
         return (
             <div className='viewer'>
                 <div className='viewer-wrapper'>
@@ -195,6 +241,7 @@ export default class Viewer extends Component {
                         <Loader visible={waitingForSingleItem} />
                         {this.renderToolbar()}
                         <div className='viewer-container' ref={(c) => { this.viewer = c; }}>
+                            {urlIntercepted ? this.renderUrlPopup() : null }
                             {this.renderContent()}
                         </div>
                     </div>
