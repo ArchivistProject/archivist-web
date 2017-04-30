@@ -24,6 +24,8 @@ function mapStateToProps(state) {
         ...state.viewer,
         ...state.item,
         sidebarVisible: state.sidebar.visible,
+        sidebarWidth: state.sidebar.width,
+        sidebarIsDragging: state.sidebar.isDragging,
     };
 }
 

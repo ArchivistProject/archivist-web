@@ -7,6 +7,8 @@ const initialState = {
     visibleTab: SIDEBAR_TABS.SUMMARY,
     metadataEditMode: false,
     descriptionEditMode: false,
+    width: 300,
+    isDragging: false,
 };
 
 export default function (state = initialState, action) {
@@ -38,6 +40,22 @@ export default function (state = initialState, action) {
                 descriptionEditMode: !state.descriptionEditMode,
             };
         }
+
+        case sidebarActionTypes.SIDEBAR_DRAG_TOGGLED: {
+            return {
+                ...state,
+                isDragging: !state.isDragging,
+            };
+        }
+
+        case sidebarActionTypes.SIDEBAR_WIDTH_SET: {
+            const { width } = action.data;
+            return {
+                ...state,
+                width,
+            };
+        }
+
         case itemActionTypes.ITEM_FOCUSED: {
             return {
                 ...state,
