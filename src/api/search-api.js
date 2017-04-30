@@ -43,6 +43,11 @@ export function search(searchGroups) {
                     ...searchGroup,
                 };
             }
+            case (SEARCH_CONSTANTS.FULLTEXT): {
+                return {
+                    ...searchGroup,
+                };
+            }
         }
         return null;
     });

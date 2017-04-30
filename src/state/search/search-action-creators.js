@@ -104,6 +104,13 @@ export function updateDescription(description, groupIndex) {
     };
 }
 
+export function updateFullText(terms, groupIndex) {
+    return {
+        type: searchActionTypes.FULLTEXT_UPDATED,
+        data: { terms, groupIndex },
+    };
+}
+
 export function submitSearch() {
     return (dispatch, getState) => {
         const state = getState();

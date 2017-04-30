@@ -96,7 +96,7 @@ input[type="datetime"],
 input[type="email"],
 input[type="time"],
 input[type="url"],
-input[type="password"]
+input[type="password"],
 input[type="text"]{
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -158,3 +158,6 @@ a {
     color: $darker-primary-color;
   }
 }
+$paginator-height: 25px;
+
+$gutter: 15px;

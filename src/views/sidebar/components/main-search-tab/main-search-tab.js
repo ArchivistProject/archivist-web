@@ -13,6 +13,7 @@ export default class SummaryTab extends Component {
         fetchItemTypes: PropTypes.func.isRequired,
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 
+        hasFullText: PropTypes.bool.isRequired,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
         addSearchGroup: PropTypes.func.isRequired,
         deleteSearchGroup: PropTypes.func.isRequired,
@@ -31,6 +32,7 @@ export default class SummaryTab extends Component {
 
         updateTags: PropTypes.func.isRequired,
         updateDescription: PropTypes.func.isRequired,
+        updateFullText: PropTypes.func.isRequired,
 
         submitSearch: PropTypes.func.isRequired,
         reset: PropTypes.func.isRequired,
@@ -88,7 +90,8 @@ export default class SummaryTab extends Component {
                     <div className='search-tab-group-wrapper' key={groupIndex}>
                         <div className='search-tab-group'>
                             <div className='search-tab-group-toolbar'>
-                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION ?
+                                {group.groupType !== SEARCH_CONSTANTS.DESCRIPTION &&
+                                group.groupType !== SEARCH_CONSTANTS.FULLTEXT ?
                                     <Checkbox
                                         checked={group.not}
                                         onClick={() => toggleGroupNot(groupIndex)}
@@ -124,6 +127,8 @@ export default class SummaryTab extends Component {
                 return this.renderTagGroup(groupIndex);
             case SEARCH_CONSTANTS.DESCRIPTION:
                 return this.renderDescriptionGroup(groupIndex);
+            case SEARCH_CONSTANTS.FULLTEXT:
+                return this.renderFullTextGroup(groupIndex);
         }
         return null;
     }
@@ -210,7 +215,7 @@ export default class SummaryTab extends Component {
                         {searchGroups[groupIndex].metadataRows.length > 1 ?
                             <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross button-cross' /></button>
                             : null}
-                    </div>
+                    </div>,
                 )}
                 <a onClick={() => this.handleMetadataRowAdded(groupIndex)}>+ Add Metadata Field</a>
             </section>
@@ -239,18 +244,28 @@ export default class SummaryTab extends Component {
         );
     }
 
+    renderFullTextGroup(groupIndex) {
+        const { searchGroups, updateFullText } = this.props;
+        return (
+            <section className='search-tab-section'>
+                <textarea value={searchGroups[groupIndex].terms} onChange={e => updateFullText(e.target.value, groupIndex)} />
+            </section>
+        );
+    }
+
     render() {
-        const { addSearchGroup, submitSearch, reset } = this.props;
+        const { addSearchGroup, submitSearch, reset, hasFullText } = this.props;
         return (
             <div className='search-tab'>
                 <header className='search-tab-label'>Create your searches for files below:</header>
                 {this.renderGroups()}
-                <p>Find files with...</p>
                 <div className='search-tab-new-group'>
+                    <p>Find files with...</p>
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>Category</button>
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
+                    <button className='search-tab-btn' disabled={hasFullText} onClick={() => addSearchGroup(SEARCH_CONSTANTS.FULLTEXT)}>FullText</button>
                 </div>
                 <div className='search-tab-search-reset'>
                     <button type='small' onClick={submitSearch}>Search</button>

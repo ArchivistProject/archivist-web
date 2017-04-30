@@ -2,11 +2,19 @@
 
 .item-grid {
     align-items: center;
+    overflow-y: auto;
 
     &-wrapper {
         width: 100%;
         text-align: center;
         position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .paginator {
+            height: 25px;
+            line-height: 25px;
+        }
     }
 
     &-count {
@@ -17,13 +25,8 @@
     &-text {
         text-align: center;
     }
-    .paginator {
-        height: 25px;
-        line-height: 25px;
-    }
+
     .grid {
-        border-bottom: 1px solid $secondary-color;
-        overflow: scroll;
         &-row {
             height: 30px;
             cursor: pointer;

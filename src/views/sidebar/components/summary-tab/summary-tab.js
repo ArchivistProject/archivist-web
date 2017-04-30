@@ -50,7 +50,7 @@ export default class SummaryTab extends Component {
                 <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
                     <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
                     <td className='summary-tab-value'>
-                        {metadataEditMode ? <input value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
+                        {metadataEditMode ? <input className='summary-tab-input' value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
                         : this.renderMetadataRow(metadata)}
                     </td>
                 </tr>

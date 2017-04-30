@@ -77,16 +77,16 @@ export default class ItemGrid extends Component {
         return (
             <div className='item-grid-wrapper'>
                 <Loader visible={waitingForItems} />
+                { rows.length ? (
+                    <Paginator
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        fetchSortedItems={fetchSortedItems}
+                        fetchItems={fetchItems}
+                        sortOrder={sortOrder}
+                        sortby={sortby}
+                    />) : null }
                 <div className='item-grid'>
-                    { rows.length ? (
-                        <Paginator
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            fetchSortedItems={fetchSortedItems}
-                            fetchItems={fetchItems}
-                            sortOrder={sortOrder}
-                            sortby={sortby}
-                        />) : null }
                     <Grid
                         currentPage={currentPage}
                         headers={headers}
@@ -101,8 +101,8 @@ export default class ItemGrid extends Component {
                         saveSortOrder={saveSortOrder}
                         saveHeaderClicked={saveHeaderClicked}
                     />
-                    { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
                 </div>
+                { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }
             </div>
         );
     }

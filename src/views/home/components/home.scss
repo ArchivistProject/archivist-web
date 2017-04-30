@@ -1,19 +1,14 @@
 @import '../../../defaults';
 
-$home-min-height: calc(100vh - #{$action-bar-height});
-
 .home {
-    min-height: $home-min-height;
-    width: 100%;
-    display: flex;
-    position: absolute;
+    height: 100%;
+    height: calc(100vh - #{$action-bar-height});
     flex-direction: column;
 
     &-content {
         display: flex;
         flex-direction: row;
-        min-height: $home-min-height;
-        height: auto;
+        height: 100%;
         width: 100%;
     }
 }

@@ -4,7 +4,11 @@ import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
+import { throttle, getScrollbarWidth } from '~/src/utils/utils';
 import './viewer.scss';
+
+const gutter = 15 / 3; // width of sidebar resizer
+const scrollbarWidth = getScrollbarWidth();
 
 export default class Viewer extends Component {
 
@@ -23,6 +27,8 @@ export default class Viewer extends Component {
         currentPage: PropTypes.number,
         numPages: PropTypes.number,
         sidebarVisible: PropTypes.bool.isRequired,
+        sidebarWidth: PropTypes.number.isRequired,
+        sidebarIsDragging: PropTypes.bool.isRequired,
         params: PropTypes.object.isRequired,
         viewerClosed: PropTypes.func.isRequired,
         waitingForSingleItem: PropTypes.bool,
@@ -39,8 +45,8 @@ export default class Viewer extends Component {
     }
 
     componentDidMount() {
-        const { sidebarVisible } = this.props;
-        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
+        const { sidebarVisible, sidebarWidth } = this.props;
+        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -52,8 +58,8 @@ export default class Viewer extends Component {
     }
 
     componentDidUpdate() {
-        const { sidebarVisible, activeItem, fetchItemContent, activeItemContent } = this.props;
-        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
+        const { sidebarVisible, sidebarWidth, activeItem, fetchItemContent, activeItemContent } = this.props;
+        this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
         if (!activeItemContent) {
             fetchItemContent(activeItem);
         }
@@ -65,19 +71,8 @@ export default class Viewer extends Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    throttle = (callback, limit) => {
-        let wait = false;
-        return () => {
-            if (!wait) {
-                callback.call();
-                wait = true;
-                setTimeout(() => { wait = false; }, limit);
-            }
-        };
-    }
-
     handleResize = () => {
-        this.throttle(() => this.forceUpdate(), 100).call();
+        throttle(() => this.forceUpdate(), 100).call();
     }
 
     handleScaleClicked = (increment) => {
@@ -121,10 +116,15 @@ export default class Viewer extends Component {
     }
 
     renderContent() {
-        const { activeItemContent, activeItemContentType, scale, currentPage, sidebarVisible } = this.props;
+        const { activeItemContent, activeItemContentType, scale, currentPage, sidebarVisible, sidebarWidth, sidebarIsDragging } = this.props;
         switch (activeItemContentType) {
             case CONTENT_TYPES.WEB: {
-                return <iframe className='web-container' srcDoc={activeItemContent} />;
+                return (
+                    <div className='web-wrapper'>
+                        {sidebarIsDragging ? <div className='web-container-overlay' /> : null}
+                        <iframe className='web-container' srcDoc={activeItemContent} />
+                    </div>
+                );
             }
             case CONTENT_TYPES.PDF: {
                 // clear out the current page to replace it
@@ -138,12 +138,12 @@ export default class Viewer extends Component {
                 this.viewer.appendChild(pageContainer);
                 activeItemContent.getPage(currentPage).then((pdfPage) => {
                     // Get viewport for the page. Use the window's current width / the page's viewport at the current scale
-                    const reduceScale = sidebarVisible ? 0.65 : 0.95;
+                    const reduceScale = sidebarVisible ? (window.innerWidth - sidebarWidth) / window.innerWidth : 1;
                     const viewport = pdfPage.getViewport(reduceScale * ((window.innerWidth) / pdfPage.getViewport(scale).width));
 
                     pageContainer.width = `${viewport.width}px`;
                     pageContainer.height = `${viewport.height}px`;
-                    this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? 320 : 20)}px`;
+                    this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
 
                     // Render the SVG element and add it as a child to the page container
                     pdfPage.getOperatorList()

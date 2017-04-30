@@ -4,12 +4,14 @@
     height: 99%;
     width: 300px;
     background-color: $bg-primary-color;
-    border-left: 1px solid $secondary-color;
+    border-left: 1px solid $primary-color;
+    overflow-y: auto;
 
     &-wrapper {
         display: flex;
         flex-direction: row;
         position: relative;
+        // z-index: 10;
     }
 
     &-tabs {
@@ -46,41 +48,54 @@
         font-size: $small-size;
     }
 
-    &-close {
-        width: 30px;
-        font-size: $smaller-size;
-        background-color: $bg-primary-color;
-        color: red;
-        border-color: $secondary-color;
-        border-style: solid;
-        border-width: 0;
-
-        &:hover {
-            background-color: red;
-            color: $bg-primary-color;
-        }
-    }
     &-toggler {
-        height: 100%;
-        border-left: 1px solid $secondary-color;
-        width: 20px;
-        z-index: 1;
-        cursor: pointer;
-        background-color: $bg-primary-color;
-        &:hover {
-            background-color: $secondary-color;
+        &.closed {
+            width: 0;
         }
+
         &.opened {
+            height: 100%;
+            margin-left: -1px;
+            border-left: 1px solid $primary-color;
+            width: $gutter/3;
             background-color: $bg-primary-color;
+            cursor: col-resize;
+
             &:hover {
-                background-color: $secondary-color;
+                background-color: $light-primary-color;
             }
         }
-        i {
-            position: relative;
+
+        &-button {
+            width: 17px;
+            height: 47px;
+            margin-left: -17px;
+            padding: 15px 1px;
+            background-color: $primary-color;
+            position: absolute;
             top: 50%;
-            margin: 0 2px;
-            color: $primary-color; //color of the arrow
+            left: 0;
+            transform: translate(0, -50%);
+            border-radius: 7px 0 0 7px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $darker-primary-color;
+            }
+
+            &.opened {
+                margin-left: -13px;
+            }
+
+            i {
+                position: absolute;
+                margin-left: 2px;
+                color: $bg-primary-color;
+            }
         }
     }
+
+  &-no-item {
+    text-align: center;
+  }
 }
