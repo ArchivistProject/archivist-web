@@ -34,6 +34,7 @@ export default class Sidebar extends Component {
         width: PropTypes.number.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
+        hasFullText: PropTypes.bool,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
     };
 
@@ -141,8 +142,7 @@ export default class Sidebar extends Component {
     renderPanel() {
         const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
             saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription,
-            fetchItemTypes, itemTypes, searchGroups, dispatch } = this.props;
-
+            fetchItemTypes, itemTypes, hasFullText, searchGroups, dispatch } = this.props;
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
@@ -160,6 +160,7 @@ export default class Sidebar extends Component {
         const searchTabProps = {
             fetchItemTypes,
             itemTypes,
+            hasFullText,
             searchGroups,
         };
 

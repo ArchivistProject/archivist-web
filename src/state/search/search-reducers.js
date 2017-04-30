@@ -2,6 +2,7 @@ import searchActionTypes from './search-action-types';
 import { SEARCH_CONSTANTS, SEARCH_DEFAULTS } from './search-constants';
 
 const initialState = {
+    hasFullText: false,
     searchGroups: [],
 };
 
@@ -46,6 +47,12 @@ function getDefaultGroupObject(groupType) {
                 groupType: SEARCH_CONSTANTS.DESCRIPTION,
                 description: SEARCH_DEFAULTS.DESCRIPTION,
             };
+        case SEARCH_CONSTANTS.FULLTEXT:
+            return {
+                ...genericGroup,
+                groupType: SEARCH_CONSTANTS.FULLTEXT,
+                terms: SEARCH_DEFAULTS.DESCRIPTION,
+            };
     }
     return genericGroup;
 }
@@ -56,8 +63,10 @@ export default function (state = initialState, action) {
         case searchActionTypes.SEARCH_GROUP_ADDED: {
             const { groupType } = action.data;
             const newGroup = getDefaultGroupObject(groupType);
+            const hasFullText = groupType === SEARCH_CONSTANTS.FULLTEXT ? true : state.hasFullText;
             return {
                 ...state,
+                hasFullText,
                 searchGroups: [
                     ...state.searchGroups,
                     newGroup,
@@ -68,8 +77,10 @@ export default function (state = initialState, action) {
         case searchActionTypes.SEARCH_GROUP_DELETED: {
             const { groupIndex } = action.data;
             const { searchGroups } = state;
+            const hasFullText = searchGroups[groupIndex].groupType === SEARCH_CONSTANTS.FULLTEXT ? false : state.hasFullText;
             return {
                 ...state,
+                hasFullText,
                 searchGroups: [
                     ...searchGroups.slice(0, groupIndex),
                     ...searchGroups.slice(groupIndex + 1, searchGroups.length),
@@ -223,6 +234,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 searchGroups: updateGroupValue(searchGroups, groupIndex, 'description', description),
+            };
+        }
+
+        case searchActionTypes.FULLTEXT_UPDATED: {
+            const { terms, groupIndex } = action.data;
+            const { searchGroups } = state;
+            return {
+                ...state,
+                searchGroups: updateGroupValue(searchGroups, groupIndex, 'terms', terms),
             };
         }
     }
