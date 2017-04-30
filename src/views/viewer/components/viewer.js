@@ -203,7 +203,7 @@ export default class Viewer extends Component {
             onElementCreate: this.onHighlightCreate,
         }));
 
-        this.highlighter.deserialize('type:textContent|10$15$1$archivist-highlight$|20$24$2$archivist-highlight$');
+        // this.highlighter.deserialize('type:textContent|10$15$1$archivist-highlight$|20$24$2$archivist-highlight$');
         console.log(this.highlighter.highlights, this.props.highlights);
     }
 
