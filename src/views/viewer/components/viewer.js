@@ -58,6 +58,8 @@ export default class Viewer extends Component {
             selectedHighlight: null,
             wasHighlightJustSelected: false,
             selection: null,
+            currentHighlightId: props.highlights.length ? props.highlights[0].highlightId : null,
+            highlightCounter: 0,
         };
     }
     componentWillMount() {
@@ -173,7 +175,6 @@ export default class Viewer extends Component {
                 break;
         }
         if (selection.toString() !== '') {
-            console.log(1);
             const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
             this.setState({
                 annotationVisible: true,
@@ -184,7 +185,6 @@ export default class Viewer extends Component {
                 selection,
             });
         } else {
-            console.log(2);
             this.setState({
                 annotationVisible: false,
                 selectionRect: null,
@@ -197,24 +197,22 @@ export default class Viewer extends Component {
 
     createHighlighter = () => {
         this.highlighter = rangy.createHighlighter(this.webContainer.contentDocument);
-        // this.highlighter.addClassApplier(rangy.createClassApplier('archivist-highlight', {
-        //     ignoreWhiteSpace: true,
-        //     tagNames: ['*'],
-        //     onElementCreate: this.onHighlightCreate,
-        // }));
+        this.highlighter.addClassApplier(rangy.createClassApplier('archivist-highlight', {
+            ignoreWhiteSpace: true,
+            tagNames: ['*'],
+            onElementCreate: this.onHighlightCreate,
+        }));
+
+        this.highlighter.deserialize('type:textContent|10$15$1$archivist-highlight$|20$24$2$archivist-highlight$');
+        console.log(this.highlighter.highlights, this.props.highlights);
     }
 
     handleHighlightAdded = (note) => {
         const { addHighlight } = this.props;
         const { selection } = this.state;
         const highlightId = shortid.generate();
-        this.highlighter.addClassApplier(rangy.createClassApplier(`archivist-highlight-${highlightId}`, {
-            ignoreWhiteSpace: true,
-            tagNames: ['*'],
-            onElementCreate: this.onHighlightCreate,
-        }));
         this.setState({ highlightId }, () => {
-            this.highlighter.highlightSelection(`archivist-highlight-${highlightId}`);
+            this.highlighter.highlightSelection('archivist-highlight');
             addHighlight(this.highlighter, highlightId, this.state.highlightedText, note);
             if (selection) {
                 selection.empty();
@@ -254,6 +252,7 @@ export default class Viewer extends Component {
 
     handleHighlightSelected = (e, element, highlightId) => {
         e.stopPropagation();
+        console.log(highlightId);
         const { highlights } = this.props;
         if (!this.state.editMode) {
             this.setState({
@@ -263,19 +262,25 @@ export default class Viewer extends Component {
             });
         }
         const newHighlight = highlights.find(highlight => highlight.highlightId === highlightId);
-        console.log(newHighlight);
-        console.log(highlightId);
         this.setState({
             annotationVisible: true,
             selectedHighlight: newHighlight,
             selectedHighlightRect: element.getBoundingClientRect(),
-            // wasHighlightJustSelected: true,
         });
     }
 
     onHighlightCreate = (element, classApplier) => {
-        const { highlightId } = this.state;
-        element.onclick = e => this.handleHighlightSelected(e, element, highlightId);
+        const { highlights } = this.props;
+        const { highlightId, currentHighlightId, highlightCounter } = this.state;
+        console.log(currentHighlightId, highlightCounter);
+        element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
+        if (!highlightId) {
+            const numHighlights = highlights.length;
+            this.setState({
+                currentHighlightId: numHighlights < highlightCounter ? highlights[this.state.highlightCounter].highlightId : null,
+                highlightCounter: this.state.highlightCounter += 1,
+            });
+        }
     }
 
     handleContentLoaded = () => {

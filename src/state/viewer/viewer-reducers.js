@@ -8,12 +8,25 @@ const initialState = {
     scaleMin: 1.0,
     currentPage: 1,
     numPages: 3, // TODO: set the number of pdf pages
-    highlights: [],
+    // highlights: [],
+    highlights: [
+        {
+            highlightId: 'r1sCqnX1W',
+            text: 'I am!',
+            note: 'abc',
+        },
+        {
+            highlightId: 'HJTAcnmyW',
+            text: 'foo ',
+            note: '123',
+        },
+    ],
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case viewerActionTypes.VIEWER_OPENED: {
+            console.log(state.highlights);
             return {
                 ...state,
                 currentPage: initialState.currentPage,
