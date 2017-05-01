@@ -1,10 +1,10 @@
 @import '../../../defaults';
 
 .login {
-  color: #FFF;
+  color: $darker-secondary-color;
 
   &-welcome {
-    color: #fff;
+    color: $default-font-color;
     font-size: 3em;
     font-weight: bold;
     text-shadow: 0px 0px 1px #FFF;
@@ -14,7 +14,7 @@
 
   &-label {
     padding-top: 15px;
-    color: #FFF;
+    color: $default-font-color;
     font-size: 20px;
     font-family: $default-family;
   }
@@ -26,14 +26,14 @@
 
 
   .left-half {
-    background-color: $login-bg-color;
+    background-color: $bg-primary-color;
     width: 60%;
     position: absolute;
     left: 0px;
     height: 100%;
   }
   .right-half {
-    background-color: $login-bg-color;
+    background-color: $bg-primary-color;
     width: 40%;
     position: absolute;
     right: 0px;

@@ -54,4 +54,10 @@
 
 .navbar {
     margin-bottom: 0px;
+    background-color: $primary-color;
+
+    a:hover {
+        background-color: transparent !important;
+        color: $secondary-color !important;
+    }
 }

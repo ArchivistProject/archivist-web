@@ -51,7 +51,7 @@ export default class ActionBar extends Component {
         const width = { width: '1%' };
         const table = { display: 'table' };
         return loggedIn ? (
-            <div className='action-bar-wrapper navbar navbar-inverse navbar-static-top'>
+            <div className='action-bar-wrapper navbar navbar-static-top'>
                 <div className='action-bar'>
                     <div className='navbar-header'>
                         <button
