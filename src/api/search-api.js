@@ -3,7 +3,14 @@ import { ajax } from '~/src/utils/utils';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
 
 export function search(searchGroups) {
-    const searchPayload = Object.keys(searchGroups).map((index) => {
+    const payload = {
+        search: buildSearchPayload(searchGroups),
+    };
+    return ajax('POST', 'documents/search', payload);
+}
+
+export function buildSearchPayload(searchGroups) {
+    return Object.keys(searchGroups).map((index) => {
         const searchGroup = searchGroups[index];
         switch (searchGroup.groupType) {
             case (SEARCH_CONSTANTS.ITEM_TYPE): {
@@ -51,8 +58,4 @@ export function search(searchGroups) {
         }
         return null;
     });
-    const payload = {
-        search: searchPayload,
-    };
-    return ajax('POST', 'documents/search', payload);
 }
