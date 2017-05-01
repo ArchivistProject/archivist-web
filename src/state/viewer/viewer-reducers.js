@@ -26,7 +26,6 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case viewerActionTypes.VIEWER_OPENED: {
-            console.log(state.highlights);
             return {
                 ...state,
                 currentPage: initialState.currentPage,

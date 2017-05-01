@@ -2,7 +2,7 @@
 
 .annotation {
     width: 200px;
-    height: 100px;
+    height: auto;
     position: absolute;
     background-color: white;
     border: 1px solid $dark-gray;
@@ -18,18 +18,35 @@
             background-color: white;
             color: $dark-gray;
             border-radius: 5px;
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+
+        .add-button, .save-button {
+            color: $white;
+            background-color: $blue;
         }
     }
 
     &-details {
         display: flex;
         flex-direction: column;
+        padding: 10px;
     }
 
     &-text {
         &-highlight {
             background-color: $dark-gray;
             color: $white;
+        }
+        &-note {
+            word-wrap: break-word;
+        }
+    }
+
+    &-textarea {
+        &:focus {
+            outline: 1px solid $blue;
         }
     }
 }

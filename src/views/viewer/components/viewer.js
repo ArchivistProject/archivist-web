@@ -223,6 +223,7 @@ export default class Viewer extends Component {
             annotationVisible: false,
             annotationX: null,
             annotationY: null,
+            highlightedText: '',
             selection: null,
             selectionRect: null,
         });
@@ -232,6 +233,7 @@ export default class Viewer extends Component {
         const { editHighlight } = this.props;
         const { selectedHighlight } = this.state;
         editHighlight(selectedHighlight, newNote);
+        this.handleCancel();
     }
 
     handleCancel = () => {
@@ -266,6 +268,7 @@ export default class Viewer extends Component {
             annotationVisible: true,
             selectedHighlight: newHighlight,
             selectedHighlightRect: element.getBoundingClientRect(),
+
         });
     }
 
@@ -403,13 +406,11 @@ export default class Viewer extends Component {
                         <div className='viewer-container' ref={(c) => { this.viewer = c; }}>
                             {annotationVisible ?
                                 <Annotation
-                                    highlightedText={highlightedText}
                                     selectionRect={selectionRect}
                                     selectedHighlightRect={selectedHighlightRect}
                                     addHighlight={this.handleHighlightAdded}
                                     editHighlight={this.handleHighlightEdited}
                                     deleteHighlight={this.handleHighlightDeleted}
-                                    cancel={this.handleCancel}
                                     selectedHighlight={selectedHighlight}
                                 /> : null}
                             {this.renderContent()}
