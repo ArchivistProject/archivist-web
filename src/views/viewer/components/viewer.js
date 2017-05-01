@@ -209,10 +209,10 @@ export default class Viewer extends Component {
       };
       return (<div className='urlpopup' style={style} onClick={e => e.stopPropagation()}>
           Are you sure you want to visit:
-          <div>{urlIntercepted}</div>
+          <p>{urlIntercepted}</p>
           <div>
-              <button onClick={() => this.clearUrlPopup(true)}>Yes</button>
-              <button onClick={() => this.clearUrlPopup(false)}>No</button>
+              <button className='yes-button' onClick={() => this.clearUrlPopup(true)}>Yes</button>
+              <button className='no-button' onClick={() => this.clearUrlPopup(false)}>No</button>
           </div>
       </div>);
     }
