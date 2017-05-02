@@ -265,7 +265,7 @@ export default class SummaryTab extends Component {
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
                     <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
-                    <button className='search-tab-btn' disabled={hasFullText} onClick={() => addSearchGroup(SEARCH_CONSTANTS.FULLTEXT)}>FullText</button>
+                    <button className='search-tab-btn' disabled={hasFullText} onClick={() => addSearchGroup(SEARCH_CONSTANTS.FULLTEXT)}>Full Text</button>
                 </div>
                 <div className='search-tab-search-reset'>
                     <button type='small' onClick={submitSearch}>Search</button>

@@ -5,7 +5,7 @@ export const SEARCH_CONSTANTS = {
     METADATA: 'Metadata',
     TAG: 'Tags',
     DESCRIPTION: 'Description',
-    FULLTEXT: 'FullText',
+    FULLTEXT: 'Full Text',
 };
 
 export const SEARCH_DEFAULTS = {
