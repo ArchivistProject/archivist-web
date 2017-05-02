@@ -4,6 +4,7 @@ import { formatDate } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import Loader from '~/src/components/loader/loader';
 import * as searchActionCreators from '~/src/state/search/search-action-creators';
+import * as viewerActionCreators from '~/src/state/viewer/viewer-action-creators';
 import SummaryTab from './summary-tab/summary-tab';
 import MainSearchTab from './main-search-tab/main-search-tab';
 import NotesTab from './notes-tab/notes-tab';
@@ -39,6 +40,7 @@ export default class Sidebar extends Component {
         globalAndOr: PropTypes.string,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
         isViewerActive: PropTypes.bool.isRequired,
+        highlights: PropTypes.arrayOf(PropTypes.object),
     };
 
     constructor(props) {
@@ -148,7 +150,8 @@ export default class Sidebar extends Component {
     renderPanel() {
         const { visibleTab, activeItem, activeItemEditing, toggleMetadataEditMode, toggleDescriptionEditMode, updateMetadata,
             saveMetadata, saveTags, updateDescription, saveDescription, metadataEditMode, descriptionEditMode, tempDescription,
-            fetchItemTypes, itemTypes, hasFullText, searchGroups, dispatch, globalAndOr } = this.props;
+            fetchItemTypes, itemTypes, hasFullText, searchGroups, dispatch, globalAndOr, highlights } = this.props;
+
         const summaryTabProps = {
             activeItem,
             activeItemEditing,
@@ -171,6 +174,10 @@ export default class Sidebar extends Component {
             searchGroups,
         };
 
+        const notesTabProps = {
+            highlights,
+        };
+
         switch (visibleTab) {
             case SIDEBAR_TABS.SUMMARY:
                 if (activeItem) {
@@ -184,7 +191,7 @@ export default class Sidebar extends Component {
             case SIDEBAR_TABS.SEARCH:
                 return (<MainSearchTab {...searchTabProps} {...bindActionCreators(searchActionCreators, dispatch)} />);
             case SIDEBAR_TABS.NOTES:
-                return (<NotesTab />);
+                return (<NotesTab {...notesTabProps} {...bindActionCreators(viewerActionCreators, dispatch)} />);
             default:
                 return null;
         }

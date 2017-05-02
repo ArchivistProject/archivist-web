@@ -44,6 +44,16 @@ export function editHighlight(highlight, note) {
     };
 }
 
+export function deleteHighlight(highlight) {
+    return (dispatch) => {
+        console.log('api call');
+        dispatch({
+            type: viewerActionTypes.HIGHLIGHT_DELETED,
+            data: { highlight },
+        });
+    };
+}
+
 export function viewerClosed() {
     return {
         type: viewerActionTypes.VIEWER_CLOSED,

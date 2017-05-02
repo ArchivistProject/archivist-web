@@ -27,7 +27,7 @@ export default class Viewer extends Component {
         updatePage: PropTypes.func.isRequired,
         addHighlight: PropTypes.func.isRequired,
         editHighlight: PropTypes.func.isRequired,
-        // deleteHighlight: PropTypes.func.isRequired,
+        deleteHighlight: PropTypes.func.isRequired,
         fetchItem: PropTypes.func.isRequired,
         fetchItemContent: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
@@ -209,11 +209,11 @@ export default class Viewer extends Component {
 
     handleHighlightAdded = (note) => {
         const { addHighlight } = this.props;
-        const { selection } = this.state;
+        const { selection, highlightedText } = this.state;
         const highlightId = shortid.generate();
         this.setState({ highlightId }, () => {
             this.highlighter.highlightSelection('archivist-highlight');
-            addHighlight(this.highlighter, highlightId, this.state.highlightedText, note);
+            addHighlight(this.highlighter, highlightId, highlightedText, note);
             if (selection) {
                 selection.empty();
             }
@@ -247,8 +247,10 @@ export default class Viewer extends Component {
         });
     }
 
-    handleHighlightDeleted = () => {
+    handleHighlightDeleted = (highlight) => {
+        const { deleteHighlight } = this.props;
         this.highlighter.unhighlightSelection();
+        deleteHighlight(highlight);
         this.handleCancel();
     }
 

@@ -84,6 +84,19 @@ export default function (state = initialState, action) {
             };
         }
 
+        case viewerActionTypes.HIGHLIGHT_DELETED: {
+            const { highlight } = action.data;
+            const { highlights } = state;
+            const highlightIndex = highlights.map(hl => hl.highlightId).indexOf(highlight.highlightId);
+            return {
+                ...state,
+                highlights: [
+                    ...highlights.slice(0, highlightIndex),
+                    ...highlights.slice(highlightIndex + 1, highlights.length),
+                ],
+            };
+        }
+
         case itemActionTypes.FETCH_CONTENT_SUCCEEDED: {
             const { content, contentType } = action.data;
             return {

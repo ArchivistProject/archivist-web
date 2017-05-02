@@ -1,5 +1,21 @@
 @import '../../../../defaults';
 
 .notes-tab {
-    
+    .highlight {
+        display: flex;
+        flex-direction: column;
+        margin: $gutter;
+        border-width: 1px 1px 2px 1px;
+        border-color: $dark-gray;
+        border-style: solid;
+        border-radius: 5px;
+        padding: 5px;
+
+        &-text {
+            font-style: italic;
+            border-bottom: 1px solid $dark-gray;
+            background-color: rgba(255, 255, 0, .3);
+            padding: 3px;
+        }
+    }
 }

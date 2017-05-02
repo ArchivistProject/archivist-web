@@ -87,7 +87,7 @@ export default class Annotation extends Component {
             <div className='annotation' style={style}>
                 <div className='annotation-toolbar'>
                     {!editMode ? <button className='annotation-toolbar-button' onClick={this.toggleEditMode}>Edit</button> : null}
-                    {!editMode ? <button className='annotation-toolbar-button' onClick={deleteHighlight}>Delete</button> : null}
+                    {!editMode ? <button className='annotation-toolbar-button' onClick={() => deleteHighlight(selectedHighlight)}>Delete</button> : null}
                     {editMode ? <button className='annotation-toolbar-button save-button' onClick={this.handleNoteSaved}>Save</button> : null}
                     {editMode ? <button className='annotation-toolbar-button' onClick={this.handleCancelClicked}>Cancel</button> : null}
                 </div>
