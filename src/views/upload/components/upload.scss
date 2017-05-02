@@ -4,8 +4,10 @@
   color: $default-font-color;
 
   &-submit {
-    text-align: center;
-    padding-top: 4em;
+    text-align: right;
+    padding-top: 5px;
+    margin-right: 5%;
+    margin-bottom: 4%;
   }
 
   .left-half {
@@ -180,12 +182,12 @@
   .inputfile-4:focus + label,
   .inputfile-4.has-focus + label,
   .inputfile-4 + label:hover {
-    color: $secondary-color;
+    color: $primary-color;
   }
 
   .inputfile-4 + label figure {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
     background-color: $bg-primary-color;
     display: block;

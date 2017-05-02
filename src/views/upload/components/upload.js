@@ -214,9 +214,6 @@ export default class Upload extends Component {
                             </figure>
                             <span>{fileName}</span></label>
                     </div>
-                    <div className='upload-submit'>
-                        <button type='submit' onClick={this.handleSubmit}>Upload</button>
-                    </div>
 
                 </div>
                 <div className='right-half'>
@@ -271,6 +268,9 @@ export default class Upload extends Component {
                         <p className='upload-label'>Tags:</p>
                         <TagsInput value={tags} onChange={this.handleTagChange} />
                         <br />
+                    </div>
+                    <div className='upload-submit'>
+                        <button type='submit' onClick={this.handleSubmit}>Upload</button>
                     </div>
                 </div>
             </div>
