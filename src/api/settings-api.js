@@ -14,6 +14,10 @@ export function postItemType(itemName) {
     return ajax('POST', 'system/groups', group);
 }
 
+export function fetchMetadataTypes() {
+    return ajax('GET', 'metadata_fields/types');
+}
+
 export function postFieldType(name, type, id) {
     const field = {
         field: {
