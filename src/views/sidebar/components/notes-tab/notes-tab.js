@@ -6,26 +6,61 @@ export default class NotesTab extends Component {
     static propTypes = {
         highlights: PropTypes.arrayOf(PropTypes.object),
         deleteHighlight: PropTypes.func.isRequired,
+        editHighlight: PropTypes.func.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.state = {
             editId: '',
+            note: '',
         };
     }
 
     handleEditClicked = (highlight) => {
-        console.log(highlight);
+        this.setState({
+            editId: highlight.highlightId,
+            note: highlight.note,
+        });
+    }
+
+    handleNoteChanged = (e) => {
+        this.setState({
+            note: e.target.value,
+        });
+    }
+
+    handleSaveClicked = (highlight) => {
+        const { editHighlight } = this.props;
+        const { note } = this.state;
+        editHighlight(highlight, note);
+        this.resetState();
+    }
+
+    resetState = () => {
+        this.setState({
+            editId: '',
+            note: '',
+        });
     }
 
     renderHighlight(highlight) {
         const { deleteHighlight } = this.props;
+        const { editId, note } = this.state;
         return (
             <div className='highlight' key={highlight.highlightId}>
                 <span className='highlight-text'>{`"${highlight.text}"`}</span>
-                <span className='highlight-note'>{highlight.note}</span>
-                <button onClick={() => this.handleEditClicked(highlight)}>Edit</button>
+                {editId === highlight.highlightId ?
+                    <textarea className='highlight-textarea' onChange={this.handleNoteChanged} value={note} autoFocus={true} />
+                    : <span className='highlight-note'>{highlight.note}</span>
+                }
+                {editId === highlight.highlightId ?
+                    <div className='highlight-edit-buttons'>
+                        <button onClick={() => this.handleSaveClicked(highlight)}>Save</button>
+                        <button onClick={this.resetState}>Cancel</button>
+                    </div>
+                    : <button onClick={() => this.handleEditClicked(highlight)}>Edit</button>
+                }
                 <button onClick={() => deleteHighlight(highlight)}>Delete</button>
             </div>
         );
@@ -33,7 +68,6 @@ export default class NotesTab extends Component {
 
     render() {
         const { highlights } = this.props;
-        console.log(highlights);
         return (
             <div className='notes-tab'>
                 {highlights.map(highlight => this.renderHighlight(highlight))}

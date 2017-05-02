@@ -79,6 +79,17 @@ export default class Viewer extends Component {
         document.addEventListener('click ', e => this.handleClick(e));
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { highlights: newHighlights } = nextProps;
+        const { highlights } = this.props;
+        if (newHighlights.length < highlights.length) {
+            console.log('hl deleted');
+            console.log(newHighlights, highlights);
+            const removedIndex = highlights.indexOf(highlights.find(highlight => newHighlights.indexOf(highlight) === -1));
+            console.log(removedIndex);
+        }
+    }
+
     shouldComponentUpdate(nextProps) {
         const { activeItemContentType, currentPage, scale } = this.props;
         if (activeItemContentType === CONTENT_TYPES.PDF && currentPage === nextProps.currentPage && scale === nextProps.scale) {

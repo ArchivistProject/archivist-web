@@ -17,5 +17,14 @@
             background-color: rgba(255, 255, 0, .3);
             padding: 3px;
         }
+
+        &-edit-buttons {
+            display: flex;
+            flex-direction: row;
+
+            button {
+                flex-grow: 1;
+            }
+        }
     }
 }
