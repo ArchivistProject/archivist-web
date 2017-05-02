@@ -9,8 +9,7 @@ import { App, Auth, Home, Login, Upload, Settings, Viewer } from './views';
 import './assets/style/style.scss';
 
 
-const store = configureStore();
-window.store = store;
+export const store = configureStore();
 
 const history = syncHistoryWithStore(browserHistory, store);
 

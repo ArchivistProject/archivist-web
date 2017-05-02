@@ -245,6 +245,12 @@ export default function (state = initialState, action) {
                 searchGroups: updateGroupValue(searchGroups, groupIndex, 'terms', terms),
             };
         }
+
+        case searchActionTypes.SEARCH_RESET: {
+            return {
+                ...initialState,
+            };
+        }
     }
     return state;
 }
