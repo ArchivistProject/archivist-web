@@ -4,17 +4,18 @@ import $ from 'jquery';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 import { APP_CONSTANTS } from '~/src/utils/app-constants';
 import { buildSearchPayload } from '~/src/api/search-api';
+import { store } from '~/src/index';
 
 export function fetchItems(pageNumber) {
     const searchGroups = store.getState().search.searchGroups;
-    if (searchGroups.length == 0) {
+    if (searchGroups.length === 0) {
         return ajax('GET', `documents?page=${pageNumber}`);
-    } else {
-        const payload = {
-            search: buildSearchPayload(searchGroups),
-        }
-        return ajax('POST', `documents/search?page=${pageNumber}`, payload);
     }
+
+    const payload = {
+        search: buildSearchPayload(searchGroups),
+    };
+    return ajax('POST', `documents/search?page=${pageNumber}`, payload);
 }
 
 export function fetchItem(itemId) {

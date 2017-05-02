@@ -2,13 +2,6 @@ import config from '~/config';
 import { ajax } from '~/src/utils/utils';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
 
-export function search(searchGroups) {
-    const payload = {
-        search: buildSearchPayload(searchGroups),
-    };
-    return ajax('POST', 'documents/search', payload);
-}
-
 export function buildSearchPayload(searchGroups) {
     return Object.keys(searchGroups).map((index) => {
         const searchGroup = searchGroups[index];
@@ -58,4 +51,11 @@ export function buildSearchPayload(searchGroups) {
         }
         return null;
     });
+}
+
+export function search(searchGroups) {
+    const payload = {
+        search: buildSearchPayload(searchGroups),
+    };
+    return ajax('POST', 'documents/search', payload);
 }
