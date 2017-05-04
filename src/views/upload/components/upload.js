@@ -223,7 +223,7 @@ export default class Upload extends Component {
                         <input id='generic' type='checkbox' value='generic' disabled checked='true' />
                         <label htmlFor='generic'>Generic *</label>
                         {groups.map((object, key) =>
-                            <div>
+                            <div className='upload-category'>
                                 {object.name !== 'Generic' ?
                                     <div key={key}>
                                         <input
