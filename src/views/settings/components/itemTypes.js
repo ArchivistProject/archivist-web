@@ -228,7 +228,7 @@ export default class ItemTypes extends Component {
                             <input className='text-input-category' placeholder='Enter category name' value={itemName} type='text' onChange={this.handleItemNameChange} />
                         </Col>
                         <Col sm={4}>
-                            <Button onClick={() => this.addItem()}>Add</Button>
+                            <button className='settings-btn' type='button' onClick={() => this.addItem()}>Add</button>
                         </Col>
                     </FormGroup>
 

@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Button } from 'react-bootstrap/lib/';
 
 export default class Password extends Component {
 
@@ -55,7 +54,7 @@ export default class Password extends Component {
             <div>
                 <p className='settings-label'>Password</p>
                 <p>Change your account password</p>
-                {!showModal ? <Button onClick={this.open}>Change Password</Button> : null }
+                {!showModal ? <button className='settings-btn' onClick={this.open}>Change Password</button> : null }
                 {showModal ?
                     <div>
                         <input className='text-input-password' placeholder='Enter old password' type='password' />
@@ -72,8 +71,8 @@ export default class Password extends Component {
                             onChange={this.handleConfirmPassChange}
                         />
                         <div className='settings-left-margin'>
-                            <Button onClick={this.close}>Save</Button>
-                            <Button onClick={this.close}>Cancel</Button>
+                            <button className='settings-btn' onClick={this.close}>Save</button>
+                            <button className='settings-btn' onClick={this.close}>Cancel</button>
                         </div>
                     </div>
                 : null}

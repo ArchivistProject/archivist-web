@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Button } from 'react-bootstrap/lib/';
 
 export default class APIToken extends Component {
 
@@ -25,7 +24,7 @@ export default class APIToken extends Component {
                     {token}
                 </textarea>
                 <div>
-                    <Button onClick={this.refresh}>Refresh</Button>
+                    <button className='settings-btn' onClick={this.refresh}>Refresh</button>
                 </div>
                 <br />
             </div>

@@ -1,7 +1,7 @@
 $app-min-width: 640px;
 
 $default-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$default-size: 13px;
+$default-size: 14px;
 $small-size: 11px;
 $smaller-size: 10px;
 
@@ -107,7 +107,7 @@ input[type="search-input"]
   border-bottom: 2px solid #ddd;
   background: transparent;
   margin-bottom: 10px;
-  font: 16px $default-family;
+  font: $default-size $default-family;
   height: 45px;
 }
 
@@ -123,7 +123,7 @@ input[type="number"] {
   border-bottom: 2px solid #fff;
   background: transparent;
   margin-bottom: 10px;
-  font: 16px $default-family;
+  font: $default-size $default-family;
   height: 45px;
 }
 
@@ -139,7 +139,7 @@ select {
   background: #FFF;
   margin-bottom: 10px;
   margin-right: 5px;
-  font: 12px $default-family;
+  font: $default-size $default-family;
   height: 30px;
 }
 

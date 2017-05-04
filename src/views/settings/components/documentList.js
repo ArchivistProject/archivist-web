@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Button } from 'react-bootstrap/lib/';
 
 export default class DocumentList extends Component {
 
@@ -38,7 +37,7 @@ export default class DocumentList extends Component {
                     value={documentsPerPage || 10}
                     onChange={this.handleDocsPerPageInputChange}
                 />
-                <Button onClick={this.saveSettings}>Save</Button>
+                <button className='settings-btn' onClick={this.saveSettings}>Save</button>
                 <br />
                 <br />
             </div>

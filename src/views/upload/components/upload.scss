@@ -222,13 +222,13 @@
     -moz-box-sizing: border-box;
     outline: none;
     display: block;
-    width: 50%; //the only different here from the default.css text box is the width
+    width: 50%;
     padding: 7px;
     border: none;
     border-bottom: 2px solid #FFF;
     background: transparent;
     margin-bottom: 10px;
-    font: 16px $default-family;
+    font: $default-size $default-family;
     height: 45px;
   }
 
