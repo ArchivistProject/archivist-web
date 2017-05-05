@@ -12,14 +12,14 @@
 
   .left-half {
     background-color: $bg-primary-color;
-    width: 40%;
+    width: 30%;
     position: absolute;
     left: 0px;
     height: 100%;
   }
   .right-half {
     background-color: $bg-primary-color;
-    width: 60%;
+    width: 70%;
     position: absolute;
     right: 0px;
     height: 100%;
@@ -27,7 +27,7 @@
 
   &-label {
     padding-top: 20px;
-    padding-bottom: 12px;
+    padding-bottom: 5px;
     font-size: 16px;
     font-family: $default-family;
     color: $default-font-color;
@@ -60,7 +60,7 @@
     font-weight: bold;
     padding-bottom: 10px;
     font-family: $default-family;
-    padding-left: 10%;
+    padding-left: 6%;
     margin-top: 10px;
   }
 
@@ -168,7 +168,6 @@
     background: transparent;
     margin-bottom: 10px;
     font: $default-size $default-family;
-    height: 45px;
   }
 
   //--------------container for all fields----------
@@ -180,7 +179,7 @@
   }
 
   h4 {
-    padding-left: 22px;
+    padding-left: 30px;
     padding-bottom: 12px;
   }
 

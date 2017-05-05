@@ -30,7 +30,7 @@ $summary-tab-spacing: 20px;
     padding-left: 3px;
     font-weight: bold;
     &.modified {
-      color: $secondary-color;
+      color: $darker-primary-color;
     }
   }
 
@@ -51,6 +51,7 @@ $summary-tab-spacing: 20px;
     font-size: $small-size;
     font-family: $default-family;
     font-weight: bold;
+    margin-bottom: 5px;
   }
 
   &-value {

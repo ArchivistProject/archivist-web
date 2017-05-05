@@ -183,14 +183,14 @@ export default class ItemTypes extends Component {
                             </Col>
 
                             <Col sm={2}>
-                                <Button onClick={this.addField}>Add</Button>
+                                <button type='button' className='settings-btn' onClick={this.addField}>Add</button>
                             </Col>
                         </FormGroup> : null }
 
                     {canEdit === true ?
                         <div className='meta-data-container'>
                             <br />
-                            <Button onClick={this.handleDeleteCategory}>Delete {popupName}</Button>
+                            <button type='danger' onClick={this.handleDeleteCategory}>Delete {popupName}</button>
                             <br />
                             <br />
                         </div> : null }

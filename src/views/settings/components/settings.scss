@@ -94,7 +94,6 @@
     background: transparent;
     margin-bottom: 10px;
     font: $default-size $default-family;
-    height: 45px;
     margin-left: 39%;
   }
 
@@ -104,15 +103,14 @@
     -moz-box-sizing: border-box;
     outline: none;
     display: block;
-    width: 78%;
+    width: 72%;
     padding: 7px;
     border: none;
     border-bottom: 2px solid #FFf;
     background: transparent;
     margin-bottom: 10px;
     font: $default-size $default-family;
-    height: 45px;
-    margin-left: 39%;
+    margin-left: 30%;
   }
 
   .text-input-password {
@@ -149,6 +147,7 @@
 
   textarea {
     width: 100%;
+    margin-bottom: 8px;
   }
 
   h4 {
@@ -171,7 +170,6 @@
     border: none;
     font-family: $default-family;
     font-weight: 600;
-    margin-top: 8px;
     margin-right: 10px;
 
     &:hover {
