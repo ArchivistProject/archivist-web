@@ -22,6 +22,10 @@ export function fetchItem(itemId) {
     return ajax('GET', `documents/${itemId}`);
 }
 
+export function fetchSortedItems(pageNumber, header, sortOrder) {
+    return ajax('GET', `documents?page=${pageNumber}&sort_order=${sortOrder}&sort_column=${header}`);
+}
+
 export function fetchItemContent(item) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();

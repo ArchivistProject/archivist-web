@@ -3,8 +3,6 @@
 .home {
     height: 100%;
     height: calc(100vh - #{$action-bar-height});
-    display: flex;
-    margin-left: $gutter;
     flex-direction: column;
 
     &-content {

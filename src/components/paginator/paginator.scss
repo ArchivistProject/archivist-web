@@ -9,22 +9,22 @@
     }
 
     button {
-        margin: 0 px;
+        margin: 0px;
         border: none;
         outline: none;
         background-color : transparent;
 
         &:hover:enabled {
-            color: $blue;
+            color: $primary-color;
         }
     }
 
     &-disabled {
-        color: $light-gray;
+        color: $secondary-color;
         cursor: not-allowed;
 
         &:hover {
-            color: $light-gray;
+            color: $secondary-color;
         }
     }
 }

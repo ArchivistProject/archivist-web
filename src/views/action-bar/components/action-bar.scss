@@ -1,16 +1,18 @@
 @import '../../../defaults';
 
 .action-bar {
+    .form-control {
+        border-color: $secondary-color;
+    }
+
     &-wrapper {
         width: 100%;
         height: $action-bar-height;
         min-width: $app-min-width;
         line-height: $action-bar-height;
         text-align: center;
-        background-color: #2b303b;
     }
-    display: flex;
-    flex-direction: row;
+
     justify-content: space-between;
     align-items: center;
     margin: 0 0px;
@@ -29,12 +31,33 @@
         font-size: $default-size;
     }
 
+    span.glyphicon-upload {
+        font-size: 1.9em;
+    }
+
+    span.glyphicon-cog {
+        font-size: 1.9em;
+    }
+
+    span.glyphicon-log-out {
+        font-size: 1.9em;
+        margin-right: 20px;
+    }
+
     a {
-        color: $blue;
+        color: #FFF;
         cursor: pointer;
         text-decoration: none;
-        &:hover {
-            color: $dark-blue;
-        }
+    }
+
+}
+
+.navbar {
+    margin-bottom: 0px;
+    background-color: $primary-color;
+
+    a:hover {
+        background-color: transparent !important;
+        color: $secondary-color !important;
     }
 }

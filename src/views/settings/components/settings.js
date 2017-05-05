@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { Panel } from 'react-bootstrap/lib/';
 import PasswordDialog from '~/src/views/settings/components/password';
 import RefreshAPI from '~/src/views/settings/components/apiToken';
 import DocumentList from '~/src/views/settings/components/documentList';
@@ -65,18 +64,17 @@ export default class Settings extends Component {
         const { showModal, newPassword, confirmPassword, newPasswordChange, confirmPasswordChange, closeDialog, openDialog } = this.props;
         return (
             <div>
-                <Panel header='Password' bsStyle='info'>
-                    <PasswordDialog
-                        showModal={showModal}
-                        newPassword={newPassword}
-                        confirmPassword={confirmPassword}
-                        newPasswordChange={newPasswordChange}
-                        confirmPasswordChange={confirmPasswordChange}
-                        openDialog={openDialog}
-                        closeDialog={closeDialog}
-                    />
-                </Panel>
+                <PasswordDialog
+                    showModal={showModal}
+                    newPassword={newPassword}
+                    confirmPassword={confirmPassword}
+                    newPasswordChange={newPasswordChange}
+                    confirmPasswordChange={confirmPasswordChange}
+                    openDialog={openDialog}
+                    closeDialog={closeDialog}
+                />
             </div>
+
         );
     }
 
@@ -84,13 +82,11 @@ export default class Settings extends Component {
         const { fetchFileStorage, storage, fileCount } = this.props;
         return (
             <div>
-                <Panel header='Statistic'bsStyle='info'>
-                    <Statistic
-                        fetchFileStorage={fetchFileStorage}
-                        storage={storage}
-                        fileCount={fileCount}
-                    />
-                </Panel>
+                <Statistic
+                    fetchFileStorage={fetchFileStorage}
+                    storage={storage}
+                    fileCount={fileCount}
+                />
             </div>
         );
     }
@@ -99,29 +95,27 @@ export default class Settings extends Component {
         const { apiToken, refreshAPI } = this.props;
         return (
             <div>
-                <Panel header='API Token' bsStyle='info'>
-                    <RefreshAPI
-                        apiToken={apiToken}
-                        refreshAPI={refreshAPI}
-                    />
-                </Panel>
+                <RefreshAPI
+                    apiToken={apiToken}
+                    refreshAPI={refreshAPI}
+                />
             </div>
+
         );
     }
 
     documentList() {
         const { documentsPerPage, documentListSettingID, saveDocumentListSettings, fetchDocumentListSettings, handleDocsPerPageChange } = this.props;
         return (
+
             <div>
-                <Panel header='Document List Preferences' bsStyle='info'>
-                    <DocumentList
-                        documentsPerPage={documentsPerPage}
-                        documentListSettingID={documentListSettingID}
-                        saveDocumentListSettings={saveDocumentListSettings}
-                        fetchDocumentListSettings={fetchDocumentListSettings}
-                        handleDocsPerPageChange={handleDocsPerPageChange}
-                    />
-                </Panel>
+                <DocumentList
+                    documentsPerPage={documentsPerPage}
+                    documentListSettingID={documentListSettingID}
+                    saveDocumentListSettings={saveDocumentListSettings}
+                    fetchDocumentListSettings={fetchDocumentListSettings}
+                    handleDocsPerPageChange={handleDocsPerPageChange}
+                />
             </div>
         );
     }
@@ -132,7 +126,8 @@ export default class Settings extends Component {
             removeItem, popupName, setPopupName, setCanEdit, canEdit } = this.props;
         return (
             <div>
-                <Panel header='Item Category' bsStyle='info'>
+                <div>
+                    <p className='settings-label'>File Category</p>
                     <p>Add new categories for your file and manage meta data for each category. A category can be used when uploading a file.</p>
                     <ItemTypes
                         groups={groups}
@@ -160,7 +155,7 @@ export default class Settings extends Component {
                         setCanEdit={setCanEdit}
                         canEdit={canEdit}
                     />
-                </Panel>
+                </div>
             </div>
         );
     }
@@ -168,24 +163,38 @@ export default class Settings extends Component {
     render() {
         return (
             <div className='settings'>
-                <h1 className='settings-header'>SETTINGS</h1>
+                <p className='settings-title'>Settings</p>
 
-                <div className='aside'>
-                    <img
-                        src={Logo}
-                        alt='Archivist Logo'
-                        width='200'
-                        height='164'
-                    />
-                    <p className='caption'>Version 1.0</p>
+                <div className='left-half'>
+                    <div className='settings-logo'>
+                        <img
+                            src={Logo}
+                            alt='Archivist Logo'
+                            width='250'
+                            height='250'
+                        />
+                        <p className='settings-version'>Version 1.0</p>
+                        <p className='settings-version'> &copy; 2017 Archivist</p>
+                    </div>
                 </div>
 
-                <div className='section'>
-                    {this.statistic()}
-                    {this.itemTypes()}
-                    {this.password()}
-                    {this.apiToken()}
-                    {this.documentList()}
+                <div className='right-half'>
+                    <h4>Manage and view your preferences below:</h4>
+                    <div className='container'>
+                        {this.statistic()}
+                    </div>
+                    <div className='container'>
+                        {this.itemTypes()}
+                    </div>
+                    <div className='container'>
+                        {this.password()}
+                    </div>
+                    <div className='container'>
+                        {this.apiToken()}
+                    </div>
+                    <div className='container'>
+                        {this.documentList()}
+                    </div>
                 </div>
             </div>
         );

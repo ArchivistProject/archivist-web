@@ -1,26 +1,164 @@
-//default colors
-$white: #fff;
-$light-gray: #eee;
-$gray: #ddd;
-$dark-gray: #555;
-$black: #000;
-
-$red: #fc544b;
-$green: #79ff4c;
-$yellow: #ffff4c;
-
-$light-blue: #E1F5FE;
-$blue: #40C4FF;
-$dark-blue: #0277BD;
-
 $app-min-width: 640px;
 
-$default-family: Verdana, sans-serif;
-$default-size: 13px;
+$default-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$default-size: 14px;
 $small-size: 11px;
 $smaller-size: 10px;
 
 $action-bar-height: 60px;
+
+// all buttons color
+$button-font-color: #FFF;
+
+//font color
+$default-font-color: #252A2F;
+
+// background color
+$bg-primary-color: #FFF;
+
+//other colors
+$primary-color: #9B59B6;
+$darker-primary-color: #82409D;
+$light-primary-color: #e1bee7;
+$secondary-color: #EAEAEA;
+$darker-secondary-color: #8c8b8b;
+
+$danger-color: #d9534f;
+$danger-darker-color: #a6201c;
+
+//default for styles
+button[type='submit'] {
+  color: $button-font-color;
+  font-size: 1em;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: $primary-color;
+  padding: 13px 40px;
+  border: none;
+  font-family: $default-family;
+  font-weight: 600;
+
+  &:hover {
+    background-color: $darker-primary-color;
+  }
+}
+
+button[type='small'] {
+  color: $button-font-color;
+  font-size: 12px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: $primary-color;
+  padding: 8px 14px;
+  border: none;
+  font-family: $default-family;
+  font-weight: 600;
+  margin-right: 10px;
+
+  &:hover {
+    background-color: $darker-primary-color;
+  }
+}
+
+
+button[type='danger'] {
+  color: $button-font-color;
+  font-size: 12px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: $danger-color;
+  padding: 8px 14px;
+  border: none;
+  font-family: $default-family;
+  font-weight: 600;
+  margin-right: 10px;
+
+  &:hover {
+    background-color: $danger-darker-color;
+  }
+}
+
+
+input[type="datetime"],
+input[type="email"],
+input[type="time"],
+input[type="url"],
+input[type="password"],
+input[type="search-input"]
+{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font: $default-size $default-family;
+}
+
+input[type="number"] {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: inline;
+  width: 10%;
+  padding: 7px;
+  border: none;
+  border-bottom: 2px solid #fff;
+  background: transparent;
+  margin-bottom: 10px;
+  margin-right: 12px;
+  font: $default-size $default-family;
+}
+
+select {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: inline;
+  width: 125px;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  background: #FFF;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  font: $default-size $default-family;
+}
+
+textarea:focus {
+  outline: 1px solid $secondary-color;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: $primary-color;
+
+  &:hover {
+    color: $darker-primary-color;
+  }
+}
 $paginator-height: 25px;
 
 $gutter: 15px;

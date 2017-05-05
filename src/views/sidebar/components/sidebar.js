@@ -171,7 +171,7 @@ export default class Sidebar extends Component {
                 }
                 return (
                     <div className='sidebar-no-item'>
-                        <span>No item selected.</span>
+                        <span>Please select an item on the table to the left.</span>
                     </div>
                 );
             case SIDEBAR_TABS.SEARCH:

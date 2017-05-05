@@ -3,42 +3,7 @@
 .search-tab {
     display: flex;
     flex-direction: column;
-
-    &-buttons {
-        display: flex;
-        flex-direction: row;
-
-        button {
-            border: none;
-            margin: 5px;
-            outline: none;
-
-            &.search-button {
-                flex-grow: 3;
-                background-color: $blue;
-                color: $white;
-                border-bottom: 2px solid $dark-blue;
-
-                &:hover {
-                    background-color: $dark-blue;
-                    border-bottom: 2px solid darken($dark-blue, 10%);
-                }
-            }
-
-            &.reset-button {
-                flex-grow: 1;
-                color: $dark-gray;
-                background-color: $light-gray;
-                border-bottom: 2px solid $gray;
-
-                &:hover {
-                    background-color: $gray;
-                    border-bottom: 2px solid darken($gray, 10%);
-                }
-            }
-        }
-
-    }
+    font-family: $default-family;
 
     &-new {
         &-header {
@@ -47,18 +12,12 @@
         }
 
         &-group {
-            display: flex;
-            flex-direction: row;
+            margin-left: 8px;
             justify-content: space-around;
-
             button {
-                border: 1px solid $gray;
-                background-color: $white;
-                outline: none;
-
+                margin-bottom: 5px;
                 &:hover {
-                    border: 1px solid darken($light-gray, 20%);
-                    background-color: $light-gray;
+                    background-color: $light-primary-color;
                 }
             }
         }
@@ -70,10 +29,10 @@
 
     &-group {
         width: 100%;
-        background-color: $light-gray;
+        background-color: $secondary-color;
         padding-bottom: 5px;
         border-radius: 5px;
-        border-bottom: 2px solid $gray;
+        border-bottom: 2px solid $secondary-color;
 
         &-wrapper {
             display: flex;
@@ -86,9 +45,9 @@
             display: inline-flex;
             justify-content: space-between;
             align-items: flex-start;
-            background-color: $gray;
+            background-color: $secondary-color;
             border-radius: 5px 5px 0 0;
-            border-bottom: 2px solid darken($gray, 10%);
+            border-bottom: 2px solid darken($secondary-color, 10%);
 
             > * {
                 margin: 3px;
@@ -103,15 +62,6 @@
             margin: 5px;
         }
 
-        button {
-            border: none;
-            background-color: transparent;
-
-            i {
-                font-size: $small-size;
-            }
-        }
-
         textarea {
             width: 100%;
             font-size: $default-size;
@@ -121,16 +71,6 @@
 
     &-section {
         padding: 10px 5px;
-
-        a {
-            cursor: pointer;
-            text-decoration: none;
-            color: $blue;
-
-            &:hover {
-                color: $dark-blue;
-            }
-        }
     }
 
     &-item-type {
@@ -171,10 +111,6 @@
 
         &-selects {
             margin-bottom: 3px;
-
-            select {
-                width: 50%;
-            }
         }
     }
     
@@ -183,5 +119,46 @@
             margin: 0 auto;
             font-size: $small-size;
         }
+    }
+
+    &-label {
+        text-align: center;
+        padding-top: 5px;
+        padding-bottom: 12px;
+        font-size: 14px;
+        font-family: $default-family;
+        color: $default-font-color;
+        font-weight: 400;
+    }
+
+    &-search-reset {
+        margin-left: 8px;
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+
+    &-btn {
+        color: $default-font-color;
+        font-size: 12px;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -o-border-radius: 5px;
+        background: $secondary-color;
+        padding: 2px 10px;
+        border: none;
+        font-family: $default-family;
+        margin-right: 5px;
+    }
+
+    .button-cross {
+        font-size: 8px;
+    }
+
+    input[type="search-input"] {
+        border-bottom: 2px solid #FFF;
     }
 }
