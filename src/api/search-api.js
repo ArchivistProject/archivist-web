@@ -46,6 +46,7 @@ export function buildSearchPayload(searchGroups) {
             case (SEARCH_CONSTANTS.FULLTEXT): {
                 return {
                     ...searchGroup,
+                    groupType: 'FullText',
                 };
             }
         }
