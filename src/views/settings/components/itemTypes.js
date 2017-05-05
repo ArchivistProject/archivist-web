@@ -171,15 +171,15 @@ export default class ItemTypes extends Component {
 
                             <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
                             <Col sm={3}>
-                                <FormControl
-                                    componentClass='select' placeholder='select'
+                                <select
+                                    type='select' placeholder='select'
                                     onChange={this.onFieldTypeDropDown}
                                 >
                                     <option value='blank'>Select type...</option>
                                     {metadataTypes.map(type =>
                                         <option value={type}>{type}</option>
                                     )}
-                                </FormControl>
+                                </select>
                             </Col>
 
                             <Col sm={2}>
