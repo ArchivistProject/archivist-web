@@ -22,7 +22,8 @@ export default class Statistic extends Component {
             return `${storageInMB / 1000} GB`; // 1000 MB in GB
         }
 
-        return `${storageInMB} MB`;
+        const roundedStorageMB = Number(storageInMB).toFixed(2);
+        return `${roundedStorageMB} MB`;
     }
 
     render() {
@@ -33,9 +34,9 @@ export default class Statistic extends Component {
         return (
 
             <div>
-                <p className='settings-label'>Statistic</p>
-                <p><b>{fileCount} files</b> uploaded</p>
-                <p><b>{humanReadableStorage}</b> of files size</p>
+                <p className='settings-label'>Usage</p>
+                <p><b>{fileCount} files</b> in Archivist</p>
+                <p><b>{humanReadableStorage}</b> of memory</p>
                 <br />
             </div>
 
