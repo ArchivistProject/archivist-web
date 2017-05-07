@@ -1,63 +1,70 @@
 @import '../../../defaults';
 
 .action-bar {
-    .form-control {
-        border-color: $secondary-color;
-    }
-
-    &-wrapper {
-        width: 100%;
-        height: $action-bar-height;
-        min-width: $app-min-width;
-        line-height: $action-bar-height;
-        text-align: center;
-    }
-
+    display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 0 0px;
+    margin-bottom: 0px;
+    background-color: $primary-color;
+    height: $action-bar-height;
+    min-width: $app-min-width;
+    line-height: $action-bar-height;
+
+    &-left {
+        margin: 0 $gutter;
+
+        .home-btn {
+            font-size: 24px;
+        }
+
+        span.glyphicon-arrow-left {
+            margin-left: $gutter;
+            font-size: 20px;
+        }
+    }
+
+    &-right {
+        display: flex;
+        justify-content: space-between;
+
+        span.glyphicon {
+            margin: 0 $gutter;
+            line-height: $action-bar-height;
+            font-size: 30px;
+        }
+    }
 
     &-search, &-search-input {
         width: 50%;
         font-family: $default-family;
         font-size: $default-size;
         border: none;
+
+        span.glyphicon-search {
+            font-size: 20px;
+            padding: 3px;
+            line-height: $action-bar-height;
+        }
     }
 
-    &-back, &-right-buttons {
-        width: 250px;
-        padding: 0 10px;
-        font-family: $default-family;
-        font-size: $default-size;
+    &-search {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & > * {
+            margin: 0 5px;
+        }
     }
 
-    span.glyphicon-upload {
-        font-size: 1.9em;
-    }
-
-    span.glyphicon-cog {
-        font-size: 1.9em;
-    }
-
-    span.glyphicon-log-out {
-        font-size: 1.9em;
-        margin-right: 20px;
+    &-search-input {
+        border: 1px solid $secondary-color;
+        padding: 5px;
+        border-radius: 5px;
     }
 
     a {
-        color: #FFF;
+        color: $bg-primary-color;
         cursor: pointer;
         text-decoration: none;
-    }
-
-}
-
-.navbar {
-    margin-bottom: 0px;
-    background-color: $primary-color;
-
-    a:hover {
-        background-color: transparent !important;
-        color: $secondary-color !important;
     }
 }
