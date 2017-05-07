@@ -57,9 +57,13 @@ export default class SummaryTab extends Component {
     renderSelectOption(selectedValue, metadataIndex, optionArray) {
         return (
             <select className='summary-tab-input' value={selectedValue} onChange={e => this.handleMetadataEdited(metadataIndex, e)}>
-                {optionArray.map(option => <option value={option.value}>{option.label}</option>)}
+                {optionArray.map(option => <option value={option.value} key={option.value}>{option.label}</option>)}
             </select>
         );
+    }
+
+    renderInput(metadata, metadataIndex, type) {
+        return <input className='summary-tab-input' type={type} value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />;
     }
 
     renderMetadataEditRow(metadata, metadataIndex) {
@@ -73,10 +77,13 @@ export default class SummaryTab extends Component {
                 return this.renderSelectOption(metadata.data, metadataIndex, optionArray);
             }
             case 'date': {
-                return <input className='summary-tab-input' type='date' value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />;
+                return this.renderInput(metadata, metadataIndex, 'date');
+            }
+            case 'numeric': {
+                return this.renderInput(metadata, metadataIndex, 'number');
             }
             default: {
-                return <input className='summary-tab-input' value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />;
+                return this.renderInput(metadata, metadataIndex, 'text');
             }
         }
     }
