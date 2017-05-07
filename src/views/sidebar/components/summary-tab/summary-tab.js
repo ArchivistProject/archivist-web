@@ -40,6 +40,47 @@ export default class SummaryTab extends Component {
         saveTags(tags);
     }
 
+    renderMetadataValue(metadata) {
+        switch (metadata.type) {
+            case 'true/false': {
+                return metadata.data === '1' ? 'true' : 'false';
+            }
+            case 'date': {
+                return formatDate(metadata.data);
+            }
+            default: {
+                return (metadata.data);
+            }
+        }
+    }
+
+    renderSelectOption(selectedValue, metadataIndex, optionArray) {
+        return (
+            <select className='summary-tab-input' value={selectedValue} onChange={e => this.handleMetadataEdited(metadataIndex, e)}>
+                {optionArray.map(option => <option value={option.value}>{option.label}</option>)}
+            </select>
+        );
+    }
+
+    renderMetadataEditRow(metadata, metadataIndex) {
+        switch (metadata.type) {
+            case 'true/false': {
+                const optionArray = [
+                    { label: 'false', value: 0 },
+                    { label: 'true', value: 1 },
+                ];
+
+                return this.renderSelectOption(metadata.data, metadataIndex, optionArray);
+            }
+            case 'date': {
+                return <input className='summary-tab-input' type='date' value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />;
+            }
+            default: {
+                return <input className='summary-tab-input' value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />;
+            }
+        }
+    }
+
     renderMetadataRows() {
         const { metadataEditMode, activeItem, activeItemEditing } = this.props;
         const itemToDisplay = metadataEditMode ? activeItemEditing : activeItem;
@@ -50,7 +91,7 @@ export default class SummaryTab extends Component {
                 <tr className='sidebar-tab summary-tab-row' key={metadataIndex}>
                     <td className={`summary-tab-label ${valueChanged ? 'modified' : null}`}>{metadata.name}</td>
                     <td className='summary-tab-value'>
-                        {metadataEditMode ? <input className='summary-tab-input' value={metadata.data} onChange={e => this.handleMetadataEdited(metadataIndex, e)} />
+                        {metadataEditMode ? this.renderMetadataEditRow(metadata, metadataIndex)
                         : this.renderMetadataRow(metadata)}
                     </td>
                 </tr>
@@ -62,7 +103,8 @@ export default class SummaryTab extends Component {
         if (metadata.type === 'url') {
             return (<div className='url-data' title={metadata.data}><a href={metadata.data}>{metadata.data}</a></div>);
         }
-        return (<div title={metadata.data}>{metadata.type === 'date' ? formatDate(metadata.data) : metadata.data}</div>);
+
+        return (<div title={metadata.data}>{this.renderMetadataValue(metadata)}</div>);
     }
 
     renderEditControls() {
