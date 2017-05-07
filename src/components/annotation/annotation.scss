@@ -4,27 +4,27 @@
     width: 200px;
     height: auto;
     position: absolute;
-    background-color: white;
-    border: 1px solid $dark-gray;
+    background-color: $bg-primary-color;
+    border: 1px solid $darker-secondary-color;
 
     &-toolbar {
         display: flex;
         justify-content: space-between;
-        background-color: $light-gray;
+        background-color: $secondary-color;
         padding: 5px;
 
         &-button {
             border: none;
-            background-color: white;
-            color: $dark-gray;
+            background-color: $bg-primary-color;
+            color: $darker-secondary-color;
             border-radius: 5px;
             flex-grow: 1;
             margin: 0 5px;
         }
 
         .add-button, .save-button {
-            color: $white;
-            background-color: $blue;
+            color: $bg-primary-color;
+            background-color:$darker-primary-color;
         }
     }
 
@@ -36,8 +36,8 @@
 
     &-text {
         &-highlight {
-            background-color: $dark-gray;
-            color: $white;
+            background-color: $darker-secondary-color;
+            color: $bg-primary-color;
         }
         &-note {
             word-wrap: break-word;
@@ -46,7 +46,7 @@
 
     &-textarea {
         &:focus {
-            outline: 1px solid $blue;
+            outline: 1px solid $darker-primary-color;
         }
     }
 }

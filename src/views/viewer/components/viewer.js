@@ -83,10 +83,7 @@ export default class Viewer extends Component {
         const { highlights: newHighlights } = nextProps;
         const { highlights } = this.props;
         if (newHighlights.length < highlights.length) {
-            console.log('hl deleted');
-            console.log(newHighlights, highlights);
             const removedIndex = highlights.indexOf(highlights.find(highlight => newHighlights.indexOf(highlight) === -1));
-            console.log(removedIndex);
         }
     }
 
@@ -185,6 +182,7 @@ export default class Viewer extends Component {
                 selection = window.getSelection();
                 break;
         }
+        console.log(selection.toString());
         if (selection.toString() !== '') {
             const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
             this.setState({
@@ -207,7 +205,12 @@ export default class Viewer extends Component {
     }
 
     createHighlighter = () => {
-        this.highlighter = rangy.createHighlighter(this.webContainer.contentDocument);
+        const { activeItemContentType } = this.props;
+        if (activeItemContentType === CONTENT_TYPES.WEB) {
+            this.highlighter = rangy.createHighlighter(this.webContainer.contentDocument);
+        } else {
+            this.highlighter = rangy.createHighlighter();
+        }
         this.highlighter.addClassApplier(rangy.createClassApplier('archivist-highlight', {
             ignoreWhiteSpace: true,
             tagNames: ['*'],
@@ -215,7 +218,6 @@ export default class Viewer extends Component {
         }));
 
         // this.highlighter.deserialize('type:textContent|10$15$1$archivist-highlight$|20$24$2$archivist-highlight$');
-        console.log(this.highlighter.highlights, this.props.highlights);
     }
 
     handleHighlightAdded = (note) => {
@@ -267,7 +269,6 @@ export default class Viewer extends Component {
 
     handleHighlightSelected = (e, element, highlightId) => {
         e.stopPropagation();
-        console.log(highlightId);
         const { highlights } = this.props;
         if (!this.state.editMode) {
             this.setState({
@@ -288,7 +289,6 @@ export default class Viewer extends Component {
     onHighlightCreate = (element, classApplier) => {
         const { highlights } = this.props;
         const { highlightId, currentHighlightId, highlightCounter } = this.state;
-        console.log(currentHighlightId, highlightCounter);
         element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
         if (!highlightId) {
             const numHighlights = highlights.length;
@@ -409,7 +409,7 @@ export default class Viewer extends Component {
 
     render() {
         const { waitingForSingleItem } = this.props;
-        const { annotationVisible, highlightedText, selectionRect, selectedHighlightRect, selectedHighlight } = this.state;
+        const { annotationVisible, selectionRect, selectedHighlightRect, selectedHighlight } = this.state;
         return (
             <div className='viewer'>
                 <div className='viewer-wrapper'>

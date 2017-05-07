@@ -61,7 +61,7 @@ export default class NotesTab extends Component {
                     </div>
                     : <button onClick={() => this.handleEditClicked(highlight)}>Edit</button>
                 }
-                <button onClick={() => deleteHighlight(highlight)}>Delete</button>
+                <button type='danger' onClick={() => deleteHighlight(highlight)}>Delete</button>
             </div>
         );
     }

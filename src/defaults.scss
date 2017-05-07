@@ -26,6 +26,9 @@ $darker-secondary-color: #8c8b8b;
 $danger-color: #d9534f;
 $danger-darker-color: #a6201c;
 
+$highlight-color: rgba(255, 255, 0, .3);
+
+
 //default for styles
 button[type='submit'] {
   color: $button-font-color;
