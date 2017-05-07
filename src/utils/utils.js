@@ -5,13 +5,13 @@ import { APP_CONSTANTS } from '~/src/utils/app-constants';
 import userActionTypes from '~/src/state/user/user-action-types';
 
 export function formatDate(dateString) {
-  let date = moment(dateString).format('MM/DD/YYYY');
+    let date = moment(dateString).format('MM/DD/YYYY');
 
-  if (date === 'Invalid date') {
-    date = '';
-  }
+    if (date === 'Invalid date') {
+        date = '';
+    }
 
-  return date;
+    return date;
 }
 
 export function formatDateTime(dateString) {
