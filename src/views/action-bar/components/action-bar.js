@@ -60,7 +60,7 @@ export default class ActionBar extends Component {
                 { searchVisible ?
                     <div className='action-bar-search'>
                         <input className='action-bar-search-input' placeholder='Search' />
-                        <span className='glyphicon glyphicon-search' />
+                        <button className='glyphicon glyphicon-search' />
                         <a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a>
                     </div>
                     : null }
