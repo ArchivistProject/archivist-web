@@ -5,6 +5,7 @@ export default class Tooltip extends Component {
 
     static MESSAGES = {
         tagEntry: 'Press the enter key to submit the tag.',
+        dateAdded: 'Date Added',
     };
 
     static propTypes = {

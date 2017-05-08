@@ -202,10 +202,10 @@ export default class Upload extends Component {
                 {group.fields.map((field, fieldKey) =>
                     <div className='metadata-fields' htmlFor={group.id} key={fieldKey}>
                         {field.name === 'Date Added' ?
-                            <input
-                                className='input-text' type='text' value={moment().format('MM/DD/YYYY')}
-                                disabled
-                            /> :
+                            <div>
+                                <input className='input-text' type='text' value={moment().format('MM/DD/YYYY')} disabled />
+                                <Tooltip message={Tooltip.MESSAGES.dateAdded} />
+                            </div> :
                             <input
                                 className='input-text' name={field.name} id={group.id} data-type={field.type}
                                 onBlur={this.handleMetaDataTextChange} type='text'
