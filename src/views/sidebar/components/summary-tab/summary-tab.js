@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import TagsInput from 'react-tagsinput';
+import Tooltip from '~/src/components/tooltip/tooltip';
 import DescriptionBox from '~/src/components/description-box/description-box';
 import { formatDate } from '~/src/utils/utils';
 import { canEditMetadata } from '~/src/state/user/privileges';
@@ -97,6 +98,7 @@ export default class SummaryTab extends Component {
                 </section>
                 <section className='summary-tab-tags'>
                     <span className='summary-tab-category'>Tags</span>
+                    <Tooltip message={Tooltip.MESSAGES.tagEntry} />
                     <TagsInput
                         value={activeItem.tags || []}
                         onChange={this.handleTagsUpdated}

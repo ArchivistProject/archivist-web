@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import Tooltip from '~/src/components/tooltip/tooltip'
+import Tooltip from '~/src/components/tooltip/tooltip';
 import TagsInput from 'react-tagsinput';
 import moment from 'moment';
 import './upload.scss';
