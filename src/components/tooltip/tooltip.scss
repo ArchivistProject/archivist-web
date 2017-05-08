@@ -16,7 +16,6 @@
     }
 
     .tooltiptext {
-        visibility: hidden;
         width: 120px;
         background-color: #555;
         color: #fff;
@@ -37,7 +36,6 @@
     }
 
     &:hover .tooltiptext {
-        visibility: visible;
         opacity: 1;
     }
 }
