@@ -191,24 +191,24 @@ export default class Upload extends Component {
         setDescription(value);
     }
 
-    renderMetadataRows = (object) => {
+    renderMetadataRows = (group) => {
         const { allItemID } = this.props;
-        const idKey = allItemID.indexOf(object.id);
+        const idKey = allItemID.indexOf(group.id);
         if (idKey < 0) { return; }
 
         return (
             <div key={idKey}>
-                {object.fields.map((obj, fieldKey) =>
-                    <div className='metadata-fields' htmlFor={object.id} key={fieldKey}>
-                        {obj.name === 'Date Added' ?
+                {group.fields.map((field, fieldKey) =>
+                    <div className='metadata-fields' htmlFor={group.id} key={fieldKey}>
+                        {field.name === 'Date Added' ?
                             <input
                                 className='input-text' type='text' value={moment().format('MM/DD/YYYY')}
                                 disabled
                             /> :
                             <input
-                                className='input-text' name={obj.name} id={object.id} data-type={obj.type}
+                                className='input-text' name={field.name} id={group.id} data-type={field.type}
                                 onBlur={this.handleMetaDataTextChange} type='text'
-                                placeholder={obj.name}
+                                placeholder={field.name}
                             />
                         }
                     </div>
