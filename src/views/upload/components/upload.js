@@ -194,7 +194,7 @@ export default class Upload extends Component {
     renderMetadataRows(group) {
         const { allItemID } = this.props;
         const idKey = allItemID.indexOf(group.id);
-        if (idKey < 0) { return; }
+        if (idKey < 0) { return undefined; }
 
         return (
             <div key={idKey}>
