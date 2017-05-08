@@ -191,7 +191,7 @@ export default class Upload extends Component {
         setDescription(value);
     }
 
-    renderMetadataRows = (group) => {
+    renderMetadataRows(group) {
         const { allItemID } = this.props;
         const idKey = allItemID.indexOf(group.id);
         if (idKey < 0) { return; }
@@ -269,7 +269,7 @@ export default class Upload extends Component {
                             <textarea
                                 value={description} type='text' placeholder='Add a description'
                                 onChange={this.handleDescriptionChange}
-                                />
+                            />
                         </div>
                         <br />
                     </div>
