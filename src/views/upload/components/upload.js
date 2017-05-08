@@ -262,13 +262,15 @@ export default class Upload extends Component {
                                 {this.renderMetadataRows(object)}
                             </div>
                         )}
-                        <p className='upload-label'>Description:</p>
-                        <textarea
-                            value={description} type='text' placeholder='Add a description'
-                            onChange={this.handleDescriptionChange}
-                        />
                         <p className='upload-label'>Tags:</p>
                         <TagsInput value={tags} onChange={this.handleTagChange} />
+                        <div>
+                            <p className='upload-label'>Description:</p>
+                            <textarea
+                                value={description} type='text' placeholder='Add a description'
+                                onChange={this.handleDescriptionChange}
+                                />
+                        </div>
                         <br />
                     </div>
                     <div className='upload-submit'>
