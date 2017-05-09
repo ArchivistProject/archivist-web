@@ -272,11 +272,8 @@ export default class Viewer extends Component {
     }
 
     handleHighlightDeleted = (highlight) => {
-        const { deleteHighlight, highlights } = this.props;
-        // console.log(highlights, this.highlighter.highlights);
-        console.log(this.highlighter.serialize());
+        const { deleteHighlight } = this.props;
         this.highlighter.unhighlightSelection();
-        console.log(this.highlighter.serialize());
         deleteHighlight(this.highlighter, highlight);
         this.handleCancel();
     }
@@ -307,7 +304,7 @@ export default class Viewer extends Component {
     onHighlightCreate = (element, classApplier) => {
         const { highlights } = this.props;
         const { highlightId, currentHighlightId, highlightCounter } = this.state;
-        console.log(currentHighlightId);
+        console.log(element, currentHighlightId);
         element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
         if (!highlightId) {
             const numHighlights = highlights.length;

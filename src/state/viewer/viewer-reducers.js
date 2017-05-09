@@ -91,11 +91,11 @@ export default function (state = initialState, action) {
 
         case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
             const { document: { highlighter, notes: highlights } } = action.data;
-            console.log(highlights, highlighter);
+
             return {
                 ...state,
                 highlighter,
-                highlights,
+                highlights: highlights.sort((a, b) => a.highlightId - b.highlightId),
             };
         }
 
