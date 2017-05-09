@@ -8,6 +8,7 @@ const initialState = {
     scaleMin: 1.0,
     currentPage: 1,
     numPages: 3, // TODO: set the number of pdf pages
+    highlighter: '',
     highlights: [],
 };
 
@@ -50,11 +51,11 @@ export default function (state = initialState, action) {
         }
 
         case viewerActionTypes.HIGHLIGHT_ADDED: {
-            const { highlightId, text, note } = action.data;
+            const { highlightId, text, note, oid } = action.data;
 
             return {
                 ...state,
-                highlights: [...state.highlights, { highlightId, text, note }],
+                highlights: [...state.highlights, { highlightId, text, note, oid }],
             };
         }
 
@@ -82,6 +83,15 @@ export default function (state = initialState, action) {
                     ...highlights.slice(0, highlightIndex),
                     ...highlights.slice(highlightIndex + 1, highlights.length),
                 ],
+            };
+        }
+
+        case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
+            const { document: { highlighter, notes: highlights } } = action.data;
+            return {
+                ...state,
+                highlighter,
+                highlights,
             };
         }
 

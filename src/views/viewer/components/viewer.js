@@ -41,6 +41,7 @@ export default class Viewer extends Component {
         params: PropTypes.object.isRequired,
         viewerClosed: PropTypes.func.isRequired,
         waitingForSingleItem: PropTypes.bool,
+        highlighter: PropTypes.string,
         highlights: PropTypes.array,
     };
 
@@ -58,7 +59,6 @@ export default class Viewer extends Component {
             selectedHighlight: null,
             wasHighlightJustSelected: false,
             selection: null,
-            currentHighlightId: props.highlights.length ? props.highlights[0].highlightId : null,
             highlightCounter: 0,
         };
     }
@@ -82,6 +82,11 @@ export default class Viewer extends Component {
     componentWillReceiveProps(nextProps) {
         const { highlights: newHighlights } = nextProps;
         const { highlights } = this.props;
+        if (newHighlights.length) {
+            this.setState({
+                currentHighlightId: newHighlights.length ? newHighlights[0].highlightId : null,
+            });
+        }
         if (newHighlights.length < highlights.length) {
             const removedIndex = highlights.indexOf(highlights.find(highlight => newHighlights.indexOf(highlight) === -1));
         }
@@ -182,7 +187,6 @@ export default class Viewer extends Component {
                 selection = window.getSelection();
                 break;
         }
-        console.log(selection.toString());
         if (selection.toString() !== '') {
             const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
             this.setState({
@@ -205,7 +209,7 @@ export default class Viewer extends Component {
     }
 
     createHighlighter = () => {
-        const { activeItemContentType } = this.props;
+        const { activeItemContentType, highlighter } = this.props;
         if (activeItemContentType === CONTENT_TYPES.WEB) {
             this.highlighter = rangy.createHighlighter(this.webContainer.contentDocument);
         } else {
@@ -217,7 +221,9 @@ export default class Viewer extends Component {
             onElementCreate: this.onHighlightCreate,
         }));
 
-        // this.highlighter.deserialize('type:textContent|10$15$1$archivist-highlight$|20$24$2$archivist-highlight$');
+        if (highlighter) {
+            this.highlighter.deserialize(highlighter);
+        }
     }
 
     handleHighlightAdded = (note) => {
@@ -277,6 +283,7 @@ export default class Viewer extends Component {
                 selectedHighlightRect: null,
             });
         }
+
         const newHighlight = highlights.find(highlight => highlight.highlightId === highlightId);
         this.setState({
             annotationVisible: true,
@@ -289,11 +296,14 @@ export default class Viewer extends Component {
     onHighlightCreate = (element, classApplier) => {
         const { highlights } = this.props;
         const { highlightId, currentHighlightId, highlightCounter } = this.state;
+        console.log(element);
         element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
+        console.log(this.highlighter); // figure out how to reorganize highlights based on position in document
+        //then figure out pdfs (render all pages at once, scroll to page x)
         if (!highlightId) {
             const numHighlights = highlights.length;
             this.setState({
-                currentHighlightId: numHighlights < highlightCounter ? highlights[this.state.highlightCounter].highlightId : null,
+                currentHighlightId: numHighlights > highlightCounter + 1 ? highlights[this.state.highlightCounter + 1].highlightId : null,
                 highlightCounter: this.state.highlightCounter += 1,
             });
         }
