@@ -21,6 +21,7 @@ export default class ActionBar extends Component {
         updateTabVisibility: PropTypes.func.isRequired,
         setupSimpleSearch: PropTypes.func.isRequired,
         submitSearch: PropTypes.func.isRequired,
+        fetchItemTypes: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
@@ -29,10 +30,14 @@ export default class ActionBar extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { updateVisibilities, pathname } = this.props;
+        const { updateVisibilities, pathname, searchVisible, fetchItemTypes } = this.props;
         const { pathname: newPathname } = nextProps;
+        const { searchVisible: newSearchVisible } = nextProps;
         if (pathname !== newPathname) {
             updateVisibilities(getFormattedPathname(newPathname));
+        }
+        if (newSearchVisible && !searchVisible) {
+            fetchItemTypes();
         }
     }
 
