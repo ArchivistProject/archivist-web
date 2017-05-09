@@ -47,10 +47,12 @@ export default class ActionBar extends Component {
         updateTabVisibility(SIDEBAR_TABS.SEARCH);
     }
 
-    handleSearchClicked = () => {
+    handleSearchClicked = (event) => {
         const { simpleSearchQuery, setupSimpleSearch, submitSearch } = this.props;
-        setupSimpleSearch(simpleSearchQuery);
-        submitSearch();
+        if (event.type === 'click' || event.key === 'Enter') {
+            setupSimpleSearch(simpleSearchQuery);
+            submitSearch();
+        }
     }
 
     render() {
@@ -67,7 +69,7 @@ export default class ActionBar extends Component {
 
                 { searchVisible ?
                     <div className='action-bar-search'>
-                        <input className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)} />
+                        <input className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)} onKeyPress={this.handleSearchClicked} />
                         <button className='glyphicon glyphicon-search' onClick={this.handleSearchClicked} />
                         <a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a>
                     </div>
