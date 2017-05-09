@@ -101,6 +101,7 @@ export default class SummaryTab extends Component {
                                 <header className='search-tab-header'>{group.groupType}</header>
                                 {group.groupType === SEARCH_CONSTANTS.TAG ?
                                     <Select
+                                        className='and-or-select'
                                         value={group.andOr}
                                         onChange={() => toggleGroupAndOr(groupIndex)}
                                         options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
@@ -164,7 +165,7 @@ export default class SummaryTab extends Component {
                         {filteredItemTypes.map(type => <option value={type} key={type}>{type}</option>)}
                     </select>
                     {isFirst && areMultipleSelected ? <Select
-                        className='search-tab-item-separator'
+                        className='search-tab-item-separator and-or-select'
                         value={group.andOr}
                         onChange={() => toggleGroupAndOr(groupIndex)}
                         options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
@@ -205,7 +206,7 @@ export default class SummaryTab extends Component {
                             </div>
                             <input type='search-input' placeholder='Enter search value...' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
                             {rowIndex === 0 && metadataRows.length > 1 ? <Select
-                                className='search-tab-item-separator'
+                                className='search-tab-item-separator and-or-select'
                                 value={searchGroups[groupIndex].andOr}
                                 onChange={() => toggleGroupAndOr(groupIndex)}
                                 options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}

@@ -5,6 +5,10 @@
     flex-direction: column;
     font-family: $default-family;
 
+    .and-or-select {
+      width: initial;
+    }
+
     &-new {
         &-header {
             margin: 0 auto;
