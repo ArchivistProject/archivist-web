@@ -219,3 +219,8 @@
     background-color: $light-primary-color;
     cursor: pointer;
 }
+
+// change the color for alternating row here
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: $secondary-color;
+}
