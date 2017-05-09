@@ -35,7 +35,7 @@ export function addHighlight(highlighter, highlightId, text, note) {
                 const { $oid: oid } = id[0];
                 dispatch({
                     type: viewerActionTypes.HIGHLIGHT_ADDED,
-                    data: { highlightId, text, note, oid },
+                    data: { highlighter, highlightId, text, note, id: oid },
                 });
             })
             .catch(error => handleError(error, dispatch));
@@ -43,22 +43,28 @@ export function addHighlight(highlighter, highlightId, text, note) {
 }
 
 export function editHighlight(highlight, note) {
-    return (dispatch) => {
-        console.log('api call');
-        dispatch({
-            type: viewerActionTypes.HIGHLIGHT_EDITED,
-            data: { highlight, note },
-        });
+    return (dispatch, getState) => {
+        const { item: { activeItem } } = getState();
+        itemApi.editNote(activeItem, highlight.id, note)
+            .then((response) => {
+                dispatch({
+                    type: viewerActionTypes.HIGHLIGHT_EDITED,
+                    data: { highlight, note },
+                });
+            });
     };
 }
 
-export function deleteHighlight(highlight) {
-    return (dispatch) => {
-        console.log('api call');
-        dispatch({
-            type: viewerActionTypes.HIGHLIGHT_DELETED,
-            data: { highlight },
-        });
+export function deleteHighlight(highlighter, highlight) {
+    return (dispatch, getState) => {
+        const { item: { activeItem } } = getState();
+        itemApi.deleteNote(activeItem, highlighter.serialize(), highlight.highlightId, highlight.id)
+            .then((response) => {
+        //         dispatch({
+        //             type: viewerActionTypes.HIGHLIGHT_DELETED,
+        //             data: { highlighter, highlight },
+                // });
+            });
     };
 }
 

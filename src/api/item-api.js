@@ -80,12 +80,12 @@ export function addNote(item, highlighter, highlightId, text, note) {
     return ajax('POST', `documents/${item.id}/notes`, payload);
 }
 
-// export function editNote(item, highlighter, highlightId, text, note) {
-//     const payload = { note: { highlighter, highlightId, text, note } };
-//     return ajax('POST', `documents/${item.id}/notes`, payload);
-// }
+export function editNote(item, id, note) {
+    const payload = { note: { note } };
+    return ajax('PUT', `documents/${item.id}/notes/${id}`, payload);
+}
 
-// export function deleteNote(item, highlighter, highlightId, text, note) {
-//     const payload = { note: { highlighter, highlightId, text, note } };
-//     return ajax('POST', `documents/${item.id}/notes`, payload);
-// }
+export function deleteNote(item, highlighter, highlightId, id) {
+    const payload = { note: { highlighter, highlightId } };
+    return ajax('DELETE', `documents/${item.id}/notes/${id}`, payload);
+}

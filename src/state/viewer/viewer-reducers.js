@@ -51,11 +51,13 @@ export default function (state = initialState, action) {
         }
 
         case viewerActionTypes.HIGHLIGHT_ADDED: {
-            const { highlightId, text, note, oid } = action.data;
+            const { highlighter, highlightId, text, note, id } = action.data;
+            console.log(highlightId);
 
             return {
                 ...state,
-                highlights: [...state.highlights, { highlightId, text, note, oid }],
+                highlights: [...state.highlights, { highlightId, text, note, id }].sort((a, b) => a.highlightId - b.highlightId),
+                highlighter: highlighter.serialize(),
             };
         }
 
@@ -74,7 +76,7 @@ export default function (state = initialState, action) {
         }
 
         case viewerActionTypes.HIGHLIGHT_DELETED: {
-            const { highlight } = action.data;
+            const { highlighter, highlight } = action.data;
             const { highlights } = state;
             const highlightIndex = highlights.map(hl => hl.highlightId).indexOf(highlight.highlightId);
             return {
@@ -83,11 +85,13 @@ export default function (state = initialState, action) {
                     ...highlights.slice(0, highlightIndex),
                     ...highlights.slice(highlightIndex + 1, highlights.length),
                 ],
+                highlighter: highlighter.serialize(),
             };
         }
 
         case itemActionTypes.FETCH_ITEM_SUCCEEDED: {
             const { document: { highlighter, notes: highlights } } = action.data;
+            console.log(highlights, highlighter);
             return {
                 ...state,
                 highlighter,

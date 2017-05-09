@@ -59,6 +59,7 @@ export default class Viewer extends Component {
             selectedHighlight: null,
             wasHighlightJustSelected: false,
             selection: null,
+            currentHighlightId: 0,
             highlightCounter: 0,
         };
     }
@@ -77,14 +78,16 @@ export default class Viewer extends Component {
         const { sidebarVisible, sidebarWidth } = this.props;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
         document.addEventListener('click ', e => this.handleClick(e));
+        window.hl = () => console.log(this.highlighter);
     }
 
     componentWillReceiveProps(nextProps) {
         const { highlights: newHighlights } = nextProps;
         const { highlights } = this.props;
         if (newHighlights.length) {
+            console.log(newHighlights[newHighlights.length - 1]);
             this.setState({
-                currentHighlightId: newHighlights.length ? newHighlights[0].highlightId : null,
+                currentHighlightId: newHighlights[newHighlights.length - 1].highlightId,
             });
         }
         if (newHighlights.length < highlights.length) {
@@ -229,10 +232,12 @@ export default class Viewer extends Component {
     handleHighlightAdded = (note) => {
         const { addHighlight } = this.props;
         const { selection, highlightedText } = this.state;
-        const highlightId = shortid.generate();
-        this.setState({ highlightId }, () => {
+        // const highlightId = shortid.generate();
+        // this.highlighter.highlightSelection('archivist-highlight');
+        const { startOffset } = selection.getRangeAt(0);
+        this.setState({ highlightId: startOffset }, () => {
             this.highlighter.highlightSelection('archivist-highlight');
-            addHighlight(this.highlighter, highlightId, highlightedText, note);
+            addHighlight(this.highlighter, this.state.highlightId, highlightedText, note);
             if (selection) {
                 selection.empty();
             }
@@ -267,14 +272,18 @@ export default class Viewer extends Component {
     }
 
     handleHighlightDeleted = (highlight) => {
-        const { deleteHighlight } = this.props;
+        const { deleteHighlight, highlights } = this.props;
+        // console.log(highlights, this.highlighter.highlights);
+        console.log(this.highlighter.serialize());
         this.highlighter.unhighlightSelection();
-        deleteHighlight(highlight);
+        console.log(this.highlighter.serialize());
+        deleteHighlight(this.highlighter, highlight);
         this.handleCancel();
     }
 
     handleHighlightSelected = (e, element, highlightId) => {
         e.stopPropagation();
+
         const { highlights } = this.props;
         if (!this.state.editMode) {
             this.setState({
@@ -284,7 +293,9 @@ export default class Viewer extends Component {
             });
         }
 
+        console.log(highlightId);
         const newHighlight = highlights.find(highlight => highlight.highlightId === highlightId);
+        console.log(newHighlight);
         this.setState({
             annotationVisible: true,
             selectedHighlight: newHighlight,
@@ -296,14 +307,12 @@ export default class Viewer extends Component {
     onHighlightCreate = (element, classApplier) => {
         const { highlights } = this.props;
         const { highlightId, currentHighlightId, highlightCounter } = this.state;
-        console.log(element);
+        console.log(currentHighlightId);
         element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
-        console.log(this.highlighter); // figure out how to reorganize highlights based on position in document
-        //then figure out pdfs (render all pages at once, scroll to page x)
         if (!highlightId) {
             const numHighlights = highlights.length;
             this.setState({
-                currentHighlightId: numHighlights > highlightCounter + 1 ? highlights[this.state.highlightCounter + 1].highlightId : null,
+                currentHighlightId: numHighlights > highlightCounter + 1 ? highlights[(numHighlights - 1) - (this.state.highlightCounter + 1)].highlightId : null,
                 highlightCounter: this.state.highlightCounter += 1,
             });
         }

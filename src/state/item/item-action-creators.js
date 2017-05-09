@@ -9,7 +9,7 @@ import sidebarActionTypes from '../sidebar/sidebar-action-types';
 import viewerActionTypes from '../viewer/viewer-action-types';
 
 export function fetchItems(currentPage) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(push(`?page=${currentPage}`));
         dispatch({
             type: itemActionTypes.ITEMS_REQUESTED,
