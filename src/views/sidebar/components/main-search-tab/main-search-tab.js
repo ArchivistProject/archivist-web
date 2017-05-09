@@ -16,6 +16,7 @@ export default class SummaryTab extends Component {
         hasFullText: PropTypes.bool.isRequired,
         globalAndOr: PropTypes.string,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
+        toggleGlobalAndOr: PropTypes.func.isRequired,
         addSearchGroup: PropTypes.func.isRequired,
         deleteSearchGroup: PropTypes.func.isRequired,
         toggleGroupAndOr: PropTypes.func.isRequired,

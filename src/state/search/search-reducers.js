@@ -1,6 +1,6 @@
+import { store } from '~/src/index';
 import searchActionTypes from './search-action-types';
 import { SEARCH_CONSTANTS, SEARCH_DEFAULTS } from './search-constants';
-import { store } from '~/src/index';
 
 const initialState = {
     hasFullText: false,
@@ -60,21 +60,21 @@ function getDefaultGroupObject(groupType) {
 }
 
 function createSimpleMetadata(itemType, itemName, termArray, state) {
-    const metadataRows = termArray.map((t) => ({
-        itemType: itemType,
+    const metadataRows = termArray.map((t) => {
+        itemType,
         field: {
-          id: store.getState().settings.fieldToId[`${itemType}:${itemName}`],
-          name: itemName,
-          type: 'string',
+            id: store.getState().settings.fieldToId[`${itemType}:${itemName}`],
+            name: itemName,
+            type: 'string',
         },
         value: t,
-    }));
+    });
 
     return {
         andOr: SEARCH_CONSTANTS.AND,
         not: false,
         groupType: SEARCH_CONSTANTS.METADATA,
-        metadataRows: metadataRows,
+        metadataRows,
     };
 }
 
@@ -290,29 +290,29 @@ export default function (state = initialState, action) {
                 hasFullText: true,
                 globalAndOr: SEARCH_CONSTANTS.OR,
                 searchGroups: [
-                  createSimpleMetadata('Any', 'Title', termArray, state),
-                  createSimpleMetadata('Any', 'Author', termArray, state),
-                  createSimpleMetadata('Website', 'Name', termArray, state),
-                  {
-                    andOr: SEARCH_CONSTANTS.OR,
-                    not: false,
-                    groupType: SEARCH_CONSTANTS.TAG,
-                    tags: termArray,
-                  },
-                  {
-                    andOr: SEARCH_CONSTANTS.AND,
-                    not: false,
-                    groupType: SEARCH_CONSTANTS.DESCRIPTION,
-                    description: terms,
-                  },
-                  {
-                    andOr: SEARCH_CONSTANTS.AND,
-                    not: false,
-                    groupType: SEARCH_CONSTANTS.FULLTEXT,
-                    terms: terms,
-                  }
-                ]
-            }
+                    createSimpleMetadata('Any', 'Title', termArray, state),
+                    createSimpleMetadata('Any', 'Author', termArray, state),
+                    createSimpleMetadata('Website', 'Name', termArray, state),
+                    {
+                        andOr: SEARCH_CONSTANTS.OR,
+                        not: false,
+                        groupType: SEARCH_CONSTANTS.TAG,
+                        tags: termArray,
+                    },
+                    {
+                        andOr: SEARCH_CONSTANTS.AND,
+                        not: false,
+                        groupType: SEARCH_CONSTANTS.DESCRIPTION,
+                        description: terms,
+                    },
+                    {
+                        andOr: SEARCH_CONSTANTS.AND,
+                        not: false,
+                        groupType: SEARCH_CONSTANTS.FULLTEXT,
+                        terms,
+                    },
+                ],
+            };
         }
     }
     return state;

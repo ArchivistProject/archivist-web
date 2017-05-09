@@ -22,6 +22,7 @@ export default class ActionBar extends Component {
         setupSimpleSearch: PropTypes.func.isRequired,
         submitSearch: PropTypes.func.isRequired,
         fetchItemTypes: PropTypes.func.isRequired,
+        updateSimpleSearchQuery: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
