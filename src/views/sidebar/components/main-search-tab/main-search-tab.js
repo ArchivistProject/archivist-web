@@ -102,6 +102,7 @@ export default class SummaryTab extends Component {
                                 <header className='search-tab-header'>{group.groupType}</header>
                                 {group.groupType === SEARCH_CONSTANTS.TAG ?
                                     <Select
+                                        className='and-or-select'
                                         value={group.andOr}
                                         onChange={() => toggleGroupAndOr(groupIndex)}
                                         options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
@@ -171,7 +172,7 @@ export default class SummaryTab extends Component {
                         {filteredItemTypes.map(type => <option value={type} key={type}>{type}</option>)}
                     </select>
                     {isFirst && areMultipleSelected ? <Select
-                        className='search-tab-item-separator'
+                        className='search-tab-item-separator and-or-select'
                         value={group.andOr}
                         onChange={() => toggleGroupAndOr(groupIndex)}
                         options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
@@ -212,16 +213,19 @@ export default class SummaryTab extends Component {
                             </div>
                             <input type='search-input' placeholder='Enter search value...' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
                             {rowIndex === 0 && metadataRows.length > 1 ? <Select
-                                className='search-tab-item-separator'
+                                className='search-tab-item-separator and-or-select'
                                 value={searchGroups[groupIndex].andOr}
                                 onChange={() => toggleGroupAndOr(groupIndex)}
                                 options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
                             /> : null}
                             {rowIndex !== 0 && rowIndex !== metadataRows.length - 1 ? <div className='search-tab-item-separator'>{searchGroups[groupIndex].andOr}</div> : null}
                         </div>
-                        {searchGroups[groupIndex].metadataRows.length > 1 ?
-                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross button-cross' /></button>
-                            : null}
+                        <button
+                            className={searchGroups[groupIndex].metadataRows.length <= 1 ? 'search-tab-metadata-selects-delete-hidden' : ''}
+                            onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}
+                        >
+                            <i className='icon-cross button-cross' />
+                        </button>
                     </div>,
                 )}
                 <a onClick={() => this.handleMetadataRowAdded(groupIndex)}>+ Add Metadata Field</a>
