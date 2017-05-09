@@ -113,7 +113,7 @@ export default class SummaryTab extends Component {
                             {this.renderGroupComponents(group.groupType, groupIndex)}
                         </div>
                         {groupIndex === 0 && searchGroups.length > 1 ? <Select
-                            className='search-tab-group-separator'
+                            className='search-tab-group-separator and-or-select'
                             value={globalAndOr}
                             onChange={toggleGlobalAndOr}
                             options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
