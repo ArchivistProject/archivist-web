@@ -36,10 +36,15 @@ export default class Grid extends Component {
     }
 
     renderHeaders() {
-        const { headers } = this.props;
+        const { headers, sortBy, sortOrder } = this.props;
         return headers.map((header, key) =>
             (
-                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>{header}</th>
+                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>
+                    {header}
+                    {sortBy === header ?
+                        <span className={sortOrder === 'ascending' ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down'} />
+                    : null}
+                </th>
             ),
         );
     }

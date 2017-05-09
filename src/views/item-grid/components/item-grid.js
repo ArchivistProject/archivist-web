@@ -95,6 +95,7 @@ export default class ItemGrid extends Component {
                         noResultsText={'No results'}
                         noResultsImage={SadFace}
                         waitingForItems={waitingForItems}
+                        sortBy={sortBy}
                         sortOrder={sortOrder}
                         saveSortOrder={saveSortOrder}
                         saveHeaderClicked={saveHeaderClicked}
