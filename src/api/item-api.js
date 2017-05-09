@@ -7,23 +7,22 @@ import { buildSearchPayload } from '~/src/api/search-api';
 import { store } from '~/src/index';
 
 export function fetchItems(pageNumber) {
+    const { sortOrder, sortBy } = store.getState().item;
     const searchGroups = store.getState().search.searchGroups;
+
+    const params = `page=${pageNumber}&sort_order=${sortOrder}&sort_column=${sortBy}`;
     if (searchGroups.length === 0) {
-        return ajax('GET', `documents?page=${pageNumber}`);
+        return ajax('GET', `documents?${params}`);
     }
 
     const payload = {
         search: buildSearchPayload(searchGroups),
     };
-    return ajax('POST', `documents/search?page=${pageNumber}`, payload);
+    return ajax('POST', `documents/search?${params}`, payload);
 }
 
 export function fetchItem(itemId) {
     return ajax('GET', `documents/${itemId}`);
-}
-
-export function fetchSortedItems(pageNumber, header, sortOrder) {
-    return ajax('GET', `documents?page=${pageNumber}&sort_order=${sortOrder}&sort_column=${header}`);
 }
 
 export function fetchItemContent(item) {
