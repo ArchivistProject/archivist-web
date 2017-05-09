@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { getFormattedPathname } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import './action-bar.scss';
@@ -47,60 +47,38 @@ export default class ActionBar extends Component {
 
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch } = this.props;
-        const inlineStyle = { display: 'inline' };
-        const width = { width: '1%' };
-        const table = { display: 'table' };
         return loggedIn ? (
-            <div className='action-bar-wrapper navbar navbar-static-top'>
-                <div className='action-bar'>
-                    <div className='navbar-header'>
-                        <button
-                            type='button' className='navbar-toggle' data-toggle='collapse'
-                            data-target='.navbar-collapse'
-                        />
-                        <a className='navbar-brand brand-name' href='/'>Archivist</a>
-                        {backVisible ?
-                            <a className='navbar-brand back-btn' onClick={browserHistory.goBack}>
-                                <span className='glyphicon glyphicon-arrow-left' title='Go back' />
-                            </a> : null }
+            <div className='action-bar'>
+                <div className='action-bar-left'>
+                    <a className='home-btn' href='/'>Archivist</a>
+                    {backVisible ?
+                        <a className='back-btn' onClick={browserHistory.goBack}>
+                            <span className='glyphicon glyphicon-arrow-left' title='Go back' />
+                        </a> : null }
+                </div>
+
+                { searchVisible ?
+                    <div className='action-bar-search'>
+                        <input className='action-bar-search-input' placeholder='Search' />
+                        <button className='glyphicon glyphicon-search' />
+                        <a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a>
                     </div>
+                    : null }
+                <div className='action-bar-right'>
+                    {uploadVisible ?
+                        <div><a href='/upload'>
+                            <span className='glyphicon glyphicon-upload' title='Upload a file' />
+                        </a></div> : null }
 
-                    <div className='navbar-collapse collapse' id='searchbar'>
-                        <ul className='nav navbar-nav navbar-right'>
-                            {searchVisible ?
-                                <li><a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a></li> : null }
+                    {settingsVisible ?
+                        <div><a href='/settings'>
+                            <span className='glyphicon glyphicon-cog' title='Settings' />
+                        </a></div> : null }
 
-                            {uploadVisible ?
-                                <li><a href='/upload'>
-                                    <span className='glyphicon glyphicon-upload' title='Upload a file' />
-                                </a></li> : null }
-
-                            {settingsVisible ?
-                                <li><a href='/settings'>
-                                    <span className='glyphicon glyphicon-cog' title='Settings' />
-                                </a></li> : null }
-
-                            {logoutVisible ?
-                                <li><a onClick={this.handleLogout}>
-                                    <span className='glyphicon glyphicon-log-out' title='Logout' />
-                                </a></li> : null }
-                        </ul>
-                        { searchVisible ?
-                            <form className='navbar-form'>
-                                <div className='form-group' style={inlineStyle}>
-                                    <div className='input-group' style={table}>
-                                        <input
-                                            className='form-control' name='search' placeholder='Search Here'
-                                            autoComplete='off' autoFocus='autofocus'
-                                        />
-                                        <span className='input-group-addon' style={width}><span
-                                            className='glyphicon glyphicon-search'
-                                        /></span>
-                                    </div>
-                                </div>
-                            </form>
-                            : null }
-                    </div>
+                    {logoutVisible ?
+                        <div><a onClick={this.handleLogout}>
+                            <span className='glyphicon glyphicon-log-out' title='Logout' />
+                        </a></div> : null }
                 </div>
             </div>
         ) : null;
