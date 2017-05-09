@@ -3,6 +3,7 @@ import { SEARCH_CONSTANTS, SEARCH_DEFAULTS } from './search-constants';
 
 const initialState = {
     hasFullText: false,
+    globalAndOr: SEARCH_CONSTANTS.AND,
     searchGroups: [],
 };
 
@@ -85,6 +86,15 @@ export default function (state = initialState, action) {
                     ...searchGroups.slice(0, groupIndex),
                     ...searchGroups.slice(groupIndex + 1, searchGroups.length),
                 ],
+            };
+        }
+
+        case searchActionTypes.GLOBAL_AND_OR_CHANGED: {
+            const { globalAndOr } = state;
+            const value = globalAndOr === SEARCH_CONSTANTS.AND ? SEARCH_CONSTANTS.OR : SEARCH_CONSTANTS.AND;
+            return {
+                ...state,
+                globalAndOr: value,
             };
         }
 

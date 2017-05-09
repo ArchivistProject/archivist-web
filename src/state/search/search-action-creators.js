@@ -19,6 +19,12 @@ export function deleteSearchGroup(groupIndex) {
     };
 }
 
+export function toggleGlobalAndOr() {
+    return {
+        type: searchActionTypes.GLOBAL_AND_OR_CHANGED,
+    };
+}
+
 export function toggleGroupAndOr(groupIndex) {
     return {
         type: searchActionTypes.GROUP_AND_OR_CHANGED,

@@ -14,6 +14,7 @@ export default class SummaryTab extends Component {
         itemTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         hasFullText: PropTypes.bool.isRequired,
+        globalAndOr: PropTypes.string,
         searchGroups: PropTypes.arrayOf(PropTypes.object),
         addSearchGroup: PropTypes.func.isRequired,
         deleteSearchGroup: PropTypes.func.isRequired,
@@ -83,7 +84,7 @@ export default class SummaryTab extends Component {
     }
 
     renderGroups() {
-        const { searchGroups, toggleGroupAndOr, toggleGroupNot, deleteSearchGroup } = this.props;
+        const { searchGroups, toggleGlobalAndOr, toggleGroupAndOr, toggleGroupNot, deleteSearchGroup, globalAndOr } = this.props;
         return (
             <div className='search-tab-groups'>
                 {searchGroups.map((group, groupIndex) => (
@@ -110,7 +111,13 @@ export default class SummaryTab extends Component {
                             </div>
                             {this.renderGroupComponents(group.groupType, groupIndex)}
                         </div>
-                        {groupIndex < searchGroups.length - 1 ? <div className='search-tab-group-separator'>AND</div> : null}
+                        {groupIndex === 0 && searchGroups.length > 1 ? <Select
+                            className='search-tab-group-separator'
+                            value={globalAndOr}
+                            onChange={toggleGlobalAndOr}
+                            options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
+                        /> : null}
+                        {groupIndex !== 0 && groupIndex !== searchGroups.length - 1 ? <div className='search-tab-group-separator'>{globalAndOr}</div> : null}
                     </div>
                 ))}
             </div>
