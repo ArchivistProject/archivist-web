@@ -21,8 +21,11 @@ export default class Grid extends Component {
 
     handleHeaderClick = (header) => {
         const { currentPage, sortOrder, saveSortOrder, saveHeaderClicked, fetchItems } = this.props;
+        const oldHeader = this.props.sortBy;
         saveHeaderClicked(header);
-        if (sortOrder === 'ascending') {
+        if (header !== oldHeader) {
+            saveSortOrder('ascending');
+        } else if (sortOrder === 'ascending') {
             saveSortOrder('descending');
         } else {
             saveSortOrder('ascending');
