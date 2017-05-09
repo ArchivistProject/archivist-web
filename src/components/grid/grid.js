@@ -59,7 +59,7 @@ export default class Grid extends Component {
                 rowClasses.push('grid-row-active');
             }
             return (
-                <tr className={rowClasses.join(' ')}  key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
+                <tr className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
                     {
                         headers.map((header, columnNum) =>
                             <td key={columnNum}>{row[header] ? row[header] : null}</td>,

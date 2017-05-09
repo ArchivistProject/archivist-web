@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Button, FormControl, FormGroup, Col, Form, ControlLabel,
+import { Button, FormGroup, Col, Form, ControlLabel,
     ListGroup, ListGroupItem, Label,
 } from 'react-bootstrap/lib/';
 import './settings.scss';
