@@ -8,7 +8,7 @@ export default class Grid extends Component {
         rows: PropTypes.arrayOf(PropTypes.object),
         onRowClick: PropTypes.func,
         activeRowNum: PropTypes.number,
-        sortBy: PropTypes.object,
+        sortBy: PropTypes.string,
         noResultsText: PropTypes.string,
         noResultsImage: PropTypes.string,
         waitingForItems: PropTypes.bool,
