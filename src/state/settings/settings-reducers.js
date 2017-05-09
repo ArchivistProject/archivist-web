@@ -16,6 +16,7 @@ const initialState = {
 
     // Item Types
     groups: [],
+    fieldToId: {},
     metadataTypes: [],
     itemName: null,
     currentItem: 'blank',
@@ -31,9 +32,19 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case settingsActionTypes.FETCH_ITEMTYPE_SUCCEEDED: {
             const { groups } = action.data;
+            const fieldToId = {};
+            groups.map((g) => {
+                g.fields.map((f) => {
+                    if (!fieldToId[`Any:${f.name}`]) {
+                        fieldToId[`Any:${f.name}`] = f.id;
+                    }
+                    fieldToId[`${g.name}:${f.name}`] = f.id;
+                });
+            });
             return {
                 ...state,
                 groups,
+                fieldToId,
             };
         }
 
