@@ -14,11 +14,15 @@ export default class ActionBar extends Component {
         searchVisible: PropTypes.bool.isRequired,
         settingsVisible: PropTypes.bool.isRequired,
         logoutVisible: PropTypes.bool.isRequired,
+        simpleSearchQuery: PropTypes.string.isRequired,
         updateVisibilities: PropTypes.func.isRequired,
         pathname: PropTypes.string.isRequired,
         updateVisibility: PropTypes.func.isRequired,
         updateTabVisibility: PropTypes.func.isRequired,
+        setupSimpleSearch: PropTypes.func.isRequired,
         submitSearch: PropTypes.func.isRequired,
+        fetchItemTypes: PropTypes.func.isRequired,
+        updateSimpleSearchQuery: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
@@ -27,10 +31,14 @@ export default class ActionBar extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { updateVisibilities, pathname } = this.props;
+        const { updateVisibilities, pathname, searchVisible, fetchItemTypes } = this.props;
         const { pathname: newPathname } = nextProps;
+        const { searchVisible: newSearchVisible } = nextProps;
         if (pathname !== newPathname) {
             updateVisibilities(getFormattedPathname(newPathname));
+        }
+        if (newSearchVisible && !searchVisible) {
+            fetchItemTypes();
         }
     }
 
@@ -45,8 +53,16 @@ export default class ActionBar extends Component {
         updateTabVisibility(SIDEBAR_TABS.SEARCH);
     }
 
+    handleSearchClicked = (event) => {
+        const { simpleSearchQuery, setupSimpleSearch, submitSearch } = this.props;
+        if (event.type === 'click' || event.key === 'Enter') {
+            setupSimpleSearch(simpleSearchQuery);
+            submitSearch();
+        }
+    }
+
     render() {
-        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch, updateSimpleSearchQuery } = this.props;
         return loggedIn ? (
             <div className='action-bar'>
                 <div className='action-bar-left'>
@@ -59,8 +75,8 @@ export default class ActionBar extends Component {
 
                 { searchVisible ?
                     <div className='action-bar-search'>
-                        <input className='action-bar-search-input' placeholder='Search' />
-                        <button className='glyphicon glyphicon-search' />
+                        <input className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)} onKeyPress={this.handleSearchClicked} />
+                        <button className='glyphicon glyphicon-search' onClick={this.handleSearchClicked} />
                         <a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a>
                     </div>
                     : null }

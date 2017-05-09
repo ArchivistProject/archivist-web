@@ -6,6 +6,7 @@ const initialState = {
     searchVisible: false,
     settingsVisible: false,
     logoutVisible: false,
+    simpleSearchQuery: '',
 };
 
 export default function (state = initialState, action) {
@@ -15,6 +16,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 ...visibilities,
+            };
+        }
+
+        case actionBarActionTypes.SIMPLE_SEARCH_QUERY_UPDATED: {
+            const { query } = action.data;
+            return {
+                ...state,
+                simpleSearchQuery: query,
             };
         }
     }

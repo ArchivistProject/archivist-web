@@ -19,6 +19,12 @@ export function deleteSearchGroup(groupIndex) {
     };
 }
 
+export function toggleGlobalAndOr() {
+    return {
+        type: searchActionTypes.GLOBAL_AND_OR_CHANGED,
+    };
+}
+
 export function toggleGroupAndOr(groupIndex) {
     return {
         type: searchActionTypes.GROUP_AND_OR_CHANGED,
@@ -108,6 +114,13 @@ export function updateFullText(terms, groupIndex) {
     return {
         type: searchActionTypes.FULLTEXT_UPDATED,
         data: { terms, groupIndex },
+    };
+}
+
+export function setupSimpleSearch(terms) {
+    return {
+        type: searchActionTypes.SETUP_SIMPLE_SEARCH,
+        data: { terms },
     };
 }
 

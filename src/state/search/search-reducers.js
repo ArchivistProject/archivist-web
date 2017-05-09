@@ -1,8 +1,10 @@
+import { store } from '~/src/index';
 import searchActionTypes from './search-action-types';
 import { SEARCH_CONSTANTS, SEARCH_DEFAULTS } from './search-constants';
 
 const initialState = {
     hasFullText: false,
+    globalAndOr: SEARCH_CONSTANTS.AND,
     searchGroups: [],
 };
 
@@ -57,6 +59,25 @@ function getDefaultGroupObject(groupType) {
     return genericGroup;
 }
 
+function createSimpleMetadata(itemType, itemName, termArray, state) {
+    const metadataRows = termArray.map(t => ({
+        field: {
+            id: store.getState().settings.fieldToId[`${itemType}:${itemName}`],
+            name: itemName,
+            type: 'string',
+        },
+        value: t,
+        itemType,
+    }));
+
+    return {
+        andOr: SEARCH_CONSTANTS.AND,
+        not: false,
+        groupType: SEARCH_CONSTANTS.METADATA,
+        metadataRows,
+    };
+}
+
 export default function (state = initialState, action) {
     switch (action.type) {
 
@@ -85,6 +106,15 @@ export default function (state = initialState, action) {
                     ...searchGroups.slice(0, groupIndex),
                     ...searchGroups.slice(groupIndex + 1, searchGroups.length),
                 ],
+            };
+        }
+
+        case searchActionTypes.GLOBAL_AND_OR_CHANGED: {
+            const { globalAndOr } = state;
+            const value = globalAndOr === SEARCH_CONSTANTS.AND ? SEARCH_CONSTANTS.OR : SEARCH_CONSTANTS.AND;
+            return {
+                ...state,
+                globalAndOr: value,
             };
         }
 
@@ -249,6 +279,39 @@ export default function (state = initialState, action) {
         case searchActionTypes.SEARCH_RESET: {
             return {
                 ...initialState,
+            };
+        }
+
+        case searchActionTypes.SETUP_SIMPLE_SEARCH: {
+            const { terms } = action.data;
+            const termArray = terms.split(' ');
+            return {
+                ...state,
+                hasFullText: true,
+                globalAndOr: SEARCH_CONSTANTS.OR,
+                searchGroups: [
+                    createSimpleMetadata('Any', 'Title', termArray, state),
+                    createSimpleMetadata('Any', 'Author', termArray, state),
+                    createSimpleMetadata('Website', 'Name', termArray, state),
+                    {
+                        andOr: SEARCH_CONSTANTS.OR,
+                        not: false,
+                        groupType: SEARCH_CONSTANTS.TAG,
+                        tags: termArray,
+                    },
+                    {
+                        andOr: SEARCH_CONSTANTS.AND,
+                        not: false,
+                        groupType: SEARCH_CONSTANTS.DESCRIPTION,
+                        description: terms,
+                    },
+                    {
+                        andOr: SEARCH_CONSTANTS.AND,
+                        not: false,
+                        groupType: SEARCH_CONSTANTS.FULLTEXT,
+                        terms,
+                    },
+                ],
             };
         }
     }

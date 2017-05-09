@@ -7,3 +7,10 @@ export function updateVisibilities(pathname) {
         data: { ...VISIBILITIES[pathname] },
     };
 }
+
+export function updateSimpleSearchQuery(query) {
+    return {
+        type: actionBarActionTypes.SIMPLE_SEARCH_QUERY_UPDATED,
+        data: { query },
+    };
+}
