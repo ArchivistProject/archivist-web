@@ -82,7 +82,7 @@
             justify-content: space-between;
             align-items: flex-start;
         }
-    
+
         &-wrapper {
             display: flex;
             flex-direction: column;
@@ -111,9 +111,16 @@
 
         &-selects {
             margin-bottom: 3px;
+            select {
+              width: 45%;
+            }
+            &-delete-hidden {
+              opacity: 0;
+              pointer-events: none;
+            }
         }
     }
-    
+
     &-item {
         &-separator {
             margin: 0 auto;

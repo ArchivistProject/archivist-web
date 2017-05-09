@@ -212,9 +212,12 @@ export default class SummaryTab extends Component {
                             /> : null}
                             {rowIndex !== 0 && rowIndex !== metadataRows.length - 1 ? <div className='search-tab-item-separator'>{searchGroups[groupIndex].andOr}</div> : null}
                         </div>
-                        {searchGroups[groupIndex].metadataRows.length > 1 ?
-                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross button-cross' /></button>
-                            : null}
+                        <button
+                            className={searchGroups[groupIndex].metadataRows.length <= 1 ? 'search-tab-metadata-selects-delete-hidden' : ''}
+                            onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}
+                        >
+                            <i className='icon-cross button-cross' />
+                        </button>
                     </div>,
                 )}
                 <a onClick={() => this.handleMetadataRowAdded(groupIndex)}>+ Add Metadata Field</a>
