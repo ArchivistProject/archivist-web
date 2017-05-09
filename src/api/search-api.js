@@ -59,8 +59,11 @@ export function buildSearchPayload(searchGroups) {
 }
 
 export function search(searchGroups) {
+    const { sortOrder, sortBy } = store.getState().item;
+    const params = `sort_order=${sortOrder}&sort_column=${sortBy}`;
     const payload = {
         search: buildSearchPayload(searchGroups),
     };
-    return ajax('POST', 'documents/search', payload);
+
+    return ajax('POST', `documents/search?${params}`, payload);
 }

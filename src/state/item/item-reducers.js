@@ -17,7 +17,8 @@ const initialState = {
     activeItemPage: null,
     activeItemContent: null,
     activeItemContentType: null,
-    sortBy: null,
+    sortBy: 'Date Added',
+    sortOrder: 'descending',
     waitingForItems: null,
     waitingForSingleItem: null,
     fetchItemsFailed: false,
@@ -30,7 +31,6 @@ const initialState = {
         pageSize: 10,
     },
     tempDescription: '',
-    sortOrder: 'descending',
 };
 
 export default function (state = initialState, action) {
@@ -216,7 +216,7 @@ export default function (state = initialState, action) {
             const { header } = action.data;
             return {
                 ...state,
-                sortby: header,
+                sortBy: header,
             };
         }
 

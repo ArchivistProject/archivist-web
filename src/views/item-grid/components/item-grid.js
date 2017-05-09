@@ -14,7 +14,6 @@ export default class ItemGrid extends Component {
         headers: PropTypes.arrayOf(Object),
         fetchItems: PropTypes.func.isRequired,
         itemFocused: PropTypes.func.isRequired,
-        fetchSortedItems: PropTypes.func.isRequired,
         activeItemId: PropTypes.string,
         activeItemIndex: PropTypes.number,
         waitingForItems: PropTypes.bool,
@@ -31,7 +30,7 @@ export default class ItemGrid extends Component {
         sortOrder: PropTypes.string,
         saveSortOrder: PropTypes.func.isRequired,
         saveHeaderClicked: PropTypes.func.isRequired,
-        sortby: PropTypes.string,
+        sortBy: PropTypes.string,
     };
 
     componentWillMount() {
@@ -48,7 +47,7 @@ export default class ItemGrid extends Component {
     }
 
     render() {
-        const { items, headers, itemFocused, fetchSortedItems, fetchItems, activeItemIndex, waitingForItems, fetchItemsFailed, sortOrder, sortby, saveSortOrder, saveHeaderClicked,
+        const { items, headers, itemFocused, fetchItems, activeItemIndex, waitingForItems, fetchItemsFailed, sortOrder, sortBy, saveSortOrder, saveHeaderClicked,
             meta: { currentPage, nextPage, prevPage, totalPages, totalCount, pageSize } } = this.props;
         let rows = [];
 
@@ -81,10 +80,9 @@ export default class ItemGrid extends Component {
                     <Paginator
                         currentPage={currentPage}
                         totalPages={totalPages}
-                        fetchSortedItems={fetchSortedItems}
                         fetchItems={fetchItems}
                         sortOrder={sortOrder}
-                        sortby={sortby}
+                        sortBy={sortBy}
                     />) : null }
                 <div className='item-grid'>
                     <Grid
@@ -92,11 +90,12 @@ export default class ItemGrid extends Component {
                         headers={headers}
                         rows={rows}
                         onRowClick={itemFocused}
-                        fetchSortedItems={fetchSortedItems}
+                        fetchItems={fetchItems}
                         activeRowNum={activeItemIndex}
                         noResultsText={'No results'}
                         noResultsImage={SadFace}
                         waitingForItems={waitingForItems}
+                        sortBy={sortBy}
                         sortOrder={sortOrder}
                         saveSortOrder={saveSortOrder}
                         saveHeaderClicked={saveHeaderClicked}

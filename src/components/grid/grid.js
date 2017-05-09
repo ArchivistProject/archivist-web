@@ -7,9 +7,8 @@ export default class Grid extends Component {
         headers: PropTypes.arrayOf(PropTypes.string),
         rows: PropTypes.arrayOf(PropTypes.object),
         onRowClick: PropTypes.func,
-        fetchSortedItems: PropTypes.func,
         activeRowNum: PropTypes.number,
-        sortBy: PropTypes.object,
+        sortBy: PropTypes.string,
         noResultsText: PropTypes.string,
         noResultsImage: PropTypes.string,
         waitingForItems: PropTypes.bool,
@@ -17,24 +16,21 @@ export default class Grid extends Component {
         sortOrder: PropTypes.string,
         saveSortOrder: PropTypes.func,
         saveHeaderClicked: PropTypes.func,
+        fetchItems: PropTypes.func,
     };
 
     handleHeaderClick = (header) => {
-        const { fetchSortedItems, currentPage, sortOrder, saveSortOrder, saveHeaderClicked } = this.props;
-        console.log(`sort by ${header}`);
-        console.log(`sort order: ${sortOrder}`);
+        const { currentPage, sortOrder, saveSortOrder, saveHeaderClicked, fetchItems } = this.props;
+        const oldHeader = this.props.sortBy;
         saveHeaderClicked(header);
-        let sort;
-        if (sortOrder === 'ascending') {
-            sort = 'descending';
-            saveSortOrder(sort);
+        if (header !== oldHeader) {
+            saveSortOrder('ascending');
+        } else if (sortOrder === 'ascending') {
+            saveSortOrder('descending');
         } else {
-            sort = 'ascending';
-            saveSortOrder(sort);
+            saveSortOrder('ascending');
         }
-        if (fetchSortedItems) {
-            fetchSortedItems(currentPage, header, sort);
-        }
+        fetchItems(currentPage);
     }
 
     handleRowClick = (rowNum) => {
@@ -43,10 +39,15 @@ export default class Grid extends Component {
     }
 
     renderHeaders() {
-        const { headers } = this.props;
+        const { headers, sortBy, sortOrder } = this.props;
         return headers.map((header, key) =>
             (
-                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>{header}</th>
+                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>
+                    {header}
+                    {sortBy === header ?
+                        <span className={sortOrder === 'ascending' ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down'} />
+                    : null}
+                </th>
             ),
         );
     }
