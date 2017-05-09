@@ -60,15 +60,15 @@ function getDefaultGroupObject(groupType) {
 }
 
 function createSimpleMetadata(itemType, itemName, termArray, state) {
-    const metadataRows = termArray.map((t) => {
-        itemType,
+    const metadataRows = termArray.map(t => ({
         field: {
             id: store.getState().settings.fieldToId[`${itemType}:${itemName}`],
             name: itemName,
             type: 'string',
         },
         value: t,
-    });
+        itemType,
+    }));
 
     return {
         andOr: SEARCH_CONSTANTS.AND,

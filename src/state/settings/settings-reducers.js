@@ -39,7 +39,9 @@ export default function (state = initialState, action) {
                         fieldToId[`Any:${f.name}`] = f.id;
                     }
                     fieldToId[`${g.name}:${f.name}`] = f.id;
+                    return undefined;
                 });
+                return undefined;
             });
             return {
                 ...state,
