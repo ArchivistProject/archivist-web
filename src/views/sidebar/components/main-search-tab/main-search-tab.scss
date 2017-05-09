@@ -5,6 +5,10 @@
     flex-direction: column;
     font-family: $default-family;
 
+    .and-or-select {
+      width: initial;
+    }
+
     &-new {
         &-header {
             margin: 0 auto;
@@ -82,7 +86,7 @@
             justify-content: space-between;
             align-items: flex-start;
         }
-    
+
         &-wrapper {
             display: flex;
             flex-direction: column;
@@ -113,7 +117,7 @@
             margin-bottom: 3px;
         }
     }
-    
+
     &-item {
         &-separator {
             margin: 0 auto;
