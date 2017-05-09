@@ -1,6 +1,7 @@
 import config from '~/config';
 import { ajax } from '~/src/utils/utils';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
+import { store } from '~/src/index';
 
 export function buildSearchPayload(searchGroups) {
     return Object.keys(searchGroups).map((index) => {
@@ -55,8 +56,11 @@ export function buildSearchPayload(searchGroups) {
 }
 
 export function search(searchGroups) {
+    const { sortOrder, sortBy } = store.getState().item;
+    const params = `sort_order=${sortOrder}&sort_column=${sortBy}`;
     const payload = {
         search: buildSearchPayload(searchGroups),
     };
-    return ajax('POST', 'documents/search', payload);
+
+    return ajax('POST', `documents/search?${params}`, payload);
 }
