@@ -214,7 +214,8 @@ export default class SummaryTab extends Component {
                         </div>
                         <button
                             className={searchGroups[groupIndex].metadataRows.length <= 1 ? 'search-tab-metadata-selects-delete-hidden' : ''}
-                            onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}>
+                            onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}
+                        >
                             <i className='icon-cross button-cross' />
                         </button>
                     </div>,
