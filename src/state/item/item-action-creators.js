@@ -166,7 +166,32 @@ export function saveDescription() {
     };
 }
 
-export function headerClicked(header) { // TODO
+export function fetchSortedItems(currentPage, header, sortOrder) { // TODO
+    return (dispatch) => {
+        dispatch(push(`?page=${currentPage}`));
+        dispatch({
+            type: itemActionTypes.ITEMS_REQUESTED,
+        });
+        itemApi.fetchSortedItems(currentPage, header, sortOrder)
+            .then(response => dispatch({
+                type: itemActionTypes.FETCH_ITEMS_SUCCEEDED,
+                data: response,
+            }))
+            .catch((error) => {
+                dispatch({ type: itemActionTypes.FETCH_ITEMS_FAILED });
+                handleError(error, dispatch);
+            });
+    };
+}
+
+export function saveSortOrder(sort) {
+    return {
+        type: itemActionTypes.SORT_ORDER_CHANGED,
+        data: { sort },
+    };
+}
+
+export function saveHeaderClicked(header) {
     return {
         type: itemActionTypes.HEADER_CLICKED,
         data: { header },

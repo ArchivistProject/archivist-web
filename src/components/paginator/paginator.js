@@ -6,13 +6,21 @@ export default class Paginator extends Component {
     static propTypes = {
         currentPage: PropTypes.number,
         totalPages: PropTypes.number,
-        onPageChange: PropTypes.func.isRequired,
+        sortby: PropTypes.string,
+        fetchSortedItems: PropTypes.func,
+        fetchItems: PropTypes.func,
+        sortOrder: PropTypes.string,
     };
 
     handlePageChange = (requestedPage) => {
-        const { totalPages, onPageChange } = this.props;
+        const { totalPages, fetchItems, fetchSortedItems, sortby, sortOrder } = this.props;
         if (requestedPage > 0 && requestedPage <= totalPages) {
-            onPageChange(requestedPage);
+            // if user clicked on a header to sort already, then keep the sort order when fetching new page
+            if (sortby === null || sortby === undefined) {
+                fetchItems(requestedPage);
+            } else {
+                fetchSortedItems(requestedPage, sortby, sortOrder);
+            }
         }
     }
 

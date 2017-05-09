@@ -107,7 +107,7 @@ export default class SummaryTab extends Component {
                                         options={[SEARCH_CONSTANTS.AND, SEARCH_CONSTANTS.OR]}
                                     />
                                 : null}
-                                <button onClick={() => deleteSearchGroup(groupIndex)}><i className='icon-cross' /></button>
+                                <button type='delete' onClick={() => deleteSearchGroup(groupIndex)}>x</button>
                             </div>
                             {this.renderGroupComponents(group.groupType, groupIndex)}
                         </div>
@@ -178,7 +178,7 @@ export default class SummaryTab extends Component {
                     /> : null}
                     {!isLast && !isFirst ? <div className='search-tab-item-separator'>{group.andOr}</div> : null}
                 </div>
-                {areMultipleSelected ? <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross' /></button> : null}
+                {areMultipleSelected ? <button onClick={() => deleteItemTypeRow(itemTypeIndex, groupIndex)}><i className='icon-cross button-cross' /></button> : null}
             </section>
         );
     }
@@ -202,7 +202,7 @@ export default class SummaryTab extends Component {
                         <div className='search-tab-metadata-input'>
                             <div className='search-tab-metadata-selects'>
                                 <select value={metadataRow.itemType} onChange={e => this.handleMetadataItemTypeUpdated(e, rowIndex, groupIndex)}>
-                                    <option defaultValue disabled={!!metadataRow.itemType}>Select Item Type</option>
+                                    <option defaultValue disabled={!!metadataRow.itemType}>Select Category</option>
                                     {itemTypeNames.map(itemType => <option value={itemType} key={itemType}>{itemType}</option>)}
                                 </select>
                                 <select value={metadataRow.field.id} onChange={e => this.handleMetadataFieldUpdated(e, rowIndex, groupIndex)}>
@@ -210,7 +210,7 @@ export default class SummaryTab extends Component {
                                     {itemTypeFields[metadataRow.itemType] ? itemTypeFields[metadataRow.itemType].map(field => <option value={field.id} key={field.id}>{field.name}</option>) : null}
                                 </select>
                             </div>
-                            <input type='text' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
+                            <input type='search-input' placeholder='Enter search value...' onChange={e => this.handleMetadataValueUpdated(e, rowIndex, groupIndex)} value={metadataRow.value} />
                             {rowIndex === 0 && metadataRows.length > 1 ? <Select
                                 className='search-tab-item-separator'
                                 value={searchGroups[groupIndex].andOr}
@@ -220,9 +220,9 @@ export default class SummaryTab extends Component {
                             {rowIndex !== 0 && rowIndex !== metadataRows.length - 1 ? <div className='search-tab-item-separator'>{searchGroups[groupIndex].andOr}</div> : null}
                         </div>
                         {searchGroups[groupIndex].metadataRows.length > 1 ?
-                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross' /></button>
+                            <button onClick={() => this.handleMetadataRowDeleted(rowIndex, groupIndex)}><i className='icon-cross button-cross' /></button>
                             : null}
-                    </div>
+                    </div>,
                 )}
                 <a onClick={() => this.handleMetadataRowAdded(groupIndex)}>+ Add Metadata Field</a>
             </section>
@@ -264,18 +264,19 @@ export default class SummaryTab extends Component {
         const { addSearchGroup, submitSearch, reset, hasFullText } = this.props;
         return (
             <div className='search-tab'>
-                <div className='search-tab-buttons'>
-                    <button className='search-button' onClick={submitSearch}>Search</button>
-                    <button className='reset-button' onClick={reset}>Reset</button>
-                </div>
+                <header className='search-tab-label'>Create your searches for files below:</header>
                 {this.renderGroups()}
-                <header className='search-tab-new-header'>Create New Search Group</header>
                 <div className='search-tab-new-group'>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>Item Types</button>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
-                    <button onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
-                    <button disabled={hasFullText} onClick={() => addSearchGroup(SEARCH_CONSTANTS.FULLTEXT)}>FullText</button>
+                    <p>Find files with...</p>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.ITEM_TYPE)}>Category</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.METADATA)}>Metadata</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.TAG)}>Tags</button>
+                    <button className='search-tab-btn' onClick={() => addSearchGroup(SEARCH_CONSTANTS.DESCRIPTION)}>Description</button>
+                    <button className='search-tab-btn' disabled={hasFullText} onClick={() => addSearchGroup(SEARCH_CONSTANTS.FULLTEXT)}>Full Text</button>
+                </div>
+                <div className='search-tab-search-reset'>
+                    <button type='small' onClick={submitSearch}>Search</button>
+                    <button type='small' onClick={reset}>Reset</button>
                 </div>
             </div>
         );

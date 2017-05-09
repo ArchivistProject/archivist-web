@@ -9,14 +9,14 @@
 }
 
 .react-tagsinput--focused {
-  border-color: $blue;
+  border-color: $secondary-color;
 }
 
 .react-tagsinput-tag {
-  background-color: $light-blue;
+  background-color: $secondary-color;
   border-radius: 2px;
-  border: 1px solid $blue;
-  color: $blue;
+  border: 1px solid $darker-secondary-color;
+  color: $default-font-color;
   display: inline-block;
   font-family: sans-serif;
   font-size: 13px;

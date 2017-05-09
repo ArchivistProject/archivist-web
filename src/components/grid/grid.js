@@ -7,19 +7,33 @@ export default class Grid extends Component {
         headers: PropTypes.arrayOf(PropTypes.string),
         rows: PropTypes.arrayOf(PropTypes.object),
         onRowClick: PropTypes.func,
-        onHeaderClick: PropTypes.func,
+        fetchSortedItems: PropTypes.func,
         activeRowNum: PropTypes.number,
         sortBy: PropTypes.object,
         noResultsText: PropTypes.string,
         noResultsImage: PropTypes.string,
         waitingForItems: PropTypes.bool,
+        currentPage: PropTypes.number,
+        sortOrder: PropTypes.string,
+        saveSortOrder: PropTypes.func,
+        saveHeaderClicked: PropTypes.func,
     };
 
     handleHeaderClick = (header) => {
-        const { onHeaderClick } = this.props;
+        const { fetchSortedItems, currentPage, sortOrder, saveSortOrder, saveHeaderClicked } = this.props;
         console.log(`sort by ${header}`);
-        if (onHeaderClick) {
-            onHeaderClick(header);
+        console.log(`sort order: ${sortOrder}`);
+        saveHeaderClicked(header);
+        let sort;
+        if (sortOrder === 'ascending') {
+            sort = 'descending';
+            saveSortOrder(sort);
+        } else {
+            sort = 'ascending';
+            saveSortOrder(sort);
+        }
+        if (fetchSortedItems) {
+            fetchSortedItems(currentPage, header, sort);
         }
     }
 
@@ -33,7 +47,7 @@ export default class Grid extends Component {
         return headers.map((header, key) =>
             (
                 <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>{header}</th>
-            )
+            ),
         );
     }
 
@@ -45,10 +59,10 @@ export default class Grid extends Component {
                 rowClasses.push('grid-row-active');
             }
             return (
-                <tr className={rowClasses.join(' ')} key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
+                <tr key={rowNum} onClick={() => this.handleRowClick(rowNum)}>
                     {
                         headers.map((header, columnNum) =>
-                            <td className='grid-row-item' key={columnNum}>{row[header] ? row[header] : null}</td>
+                            <td key={columnNum}>{row[header] ? row[header] : null}</td>,
                         )
                     }
                 </tr>
@@ -69,16 +83,18 @@ export default class Grid extends Component {
     render() {
         const { rows } = this.props;
         return (
-            <div className='grid-wrapper'>
+            <div>
                 {rows && rows.length > 0 ? (
-                    <table className='grid'>
-                        <thead>
-                            <tr className='grid-header'>
-                                {this.renderHeaders()}
-                            </tr>
-                        </thead>
-                        <tbody className='grid-body'>{this.renderRows()}</tbody>
-                    </table>
+                    <div className='table-responsive-vertical shadow-z-1'>
+                        <table className='table table-hover table-striped table-mc-purple'>
+                            <thead>
+                                <tr>
+                                    {this.renderHeaders()}
+                                </tr>
+                            </thead>
+                            <tbody>{this.renderRows()}</tbody>
+                        </table>
+                    </div>
                 ) : this.renderNoResults()}
             </div>
         );

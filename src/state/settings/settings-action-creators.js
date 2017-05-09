@@ -12,6 +12,19 @@ export function fetchItemTypes() {
     };
 }
 
+export function fetchMetadataTypes() {
+    return (dispatch) => {
+        settingsApi.fetchMetadataTypes()
+        .then(response => dispatch({
+            type: settingsActionTypes.FETCH_METADATATYPE_SUCCEEDED,
+            data: response,
+        }))
+        .catch((error) => {
+            throw new Error('Fetching metadata types failed', error);
+        });
+    };
+}
+
 export function handleItemNameChange(name) {
     return {
         type: settingsActionTypes.ITEM_NAME_CHANGED,

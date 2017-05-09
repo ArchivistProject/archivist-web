@@ -14,7 +14,7 @@ export default class ItemGrid extends Component {
         headers: PropTypes.arrayOf(Object),
         fetchItems: PropTypes.func.isRequired,
         itemFocused: PropTypes.func.isRequired,
-        headerClicked: PropTypes.func.isRequired,
+        fetchSortedItems: PropTypes.func.isRequired,
         activeItemId: PropTypes.string,
         activeItemIndex: PropTypes.number,
         waitingForItems: PropTypes.bool,
@@ -28,6 +28,10 @@ export default class ItemGrid extends Component {
             pageSize: PropTypes.number,
         }),
         queryPage: PropTypes.number,
+        sortOrder: PropTypes.string,
+        saveSortOrder: PropTypes.func.isRequired,
+        saveHeaderClicked: PropTypes.func.isRequired,
+        sortby: PropTypes.string,
     };
 
     componentWillMount() {
@@ -44,7 +48,7 @@ export default class ItemGrid extends Component {
     }
 
     render() {
-        const { items, headers, itemFocused, headerClicked, activeItemIndex, waitingForItems, fetchItems, fetchItemsFailed,
+        const { items, headers, itemFocused, fetchSortedItems, fetchItems, activeItemIndex, waitingForItems, fetchItemsFailed, sortOrder, sortby, saveSortOrder, saveHeaderClicked,
             meta: { currentPage, nextPage, prevPage, totalPages, totalCount, pageSize } } = this.props;
         let rows = [];
 
@@ -77,18 +81,25 @@ export default class ItemGrid extends Component {
                     <Paginator
                         currentPage={currentPage}
                         totalPages={totalPages}
-                        onPageChange={fetchItems}
+                        fetchSortedItems={fetchSortedItems}
+                        fetchItems={fetchItems}
+                        sortOrder={sortOrder}
+                        sortby={sortby}
                     />) : null }
                 <div className='item-grid'>
                     <Grid
+                        currentPage={currentPage}
                         headers={headers}
                         rows={rows}
                         onRowClick={itemFocused}
-                        onHeaderClick={headerClicked}
+                        fetchSortedItems={fetchSortedItems}
                         activeRowNum={activeItemIndex}
                         noResultsText={'No results'}
                         noResultsImage={SadFace}
                         waitingForItems={waitingForItems}
+                        sortOrder={sortOrder}
+                        saveSortOrder={saveSortOrder}
+                        saveHeaderClicked={saveHeaderClicked}
                     />
                 </div>
                 { rows.length ? <span className='item-grid-count'>{`Displaying items ${startIndex}-${endIndex} of ${totalCount}`}</span> : null }

@@ -1,7 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import {
-    Button, FormControl, Col, ControlLabel, FormGroup, Form,
-} from 'react-bootstrap/lib/';
 import TagsInput from 'react-tagsinput';
 import moment from 'moment';
 import './upload.scss';
@@ -44,7 +41,7 @@ export default class Upload extends Component {
         // keep Generic but remove others category ID
         const array = allItemID;
         array.splice(1);
-        setAllItemID([]);
+        setAllItemID(array);
         handleTagsChange([]);
         setFilePicked(false);
         resetFile();
@@ -194,14 +191,45 @@ export default class Upload extends Component {
         setDescription(value);
     }
 
+    renderMetadataRows(group) {
+        const { allItemID } = this.props;
+        const idKey = allItemID.indexOf(group.id);
+        if (idKey < 0) { return undefined; }
+
+        return (
+            <div key={idKey}>
+                {group.fields.map((field, fieldKey) =>
+                    <div className='metadata-fields' htmlFor={group.id} key={fieldKey}>
+                        {field.name === 'Date Added' ?
+                            <input
+                                className='input-text' type='text' value={moment().format('MM/DD/YYYY')}
+                                disabled
+                            /> :
+                            <input
+                                className='input-text' name={field.name} id={group.id} data-type={field.type}
+                                onBlur={this.handleMetaDataTextChange} type='text'
+                                placeholder={field.name}
+                            />
+                        }
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     render() {
         const { groups, tags, allItemID, fileName, description } = this.props;
         return (
             <div className='upload'>
-                <div className='content'>
-                    <h3 className='upload-title'>Upload New File</h3>
-                    <div className='box'>
-                        <input type='file' id='file-5' accept='.pdf, .html' className='inputfile inputfile-4' ref={(ref) => { this.fileUpload = ref; }} onChange={this.handleFileChange} />
+                <p className='title'>Upload New File</p>
+                <div className='left-half'>
+                    <div className='upload-file-content'>
+                        <input
+                            type='file' id='file-5' accept='.pdf, .html' className='inputfile inputfile-4'
+                            ref={(ref) => {
+                                this.fileUpload = ref;
+                            }} onChange={this.handleFileChange}
+                        />
                         <label htmlFor='file-5'>
                             <figure>
                                 <svg xmlns='http://www.w3.org/2000/svg' width='20' height='17' viewBox='0 0 20 17'>
@@ -212,82 +240,42 @@ export default class Upload extends Component {
                             </figure>
                             <span>{fileName}</span></label>
                     </div>
-                    <Col sm={12}>
-                        <ControlLabel className='upload-label'>Categories:</ControlLabel>
-                    </Col>
-                    <Col sm={2}>
-                        <input id='generic' type='checkbox' disabled checked='true' className='checkBox' />
-                        <label className='checkbox-label' htmlFor='generic'>Generic</label>
-                    </Col>
-                    <div>
+
+                </div>
+                <div className='right-half'>
+                    <h4>Information about the file can be entered below:</h4>
+                    <div className='container'>
                         {groups.map((object, key) =>
                             <div>
-                                {object.name !== 'Generic' ?
-                                    <Col sm={2} key={key}>
+                                <div>
+                                    {object.name !== 'Generic' ?
                                         <input
-                                            className='checkBox'
+                                            className='metadata-group-select'
                                             type='checkbox'
                                             checked={object.checkbox}
                                             id={object.id}
                                             onChange={this.handleOnItemSelect}
                                         />
-                                        <label className='checkbox-label' htmlFor={object.id}>{object.name}</label>
-                                    </Col>
-                                : null}
+                                    : null}
+                                    <p className='upload-label'>{object.name}</p>
+                                </div>
+                                {this.renderMetadataRows(object)}
                             </div>
                         )}
-                    </div>
-
-                    <div>
-                        <Col sm={12}>
-                            <ControlLabel className='upload-label'>Meta Data:</ControlLabel>
-                        </Col>
-                        {allItemID.map((ID, idKey) =>
-                            <div key={idKey}>
-                                <Col sm={12}>
-                                    <ControlLabel className='metaDataLabel'>{groups.filter(x => x.id === ID)[0].name}</ControlLabel>
-                                </Col>
-                                {groups.filter(x => x.id === ID)[0].fields.map((obj, fieldKey) =>
-                                    <Form horizontal key={fieldKey} className='textBox'>
-                                        <Col sm={5} componentClass={ControlLabel}>{obj.name}</Col>
-                                        <Col sm={7}>
-                                            {obj.name === 'Date Added' ?
-                                                <FormControl
-                                                    type='text' value={moment().format('MM/DD/YYYY')}
-                                                    disabled
-                                                /> :
-                                                <FormControl
-                                                    name={obj.name} id={ID} data-type={obj.type}
-                                                    onBlur={this.handleMetaDataTextChange} type='text'
-                                                />
-                                                }
-                                            <br />
-                                        </Col>
-                                    </Form>
-                                    )
-                                    }
-                            </div>
-                            )}
-                    </div>
-
-
-                    <div>
-                        <Col sm={12}>
-                            <ControlLabel className='upload-label'>Tags:</ControlLabel>
-                            <TagsInput value={tags} onChange={this.handleTagChange} />
-                        </Col>
-                    </div>
-                    <Col sm={12}>
+                        <p className='upload-label'>Tags</p>
+                        <TagsInput value={tags} onChange={this.handleTagChange} />
+                        <div>
+                            <p className='upload-label'>Description</p>
+                            <textarea
+                                value={description} type='text' placeholder='Add a description'
+                                onChange={this.handleDescriptionChange}
+                            />
+                        </div>
                         <br />
-                        <FormGroup controlId='formControlsTextarea'>
-                            <ControlLabel>Description:</ControlLabel>
-                            <FormControl value={description} type='text' placeholder='Add a description' onChange={this.handleDescriptionChange} componentClass='textarea' />
-                        </FormGroup>
-                    </Col>
-
-                    <Col sm={12}>
-                        <Button className='upload-submit-btn' onClick={this.handleSubmit}>Upload</Button>
-                    </Col>
+                    </div>
+                    <div className='upload-submit'>
+                        <button type='submit' onClick={this.handleSubmit}>Upload</button>
+                    </div>
                 </div>
             </div>
         );

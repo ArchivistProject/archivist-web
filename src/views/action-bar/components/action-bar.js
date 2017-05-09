@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import { getFormattedPathname } from '~/src/utils/utils';
 import { SIDEBAR_TABS } from '~/src/state/sidebar/sidebar-constants';
 import './action-bar.scss';
@@ -55,29 +55,38 @@ export default class ActionBar extends Component {
 
     render() {
         const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch, updateSimpleSearchQuery } = this.props;
-
         return loggedIn ? (
-            <div className='action-bar-wrapper'>
-                <div className='action-bar'>
-                    <div className='action-bar-back'>
-                        { backVisible ? <Link to='/'><button className='action-bar-back-button'>Back</button></Link> : null }
-                    </div>
+            <div className='action-bar'>
+                <div className='action-bar-left'>
+                    <a className='home-btn' href='/'>Archivist</a>
+                    {backVisible ?
+                        <a className='back-btn' onClick={browserHistory.goBack}>
+                            <span className='glyphicon glyphicon-arrow-left' title='Go back' />
+                        </a> : null }
+                </div>
+
+                { searchVisible ?
                     <div className='action-bar-search'>
-                        { searchVisible ?
-                            (
-                                <div>
-                                    <input type='search' className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)}/>
-                                    <button className='action-bar-search-button' onClick={this.handleSearchClicked}>Search</button>
-                                    <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
-                                </div>
-                            ) : null
-                        }
+                        <input className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)} />
+                        <button className='glyphicon glyphicon-search' onClick={this.handleSearchClicked} />
+                        <a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a>
                     </div>
-                    <div className='action-bar-right-buttons'>
-                        {uploadVisible ? <Link to='/upload'><button className='action-bar-upload'>Upload</button></Link> : null }
-                        {settingsVisible ? <Link to='/settings'> <button className='action-bar-settings'>Settings</button></Link> : null }
-                        {logoutVisible ? <button className='action-bar-logout' onClick={this.handleLogout}>Log Out</button> : null }
-                    </div>
+                    : null }
+                <div className='action-bar-right'>
+                    {uploadVisible ?
+                        <div><a href='/upload'>
+                            <span className='glyphicon glyphicon-upload' title='Upload a file' />
+                        </a></div> : null }
+
+                    {settingsVisible ?
+                        <div><a href='/settings'>
+                            <span className='glyphicon glyphicon-cog' title='Settings' />
+                        </a></div> : null }
+
+                    {logoutVisible ?
+                        <div><a onClick={this.handleLogout}>
+                            <span className='glyphicon glyphicon-log-out' title='Logout' />
+                        </a></div> : null }
                 </div>
             </div>
         ) : null;

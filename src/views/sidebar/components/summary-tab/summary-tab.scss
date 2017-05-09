@@ -2,93 +2,67 @@
 
 $summary-tab-spacing: 20px;
 .summary-tab {
-    display: flex;
-    flex-direction: column;
-    margin: 0 5px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px;
 
-    &-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0 1px 2px 1px;
-        table-layout: fixed;
+  &-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 1px 2px 1px;
+    table-layout: fixed;
+  }
+
+  &-row {
+    height: 23px;
+    line-height: 23px;
+
+    &:nth-child(odd) {
+      background-color: $secondary-color;
     }
 
-    &-row {
-        height: 23px;
-        line-height: 23px;
-
-        &:nth-child(odd) {
-            background-color: $light-gray;
-        }
-
-        input:focus {
-            outline: 1px solid $blue;
-        }
+    input:focus {
+      outline: 1px solid $secondary-color;
     }
-    
-    &-label {
-        padding-left: 3px;
-        font-weight: bold;
-        &.modified {
-            color: $blue;
-        }
-    }
+  }
 
-    &-metadata {
-        margin-bottom: $summary-tab-spacing;
-        &-controls {
-            display: flex;
-            flex-direction: row;
-        }
+  &-label {
+    padding-left: 3px;
+    font-weight: bold;
+    &.modified {
+      color: $darker-primary-color;
     }
+  }
 
-    &-tags {
-        margin-bottom: $summary-tab-spacing;
+  &-metadata {
+    margin-bottom: $summary-tab-spacing;
+    &-controls {
+      display: flex;
+      flex-direction: row;
     }
+  }
 
-    &-category {
-        text-transform: uppercase;
-        font-size: $small-size;
-        font-family: $default-family;
-        font-weight: bold;
+  &-tags {
+    margin-bottom: $summary-tab-spacing;
+  }
+
+  &-category {
+    text-transform: uppercase;
+    font-size: $small-size;
+    font-family: $default-family;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  &-value {
+    .url-data {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
 
-    &-value {
-        .url-data {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        a {
-            cursor: pointer;
-            text-decoration: none;
-        }
-    }
-
-    &-input {
-        width: 100%;
-    }
-
-    button {
-        flex-grow: 1;
-        border: 1px solid $gray;
-        background-color: $white;
-        color: $dark-gray;
-        text-transform: capitalize;
-        outline: none;
-        &:hover {
-            background-color: $light-blue;
-            color: $blue;
-        }
-        &:active {
-            background-color: $dark-blue;
-            color: $light-blue;
-        }
-        &:disabled {
-            background-color: $light-gray;
-            color: $gray;
-            cursor: not-allowed;
-        }
-    }
+  &-input {
+    width: 100%;
+  }
 }

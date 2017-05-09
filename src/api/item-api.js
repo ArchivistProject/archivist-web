@@ -3,13 +3,27 @@ import config from '~/config';
 import $ from 'jquery';
 import { CONTENT_TYPES } from '~/src/state/viewer/viewer-constants';
 import { APP_CONSTANTS } from '~/src/utils/app-constants';
+import { buildSearchPayload } from '~/src/api/search-api';
+import { store } from '~/src/index';
 
 export function fetchItems(pageNumber) {
-    return ajax('GET', `documents?page=${pageNumber}`);
+    const searchGroups = store.getState().search.searchGroups;
+    if (searchGroups.length === 0) {
+        return ajax('GET', `documents?page=${pageNumber}`);
+    }
+
+    const payload = {
+        search: buildSearchPayload(searchGroups),
+    };
+    return ajax('POST', `documents/search?page=${pageNumber}`, payload);
 }
 
 export function fetchItem(itemId) {
     return ajax('GET', `documents/${itemId}`);
+}
+
+export function fetchSortedItems(pageNumber, header, sortOrder) {
+    return ajax('GET', `documents?page=${pageNumber}&sort_order=${sortOrder}&sort_column=${header}`);
 }
 
 export function fetchItemContent(item) {
