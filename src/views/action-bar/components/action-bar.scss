@@ -1,63 +1,81 @@
 @import '../../../defaults';
 
 .action-bar {
-    .form-control {
-        border-color: $secondary-color;
-    }
-
-    &-wrapper {
-        width: 100%;
-        height: $action-bar-height;
-        min-width: $app-min-width;
-        line-height: $action-bar-height;
-        text-align: center;
-    }
-
+    display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 0 0px;
+    margin-bottom: 0px;
+    background-color: $primary-color;
+    height: $action-bar-height;
+    min-width: $app-min-width;
+    line-height: $action-bar-height;
+
+    &-left {
+        margin: 0 $gutter;
+
+        .home-btn {
+            font-size: 24px;
+        }
+
+        span.glyphicon-arrow-left {
+            margin-left: $gutter;
+            font-size: 20px;
+        }
+    }
+
+    &-right {
+        display: flex;
+        justify-content: space-between;
+
+        span.glyphicon {
+            margin: 0 $gutter;
+            line-height: $action-bar-height;
+            font-size: 30px;
+        }
+    }
 
     &-search, &-search-input {
         width: 50%;
         font-family: $default-family;
         font-size: $default-size;
         border: none;
+
+        button.glyphicon-search {
+            background-color: $secondary-color;
+            border: none;
+            height: 28px;
+            margin-bottom: 3px;
+            border-radius: 0 5px 5px 0;
+            margin-right: 5px;
+
+            &:hover {
+                color: $bg-primary-color;
+                background-color: $darker-primary-color;
+            }
+        }
     }
 
-    &-back, &-right-buttons {
-        width: 250px;
-        padding: 0 10px;
-        font-family: $default-family;
-        font-size: $default-size;
+    &-search {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    span.glyphicon-upload {
-        font-size: 1.9em;
-    }
+    &-search-input {
+        border: 1px solid $secondary-color;
+        padding: 5px;
+        border-radius: 5px 0 0 5px;
 
-    span.glyphicon-cog {
-        font-size: 1.9em;
-    }
-
-    span.glyphicon-log-out {
-        font-size: 1.9em;
-        margin-right: 20px;
+        &:focus {
+            padding: 4px;
+            border: 2px solid $light-primary-color;
+            outline: none;
+        }
     }
 
     a {
-        color: #FFF;
+        color: $bg-primary-color;
         cursor: pointer;
         text-decoration: none;
-    }
-
-}
-
-.navbar {
-    margin-bottom: 0px;
-    background-color: $primary-color;
-
-    a:hover {
-        background-color: transparent !important;
-        color: $secondary-color !important;
     }
 }
