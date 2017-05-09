@@ -14,10 +14,12 @@ export default class ActionBar extends Component {
         searchVisible: PropTypes.bool.isRequired,
         settingsVisible: PropTypes.bool.isRequired,
         logoutVisible: PropTypes.bool.isRequired,
+        simpleSearchQuery: PropTypes.string.isRequired,
         updateVisibilities: PropTypes.func.isRequired,
         pathname: PropTypes.string.isRequired,
         updateVisibility: PropTypes.func.isRequired,
         updateTabVisibility: PropTypes.func.isRequired,
+        setupSimpleSearch: PropTypes.func.isRequired,
         submitSearch: PropTypes.func.isRequired,
     };
 
@@ -45,8 +47,14 @@ export default class ActionBar extends Component {
         updateTabVisibility(SIDEBAR_TABS.SEARCH);
     }
 
+    handleSearchClicked = () => {
+        const { simpleSearchQuery, setupSimpleSearch, submitSearch } = this.props;
+        setupSimpleSearch(simpleSearchQuery);
+        submitSearch();
+    }
+
     render() {
-        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch, updateSimpleSearchQuery } = this.props;
 
         return loggedIn ? (
             <div className='action-bar-wrapper'>
@@ -58,8 +66,8 @@ export default class ActionBar extends Component {
                         { searchVisible ?
                             (
                                 <div>
-                                    <input type='search' className='action-bar-search-input' />
-                                    <button className='action-bar-search-button' onClick={submitSearch}>Search</button>
+                                    <input type='search' className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)}/>
+                                    <button className='action-bar-search-button' onClick={this.handleSearchClicked}>Search</button>
                                     <a onClick={this.handleAdvancedSearchClicked}>Advanced</a>
                                 </div>
                             ) : null

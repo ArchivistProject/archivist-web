@@ -117,6 +117,13 @@ export function updateFullText(terms, groupIndex) {
     };
 }
 
+export function setupSimpleSearch(terms) {
+    return {
+        type: searchActionTypes.SETUP_SIMPLE_SEARCH,
+        data: { terms },
+    };
+}
+
 export function submitSearch() {
     return (dispatch, getState) => {
         const state = getState();

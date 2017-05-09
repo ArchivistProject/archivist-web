@@ -24,4 +24,6 @@ export default {
     SEARCH_FAILED: 'search/SEARCH_FAILED',
 
     SEARCH_RESET: 'search/SEARCH_RESET',
+
+    SETUP_SIMPLE_SEARCH: 'search/SETUP_SIMPLE_SEARCH',
 };
