@@ -31,7 +31,7 @@ export default class ItemGrid extends Component {
         sortOrder: PropTypes.string,
         saveSortOrder: PropTypes.func.isRequired,
         saveHeaderClicked: PropTypes.func.isRequired,
-        sortby: PropTypes.string,
+        sortBy: PropTypes.string,
     };
 
     componentWillMount() {
@@ -48,7 +48,7 @@ export default class ItemGrid extends Component {
     }
 
     render() {
-        const { items, headers, itemFocused, fetchSortedItems, fetchItems, activeItemIndex, waitingForItems, fetchItemsFailed, sortOrder, sortby, saveSortOrder, saveHeaderClicked,
+        const { items, headers, itemFocused, fetchSortedItems, fetchItems, activeItemIndex, waitingForItems, fetchItemsFailed, sortOrder, sortBy, saveSortOrder, saveHeaderClicked,
             meta: { currentPage, nextPage, prevPage, totalPages, totalCount, pageSize } } = this.props;
         let rows = [];
 
@@ -84,7 +84,7 @@ export default class ItemGrid extends Component {
                         fetchSortedItems={fetchSortedItems}
                         fetchItems={fetchItems}
                         sortOrder={sortOrder}
-                        sortby={sortby}
+                        sortBy={sortBy}
                     />) : null }
                 <div className='item-grid'>
                     <Grid

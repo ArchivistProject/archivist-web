@@ -216,7 +216,7 @@ export default function (state = initialState, action) {
             const { header } = action.data;
             return {
                 ...state,
-                sortby: header,
+                sortBy: header,
             };
         }
 
