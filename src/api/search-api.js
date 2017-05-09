@@ -1,9 +1,12 @@
 import config from '~/config';
 import { ajax } from '~/src/utils/utils';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
+import { store } from '~/src/index';
 
 export function buildSearchPayload(searchGroups) {
-    return Object.keys(searchGroups).map((index) => {
+    return {
+      andOr: store.getState().search.globalAndOr,
+      groups: Object.keys(searchGroups).map((index) => {
         const searchGroup = searchGroups[index];
         switch (searchGroup.groupType) {
             case (SEARCH_CONSTANTS.ITEM_TYPE): {
@@ -51,7 +54,8 @@ export function buildSearchPayload(searchGroups) {
             }
         }
         return null;
-    });
+    }),
+  }
 }
 
 export function search(searchGroups) {
