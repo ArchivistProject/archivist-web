@@ -191,6 +191,32 @@ export default class Upload extends Component {
         setDescription(value);
     }
 
+    renderMetadataRows(group) {
+        const { allItemID } = this.props;
+        const idKey = allItemID.indexOf(group.id);
+        if (idKey < 0) { return undefined; }
+
+        return (
+            <div key={idKey}>
+                {group.fields.map((field, fieldKey) =>
+                    <div className='metadata-fields' htmlFor={group.id} key={fieldKey}>
+                        {field.name === 'Date Added' ?
+                            <input
+                                className='input-text' type='text' value={moment().format('MM/DD/YYYY')}
+                                disabled
+                            /> :
+                            <input
+                                className='input-text' name={field.name} id={group.id} data-type={field.type}
+                                onBlur={this.handleMetaDataTextChange} type='text'
+                                placeholder={field.name}
+                            />
+                        }
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     render() {
         const { groups, tags, allItemID, fileName, description } = this.props;
         return (
@@ -219,54 +245,32 @@ export default class Upload extends Component {
                 <div className='right-half'>
                     <h4>Information about the file can be entered below:</h4>
                     <div className='container'>
-                        <p className='upload-label'>Categories:</p>
-                        <input id='generic' type='checkbox' value='generic' disabled checked='true' />
-                        <label htmlFor='generic'>Generic *</label>
                         {groups.map((object, key) =>
-                            <div className='upload-category'>
-                                {object.name !== 'Generic' ?
-                                    <div key={key}>
+                            <div>
+                                <div>
+                                    {object.name !== 'Generic' ?
                                         <input
+                                            className='metadata-group-select'
                                             type='checkbox'
                                             checked={object.checkbox}
                                             id={object.id}
                                             onChange={this.handleOnItemSelect}
                                         />
-                                        <label htmlFor={object.id}>{object.name}</label>
-                                    </div>
                                     : null}
-                            </div>,
+                                    <p className='upload-label'>{object.name}</p>
+                                </div>
+                                {this.renderMetadataRows(object)}
+                            </div>
                         )}
-                        <br />
-                        <p className='upload-label'>Meta Data:</p>
-                        {allItemID.map((ID, idKey) =>
-                            <div key={idKey}>
-                                <p className='metadata-group'>{groups.filter(x => x.id === ID)[0].name}</p>
-                                {groups.filter(x => x.id === ID)[0].fields.map((obj, fieldKey) =>
-                                    <div className='metadata-fields' htmlFor={ID} key={fieldKey}>
-                                        {obj.name === 'Date Added' ?
-                                            <input
-                                                className='input-text' type='text' value={moment().format('MM/DD/YYYY')}
-                                                disabled
-                                            /> :
-                                            <input
-                                                className='input-text' name={obj.name} id={ID} data-type={obj.type}
-                                                onBlur={this.handleMetaDataTextChange} type='text'
-                                                placeholder={obj.name}
-                                            />
-                                        }
-                                    </div>,
-                                )
-                                }
-                            </div>,
-                        )}
-                        <p className='upload-label'>Description:</p>
-                        <textarea
-                            value={description} type='text' placeholder='Add a description'
-                            onChange={this.handleDescriptionChange}
-                        />
-                        <p className='upload-label'>Tags:</p>
+                        <p className='upload-label'>Tags</p>
                         <TagsInput value={tags} onChange={this.handleTagChange} />
+                        <div>
+                            <p className='upload-label'>Description</p>
+                            <textarea
+                                value={description} type='text' placeholder='Add a description'
+                                onChange={this.handleDescriptionChange}
+                            />
+                        </div>
                         <br />
                     </div>
                     <div className='upload-submit'>
