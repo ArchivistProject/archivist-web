@@ -1,6 +1,7 @@
 @import '../../../../defaults';
 
 $summary-tab-spacing: 20px;
+
 .summary-tab {
   display: flex;
   flex-direction: column;
@@ -14,15 +15,11 @@ $summary-tab-spacing: 20px;
   }
 
   &-row {
-    height: 23px;
+    height: 28px;
     line-height: 23px;
 
     &:nth-child(odd) {
       background-color: $secondary-color;
-    }
-
-    input:focus {
-      outline: 1px solid $secondary-color;
     }
   }
 
@@ -62,7 +59,21 @@ $summary-tab-spacing: 20px;
     }
   }
 
-  &-input {
+  &-input,
+  &-input[type="number"] {
     width: 100%;
+    margin: 0;
+    background: white;
+    height: 24px;
+    padding: 4px 4px;
+    border: 1px solid gray;
+    vertical-align: middle;
+  }
+
+  &-input:focus,
+  &-input[type="text"]:focus
+  &-input[type="number"]:focus {
+    outline: 1px solid;
+    outline-color: $primary-color;
   }
 }
