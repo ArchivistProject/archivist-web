@@ -81,8 +81,6 @@ export default class ItemGrid extends Component {
                         currentPage={currentPage}
                         totalPages={totalPages}
                         fetchItems={fetchItems}
-                        sortOrder={sortOrder}
-                        sortBy={sortBy}
                     />) : null }
                 <div className='item-grid'>
                     <Grid
