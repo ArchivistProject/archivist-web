@@ -80,7 +80,7 @@ export default class ItemGrid extends Component {
                     <Paginator
                         currentPage={currentPage}
                         totalPages={totalPages}
-                        fetchItems={fetchItems}
+                        onPageChange={fetchItems}
                     />) : null }
                 <div className='item-grid'>
                     <Grid
