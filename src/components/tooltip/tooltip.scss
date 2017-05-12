@@ -26,13 +26,33 @@
         /* Position the tooltip text */
         position: absolute;
         z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -60px;
 
         /* Fade in tooltip */
         opacity: 0;
         transition: opacity 1s;
+
+        &.top {
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+        }
+
+        &.bottom {
+            top: 135%;
+            left: 50%;
+            margin-left: -60px;
+        }
+
+        &.left {
+            top: -5px;
+            bottom: auto;
+            right: 150%;
+        }
+
+        &.right {
+            top: -5px;
+            left: 150%;
+        }
     }
 
     &:hover .tooltiptext {
