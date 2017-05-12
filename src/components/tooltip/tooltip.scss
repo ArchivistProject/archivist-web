@@ -1,0 +1,61 @@
+@import '../../defaults';
+
+.tooltip2 {
+    margin-left: 7px;
+    position: relative;
+    display: inline-block;
+
+    .questionmark {
+      color: #0000ff;
+      border-top: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      border-bottom: 2px;
+      border-style: dotted;
+      border-color: #0000ff;
+    }
+
+    .tooltiptext {
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+
+        /* Fade in tooltip */
+        opacity: 0;
+        transition: opacity 1s;
+
+        &.top {
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+        }
+
+        &.bottom {
+            top: 135%;
+            left: 50%;
+            margin-left: -60px;
+        }
+
+        &.left {
+            top: -5px;
+            bottom: auto;
+            right: 150%;
+        }
+
+        &.right {
+            top: -5px;
+            left: 150%;
+        }
+    }
+
+    &:hover .tooltiptext {
+        opacity: 1;
+    }
+}
