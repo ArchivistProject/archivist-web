@@ -98,7 +98,7 @@ export default class SummaryTab extends Component {
                 </section>
                 <section className='summary-tab-tags'>
                     <span className='summary-tab-category'>Tags</span>
-                    <Tooltip message={Tooltip.MESSAGES.tagEntry} />
+                    <Tooltip message={Tooltip.MESSAGES.tagEntry} direction={Tooltip.DIRECTION.right} />
                     <TagsInput
                         value={activeItem.tags || []}
                         onChange={this.handleTagsUpdated}
