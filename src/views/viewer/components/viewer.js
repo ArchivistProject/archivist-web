@@ -87,7 +87,7 @@ export default class Viewer extends Component {
         if (!d) { return; }
         const self = this;
         $('a', d).each((pos, a) => {
-            const localLink = a.href.startsWith('#');
+            const localLink = a.hash.startsWith('#');
             a.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
