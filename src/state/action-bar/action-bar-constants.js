@@ -11,6 +11,7 @@ export const VISIBILITIES = {
         uploadVisible: true,
         searchVisible: true,
         settingsVisible: true,
+        logoutVisible: true,
     },
     upload: {
         backVisible: true,
