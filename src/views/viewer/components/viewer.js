@@ -21,6 +21,7 @@ export default class Viewer extends Component {
         resetScale: PropTypes.func.isRequired,
         updatePage: PropTypes.func.isRequired,
         fetchItem: PropTypes.func.isRequired,
+        linkClicked: PropTypes.func.isRequired,
         fetchItemContent: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
         scaleMin: PropTypes.number.isRequired,
@@ -60,6 +61,7 @@ export default class Viewer extends Component {
     }
 
     addURLIntercept = () => {
+      const { linkClicked } = this.props;
       // TODO: what happens when doc page has iframes in it?
       var s = document.getElementsByClassName('web-container');
       if (!s || s.length == 0) { return; }
@@ -73,6 +75,7 @@ export default class Viewer extends Component {
           a.addEventListener('click', e => {
             e.preventDefault();
             e.stopPropagation();
+            self.props.linkClicked(a.href);
             self.setState({
                 urlIntercepted: a.href,
                 urlInterceptedX: e.x,

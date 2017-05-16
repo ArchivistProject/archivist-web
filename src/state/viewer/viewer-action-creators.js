@@ -29,3 +29,33 @@ export function viewerClosed() {
         type: viewerActionTypes.VIEWER_CLOSED,
     };
 }
+
+export function linkClicked(url) {
+    return (dispatch) => {
+        dispatch({
+            type: viewerActionTypes.LINK_CLICKED,
+            notification: {
+                title: 'Clicking outside link',
+                message: `Are you sure you want to visit ${url}`,
+                level: 'warning',
+                action: {
+                    label: 'Yes',
+                    callback: function() {
+                        var win = window.open(url, '_blank');
+                        if (win) {
+                            win.focus();
+                        } else {
+                            dispatch({
+                                type: viewerActionTypes.POPUPS_DISABLED,
+                                notification: {
+                                    title: 'Please enable popups on this site to visit this link.',
+                                    level: 'error',
+                                }
+                            });
+                        }
+                    },
+                },
+            },
+        });
+    };
+}
