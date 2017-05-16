@@ -43,12 +43,18 @@
             background-color: $secondary-color;
             border: none;
             height: 28px;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             border-radius: 0 5px 5px 0;
             margin-right: 5px;
+            outline: none;
 
             &:hover {
-                color: $bg-primary-color;
+                color: $primary-color;
+                background-color: $light-primary-color;
+            }
+
+            &:active {
+                color: $light-primary-color;
                 background-color: $darker-primary-color;
             }
         }
@@ -62,6 +68,7 @@
     }
 
     &-search-input {
+        height: 28px;
         border: 1px solid $secondary-color;
         padding: 5px;
         border-radius: 5px 0 0 5px;
@@ -77,5 +84,13 @@
         color: $bg-primary-color;
         cursor: pointer;
         text-decoration: none;
+
+        &:hover {
+            color: $light-primary-color;
+        }
+
+        &:active {
+            color: $darker-primary-color;
+        }
     }
 }
