@@ -59,9 +59,6 @@ export default class Viewer extends Component {
       var d = s[0].contentWindow.document;
       if (!d) { return; }
       var self = this;
-      d.addEventListener('click', e => {
-          self.clearUrlPopup(false);
-      });
       $('a', d).each((pos, a) => {
           a.addEventListener('click', e => {
             e.preventDefault();
