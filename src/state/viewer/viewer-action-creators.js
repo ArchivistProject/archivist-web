@@ -47,8 +47,8 @@ export function linkClicked(url) {
             border: '0px',
             color: 'rgb(255, 255, 255)',
         };
-        const notificationButtonCallback = function() {
-            var win = window.open(url, '_blank');
+        const notificationButtonCallback = () => {
+            const win = window.open(url, '_blank');
             if (win) {
                 win.focus();
             } else {
@@ -57,7 +57,7 @@ export function linkClicked(url) {
                     notification: {
                         title: 'Please enable popups on this site to visit this link.',
                         level: 'error',
-                    }
+                    },
                 });
             }
         };
@@ -73,7 +73,7 @@ export function linkClicked(url) {
                         <button style={notificationButtonStyle} onClick={notificationButtonCallback}>Yes</button>
                     </div>
                 ),
-                autoDismiss: 0,
+                autoDismiss: 10,
             },
         });
     };

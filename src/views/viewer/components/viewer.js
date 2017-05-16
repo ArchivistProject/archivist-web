@@ -51,23 +51,6 @@ export default class Viewer extends Component {
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
     }
 
-    addURLIntercept = () => {
-      const { linkClicked } = this.props;
-      // TODO: what happens when doc page has iframes in it?
-      var s = document.getElementsByClassName('web-container');
-      if (!s || s.length == 0) { return; }
-      var d = s[0].contentWindow.document;
-      if (!d) { return; }
-      var self = this;
-      $('a', d).each((pos, a) => {
-          a.addEventListener('click', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            self.props.linkClicked(a.href);
-          });
-      });
-    }
-
     shouldComponentUpdate(nextProps) {
         const { activeItemContentType } = this.props;
         if (activeItemContentType === CONTENT_TYPES.PDF) {
@@ -94,6 +77,22 @@ export default class Viewer extends Component {
         const { viewerClosed } = this.props;
         viewerClosed();
         window.removeEventListener('resize', this.handleResize);
+    }
+
+    addURLIntercept = () => {
+        // TODO: what happens when doc page has iframes in it?
+        const s = document.getElementsByClassName('web-container');
+        if (!s || s.length == 0) { return; }
+        const d = s[0].contentWindow.document;
+        if (!d) { return; }
+        const self = this;
+        $('a', d).each((pos, a) => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                self.props.linkClicked(a.href);
+            });
+        });
     }
 
     handleResize = () => {
