@@ -1,4 +1,5 @@
 import actionBarActionTypes from './action-bar-action-types';
+import searchActionTypes from '../search/search-action-types';
 
 const initialState = {
     backVisible: false,
@@ -26,6 +27,14 @@ export default function (state = initialState, action) {
                 simpleSearchQuery: query,
             };
         }
+
+        case searchActionTypes.SEARCH_RESET: {
+            return {
+                ...state,
+                simpleSearchQuery: '',
+            };
+        }
     }
+
     return state;
 }

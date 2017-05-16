@@ -62,7 +62,7 @@ export default class ActionBar extends Component {
     }
 
     render() {
-        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch, updateSimpleSearchQuery } = this.props;
+        const { loggedIn, backVisible, uploadVisible, searchVisible, settingsVisible, logoutVisible, submitSearch, updateSimpleSearchQuery, simpleSearchQuery } = this.props;
         return loggedIn ? (
             <div className='action-bar'>
                 <div className='action-bar-left'>
@@ -75,7 +75,7 @@ export default class ActionBar extends Component {
 
                 { searchVisible ?
                     <div className='action-bar-search'>
-                        <input className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)} onKeyPress={this.handleSearchClicked} />
+                        <input className='action-bar-search-input' onChange={e => updateSimpleSearchQuery(e.target.value)} value={simpleSearchQuery} onKeyPress={this.handleSearchClicked} />
                         <button className='glyphicon glyphicon-search' onClick={this.handleSearchClicked} />
                         <a onClick={this.handleAdvancedSearchClicked}>Advanced Search</a>
                     </div>
