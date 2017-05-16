@@ -85,24 +85,4 @@ $toolbar-height: 30px;
     .sidebar {
         width: 300px;
     }
-
-    .urlpopup {
-        width: 300px;
-        height: 65px;
-        position: absolute;
-        background-color: grey;
-        p {
-            white-space: nowrap;
-            overflow: scroll;
-            text-overflow: ellipsis;
-        }
-
-        .yes-button {
-            float: left;
-        }
-
-        .no-button {
-            float: right;
-        }
-    }
 }
