@@ -28,6 +28,7 @@ export default class Upload extends Component {
         allMetaDataValue: PropTypes.arrayOf(Object),
         setAllMetaData: PropTypes.func.isRequired,
         setDescription: PropTypes.func.isRequired,
+        errorNotification: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -51,7 +52,7 @@ export default class Upload extends Component {
     }
 
     handleSubmit = () => {
-        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description, file } = this.props;
+        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description, file, errorNotification } = this.props;
         // get meta data array and add today's date to it since user can't modify it
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
@@ -68,7 +69,7 @@ export default class Upload extends Component {
         };
         metaDataArray = metaDataArray.concat(object);
         if (filePicked === false) {
-            alert('Please click browse to select a file to upload');
+            errorNotification('Please select a file to upload');
         } else {
             const reader = new FileReader();
             reader.readAsDataURL(file);

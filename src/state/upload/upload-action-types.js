@@ -15,4 +15,6 @@ export default {
     SET_ITEM_ID: 'upload/SET_ITEM_ID',
     TAGS_CHANGED: 'upload/TAGS_CHANGED',
     SET_ALL_METADATA: 'upload/SET_ALL_METADATA',
+
+    INPUT_ERROR: 'upload/INPUT_ERROR',
 };

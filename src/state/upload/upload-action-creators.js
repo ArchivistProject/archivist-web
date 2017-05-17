@@ -105,3 +105,13 @@ export function setDescription(val) {
         data: { val },
     };
 }
+
+export function errorNotification(msg) {
+    return {
+        type: uploadActionTypes.INPUT_ERROR,
+        notification: {
+            title: msg,
+            level: 'error',
+        },
+    };
+}

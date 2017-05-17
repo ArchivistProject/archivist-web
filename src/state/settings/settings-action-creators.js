@@ -217,3 +217,13 @@ export function fetchFileStorage() {
             .catch((error) => { throw new Error('Fetch file storage failed', error); });
     };
 }
+
+export function errorNotification(msg) {
+    return {
+        type: settingsActionTypes.INPUT_ERROR,
+        notification: {
+            title: msg,
+            level: 'error',
+        },
+    };
+}
