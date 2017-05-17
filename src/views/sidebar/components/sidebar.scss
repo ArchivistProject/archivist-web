@@ -16,15 +16,14 @@
     &-tabs {
         display: flex;
         height: 25px;
-        border-color: $darker-secondary-color;
-        border-style: solid;
-        border-width: 0 0 1px;
+        border-bottom: 1px solid $darker-primary-color;
         width: 100%;
 
         &-item { //the tabs
             flex-grow: 1;
             outline: none;
             border: none;
+            color: $primary-color;
             background-color: $bg-primary-color;
             
             font-family: $default-family;
@@ -32,12 +31,13 @@
 
             &:disabled {
                 cursor: default;
-                background-color: $secondary-color;
-                color: $primary-color;
+                background-color: $primary-color;
+                color: $bg-primary-color;
             }
 
             &:enabled:hover {
                 color: $primary-color;
+                background-color: $light-primary-color;
             }
         }
     }

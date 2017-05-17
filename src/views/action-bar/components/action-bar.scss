@@ -8,6 +8,7 @@
     height: $action-bar-height;
     min-width: $app-min-width;
     line-height: $action-bar-height;
+    border-bottom: 2px solid $darker-primary-color;
 
     &-left {
         margin: 0 $gutter;
