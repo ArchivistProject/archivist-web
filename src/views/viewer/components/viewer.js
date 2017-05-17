@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import pdflib from 'pdfjs-dist';
+import $ from 'jquery';
 import { Sidebar } from '~/src/views';
 import Paginator from '~/src/components/paginator/paginator';
 import Loader from '~/src/components/loader/loader';
@@ -20,6 +21,7 @@ export default class Viewer extends Component {
         resetScale: PropTypes.func.isRequired,
         updatePage: PropTypes.func.isRequired,
         fetchItem: PropTypes.func.isRequired,
+        linkClicked: PropTypes.func.isRequired,
         fetchItemContent: PropTypes.func.isRequired,
         scale: PropTypes.number.isRequired,
         scaleMin: PropTypes.number.isRequired,
@@ -63,12 +65,37 @@ export default class Viewer extends Component {
         if (!activeItemContent) {
             fetchItemContent(activeItem);
         }
+        const s = document.getElementsByClassName('web-container');
+        if (!s || s.length === 0) { return; }
+        const self = this;
+        s[0].addEventListener('load', (e) => {
+            self.addURLIntercept();
+        });
     }
 
     componentWillUnmount() {
         const { viewerClosed } = this.props;
         viewerClosed();
         window.removeEventListener('resize', this.handleResize);
+    }
+
+    addURLIntercept = () => {
+        // TODO: what happens when doc page has iframes in it?
+        const s = document.getElementsByClassName('web-container');
+        if (!s || s.length === 0) { return; }
+        const d = s[0].contentWindow.document;
+        if (!d) { return; }
+        const self = this;
+        $('a', d).each((pos, a) => {
+            const localLink = a.hash.startsWith('#');
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!localLink) {
+                    self.props.linkClicked(a.href);
+                }
+            });
+        });
     }
 
     handleResize = () => {
