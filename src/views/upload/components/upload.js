@@ -14,6 +14,7 @@ export default class Upload extends Component {
         fetchItemTypes: PropTypes.func.isRequired,
         setAllItemID: PropTypes.func.isRequired,
         tags: PropTypes.arrayOf(String),
+        file: PropTypes.object.isRequired,
         handleTagsChange: PropTypes.func.isRequired,
         allItemID: PropTypes.arrayOf(String),
         filePicked: PropTypes.bool,

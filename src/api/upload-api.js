@@ -3,7 +3,7 @@ import { ajax } from '~/src/utils/utils';
 export function uploadFile(file, tagArray, metaData, desc) {
     const doc = {
         document: {
-            file: file,
+            file,
             description: desc,
             tags: tagArray,
             metadata_fields: metaData,
