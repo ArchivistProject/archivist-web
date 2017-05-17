@@ -1,0 +1,52 @@
+@import '../../defaults';
+
+.annotation {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    background-color: $bg-primary-color;
+    border: 1px solid $darker-secondary-color;
+
+    &-toolbar {
+        display: flex;
+        justify-content: space-between;
+        background-color: $secondary-color;
+        padding: 5px;
+
+        &-button {
+            border: none;
+            background-color: $bg-primary-color;
+            color: $darker-secondary-color;
+            border-radius: 5px;
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+
+        .add-button, .save-button {
+            color: $bg-primary-color;
+            background-color:$darker-primary-color;
+        }
+    }
+
+    &-details {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    &-text {
+        &-highlight {
+            background-color: $darker-secondary-color;
+            color: $bg-primary-color;
+        }
+        &-note {
+            word-wrap: break-word;
+        }
+    }
+
+    &-textarea {
+        &:focus {
+            outline: 1px solid $darker-primary-color;
+        }
+    }
+}

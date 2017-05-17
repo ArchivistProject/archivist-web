@@ -23,6 +23,7 @@ module.exports = {
         "semi": [2, "always"],
         "no-unused-vars": [1, {"vars": "all", "args": "none"}],
         "no-console": 0,
+        "no-param-reassign": 0,
         "max-len": [1, { "code": 130 }],
         "class-methods-use-this": 0,
         "import/no-unresolved": 0,
@@ -37,6 +38,7 @@ module.exports = {
         "react/jsx-boolean-value": 0,
         "react/no-unused-prop-types": 1,
         "react/forbid-prop-types": 0,
+        "react/no-did-update-set-state": 0,
         "jsx-a11y/no-static-element-interactions": 0,
         "linebreak-style": 0,
 

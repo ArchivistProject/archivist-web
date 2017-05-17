@@ -25,7 +25,9 @@ function mapStateToProps(state) {
         ...state.sidebar,
         ...state.item,
         ...state.search,
+        highlights: state.viewer.highlights,
         itemTypes: state.settings.groups,
+        isViewerActive: !!state.item.activeItemContent,
     };
 }
 
