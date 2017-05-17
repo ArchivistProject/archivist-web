@@ -284,7 +284,7 @@ export default function (state = initialState, action) {
 
         case searchActionTypes.SETUP_SIMPLE_SEARCH: {
             const { terms } = action.data;
-            const termArray = terms.split(' ');
+            const termArray = terms.split(' ').filter(t => t.length !== 0);
             return {
                 ...state,
                 hasFullText: true,
@@ -303,13 +303,13 @@ export default function (state = initialState, action) {
                         andOr: SEARCH_CONSTANTS.AND,
                         not: false,
                         groupType: SEARCH_CONSTANTS.DESCRIPTION,
-                        description: terms,
+                        description: termArray.join(' '),
                     },
                     {
                         andOr: SEARCH_CONSTANTS.AND,
                         not: false,
                         groupType: SEARCH_CONSTANTS.FULLTEXT,
-                        terms,
+                        terms: termArray.join(' '),
                     },
                 ],
             };
