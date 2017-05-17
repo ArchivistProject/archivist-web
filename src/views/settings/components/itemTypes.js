@@ -32,6 +32,8 @@ export default class ItemTypes extends Component {
         removeItem: PropTypes.func.isRequired,
         setPopupName: PropTypes.func.isRequired,
         setCanEdit: PropTypes.func.isRequired,
+
+        errorNotification: PropTypes.func.isRequired,
     };
 
     componentWillMount() {
@@ -68,14 +70,14 @@ export default class ItemTypes extends Component {
     };
 
     addItem = () => {
-        const { postItemType, itemName, fetchItemTypes } = this.props;
+        const { postItemType, itemName, fetchItemTypes, errorNotification } = this.props;
 
         if (itemName !== '' && itemName !== undefined && itemName !== null) {
             postItemType(itemName).then((response) => {
                 fetchItemTypes();
             });
         } else {
-            alert('Please enter an item name');
+            errorNotification('Please enter a non-empty item name');
         }
     };
 

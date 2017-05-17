@@ -58,6 +58,8 @@ export default class Settings extends Component {
         setPopupName: PropTypes.func.isRequired,
         setCanEdit: PropTypes.func.isRequired,
         canEdit: PropTypes.bool,
+
+        errorNotification: PropTypes.func.isRequired,
     };
 
     password() {
@@ -123,7 +125,7 @@ export default class Settings extends Component {
     itemTypes() {
         const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, metadataTypes, fetchMetadataTypes, fetchItemTypes, setActiveItem,
             setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
-            removeItem, popupName, setPopupName, setCanEdit, canEdit } = this.props;
+            removeItem, popupName, setPopupName, setCanEdit, canEdit, errorNotification } = this.props;
         return (
             <div>
                 <div>
@@ -154,6 +156,7 @@ export default class Settings extends Component {
                         setPopupName={setPopupName}
                         setCanEdit={setCanEdit}
                         canEdit={canEdit}
+                        errorNotification={errorNotification}
                     />
                 </div>
             </div>
