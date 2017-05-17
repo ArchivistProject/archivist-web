@@ -10,11 +10,19 @@ export function updateUploadFile(file) {
     };
 }
 
-export function submitFile(tagArray, metaData, desc) {
-    return (dispatch, getState) => {
-        const state = getState();
-        const { file } = state.upload;
-        uploadApi.uploadFile(file, tagArray, metaData, desc);
+export function submitFile(file, tagArray, metaData, desc) {
+    return (dispatch) => {
+        uploadApi.uploadFile(file, tagArray, metaData, desc)
+            .then(response => dispatch({
+                type: uploadActionTypes.FILE_UPLOAD_SUCCEEDED,
+                notification: {
+                    title: 'Document uploaded!',
+                    level: 'success',
+                },
+            })).catch((error) => {
+                dispatch({ type: uploadActionTypes.FILE_UPLOAD_FAILED });
+                handleError(error, dispatch);
+            });
     };
 }
 

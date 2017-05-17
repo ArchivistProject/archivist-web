@@ -51,7 +51,7 @@ export default class Upload extends Component {
     }
 
     handleSubmit = () => {
-        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description } = this.props;
+        const { submitFile, tags, allMetaDataValue, filePicked, setAllCheckBoxes, groups, description, file } = this.props;
         // get meta data array and add today's date to it since user can't modify it
         let metaDataArray;
         if (allMetaDataValue !== undefined) {
@@ -70,7 +70,13 @@ export default class Upload extends Component {
         if (filePicked === false) {
             alert('Please click browse to select a file to upload');
         } else {
-            submitFile(tags, metaDataArray, description);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                const base64File = e.target.result;
+                submitFile(base64File, tags, metaDataArray, description);
+            };
+
             // reset the page after done uploading
             this.resetInputFields();
             const array = groups;
