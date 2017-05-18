@@ -65,6 +65,8 @@ export default class Viewer extends Component {
         // State that needs to be updated synchronously and is NOT used when rendering
         this.syncState = {
             elementCounter: 0,
+            isDeserializing: false,
+            currentHighlightPos: -1,
         };
     }
     componentWillMount() {
@@ -229,7 +231,11 @@ export default class Viewer extends Component {
         }));
 
         if (highlighter) {
+            this.syncState.isDeserializing = true;
+            this.syncState.currentHighlightPos = this.props.highlights.length -1;
+            this.syncState.elementCounter = 0;
             this.highlighter.deserialize(highlighter);
+            this.syncState.isDeserializing = false;
         }
     }
 
@@ -311,10 +317,17 @@ export default class Viewer extends Component {
     onHighlightCreate = (element, classApplier) => {
         const { highlights } = this.props;
         const { highlightId, currentHighlightId, highlightCounter } = this.state;
-        console.log(element, currentHighlightId);
-        element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
         this.syncState.elementCounter += 1;
-        console.log('CREATING A HIGHLIGHT', this.syncState.elementCounter);
+        const { elementCounter, currentHighlightPos, isDeserializing } = this.syncState;
+        const newId = isDeserializing ? highlights[currentHighlightPos].highlightId : currentHighlightId;
+        console.log('CREATING A HIGHLIGHT', elementCounter, newId);
+        element.onclick = e => this.handleHighlightSelected(e, element, highlightId || newId);
+
+        if (isDeserializing && elementCounter === highlights[currentHighlightPos].numElements) {
+                this.syncState.currentHighlightPos -= 1;
+                this.syncState.elementCounter = 0;
+        }
+
         if (!highlightId) {
             const numHighlights = highlights.length;
             this.setState({
