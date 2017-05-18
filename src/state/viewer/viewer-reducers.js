@@ -51,12 +51,12 @@ export default function (state = initialState, action) {
         }
 
         case viewerActionTypes.HIGHLIGHT_ADDED: {
-            const { highlighter, highlightId, text, note, id } = action.data;
+            const { highlighter, highlightId, text, note, id, numElements } = action.data;
             console.log(highlightId);
 
             return {
                 ...state,
-                highlights: [...state.highlights, { highlightId, text, note, id }].sort((a, b) => a.highlightId - b.highlightId),
+                highlights: [...state.highlights, { highlightId, text, note, id, numElements }].sort((a, b) => a.highlightId - b.highlightId),
                 highlighter: highlighter.serialize(),
             };
         }

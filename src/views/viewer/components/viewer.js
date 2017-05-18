@@ -62,6 +62,10 @@ export default class Viewer extends Component {
             currentHighlightId: 0,
             highlightCounter: 0,
         };
+        // State that needs to be updated synchronously and is NOT used when rendering
+        this.syncState = {
+            elementCounter: 0,
+        };
     }
     componentWillMount() {
         const { activeItem, fetchItem, fetchItemContent, params: { itemId } } = this.props;
@@ -236,8 +240,11 @@ export default class Viewer extends Component {
         // this.highlighter.highlightSelection('archivist-highlight');
         const { startOffset } = selection.getRangeAt(0);
         this.setState({ highlightId: startOffset }, () => {
+            this.syncState.elementCounter = 0;
+            console.log('===> START ADDING');
             this.highlighter.highlightSelection('archivist-highlight');
-            addHighlight(this.highlighter, this.state.highlightId, highlightedText, note);
+            console.log('<=== STOP ADDING, total:', this.elementCounter);
+            addHighlight(this.highlighter, this.state.highlightId, this.syncState.elementCounter, highlightedText, note);
             if (selection) {
                 selection.empty();
             }
@@ -306,6 +313,8 @@ export default class Viewer extends Component {
         const { highlightId, currentHighlightId, highlightCounter } = this.state;
         console.log(element, currentHighlightId);
         element.onclick = e => this.handleHighlightSelected(e, element, highlightId || currentHighlightId);
+        this.syncState.elementCounter += 1;
+        console.log('CREATING A HIGHLIGHT', this.syncState.elementCounter);
         if (!highlightId) {
             const numHighlights = highlights.length;
             this.setState({

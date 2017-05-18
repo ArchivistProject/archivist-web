@@ -26,16 +26,16 @@ export function updatePage(pageRequested) {
     };
 }
 
-export function addHighlight(highlighter, highlightId, text, note) {
+export function addHighlight(highlighter, highlightId, numElements, text, note) {
     return (dispatch, getState) => {
         const { item: { activeItem } } = getState();
-        itemApi.addNote(activeItem, highlighter.serialize(), highlightId, text, note)
+        itemApi.addNote(activeItem, highlighter.serialize(), highlightId, numElements, text, note)
             .then((response) => {
                 const { id } = response;
                 const { $oid: oid } = id[0];
                 dispatch({
                     type: viewerActionTypes.HIGHLIGHT_ADDED,
-                    data: { highlighter, highlightId, text, note, id: oid },
+                    data: { highlighter, highlightId, text, note, numElements, id: oid },
                 });
             })
             .catch(error => handleError(error, dispatch));
