@@ -60,10 +60,10 @@ export function deleteHighlight(highlighter, highlight) {
         const { item: { activeItem } } = getState();
         itemApi.deleteNote(activeItem, highlighter.serialize(), highlight.highlightId, highlight.id)
             .then((response) => {
-        //         dispatch({
-        //             type: viewerActionTypes.HIGHLIGHT_DELETED,
-        //             data: { highlighter, highlight },
-                // });
+                dispatch({
+                    type: viewerActionTypes.HIGHLIGHT_DELETED,
+                    data: { highlighter, highlight },
+                })
             });
     };
 }
