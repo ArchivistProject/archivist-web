@@ -59,8 +59,6 @@ export default class Viewer extends Component {
             selectedHighlight: null,
             wasHighlightJustSelected: false,
             selection: null,
-            currentHighlightId: 0,
-            highlightCounter: 0,
         };
         // State that needs to be updated synchronously and is NOT used when rendering
         this.syncState = {
@@ -84,21 +82,6 @@ export default class Viewer extends Component {
         const { sidebarVisible, sidebarWidth } = this.props;
         this.viewer.style.width = `${window.innerWidth - (sidebarVisible ? sidebarWidth + gutter + scrollbarWidth : 0)}px`;
         document.addEventListener('click ', e => this.handleClick(e));
-        window.hl = () => console.log(this.highlighter);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const { highlights: newHighlights } = nextProps;
-        const { highlights } = this.props;
-        if (newHighlights.length) {
-            console.log(newHighlights[newHighlights.length - 1]);
-            this.setState({
-                currentHighlightId: newHighlights[newHighlights.length - 1].highlightId,
-            });
-        }
-        if (newHighlights.length < highlights.length) {
-            const removedIndex = highlights.indexOf(highlights.find(highlight => newHighlights.indexOf(highlight) === -1));
-        }
     }
 
     shouldComponentUpdate(nextProps) {
@@ -180,12 +163,6 @@ export default class Viewer extends Component {
 
     handleClick = (e) => {
         const { activeItemContentType } = this.props;
-
-        // Reset selected highlights
-        // this.setState({
-        //     selectedHighlights: [],
-        //     selectedHighlightsRects: [],
-        // });
 
         let selection;
         switch (activeItemContentType) {
@@ -316,24 +293,16 @@ export default class Viewer extends Component {
 
     onHighlightCreate = (element, classApplier) => {
         const { highlights } = this.props;
-        const { highlightId, currentHighlightId, highlightCounter } = this.state;
+        const { highlightId } = this.state;
         this.syncState.elementCounter += 1;
         const { elementCounter, currentHighlightPos, isDeserializing } = this.syncState;
-        const newId = isDeserializing ? highlights[currentHighlightPos].highlightId : currentHighlightId;
-        console.log('CREATING A HIGHLIGHT', elementCounter, newId);
-        element.onclick = e => this.handleHighlightSelected(e, element, highlightId || newId);
+        const id = isDeserializing ? highlights[currentHighlightPos].highlightId : highlightId;
+        console.log('CREATING A HIGHLIGHT', elementCounter, id);
+        element.onclick = e => this.handleHighlightSelected(e, element, id);
 
         if (isDeserializing && elementCounter === highlights[currentHighlightPos].numElements) {
                 this.syncState.currentHighlightPos -= 1;
                 this.syncState.elementCounter = 0;
-        }
-
-        if (!highlightId) {
-            const numHighlights = highlights.length;
-            this.setState({
-                currentHighlightId: numHighlights > highlightCounter + 1 ? highlights[(numHighlights - 1) - (this.state.highlightCounter + 1)].highlightId : null,
-                highlightCounter: this.state.highlightCounter += 1,
-            });
         }
     }
 
