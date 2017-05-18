@@ -32,10 +32,9 @@ export function addHighlight(highlighter, highlightId, numElements, startPos, te
         itemApi.addNote(activeItem, highlighter.serialize(), highlightId, numElements, startPos, text, note)
             .then((response) => {
                 const { id } = response;
-                const { $oid: oid } = id[0];
                 dispatch({
                     type: viewerActionTypes.HIGHLIGHT_ADDED,
-                    data: { highlighter, highlightId, text, note, numElements, startPos, id: oid },
+                    data: { highlighter, highlightId, text, note, numElements, startPos, id },
                 });
             })
             .catch(error => handleError(error, dispatch));
@@ -58,7 +57,7 @@ export function editHighlight(highlight, note) {
 export function deleteHighlight(highlighter, highlight) {
     return (dispatch, getState) => {
         const { item: { activeItem } } = getState();
-        itemApi.deleteNote(activeItem, highlighter.serialize(), highlight.highlightId, highlight.id)
+        itemApi.deleteNote(activeItem, highlight.id, highlighter.serialize())
             .then((response) => {
                 dispatch({
                     type: viewerActionTypes.HIGHLIGHT_DELETED,

@@ -85,7 +85,7 @@ export function editNote(item, id, note) {
     return ajax('PUT', `documents/${item.id}/notes/${id}`, payload);
 }
 
-export function deleteNote(item, highlighter, highlightId, id) {
-    const payload = { note: { highlighter, highlightId } };
+export function deleteNote(item, id, highlighter) {
+    const payload = { note: { highlighter } };
     return ajax('DELETE', `documents/${item.id}/notes/${id}`, payload);
 }
