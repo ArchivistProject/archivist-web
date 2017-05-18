@@ -75,8 +75,8 @@ export function updateDescription(item) {
     return ajax('PUT', `documents/${item.id}`, payload);
 }
 
-export function addNote(item, highlighter, highlightId, numElements, text, note) {
-    const payload = { note: { highlighter, highlightId, text, note, numElements } };
+export function addNote(item, highlighter, highlightId, numElements, startPos, text, note) {
+    const payload = { note: { highlighter, highlightId, text, note, numElements, startPos } };
     return ajax('POST', `documents/${item.id}/notes`, payload);
 }
 

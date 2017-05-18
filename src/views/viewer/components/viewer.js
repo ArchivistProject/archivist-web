@@ -240,17 +240,17 @@ export default class Viewer extends Component {
     }
 
     handleHighlightAdded = (note) => {
-        const { addHighlight } = this.props;
+        const { addHighlight, highlights } = this.props;
         const { selection, highlightedText } = this.state;
-        // const highlightId = shortid.generate();
-        // this.highlighter.highlightSelection('archivist-highlight');
-        const { startOffset } = selection.getRangeAt(0);
-        this.setState({ highlightId: startOffset }, () => {
+        const maxId = highlights.map(x => x.highlightId).reduce((max, cur) => Math.max(max, cur), 0);
+        this.setState({ highlightId: maxId + 1 }, () => {
             this.syncState.elementCounter = 0;
             console.log('===> START ADDING');
             this.highlighter.highlightSelection('archivist-highlight');
             console.log('<=== STOP ADDING, total:', this.elementCounter);
-            addHighlight(this.highlighter, this.state.highlightId, this.syncState.elementCounter, highlightedText, note);
+            const { highlightId } = this.state;
+            const startPos = this.highlighter.highlights.find(x => x.id === highlightId).characterRange.start;
+            addHighlight(this.highlighter, highlightId, this.syncState.elementCounter, startPos, highlightedText, note);
             if (selection) {
                 selection.empty();
             }
