@@ -93,7 +93,7 @@ export default class ActionBar extends Component {
 
                     {logoutVisible ?
                         <div><a onClick={this.handleLogout}>
-                            <span className='glyphicon glyphicon-log-out' title='Logout' />
+                            <span className='glyphicon glyphicon-off' title='Logout' />
                         </a></div> : null }
                 </div>
             </div>
