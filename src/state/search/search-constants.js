@@ -11,7 +11,7 @@ export const SEARCH_CONSTANTS = {
 export const SEARCH_DEFAULTS = {
     ITEM_TYPE: 'Select Category',
     METADATA: {
-        itemType: undefined,
+        itemType: 'Any',
         field: {
             id: undefined,
             name: null,
