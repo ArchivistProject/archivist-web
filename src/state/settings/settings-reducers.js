@@ -1,5 +1,5 @@
-import settingsActionTypes from './settings-action-types';
 import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
+import settingsActionTypes from './settings-action-types';
 
 const initialState = {
 
