@@ -290,8 +290,8 @@ export default function (state = initialState, action) {
                 hasFullText: true,
                 globalAndOr: SEARCH_CONSTANTS.OR,
                 searchGroups: [
-                    createSimpleMetadata('Any', 'Title', termArray, state),
-                    createSimpleMetadata('Any', 'Author', termArray, state),
+                    createSimpleMetadata(SEARCH_CONSTANTS.ANY, 'Title', termArray, state),
+                    createSimpleMetadata(SEARCH_CONSTANTS.ANY, 'Author', termArray, state),
                     createSimpleMetadata('Website', 'Name', termArray, state),
                     {
                         andOr: SEARCH_CONSTANTS.OR,
