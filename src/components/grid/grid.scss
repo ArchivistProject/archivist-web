@@ -15,6 +15,16 @@
         font-family: $default-family;
         font-size: $default-size;
         cursor: pointer;
+
+        &.title {
+            width: 55%;
+        }
+        &.author {
+            width: 25%;
+        }
+        &.date_added {
+            width: 20%;
+        }
     }
 
     &-header-item {
