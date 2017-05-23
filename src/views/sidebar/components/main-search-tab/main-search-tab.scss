@@ -20,8 +20,16 @@
             justify-content: space-around;
             button {
                 margin-bottom: 5px;
-                &:hover {
-                    background-color: $light-primary-color;
+                &:enabled {
+                    background-color: $primary-color;
+                    color: $button-font-color;
+                    &:hover {
+                        background-color: $darker-primary-color;
+                    }
+                }
+                &:disabled {
+                    cursor: not-allowed;
+                    color: $darker-secondary-color;
                 }
             }
         }
@@ -143,9 +151,9 @@
     }
 
     &-search-reset {
-        margin-left: 8px;
+        padding: 15px 0 0 8px;
         margin-top: 15px;
-        margin-bottom: 30px;
+        border-top: 1px solid $darker-primary-color;
     }
 
     &-btn {
