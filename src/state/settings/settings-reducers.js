@@ -1,3 +1,4 @@
+import { SEARCH_CONSTANTS } from '~/src/state/search/search-constants';
 import settingsActionTypes from './settings-action-types';
 
 const initialState = {
@@ -35,8 +36,8 @@ export default function (state = initialState, action) {
             const fieldToId = {};
             groups.map((g) => {
                 g.fields.map((f) => {
-                    if (!fieldToId[`Any:${f.name}`]) {
-                        fieldToId[`Any:${f.name}`] = f.id;
+                    if (!fieldToId[`${SEARCH_CONSTANTS.ANY}:${f.name}`]) {
+                        fieldToId[`${SEARCH_CONSTANTS.ANY}:${f.name}`] = f.id;
                     }
                     fieldToId[`${g.name}:${f.name}`] = f.id;
                     return undefined;
