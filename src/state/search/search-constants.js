@@ -6,12 +6,13 @@ export const SEARCH_CONSTANTS = {
     TAG: 'Tags',
     DESCRIPTION: 'Description',
     FULLTEXT: 'Full Text',
+    ANY: 'Any',
 };
 
 export const SEARCH_DEFAULTS = {
     ITEM_TYPE: 'Select Category',
     METADATA: {
-        itemType: undefined,
+        itemType: SEARCH_CONSTANTS.ANY,
         field: {
             id: undefined,
             name: null,

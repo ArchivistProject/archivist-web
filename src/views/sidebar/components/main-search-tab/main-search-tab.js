@@ -195,7 +195,7 @@ export default class SummaryTab extends Component {
         }
         const allFields = itemTypes.map(itemType => itemType.fields.map(field => field));
         itemTypeFields.Any = [].concat(...allFields);
-        itemTypeNames.unshift('Any');
+        itemTypeNames.unshift(SEARCH_CONSTANTS.ANY);
 
         return (
             <section className='search-tab-section'>
