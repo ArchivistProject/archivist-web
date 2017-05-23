@@ -69,14 +69,28 @@ export function postFieldType(name, type, id) {
 }
 
 
-export function removeItem(groupID) {
+export function deleteItem(groupID) {
     return (dispatch) => {
         settingsApi.deleteItem(groupID)
             .then((response) => {
                 dispatch(fetchItemTypes());
-                dispatch({ type: settingsActionTypes.DELETE_ITEM_SUCCEED });
+                dispatch({
+                    type: settingsActionTypes.DELETE_ITEM_SUCCEED,
+                    notification: {
+                        title: 'Category Deleted',
+                        message: 'Category deleted successfully.',
+                        level: 'success',
+                    },
+                });
             })
-            .catch(error => dispatch({ type: settingsActionTypes.DELETE_ITEM_FAILED }));
+            .catch(error => dispatch({
+                type: settingsActionTypes.DELETE_ITEM_FAILED,
+                notification: {
+                    title: 'Category Not Deleted',
+                    message: 'Category was not deleted successfully.',
+                    level: 'error',
+                },
+            }));
     };
 }
 
@@ -84,8 +98,25 @@ export function removeItem(groupID) {
 export function removeField(groupID, fieldID) {
     return (dispatch) => {
         settingsApi.deleteField(groupID, fieldID)
-            .then(response => dispatch(fetchItemTypes()))
-            .catch(error => dispatch({ type: settingsActionTypes.DELETE_FIELD_FAILED }));
+            .then((response) => {
+                dispatch({
+                    type: settingsActionTypes.DELETE_FIELD_SUCCEEDED,
+                    notification: {
+                        title: 'Field Deleted',
+                        message: 'Metadata field deleted successfully.',
+                        level: 'success',
+                    },
+                });
+                dispatch(fetchItemTypes());
+            })
+            .catch(error => dispatch({
+                type: settingsActionTypes.DELETE_FIELD_FAILED,
+                notification: {
+                    title: 'Field Not Deleted',
+                    message: 'Metadata field was not deleted successfully.',
+                    level: 'error',
+                },
+            }));
     };
 }
 
@@ -181,6 +212,11 @@ export function saveDocumentListSettings(documentListSettingID, documentsPerPage
             .then(response => dispatch({
                 type: settingsActionTypes.POST_DOCUMENT_LIST_SETTING_SUCCEEDED,
                 data: response,
+                notification: {
+                    title: 'Setting Saved',
+                    message: `${documentsPerPage} files will now be displayed per page.`,
+                    level: 'success',
+                },
             }))
             .catch((error) => {
                 throw new Error('Saving Document List Settings Failed', error);
