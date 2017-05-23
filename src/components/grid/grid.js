@@ -42,7 +42,7 @@ export default class Grid extends Component {
         const { headers, sortBy, sortOrder } = this.props;
         return headers.map((header, key) =>
             (
-                <th className='grid-header-item' key={key} onClick={() => this.handleHeaderClick(header)}>
+                <th className={`grid-header-item ${header.toLowerCase().replace(/ /i, '_')}`} key={key} onClick={() => this.handleHeaderClick(header)}>
                     {header}
                     {sortBy === header ?
                         <span className={sortOrder === 'ascending' ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down'} />
