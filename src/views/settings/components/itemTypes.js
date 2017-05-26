@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Button, FormGroup, Col, Form, ControlLabel,
+import { Button, ControlLabel,
     ListGroup, ListGroupItem, Label,
 } from 'react-bootstrap/lib/';
 import './settings.scss';
@@ -29,7 +29,7 @@ export default class ItemTypes extends Component {
         setFieldName: PropTypes.func.isRequired,
         setFieldType: PropTypes.func.isRequired,
         removeField: PropTypes.func.isRequired,
-        removeItem: PropTypes.func.isRequired,
+        deleteItem: PropTypes.func.isRequired,
         setPopupName: PropTypes.func.isRequired,
         setCanEdit: PropTypes.func.isRequired,
 
@@ -70,12 +70,10 @@ export default class ItemTypes extends Component {
     };
 
     addItem = () => {
-        const { postItemType, itemName, fetchItemTypes, errorNotification } = this.props;
+        const { postItemType, itemName, errorNotification } = this.props;
 
         if (itemName !== '' && itemName !== undefined && itemName !== null) {
-            postItemType(itemName).then((response) => {
-                fetchItemTypes();
-            });
+            postItemType(itemName);
         } else {
             errorNotification('Please enter a non-empty item name');
         }
@@ -88,12 +86,10 @@ export default class ItemTypes extends Component {
     };
 
     addField = () => {
-        const { postFieldType, fieldType, fieldName, currentItem, fetchItemTypes } = this.props;
+        const { postFieldType, fieldType, fieldName, currentItem } = this.props;
 
         if (fieldName !== null && fieldName !== undefined && fieldType !== 'blank' && fieldName !== '') {
-            postFieldType(fieldName, fieldType, currentItem).then((response) => {
-                fetchItemTypes();
-            });
+            postFieldType(fieldName, fieldType, currentItem);
         }
     };
 
@@ -104,27 +100,17 @@ export default class ItemTypes extends Component {
     };
 
     handleDeleteCategory = () => {
+        const { deleteItem, currentItem } = this.props;
         if (confirm('Delete this category?')) {
-            this.deleteItem();
+            deleteItem(currentItem);
         }
     }
 
-    deleteCurrentField = (e) => {
-        const { removeField, currentItem, fetchItemTypes } = this.props;
-        const fieldID = e.target.id;
-
+    deleteCurrentField = (fieldID) => {
+        const { removeField, currentItem } = this.props;
         if (currentItem !== undefined && fieldID !== undefined && fieldID !== null) {
-            removeField(currentItem, fieldID).then((response) => {
-                fetchItemTypes();
-            });
+            removeField(currentItem, fieldID);
         }
-    };
-
-    deleteItem = () => {
-        const { removeItem, currentItem, fetchItemTypes } = this.props;
-        removeItem(currentItem).then((response) => {
-            fetchItemTypes();
-        });
     };
 
     close = () => {
@@ -136,16 +122,14 @@ export default class ItemTypes extends Component {
         const { groups, currentItem, popupName, canEdit, fieldName, metadataTypes } = this.props;
 
         return (
-            <div>
-                <div className='meta-data-container'>
-                    <p className='meta-label'>{popupName} Meta Data:</p>
-                    {canEdit === false ? <p>Default group cannot be edited</p> : <p>Add a new meta data field to this category below</p>
-                    }
+            <div className='item-type-container'>
+                <div className='item-type-header'>
+                    <span className='meta-label'>{popupName} Metadata:</span>
+                    {canEdit === false ? <span>Default groups cannot be edited</span> : <span>{'Edit this category\'s metadata fields below'}</span>}
                 </div>
-                <Form horizontal>
-                    <FormGroup>
-                        <Col sm={3} componentClass={ControlLabel}>All Fields:</Col>
-                        <Col sm={5}>
+                <div className='item-type-details'>
+                    <div className='item-type-fields'>
+                        <div>
                             <ul className='list-group'>
                                 {groups.filter(x => x.id === currentItem)[0].fields.map(obj =>
                                     <li className='list-group-item clearfix'>
@@ -155,24 +139,27 @@ export default class ItemTypes extends Component {
                                                 <Label className='type-label-padding'>{obj.type}</Label>
                                                 <Button
                                                     bsSize='xsmall'
-                                                    id={obj.id} type='button' onClick={this.deleteCurrentField}
-                                                    className='btn'
+                                                    id={obj.id} type='button' onClick={() => this.deleteCurrentField(obj.id)}
+                                                    className={`btn ${obj.id === currentItem ? 'active-item' : null}`}
                                                 ><span className='glyphicon glyphicon-remove' /></Button>
                                             </span> : <Label className='type-label'>{obj.type}</Label> }
                                     </li>
                                 )}
                             </ul>
-                        </Col>
-                    </FormGroup>
+                        </div>
+                    </div>
 
                     {canEdit === true ?
-                        <FormGroup>
-                            <Col sm={5}>
-                                <input className='text-input-field-name' placeholder='Enter field name' value={fieldName} type='text' onChange={this.handleFieldNameChange} />
-                            </Col>
+                        <div className='metadata-field-input'>
+                            <input
+                                className='text-input-field-name'
+                                placeholder='Enter field name'
+                                value={fieldName}
+                                type='text'
+                                onChange={this.handleFieldNameChange}
+                            />
 
-                            <Col sm={2} componentClass={ControlLabel}>Field Type</Col>
-                            <Col sm={3}>
+                            <div>
                                 <select
                                     type='select' placeholder='select'
                                     onChange={this.onFieldTypeDropDown}
@@ -182,21 +169,17 @@ export default class ItemTypes extends Component {
                                         <option value={type}>{type}</option>
                                     )}
                                 </select>
-                            </Col>
+                            </div>
 
-                            <Col sm={2}>
+                            <div>
                                 <button type='button' className='settings-btn' onClick={this.addField}>Add</button>
-                            </Col>
-                        </FormGroup> : null }
+                            </div>
+                        </div> : null }
 
                     {canEdit === true ?
-                        <div className='meta-data-container'>
-                            <br />
-                            <button type='danger' onClick={this.handleDeleteCategory}>Delete {popupName}</button>
-                            <br />
-                            <br />
-                        </div> : null }
-                </Form>
+                        <button type='danger' onClick={() => this.handleDeleteCategory()}>Delete {popupName}</button>
+                        : null }
+                </div>
             </div>
 
         );
@@ -204,40 +187,43 @@ export default class ItemTypes extends Component {
 
 
     render() {
-        const { fieldVisible, groups, itemName } = this.props;
+        const { fieldVisible, groups, itemName, currentItem } = this.props;
         return (
-            <div>
-                <Form horizontal>
-                    <FormGroup controlId='formControlsSelect'>
-                        <Col sm={3} componentClass={ControlLabel}>All Categories:</Col>
-                        <Col sm={5}>
-                            <ListGroup>
-                                {groups.map((op, key) =>
-                                    <ListGroupItem
-                                        onClick={this.handleOnItemSelect}
-                                        value={op.id}
-                                        key={key}
-                                    >
-                                        {op.name}
-                                    </ListGroupItem>
-                                )}
-                            </ListGroup>
-                        </Col>
-                    </FormGroup>
+            <div className='item-types'>
+                <div className='item-types-list'>
+                    <span>All Categories:</span>
+                    <div>
+                        <ListGroup>
+                            {groups.map((op, key) =>
+                                <ListGroupItem
+                                    onClick={this.handleOnItemSelect}
+                                    value={op.id}
+                                    key={key}
+                                    className={`${op.id === currentItem ? 'active-item' : ''}`}
+                                >
+                                    {op.name}
+                                </ListGroupItem>
+                            )}
+                        </ListGroup>
+                    </div>
 
-                    <FormGroup controlId='formHorizontalEmail'>
-                        <Col sm={8}>
-                            <input className='text-input-category' placeholder='Enter category name' value={itemName} type='text' onChange={this.handleItemNameChange} />
-                        </Col>
-                        <Col sm={4}>
+                    <div className='item-type-input'>
+                        <input
+                            className='text-input-category'
+                            placeholder='Enter category name'
+                            value={itemName}
+                            type='text'
+                            onChange={this.handleItemNameChange}
+                        />
+                        <div>
                             <button className='settings-btn' type='button' onClick={() => this.addItem()}>Add</button>
-                        </Col>
-                    </FormGroup>
+                        </div>
+                    </div>
 
                     <div>
                         {fieldVisible ? this.generateFieldsContent() : null}
                     </div>
-                </Form>
+                </div>
             </div>
         );
     }

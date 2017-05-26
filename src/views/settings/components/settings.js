@@ -53,7 +53,7 @@ export default class Settings extends Component {
         postFieldType: PropTypes.func.isRequired,
         removeField: PropTypes.func.isRequired,
         fieldID: PropTypes.string,
-        removeItem: PropTypes.func.isRequired,
+        deleteItem: PropTypes.func.isRequired,
         popupName: PropTypes.string,
         setPopupName: PropTypes.func.isRequired,
         setCanEdit: PropTypes.func.isRequired,
@@ -125,7 +125,7 @@ export default class Settings extends Component {
     itemTypes() {
         const { groups, postItemType, postFieldType, itemName, currentItem, handleItemNameChange, metadataTypes, fetchMetadataTypes, fetchItemTypes, setActiveItem,
             setFieldVisible, fieldVisible, setFieldName, setFieldType, setFieldID, fieldName, fieldType, fieldID, removeField,
-            removeItem, popupName, setPopupName, setCanEdit, canEdit, errorNotification } = this.props;
+            deleteItem, popupName, setPopupName, setCanEdit, canEdit, errorNotification } = this.props;
         return (
             <div>
                 <div>
@@ -151,7 +151,7 @@ export default class Settings extends Component {
                         postFieldType={postFieldType}
                         removeField={removeField}
                         fieldID={fieldID}
-                        removeItem={removeItem}
+                        deleteItem={deleteItem}
                         popupName={popupName}
                         setPopupName={setPopupName}
                         setCanEdit={setCanEdit}
@@ -167,33 +167,13 @@ export default class Settings extends Component {
         return (
             <div className='settings'>
                 <p className='settings-title'>Settings</p>
-
-                <div className='left-half'>
-                    <div className='settings-logo'>
-                        <img
-                            src={Logo}
-                            alt='Archivist Logo'
-                            width='250'
-                            height='250'
-                        />
-                        <p className='settings-version'>Version 1.0</p>
-                        <p className='settings-version'> &copy; 2017 Archivist</p>
-                    </div>
-                </div>
-
-                <div className='right-half'>
+                <div className='settings-wrapper'>
                     <h4>Manage and view your preferences below:</h4>
                     <div className='container'>
                         {this.statistic()}
                     </div>
                     <div className='container'>
                         {this.itemTypes()}
-                    </div>
-                    <div className='container'>
-                        {this.password()}
-                    </div>
-                    <div className='container'>
-                        {this.apiToken()}
                     </div>
                     <div className='container'>
                         {this.documentList()}
